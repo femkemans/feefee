@@ -3,107 +3,257 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>share your fee – fee fee.</title>
+<title>say the number – fee fee.</title>
 <meta name="description" content="Share a fee anonymously. No name, no email. fee fee. only ever shows averages.">
+<meta property="og:title" content="say the number. – fee fee.">
+<meta property="og:description" content="share one fee, anonymously. no name, no email.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--field:#EEF4EF;--blue:#1F3FD1}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto}
 a{color:var(--ink)}
-header{display:flex;align-items:center;justify-content:space-between;padding:22px 32px;max-width:1100px;margin:0 auto}
-.logo{font-family:'Tenor Sans',sans-serif;letter-spacing:-.065em;font-size:26px;text-decoration:none}
-.mono,.label,.cap,.btn,.field,select{font-family:'Space Mono',monospace}
-.mono{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
-.cap{font-size:11px;color:var(--muted);line-height:1.6}
-.lang button{background:none;border:0;font:inherit;cursor:pointer;color:var(--muted);padding:0 2px}
-.lang button[aria-pressed=true]{color:var(--ink)}
-main{max-width:640px;margin:0 auto;padding:40px 24px 120px}
-h1{font-style:italic;font-weight:400;font-size:clamp(48px,9vw,80px);line-height:.95;margin:32px 0 20px}
-.intro{font-size:21px;line-height:1.45;margin:0 0 40px;max-width:520px}
-.card{background:var(--paper);border-radius:6px;padding:36px 30px 30px;box-shadow:0 30px 70px rgba(28,30,26,.10)}
-form{display:flex;flex-direction:column;gap:10px}
-.label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-top:10px}
-.field,select{height:46px;padding:0 18px;border:0;border-radius:999px;background:var(--field);font-size:14px;color:var(--ink);width:100%;appearance:none;-webkit-appearance:none}
-select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 22px) 20px,calc(100% - 17px) 20px;background-size:5px 5px;background-repeat:no-repeat;background-color:var(--field)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.row3{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 34px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-size:14px;cursor:pointer;margin-top:18px}
-.btn:disabled{opacity:.5}
 [hidden]{display:none!important}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
+.logo{font-family:'Tenor Sans',sans-serif;letter-spacing:-.065em;font-size:26px;text-decoration:none}
+.celadon{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
+
+header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 32px;pointer-events:none}
+header>*{pointer-events:auto}
+.lang button{background:none;border:0;font:inherit;cursor:pointer;color:var(--soft);padding:4px}
+.lang button[aria-pressed=true]{color:var(--ink)}
+
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:110px clamp(28px,5vw,80px) 60px;overflow:hidden}
+.side h1{font-style:italic;font-weight:400;font-size:clamp(60px,7.4vw,124px);line-height:.88;letter-spacing:-.015em;margin:0}
+.side .b{font-size:22px;line-height:1.45;margin:0;max-width:420px}
+.side .how{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.side .how li{font-size:20px;line-height:1.4}
+.side .how em{font-weight:700;color:var(--blue)}
+.sticky{align-self:flex-end;margin:4px clamp(0px,2vw,30px) 0 0;width:clamp(140px,11vw,180px);transform:rotate(5deg);filter:drop-shadow(0 18px 24px rgba(28,30,26,.12))}
+
+.main{padding:120px clamp(24px,6vw,110px) 120px;display:flex;flex-direction:column;align-items:flex-start}
+form{width:100%;max-width:620px}
+.part{margin:0 0 64px}
+.part h2{font-style:italic;font-weight:400;font-size:clamp(40px,4vw,56px);line-height:1;margin:0 0 6px}
+.part .sub{margin:0 0 26px}
+.q{margin:0 0 26px}
+.q>.mono{display:block;margin:0 0 12px}
+.q>.mono small{font-weight:400;color:var(--soft);letter-spacing:.1em}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:13px;color:var(--ink);transition:background .2s,color .2s,transform .2s;user-select:none}
+.chip:hover span{background:#E2ECE4}
+.chip input:checked+span{background:var(--ink);color:var(--paper)}
+.chip input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
+
+.field,select{height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%;appearance:none;-webkit-appearance:none}
+.field::placeholder{color:#7A7E76}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 24px) 21px,calc(100% - 19px) 21px;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
+.field:focus,select:focus{outline:2px solid var(--blue);outline-offset:2px}
+
+.roles-panel{margin-top:10px;max-height:300px;overflow-y:auto;background:var(--field);border-radius:20px;padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px 18px}
+.roles-panel .grp{display:flex;flex-direction:column;gap:2px}
+.roles-panel .grp p{margin:0 0 4px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.roles-panel label{display:flex;align-items:center;gap:10px;min-height:30px;font-family:'Space Mono',monospace;font-size:13px;cursor:pointer}
+.roles-panel input{width:16px;height:16px;accent-color:var(--ink)}
+.chip.on span{background:var(--ink);color:var(--paper)}
+.chip.on span::after{content:'×';margin-left:10px;opacity:.7}
+/* the number */
+.number{background:var(--paper);border-radius:8px;box-shadow:0 30px 70px rgba(28,30,26,.10);padding:34px 32px 30px}
+.amount{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.amount .sym{font-style:italic;font-size:clamp(48px,6vw,84px);line-height:1;color:var(--soft)}
+.amount input{flex:1 1 220px;min-width:0;border:0;background:transparent;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(64px,8vw,112px);line-height:1;color:var(--ink);padding:0;-moz-appearance:textfield}
+.amount input::placeholder{color:#C9CDC5}
+.amount input:focus{outline:none}
+.amount input::-webkit-outer-spin-button,.amount input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.under{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:22px}
+.cur{display:flex;gap:6px;flex-wrap:wrap}
+.cur .chip span{height:34px;padding:0 14px;font-size:12px}
+.days{display:flex;align-items:center;gap:6px}
+.days button{width:36px;height:36px;border-radius:50%;border:0;background:var(--field);font-family:'Space Mono',monospace;font-size:16px;cursor:pointer;color:var(--ink)}
+.days input{width:56px;height:36px;border:0;background:transparent;text-align:center;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--ink);-moz-appearance:textfield}
+.days input::-webkit-outer-spin-button,.days input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.rate{margin:20px 0 0;font-style:italic;font-size:24px;color:var(--blue);min-height:1.3em}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 38px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:14px;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.45;cursor:default}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.thanks{text-align:center;padding:30px 0}
-.thanks p{margin:0}
-.note{display:flex;gap:14px;align-items:flex-start;margin-top:28px}
-@media (max-width:560px){.row,.row3{grid-template-columns:1fr}header{padding:18px 16px}main{padding:24px 16px 80px}.card{padding:28px 18px 22px}}
+.err{min-height:1.5em;margin:14px 0 0;color:#9B2C1F}
+
+.thanks{width:100%;max-width:620px;padding-top:6vh}
+.thanks h2{font-style:italic;font-weight:700;font-size:clamp(64px,8vw,112px);line-height:.9;margin:20px 0 22px}
+
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.load1{animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both}
+.load2{animation:rise 1.4s .25s cubic-bezier(.2,.7,.2,1) both}
+.load3{animation:rise 1.4s .5s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3{animation:none}}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  .side{position:relative;height:auto;min-height:0;padding:96px 20px 64px}
+  .sticky{width:140px}
+  .main{padding:56px 20px 96px}
+  header{padding:16px 20px;background:rgba(222,234,224,.0)}
+  .number{padding:26px 20px 24px}
+}
 </style>
 </head>
 <body>
-<header>
-<a class="logo" href="index.html">fee fee.</a>
-<span class="mono lang"><button type="button" data-lang="en" aria-pressed="true">EN</button> / <button type="button" data-lang="nl" aria-pressed="false">NL</button></span>
+<header class="mono">
+<a class="logo" href="index.html" style="text-transform:none;letter-spacing:-.065em;font-weight:400">fee fee.</a>
+<span class="lang"><button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true" style="color:var(--soft)">/</span><button type="button" data-lang="nl" aria-pressed="false">NL</button></span>
 </header>
-<main>
-<p class="mono" data-t="kicker">anonymous · no name · no email</p>
-<h1 data-t="title">share your fee.</h1>
-<p class="intro" data-t="intro">one job, one number. we never ask who you are, and we only ever show averages once at least five people have shared for the same role and country.</p>
 
-<div class="card">
+<div class="wrap">
+<aside class="side celadon">
+<p class="mono load1" style="margin:0" data-t="kicker">anonymous · no name · no email</p>
+<h1 class="load1" data-t="title">say the number.</h1>
+<p class="b load2" data-t="intro">one job, one fee. every number you share makes the next creative a little braver.</p>
+<ul class="how load3">
+<li><em data-t="h1k">You share.</em> <span data-t="h1v">one job, no name.</span></li>
+<li><em data-t="h2k">We wait.</em> <span data-t="h2v">until five people match.</span></li>
+<li><em data-t="h3k">Everyone knows.</em> <span data-t="h3v">only averages, never you.</span></li>
+</ul>
+<img class="sticky load3" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage.">
+</aside>
+
+<main class="main">
 <form id="fee" novalidate>
 <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-<label class="label" for="role" data-t="role">your role on this job</label>
-<select id="role" required></select>
+<section class="part">
+<h2 data-t="p1">the job.</h2>
+<p class="cap sub" data-t="p1s">what kind of work was it?</p>
 
-<div class="row">
-<div><label class="label" for="job_type" data-t="jobType">type of job</label>
-<select id="job_type" required></select></div>
-<div><label class="label" for="client_type" data-t="clientType">client</label>
-<select id="client_type" required></select></div>
+<div class="q">
+<span class="mono" id="l-role"><span data-t="role">your role(s) on this job</span> <small data-t="multi">· pick one or more</small></span>
+<button type="button" id="roles-btn" class="field" aria-expanded="false" aria-labelledby="l-role" style="display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;color:#7A7E76">
+<span id="roles-sum" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span><span aria-hidden="true" id="roles-arrow" style="color:var(--ink);font-size:12px">↓</span>
+</button>
+<div class="roles-panel" id="roles-panel" hidden></div>
+<div class="chips" id="role-picked" style="margin-top:10px"></div>
+<div style="display:flex;gap:8px;margin-top:10px">
+<input class="field" id="role-own" type="text" maxlength="40" data-tp="ownPh" placeholder="not listed? type your role" aria-label="add your own role">
+<button type="button" class="btn" id="role-add" style="height:48px;padding:0 22px;background:var(--celadon);color:var(--ink)" data-t="add">add</button>
+</div>
 </div>
 
-<label class="label" for="country" data-t="country">country of the job</label>
-<input class="field" id="country" type="text" maxlength="60" required data-tp="countryPh" placeholder="e.g. the Netherlands">
-
-<div class="row3">
-<div><label class="label" for="days" data-t="days">days</label>
-<input class="field" id="days" type="number" inputmode="decimal" min="0.5" max="60" step="0.5" required placeholder="1"></div>
-<div><label class="label" for="fee_amount" data-t="fee">total fee</label>
-<input class="field" id="fee_amount" type="number" inputmode="decimal" min="1" max="999999" step="1" required placeholder="1200"></div>
-<div><label class="label" for="currency" data-t="currency">currency</label>
-<select id="currency" required></select></div>
-</div>
-<p class="cap" style="margin:2px 0 0" data-t="feeHint">your fee for the whole job, excluding vat and expenses.</p>
-
-<div class="row">
-<div><label class="label" for="usage_rights" data-t="usage">usage rights</label>
-<select id="usage_rights" required></select></div>
-<div><label class="label" for="usage_period" data-t="period">usage period</label>
-<select id="usage_period"></select></div>
+<div class="q" role="radiogroup" aria-labelledby="l-job">
+<span class="mono" id="l-job" data-t="jobType">type of job</span>
+<div class="chips" data-group="job_type"></div>
 </div>
 
-<label class="label" for="experience" data-t="experience">years doing this</label>
-<select id="experience"></select>
+<div class="q" role="radiogroup" aria-labelledby="l-client">
+<span class="mono" id="l-client" data-t="clientType">client</span>
+<div class="chips" data-group="client_type"></div>
+</div>
 
-<button class="btn" type="submit" data-t="submit">share anonymously</button>
-<p class="cap js-err" role="alert" style="margin:4px 0 0;min-height:1em"></p>
+<div class="q">
+<label class="mono" for="country" data-t="country">country of the job</label>
+<input class="field" id="country" type="text" maxlength="60" list="countries" autocomplete="off" required data-tp="countryPh" placeholder="the Netherlands">
+<datalist id="countries"></datalist>
+</div>
+</section>
+
+<section class="part">
+<h2 data-t="p2">the number.</h2>
+<p class="cap sub" data-t="p2s">your total fee for the job, excluding vat and expenses.</p>
+<div class="number">
+<div class="amount">
+<span class="sym" id="sym" aria-hidden="true">€</span>
+<input id="fee_amount" type="number" inputmode="numeric" min="1" max="999999" step="1" placeholder="0" aria-label="total fee" required>
+</div>
+<div class="under">
+<div class="cur chips" data-group="currency" role="radiogroup" aria-label="currency"></div>
+<div class="days">
+<span class="mono" style="margin-right:6px" data-t="days">days</span>
+<button type="button" id="dminus" aria-label="fewer days">−</button>
+<input id="days" type="number" inputmode="decimal" min="0.5" max="60" step="0.5" value="1" aria-label="days">
+<button type="button" id="dplus" aria-label="more days">+</button>
+</div>
+</div>
+<div class="days" style="margin-top:14px">
+<span class="mono" style="margin-right:6px"><span data-t="prep">prep / travel days</span></span>
+<button type="button" id="pminus" aria-label="fewer prep days">−</button>
+<input id="prep_days" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="0" aria-label="prep or travel days">
+<button type="button" id="pplus" aria-label="more prep days">+</button>
+</div>
+<p class="rate" id="rate" aria-live="polite"></p>
+</div>
+</section>
+
+<section class="part">
+<h2 data-t="p3">the rights.</h2>
+<p class="cap sub" data-t="p3s">where and how long can they use your work?</p>
+
+<div class="q" role="group" aria-labelledby="l-usage">
+<span class="mono" id="l-usage"><span data-t="usage">where is it used</span> <small data-t="multi2">· pick all that apply</small></span>
+<div class="chips" data-group="usage" data-multi="1"></div>
+</div>
+
+<div class="q" role="radiogroup" aria-labelledby="l-period">
+<span class="mono" id="l-period"><span data-t="period">for how long</span> <small data-t="optional">· optional</small></span>
+<div class="chips" data-group="usage_period"></div>
+</div>
+
+</section>
+
+<section class="part">
+<h2 data-t="p4">the details.</h2>
+<p class="cap sub" data-t="p4s">all optional, but this is what makes a number useful for the next person.</p>
+
+<div class="q" role="radiogroup" aria-labelledby="l-del">
+<span class="mono" id="l-del" data-t="deliverables">final images delivered</span>
+<div class="chips" data-group="deliverables"></div>
+</div>
+
+<div class="q" role="group" aria-labelledby="l-inc">
+<span class="mono" id="l-inc"><span data-t="included">included in the fee</span> <small data-t="multi2">· pick all that apply</small></span>
+<div class="chips" data-group="included" data-multi="1"></div>
+</div>
+
+<div class="q" role="group" aria-labelledby="l-extra">
+<span class="mono" id="l-extra"><span data-t="extra">billed on top</span> <small data-t="multi2">· pick all that apply</small></span>
+<div class="chips" data-group="billed_extra" data-multi="1"></div>
+</div>
+
+<div class="q" role="radiogroup" aria-labelledby="l-pay">
+<span class="mono" id="l-pay" data-t="payment">how was it paid</span>
+<div class="chips" data-group="payment"></div>
+</div>
+
+<div class="q" role="radiogroup" aria-labelledby="l-exp">
+<span class="mono" id="l-exp" data-t="experience">years doing this</span>
+<div class="chips" data-group="experience"></div>
+</div>
+</section>
+
+<button class="btn" type="submit"><span data-t="submit">share anonymously</span> <span aria-hidden="true">→</span></button>
+<p class="cap err" role="alert"></p>
+<p class="cap" style="margin:18px 0 0;max-width:460px"><span data-t="privA">we only store the answers above. no name, no email, no ip address. </span><a href="privacy.html" style="color:var(--muted)" data-t="privL">privacy</a></p>
 </form>
 
 <div class="thanks" id="thanks" hidden>
 <p class="mono" data-t="tStatus">status · shared</p>
-<p style="font-style:italic;font-weight:700;font-size:34px;line-height:1.1;margin-top:12px" data-t="tTitle">thank you.</p>
-<p style="font-size:20px;margin-top:10px" data-t="tText">every number makes the next creative a little braver.</p>
-<p style="margin-top:22px"><a href="#" id="again" class="mono" data-t="tAgain">share another fee</a></p>
+<h2 data-t="tTitle">thank you.</h2>
+<p class="b" style="font-size:24px;line-height:1.45;margin:0;max-width:460px" data-t="tText">you just made the numbers a little more honest. tell one friend on set to do the same.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">
+<a href="#" id="again" class="btn" style="text-decoration:none" data-t="tAgain">share another fee</a>
+<a href="index.html#join" class="btn" style="text-decoration:none;background:var(--celadon);color:var(--ink)" data-t="tJoin">join the waitlist</a>
 </div>
-</div>
-
-<div class="note">
-<p class="cap" style="margin:0"><span data-t="privA">what we store: only the answers above. no name, email or ip address. </span><a href="privacy.html" style="color:var(--muted)">privacy</a></p>
 </div>
 </main>
+</div>
 
 <script>
 /* fee fee. anonymous fee form → Supabase (insert-only table, see privacy page) */
@@ -118,67 +268,121 @@ var ROLES = [
   ['talent',['model','actor','dancer','musician / artist','content creator']],
   ['other',['illustrator / designer','copywriter','agent','something else']]
 ];
+/* value stored in the database → label shown (en / nl) */
 var OPTS = {
-  job_type:['editorial','commercial','campaign','e-commerce','music / artist','event','content / social','film / tv','other'],
-  client_type:['brand','agency','magazine','production company','artist / label','private client','other'],
-  currency:['EUR','USD','GBP','CHF','SEK','DKK','NOK','AUD','CAD','other'],
-  usage_rights:['none / editorial only','social media only','online','online + print','out of home / tv','full buy-out','not sure'],
-  usage_period:['n/a','up to 3 months','6 months','1 year','2 years or more','unlimited','not sure'],
-  experience:['0-2 years','3-5 years','6-10 years','10+ years']
+  job_type:[['editorial'],['commercial'],['campaign'],['e-commerce'],['music / artist'],['event'],['content / social'],['film / tv'],['other','other','anders']],
+  client_type:[['brand','brand','merk'],['agency','agency','bureau'],['magazine','magazine','magazine'],['production company','production company','productiebedrijf'],['artist / label'],['private client','private client','particulier'],['other','other','anders']],
+  currency:[['EUR','€ EUR'],['USD','$ USD'],['GBP','£ GBP'],['CHF'],['SEK'],['DKK'],['NOK'],['AUD'],['CAD'],['other','other','anders']],
+  usage:[['social (organic)','social (organic)','social (organisch)'],['web / e-commerce'],['paid ads','paid ads','betaalde ads'],['press / editorial','press / editorial','pers / redactioneel'],['print'],['out of home / tv','out of home / tv','buitenreclame / tv'],['full buy-out','full buy-out','volledige buy-out'],['not sure','not sure','weet ik niet']],
+  deliverables:[['1-10','1–10'],['11-25','11–25'],['26-50','26–50'],['51-150','51–150'],['150+'],['video / mixed','video / mixed','video / gemengd']],
+  included:[['pre-production','pre-production','pre-productie'],['retouching','retouching','retouche'],['own kit','own kit','eigen apparatuur'],['assistant','assistant','assistent'],['feedback rounds','feedback rounds','feedbackrondes'],['travel','travel','reizen'],['nothing extra','nothing extra','niets extra']],
+  billed_extra:[['kit rental','kit rental','huur apparatuur'],['studio / location','studio / location','studio / locatie'],['crew'],['travel / stay','travel / stay','reis / verblijf'],['rush fee','rush fee','spoedtoeslag'],['overtime','overtime','overuren'],['none','none','niets']],
+  payment:[['paid in full','paid in full','volledig betaald'],['discounted','discounted','met korting'],['trade / tfp','trade / tfp','ruil / tfp'],['paid late (30+ days)','paid late (30+ days)','te laat betaald (30+ dagen)']],
+  usage_period:[['up to 3 months','≤ 3 months','≤ 3 maanden'],['6 months','6 months','6 maanden'],['1 year','1 year','1 jaar'],['2 years or more','2+ years','2+ jaar'],['unlimited','unlimited','onbeperkt'],['not sure','not sure','weet ik niet']],
+  experience:[['0-2 years','0–2'],['3-5 years','3–5'],['6-10 years','6–10'],['10+ years','10+']]
 };
+var SYM = {EUR:'€',USD:'$',GBP:'£',CHF:'CHF',SEK:'kr',DKK:'kr',NOK:'kr',AUD:'A$',CAD:'C$',other:''};
+var COUNTRIES = ['the Netherlands','Belgium','Germany','France','United Kingdom','Spain','Italy','Portugal','Sweden','Denmark','Norway','Switzerland','Austria','Ireland','United States','Canada','Australia','Japan','South Korea','United Arab Emirates','Mexico','Brazil','South Africa'];
 var COPY = {
-  en:{kicker:'anonymous · no name · no email',title:'share your fee.',intro:'one job, one number. we never ask who you are, and we only ever show averages once at least five people have shared for the same role and country.',role:'your role on this job',jobType:'type of job',clientType:'client',country:'country of the job',countryPh:'e.g. the Netherlands',days:'days',fee:'total fee',currency:'currency',feeHint:'your fee for the whole job, excluding vat and expenses.',usage:'usage rights',period:'usage period',experience:'years doing this',submit:'share anonymously',tStatus:'status · shared',tTitle:'thank you.',tText:'every number makes the next creative a little braver.',tAgain:'share another fee',privA:'what we store: only the answers above. no name, email or ip address. ',choose:'choose',optional:'optional',err:'please fill in every field.',errSend:'something went wrong, please try again in a minute.'},
-  nl:{kicker:'anoniem · geen naam · geen e-mail',title:'deel je fee.',intro:'één klus, één bedrag. we vragen nooit wie je bent, en we tonen alleen gemiddelden zodra minstens vijf mensen hebben gedeeld voor dezelfde rol en hetzelfde land.',role:'je rol op deze klus',jobType:'soort klus',clientType:'opdrachtgever',country:'land van de klus',countryPh:'bijv. Nederland',days:'dagen',fee:'totale fee',currency:'valuta',feeHint:'je fee voor de hele klus, exclusief btw en onkosten.',usage:'gebruiksrechten',period:'gebruiksduur',experience:'jaren ervaring',submit:'deel anoniem',tStatus:'status · gedeeld',tTitle:'dankjewel.',tText:'elk bedrag maakt de volgende creative een beetje dapperder.',tAgain:'deel nog een fee',privA:'wat we opslaan: alleen de antwoorden hierboven. geen naam, e-mail of ip-adres. ',choose:'kies',optional:'optioneel',err:'vul alsjeblieft alle velden in.',errSend:'er ging iets mis, probeer het over een minuut nog eens.'}
+  en:{kicker:'anonymous · no name · no email',title:'say the number.',intro:'one job, one fee. every number you share makes the next creative a little braver.',h1k:'You share.',h1v:'one job, no name.',h2k:'We wait.',h2v:'until five people match.',h3k:'Everyone knows.',h3v:'only averages, never you.',p1:'the job.',p1s:'what kind of work was it?',role:'your role(s) on this job',multi:'· pick one or more',chooseRole:'choose your role(s)',ownPh:'not listed? type your role',add:'add',jobType:'type of job',clientType:'client',country:'country of the job',countryPh:'the Netherlands',p2:'the number.',p2s:'your total fee for the job, excluding vat and expenses.',days:'days',perDay:'≈ {x} per day',p3:'the rights.',p3s:'where and how long can they use your work?',usage:'where is it used',multi2:'· pick all that apply',period:'for how long',experience:'years doing this',optional:'· optional',prep:'prep / travel days',p4:'the details.',p4s:'all optional, but this is what makes a number useful for the next person.',deliverables:'final images delivered',included:'included in the fee',extra:'billed on top',payment:'how was it paid',submit:'share anonymously',privA:'we only store the answers above. no name, no email, no ip address. ',privL:'privacy',tStatus:'status · shared',tTitle:'thank you.',tText:'you just made the numbers a little more honest. tell one friend on set to do the same.',tAgain:'share another fee',tJoin:'join the waitlist',err:'almost there: please answer every question that isn’t optional.',errSend:'something went wrong, please try again in a minute.'},
+  nl:{kicker:'anoniem · geen naam · geen e-mail',title:'noem het bedrag.',intro:'één klus, één fee. elk bedrag dat je deelt maakt de volgende creative een beetje dapperder.',h1k:'Jij deelt.',h1v:'één klus, geen naam.',h2k:'Wij wachten.',h2v:'tot vijf mensen overeenkomen.',h3k:'Iedereen weet het.',h3v:'alleen gemiddelden, nooit jij.',p1:'de klus.',p1s:'wat voor werk was het?',role:'je rol(len) op deze klus',multi:'· kies er één of meer',chooseRole:'kies je rol(len)',ownPh:'staat er niet bij? typ je rol',add:'voeg toe',jobType:'soort klus',clientType:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',p2:'het bedrag.',p2s:'je totale fee voor de klus, exclusief btw en onkosten.',days:'dagen',perDay:'≈ {x} per dag',p3:'de rechten.',p3s:'waar en hoe lang mogen ze je werk gebruiken?',usage:'waar wordt het gebruikt',multi2:'· kies alles wat klopt',period:'hoe lang',experience:'jaren ervaring',optional:'· optioneel',prep:'voorbereiding / reisdagen',p4:'de details.',p4s:'allemaal optioneel, maar dit maakt een bedrag bruikbaar voor de volgende.',deliverables:'aantal opgeleverde beelden',included:'inbegrepen in de fee',extra:'apart gefactureerd',payment:'hoe is er betaald',submit:'deel anoniem',privA:'we slaan alleen de antwoorden hierboven op. geen naam, geen e-mail, geen ip-adres. ',privL:'privacy',tStatus:'status · gedeeld',tTitle:'dankjewel.',tText:'je hebt de bedragen net een beetje eerlijker gemaakt. vraag één vriend op set hetzelfde te doen.',tAgain:'deel nog een fee',tJoin:'op de wachtlijst',err:'bijna: beantwoord alle vragen die niet optioneel zijn.',errSend:'er ging iets mis, probeer het over een minuut nog eens.'}
 };
-var lang = 'en';
-function el(id){return document.getElementById(id)}
-function fill(id, list, placeholderKey){
-  var s = el(id), cur = s.value; s.innerHTML='';
-  var o = document.createElement('option'); o.value=''; o.textContent = COPY[lang][placeholderKey]; s.appendChild(o);
-  list.forEach(function(v){ var x=document.createElement('option'); x.value=v; x.textContent=v; s.appendChild(x); });
-  s.value = cur;
+var lang='en';
+function $(id){return document.getElementById(id)}
+function picked(g){var c=document.querySelector('[data-group="'+g+'"] input:checked');return c?c.value:''}
+function pickedAll(g){return Array.prototype.map.call(document.querySelectorAll('[data-group="'+g+'"] input:checked'),function(c){return c.value})}
+
+function buildChips(){
+  document.querySelectorAll('[data-group]').forEach(function(box){
+    var g=box.getAttribute('data-group'), multi=box.hasAttribute('data-multi'), cur=multi?pickedAll(g):[picked(g)]; box.innerHTML='';
+    OPTS[g].forEach(function(o){
+      var lab=document.createElement('label'); lab.className='chip';
+      var inp=document.createElement('input'); inp.type=multi?'checkbox':'radio'; inp.name=g; inp.value=o[0];
+      if(cur.indexOf(o[0])>-1) inp.checked=true;
+      if(multi) inp.addEventListener('change',function(){ var ex=(o[0]==='nothing extra'||o[0]==='none'||o[0]==='not sure'); if(inp.checked){ box.querySelectorAll('input').forEach(function(x){ var xe=(x.value==='nothing extra'||x.value==='none'||x.value==='not sure'); if(x!==inp && (ex||xe)) x.checked=false; }); } });
+      else inp.addEventListener('click',function(){ if(inp.dataset.was==='1' && g!=='currency'){inp.checked=false;inp.dataset.was='';} else {box.querySelectorAll('input').forEach(function(x){x.dataset.was=''}); inp.dataset.was='1';} update(); });
+      if(inp.checked) inp.dataset.was='1';
+      var sp=document.createElement('span'); sp.textContent = lang==='nl' ? (o[2]||o[1]||o[0]) : (o[1]||o[0]);
+      lab.appendChild(inp); lab.appendChild(sp); box.appendChild(lab);
+    });
+  });
+  if(!picked('currency')){ var e=document.querySelector('[data-group="currency"] input[value=EUR]'); e.checked=true; e.dataset.was='1'; }
 }
-function fillRoles(){
-  var s = el('role'), cur = s.value; s.innerHTML='';
-  var o=document.createElement('option'); o.value=''; o.textContent=COPY[lang].choose; s.appendChild(o);
-  ROLES.forEach(function(g){ var og=document.createElement('optgroup'); og.label=g[0]; g[1].forEach(function(v){ var x=document.createElement('option'); x.value=v; x.textContent=v; og.appendChild(x); }); s.appendChild(og); });
-  s.value = cur;
+var ownRoles=[];
+function chosenRoles(){ return Array.prototype.map.call(document.querySelectorAll('#roles-panel input:checked'),function(c){return c.value}).concat(ownRoles); }
+function buildRoles(){
+  var keep=chosenRoles(), panel=$('roles-panel'); panel.innerHTML='';
+  ROLES.forEach(function(g){
+    var w=document.createElement('div'); w.className='grp'; var h=document.createElement('p'); h.textContent=g[0]; w.appendChild(h);
+    g[1].forEach(function(v){ var l=document.createElement('label'); var c=document.createElement('input'); c.type='checkbox'; c.value=v; c.checked=keep.indexOf(v)>-1; c.addEventListener('change',drawRoles); l.appendChild(c); l.appendChild(document.createTextNode(v)); w.appendChild(l); });
+    panel.appendChild(w);
+  });
+  drawRoles();
+}
+function drawRoles(){
+  var r=chosenRoles(), box=$('role-picked'); box.innerHTML='';
+  $('roles-sum').textContent = r.length ? (r.length===1 ? r[0] : r.length+' '+(lang==='nl'?'rollen gekozen':'roles chosen')) : COPY[lang].chooseRole;
+  $('roles-btn').style.color = r.length ? 'var(--ink)' : '#7A7E76';
+  r.forEach(function(v){ var b=document.createElement('button'); b.type='button'; b.className='chip on'; b.style.cssText='border:0;background:none;padding:0;cursor:pointer'; b.setAttribute('aria-label','remove '+v);
+    var sp=document.createElement('span'); sp.textContent=v; b.appendChild(sp);
+    b.addEventListener('click',function(){ var c=document.querySelector('#roles-panel input[value="'+CSS.escape(v)+'"]'); if(c) c.checked=false; ownRoles=ownRoles.filter(function(x){return x!==v}); drawRoles(); });
+    box.appendChild(b); });
+}
+function toggleRoles(open){ var p=$('roles-panel'), o=open==null?p.hidden:open; p.hidden=!o; $('roles-btn').setAttribute('aria-expanded',o?'true':'false'); $('roles-arrow').textContent=o?'↑':'↓'; }
+function addOwn(){ var v=$('role-own').value.replace(/[,<>]/g,' ').trim().slice(0,40); if(v.length<2) return; if(chosenRoles().indexOf(v)<0) ownRoles.push(v); $('role-own').value=''; drawRoles(); }
+function update(){
+  var c=picked('currency')||'EUR', amt=Number($('fee_amount').value), d=Number($('days').value);
+  $('sym').textContent = SYM[c]!=null ? SYM[c] : '';
+  if(amt>0 && d>0){
+    var per=Math.round(amt/d), fmt=per.toLocaleString(lang==='nl'?'nl-NL':'en-GB');
+    $('rate').textContent = d===1 ? '' : COPY[lang].perDay.replace('{x}', (SYM[c]||'')+(SYM[c]&&SYM[c].length>1?' ':'')+fmt);
+  } else $('rate').textContent='';
 }
 function applyLang(l){
   lang=l; var t=COPY[l]; document.documentElement.lang=l;
-  document.querySelectorAll('[data-t]').forEach(function(n){ var k=n.getAttribute('data-t'); if(t[k]!=null) n.textContent=t[k]; });
-  document.querySelectorAll('[data-tp]').forEach(function(n){ var k=n.getAttribute('data-tp'); if(t[k]!=null) n.placeholder=t[k]; });
-  document.querySelectorAll('[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang')===l?'true':'false'); });
-  fillRoles(); fill('job_type',OPTS.job_type,'choose'); fill('client_type',OPTS.client_type,'choose'); fill('currency',OPTS.currency,'choose');
-  fill('usage_rights',OPTS.usage_rights,'choose'); fill('usage_period',OPTS.usage_period,'optional'); fill('experience',OPTS.experience,'optional');
+  document.querySelectorAll('[data-t]').forEach(function(n){var k=n.getAttribute('data-t'); if(t[k]!=null) n.textContent=t[k]});
+  document.querySelectorAll('[data-tp]').forEach(function(n){var k=n.getAttribute('data-tp'); if(t[k]!=null) n.placeholder=t[k]});
+  document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false')});
+  document.title = t.title.replace(/\.$/,'')+' – fee fee.';
+  buildRoles(); buildChips(); update();
   try{localStorage.setItem('ff-lang',l)}catch(e){}
 }
-document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){applyLang(b.getAttribute('data-lang'))}); });
+$('roles-btn').addEventListener('click',function(){toggleRoles()});
+$('role-add').addEventListener('click',addOwn);
+$('role-own').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); addOwn(); } });
+COUNTRIES.forEach(function(c){var o=document.createElement('option'); o.value=c; $('countries').appendChild(o)});
+document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){applyLang(b.getAttribute('data-lang'))})});
+function step(n){var v=Math.max(.5,Math.min(60,(Number($('days').value)||1)+n)); $('days').value=v; update();}
+$('dminus').addEventListener('click',function(){step(-.5)});
+function pstep(n){var v=Math.max(0,Math.min(30,(Number($('prep_days').value)||0)+n)); $('prep_days').value=v;}
+$('pminus').addEventListener('click',function(){pstep(-.5)}); $('pplus').addEventListener('click',function(){pstep(.5)});
+$('dplus').addEventListener('click',function(){step(.5)});
+$('fee_amount').addEventListener('input',update); $('days').addEventListener('input',update);
 var saved=null; try{saved=localStorage.getItem('ff-lang')}catch(e){}
 applyLang(saved==='nl'?'nl':'en');
-if(!saved && el('currency').value==='') el('currency').value='EUR';
 
-el('fee').addEventListener('submit',function(e){
+$('fee').addEventListener('submit',function(e){
   e.preventDefault();
-  var f=e.target, err=f.querySelector('.js-err'); err.textContent='';
-  if (f.website.value) { done(); return; }                     // spam trap
-  var need=['role','job_type','client_type','country','days','fee_amount','currency','usage_rights'];
-  for (var i=0;i<need.length;i++){ if(!String(el(need[i]).value).trim()){ err.textContent=COPY[lang].err; el(need[i]).focus(); return; } }
-  var row = {
-    role: el('role').value, job_type: el('job_type').value, client_type: el('client_type').value,
-    country: el('country').value.trim().slice(0,60), days: Number(el('days').value), fee_amount: Number(el('fee_amount').value),
-    currency: el('currency').value, usage_rights: el('usage_rights').value,
-    usage_period: el('usage_period').value || null, experience: el('experience').value || null
+  var f=e.target, err=f.querySelector('.err'); err.textContent='';
+  if(f.website.value){ done(); return; }
+  var row={
+    role:chosenRoles().join(', ').slice(0,200), job_type:picked('job_type'), client_type:picked('client_type'),
+    country:$('country').value.trim().slice(0,60), days:Number($('days').value), fee_amount:Number($('fee_amount').value),
+    currency:picked('currency'), usage:pickedAll('usage'), prep_days:Number($('prep_days').value)||null,
+    usage_period:picked('usage_period')||null, experience:picked('experience')||null,
+    deliverables:picked('deliverables')||null, included:pickedAll('included').length?pickedAll('included'):null,
+    billed_extra:pickedAll('billed_extra').length?pickedAll('billed_extra'):null, payment:picked('payment')||null
   };
-  if (!(row.days>0 && row.days<=60) || !(row.fee_amount>0 && row.fee_amount<1000000)) { err.textContent=COPY[lang].err; return; }
+  var ok = row.role && row.job_type && row.client_type && row.country.length>=2 && row.days>0 && row.days<=60 && row.fee_amount>0 && row.fee_amount<1000000 && row.currency && row.usage.length>0;
+  if(!ok){ err.textContent=COPY[lang].err; return; }
   var btn=f.querySelector('[type=submit]'); btn.disabled=true;
   fetch(SUPABASE_URL+'/rest/v1/fee_entries',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)})
     .then(function(r){ if(!r.ok) throw new Error(r.status); done(); })
     .catch(function(){ err.textContent=COPY[lang].errSend; })
     .then(function(){ btn.disabled=false; });
 });
-function done(){ el('fee').hidden=true; el('thanks').hidden=false; el('fee').reset(); applyLang(lang); }
-el('again').addEventListener('click',function(e){ e.preventDefault(); el('thanks').hidden=true; el('fee').hidden=false; });
+function done(){ $('fee').hidden=true; $('thanks').hidden=false; window.scrollTo({top:0,behavior:'smooth'}); }
+$('again').addEventListener('click',function(e){ e.preventDefault(); $('fee').reset(); ownRoles=[]; document.querySelectorAll('#roles-panel input').forEach(function(c){c.checked=false}); $('days').value=1; $('prep_days').value=0; applyLang(lang); $('thanks').hidden=true; $('fee').hidden=false; });
 </script>
 </body>
 </html>
