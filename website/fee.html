@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>share your fee – fee fee.</title>
+<meta name="description" content="Share a fee anonymously. No name, no email. fee fee. only ever shows averages.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto}
+a{color:var(--ink)}
+header{display:flex;align-items:center;justify-content:space-between;padding:22px 32px;max-width:1100px;margin:0 auto}
+.logo{font-family:'Tenor Sans',sans-serif;letter-spacing:-.065em;font-size:26px;text-decoration:none}
+.mono,.label,.cap,.btn,.field,select{font-family:'Space Mono',monospace}
+.mono{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.cap{font-size:11px;color:var(--muted);line-height:1.6}
+.lang button{background:none;border:0;font:inherit;cursor:pointer;color:var(--muted);padding:0 2px}
+.lang button[aria-pressed=true]{color:var(--ink)}
+main{max-width:640px;margin:0 auto;padding:40px 24px 120px}
+h1{font-style:italic;font-weight:400;font-size:clamp(48px,9vw,80px);line-height:.95;margin:32px 0 20px}
+.intro{font-size:21px;line-height:1.45;margin:0 0 40px;max-width:520px}
+.card{background:var(--paper);border-radius:6px;padding:36px 30px 30px;box-shadow:0 30px 70px rgba(28,30,26,.10)}
+form{display:flex;flex-direction:column;gap:10px}
+.label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-top:10px}
+.field,select{height:46px;padding:0 18px;border:0;border-radius:999px;background:var(--field);font-size:14px;color:var(--ink);width:100%;appearance:none;-webkit-appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 22px) 20px,calc(100% - 17px) 20px;background-size:5px 5px;background-repeat:no-repeat;background-color:var(--field)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 34px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-size:14px;cursor:pointer;margin-top:18px}
+.btn:disabled{opacity:.5}
+[hidden]{display:none!important}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.thanks{text-align:center;padding:30px 0}
+.thanks p{margin:0}
+.note{display:flex;gap:14px;align-items:flex-start;margin-top:28px}
+@media (max-width:560px){.row,.row3{grid-template-columns:1fr}header{padding:18px 16px}main{padding:24px 16px 80px}.card{padding:28px 18px 22px}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="index.html">fee fee.</a>
+<span class="mono lang"><button type="button" data-lang="en" aria-pressed="true">EN</button> / <button type="button" data-lang="nl" aria-pressed="false">NL</button></span>
+</header>
+<main>
+<p class="mono" data-t="kicker">anonymous · no name · no email</p>
+<h1 data-t="title">share your fee.</h1>
+<p class="intro" data-t="intro">one job, one number. we never ask who you are, and we only ever show averages once at least five people have shared for the same role and country.</p>
+
+<div class="card">
+<form id="fee" novalidate>
+<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+<label class="label" for="role" data-t="role">your role on this job</label>
+<select id="role" required></select>
+
+<div class="row">
+<div><label class="label" for="job_type" data-t="jobType">type of job</label>
+<select id="job_type" required></select></div>
+<div><label class="label" for="client_type" data-t="clientType">client</label>
+<select id="client_type" required></select></div>
+</div>
+
+<label class="label" for="country" data-t="country">country of the job</label>
+<input class="field" id="country" type="text" maxlength="60" required data-tp="countryPh" placeholder="e.g. the Netherlands">
+
+<div class="row3">
+<div><label class="label" for="days" data-t="days">days</label>
+<input class="field" id="days" type="number" inputmode="decimal" min="0.5" max="60" step="0.5" required placeholder="1"></div>
+<div><label class="label" for="fee_amount" data-t="fee">total fee</label>
+<input class="field" id="fee_amount" type="number" inputmode="decimal" min="1" max="999999" step="1" required placeholder="1200"></div>
+<div><label class="label" for="currency" data-t="currency">currency</label>
+<select id="currency" required></select></div>
+</div>
+<p class="cap" style="margin:2px 0 0" data-t="feeHint">your fee for the whole job, excluding vat and expenses.</p>
+
+<div class="row">
+<div><label class="label" for="usage_rights" data-t="usage">usage rights</label>
+<select id="usage_rights" required></select></div>
+<div><label class="label" for="usage_period" data-t="period">usage period</label>
+<select id="usage_period"></select></div>
+</div>
+
+<label class="label" for="experience" data-t="experience">years doing this</label>
+<select id="experience"></select>
+
+<button class="btn" type="submit" data-t="submit">share anonymously</button>
+<p class="cap js-err" role="alert" style="margin:4px 0 0;min-height:1em"></p>
+</form>
+
+<div class="thanks" id="thanks" hidden>
+<p class="mono" data-t="tStatus">status · shared</p>
+<p style="font-style:italic;font-weight:700;font-size:34px;line-height:1.1;margin-top:12px" data-t="tTitle">thank you.</p>
+<p style="font-size:20px;margin-top:10px" data-t="tText">every number makes the next creative a little braver.</p>
+<p style="margin-top:22px"><a href="#" id="again" class="mono" data-t="tAgain">share another fee</a></p>
+</div>
+</div>
+
+<div class="note">
+<p class="cap" style="margin:0"><span data-t="privA">what we store: only the answers above. no name, email or ip address. </span><a href="privacy.html" style="color:var(--muted)">privacy</a></p>
+</div>
+</main>
+
+<script>
+/* fee fee. anonymous fee form → Supabase (insert-only table, see privacy page) */
+var SUPABASE_URL = 'https://eadxyfxlhwikesonpaer.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri'; // public key: can only ADD a fee, never read one
+
+var ROLES = [
+  ['camera & image',['photographer','photo assistant','videographer / DOP','camera assistant','digital tech','retoucher','editor / colorist','motion designer']],
+  ['light & set',['gaffer','light assistant','set designer','prop stylist','art director']],
+  ['styling & beauty',['fashion stylist','styling assistant','wardrobe','hair stylist','make-up artist','nail artist']],
+  ['production & direction',['producer','production assistant','creative director','director','casting director','location scout']],
+  ['talent',['model','actor','dancer','musician / artist','content creator']],
+  ['other',['illustrator / designer','copywriter','agent','something else']]
+];
+var OPTS = {
+  job_type:['editorial','commercial','campaign','e-commerce','music / artist','event','content / social','film / tv','other'],
+  client_type:['brand','agency','magazine','production company','artist / label','private client','other'],
+  currency:['EUR','USD','GBP','CHF','SEK','DKK','NOK','AUD','CAD','other'],
+  usage_rights:['none / editorial only','social media only','online','online + print','out of home / tv','full buy-out','not sure'],
+  usage_period:['n/a','up to 3 months','6 months','1 year','2 years or more','unlimited','not sure'],
+  experience:['0-2 years','3-5 years','6-10 years','10+ years']
+};
+var COPY = {
+  en:{kicker:'anonymous · no name · no email',title:'share your fee.',intro:'one job, one number. we never ask who you are, and we only ever show averages once at least five people have shared for the same role and country.',role:'your role on this job',jobType:'type of job',clientType:'client',country:'country of the job',countryPh:'e.g. the Netherlands',days:'days',fee:'total fee',currency:'currency',feeHint:'your fee for the whole job, excluding vat and expenses.',usage:'usage rights',period:'usage period',experience:'years doing this',submit:'share anonymously',tStatus:'status · shared',tTitle:'thank you.',tText:'every number makes the next creative a little braver.',tAgain:'share another fee',privA:'what we store: only the answers above. no name, email or ip address. ',choose:'choose',optional:'optional',err:'please fill in every field.',errSend:'something went wrong, please try again in a minute.'},
+  nl:{kicker:'anoniem · geen naam · geen e-mail',title:'deel je fee.',intro:'één klus, één bedrag. we vragen nooit wie je bent, en we tonen alleen gemiddelden zodra minstens vijf mensen hebben gedeeld voor dezelfde rol en hetzelfde land.',role:'je rol op deze klus',jobType:'soort klus',clientType:'opdrachtgever',country:'land van de klus',countryPh:'bijv. Nederland',days:'dagen',fee:'totale fee',currency:'valuta',feeHint:'je fee voor de hele klus, exclusief btw en onkosten.',usage:'gebruiksrechten',period:'gebruiksduur',experience:'jaren ervaring',submit:'deel anoniem',tStatus:'status · gedeeld',tTitle:'dankjewel.',tText:'elk bedrag maakt de volgende creative een beetje dapperder.',tAgain:'deel nog een fee',privA:'wat we opslaan: alleen de antwoorden hierboven. geen naam, e-mail of ip-adres. ',choose:'kies',optional:'optioneel',err:'vul alsjeblieft alle velden in.',errSend:'er ging iets mis, probeer het over een minuut nog eens.'}
+};
+var lang = 'en';
+function el(id){return document.getElementById(id)}
+function fill(id, list, placeholderKey){
+  var s = el(id), cur = s.value; s.innerHTML='';
+  var o = document.createElement('option'); o.value=''; o.textContent = COPY[lang][placeholderKey]; s.appendChild(o);
+  list.forEach(function(v){ var x=document.createElement('option'); x.value=v; x.textContent=v; s.appendChild(x); });
+  s.value = cur;
+}
+function fillRoles(){
+  var s = el('role'), cur = s.value; s.innerHTML='';
+  var o=document.createElement('option'); o.value=''; o.textContent=COPY[lang].choose; s.appendChild(o);
+  ROLES.forEach(function(g){ var og=document.createElement('optgroup'); og.label=g[0]; g[1].forEach(function(v){ var x=document.createElement('option'); x.value=v; x.textContent=v; og.appendChild(x); }); s.appendChild(og); });
+  s.value = cur;
+}
+function applyLang(l){
+  lang=l; var t=COPY[l]; document.documentElement.lang=l;
+  document.querySelectorAll('[data-t]').forEach(function(n){ var k=n.getAttribute('data-t'); if(t[k]!=null) n.textContent=t[k]; });
+  document.querySelectorAll('[data-tp]').forEach(function(n){ var k=n.getAttribute('data-tp'); if(t[k]!=null) n.placeholder=t[k]; });
+  document.querySelectorAll('[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang')===l?'true':'false'); });
+  fillRoles(); fill('job_type',OPTS.job_type,'choose'); fill('client_type',OPTS.client_type,'choose'); fill('currency',OPTS.currency,'choose');
+  fill('usage_rights',OPTS.usage_rights,'choose'); fill('usage_period',OPTS.usage_period,'optional'); fill('experience',OPTS.experience,'optional');
+  try{localStorage.setItem('ff-lang',l)}catch(e){}
+}
+document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){applyLang(b.getAttribute('data-lang'))}); });
+var saved=null; try{saved=localStorage.getItem('ff-lang')}catch(e){}
+applyLang(saved==='nl'?'nl':'en');
+if(!saved && el('currency').value==='') el('currency').value='EUR';
+
+el('fee').addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=e.target, err=f.querySelector('.js-err'); err.textContent='';
+  if (f.website.value) { done(); return; }                     // spam trap
+  var need=['role','job_type','client_type','country','days','fee_amount','currency','usage_rights'];
+  for (var i=0;i<need.length;i++){ if(!String(el(need[i]).value).trim()){ err.textContent=COPY[lang].err; el(need[i]).focus(); return; } }
+  var row = {
+    role: el('role').value, job_type: el('job_type').value, client_type: el('client_type').value,
+    country: el('country').value.trim().slice(0,60), days: Number(el('days').value), fee_amount: Number(el('fee_amount').value),
+    currency: el('currency').value, usage_rights: el('usage_rights').value,
+    usage_period: el('usage_period').value || null, experience: el('experience').value || null
+  };
+  if (!(row.days>0 && row.days<=60) || !(row.fee_amount>0 && row.fee_amount<1000000)) { err.textContent=COPY[lang].err; return; }
+  var btn=f.querySelector('[type=submit]'); btn.disabled=true;
+  fetch(SUPABASE_URL+'/rest/v1/fee_entries',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); done(); })
+    .catch(function(){ err.textContent=COPY[lang].errSend; })
+    .then(function(){ btn.disabled=false; });
+});
+function done(){ el('fee').hidden=true; el('thanks').hidden=false; el('fee').reset(); applyLang(lang); }
+el('again').addEventListener('click',function(e){ e.preventDefault(); el('thanks').hidden=true; el('fee').hidden=false; });
+</script>
+</body>
+</html>
