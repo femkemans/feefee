@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fee fee. – what's your fee?</title>
+<meta name="description" content="real fees, shared by creatives. know what's fair before you say yes. join the waitlist.">
+<meta property="og:title" content="fee fee. – what's your fee?">
+<meta property="og:description" content="real fees, shared by creatives. join the waitlist.">
+<meta property="og:image" content="assets/logo.webp">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;overflow-x:hidden}
+img{max-width:100%}
+a{color:var(--ink)}a:hover{color:var(--muted)}
+input::placeholder{color:#7A7E76}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.cap{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.logo-word{font-family:'Tenor Sans',sans-serif;font-weight:400;letter-spacing:-.065em;text-transform:none}
+.h{font-style:italic;font-weight:400;font-size:clamp(52px,7vw,112px);line-height:.95;letter-spacing:-.01em;margin:0}
+.b{font-size:22px;line-height:1.5;margin:0}
+.block{min-height:100vh;min-height:100svh;scroll-snap-align:start}
+.celadon{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
+.btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 34px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);text-decoration:none;font-family:'Space Mono',monospace;font-size:14px;cursor:pointer}
+.btn:hover{color:var(--paper);opacity:.9}
+.btn.soft{background:var(--celadon);color:var(--ink)}
+.field{height:46px;padding:0 18px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%}
+.label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.split{display:flex;flex-wrap:wrap}
+.split>*{flex:1 1 480px;min-width:0}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 32px}
+header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.bar{background:var(--celadon);padding:10px 24px;text-align:center;font-size:10px}
+.nav{max-width:1440px;margin:0 auto;padding:18px 32px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px}
+.nav a{text-decoration:none}
+.lang button{min-height:34px;padding:0 4px;border:0;background:transparent;cursor:pointer;color:#8A8E86}
+.lang button[aria-pressed="true"]{color:var(--ink)}
+.card{width:100%;max-width:440px;text-align:left;background:var(--paper);border-radius:6px;padding:40px 34px 34px;box-shadow:0 30px 70px rgba(28,30,26,.10);display:flex;flex-direction:column;gap:20px}
+.roles-panel{max-height:230px;overflow-y:auto;background:var(--field);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;gap:12px}
+.roles-panel label{display:flex;align-items:center;gap:10px;min-height:30px;font-family:'Space Mono',monospace;font-size:13px;cursor:pointer}
+.roles-panel input{width:16px;height:16px;accent-color:var(--ink)}
+.notes img{height:auto}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.load1{animation:rise 1.6s cubic-bezier(.2,.7,.2,1) both}
+.load2{animation:rise 1.6s .35s cubic-bezier(.2,.7,.2,1) both}
+.load3{animation:fade 1.6s .7s ease both}
+@supports (animation-timeline: view()){.reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 28%}}
+.pop{position:fixed;right:24px;bottom:24px;z-index:40;width:min(360px,calc(100vw - 48px));background:var(--paper);border-radius:6px;padding:28px 26px 24px;box-shadow:0 30px 80px rgba(28,30,26,.18);display:flex;flex-direction:column;gap:14px;animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.pop[hidden],[hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3,.reveal,.pop{animation:none}}
+@media (max-width:700px){.nav{padding:14px 18px}.nav .hide-sm{display:none}.center{padding:96px 18px}}
+</style>
+</head>
+<body>
+
+<div class="bar mono" data-t="bar">waitlist now open · for freelance creatives worldwide</div>
+
+<header>
+<div class="nav mono">
+<nav style="display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+<div class="lang" style="display:flex;align-items:center;gap:2px">
+<button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
+<span aria-hidden="true" style="color:#8A8E86">/</span>
+<button type="button" class="mono" data-lang="nl" aria-pressed="false">NL</button>
+</div>
+<a class="hide-sm" href="#about" data-t="navAbout">about</a>
+</nav>
+<a href="#top" class="logo-word" style="font-size:26px">fee fee.</a>
+<div style="display:flex;justify-content:flex-end"><a href="#join" style="display:inline-flex;align-items:center;height:34px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--paper)" data-t="navJoin">join</a></div>
+</div>
+</header>
+
+<main>
+<section id="top" class="block center" style="padding-bottom:140px">
+<h1 class="load1" style="margin:0;width:min(720px,100%)"><img src="assets/logo.webp" alt="fee fee. what's your fee?" width="1315" height="417" style="width:100%;height:auto;display:block"></h1>
+<p class="h load2" style="margin-top:88px"><span data-t="fcA">freelance</span><br><strong style="font-weight:700" data-t="fcB">creatives</strong><br><span data-t="fcC">worldwide.</span></p>
+<a class="btn load3" href="#join" style="margin-top:56px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
+</section>
+
+<section id="about" class="block split">
+<div style="min-height:70vh;position:relative;overflow:hidden">
+<img src="assets/pen.webp" alt="A blue ballpoint pen, softly out of focus, against a pale background." style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+<p class="cap" style="position:absolute;left:32px;bottom:28px;margin:0" data-t="capVisual">quiet paper, loud numbers.</p>
+</div>
+<div class="celadon" style="display:flex;flex-direction:column;justify-content:center;gap:32px;padding:96px clamp(24px,6vw,110px)">
+<p class="mono reveal" style="margin:0" data-t="whoLabel">who we are</p>
+<h2 class="h reveal" data-t="whoTitle">Nobody says the number.</h2>
+<p class="b reveal" style="max-width:480px"><span data-t="whoA">creatives guess their rates, and when we guess, we guess low. </span><span class="logo-word">fee fee.</span><span data-t="whoB"> tells you the number, what's fair, and what to ask before you say yes.</span></p>
+<div class="reveal" style="display:flex;flex-direction:column;gap:10px">
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
+</div>
+</div>
+</section>
+
+<section id="join" class="block center">
+<p class="mono reveal" style="margin:0" data-t="values">transparency · solidarity · fairness · knowledge</p>
+<h2 class="h reveal" style="margin-top:32px" data-t="joinTitle">Join the waitlist.</h2>
+<p class="b reveal" style="margin-top:28px;max-width:500px" data-t="joinText">the doors open soon, for a small group first. you're in early, with the first fee drop in your inbox.</p>
+<div class="card reveal" style="margin-top:56px">
+<div style="text-align:center;display:flex;flex-direction:column;gap:8px">
+<p class="logo-word" style="margin:0;font-size:38px;line-height:.8">fee fee.</p>
+<p class="cap" style="margin:0">creative rates · est. 2026</p>
+</div>
+<form id="waitlist" class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:0">
+<label class="label" for="r-name" data-t="name">name</label>
+<input class="field" id="r-name" name="name" type="text" autocomplete="given-name" data-tp="namePh" placeholder="first name">
+<label class="label" for="r-email" data-t="email">email</label>
+<input class="field" id="r-email" name="email" type="email" autocomplete="email" required placeholder="you@studio.com">
+<p class="label" id="roles-label" style="margin-bottom:0" data-t="roles">what you do</p>
+<button type="button" id="roles-btn" class="field" aria-expanded="false" aria-labelledby="roles-label" style="display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;color:#7A7E76">
+<span id="roles-sum" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">choose one or more roles</span><span aria-hidden="true" id="roles-arrow" style="color:var(--ink);font-size:12px">↓</span>
+</button>
+<div class="roles-panel" id="roles-panel" hidden></div>
+<label class="label" for="r-city" data-t="basedIn">based in</label>
+<input class="field" id="r-city" name="city" type="text" autocomplete="address-level2" data-tp="cityPh" placeholder="city, country">
+<button type="submit" class="btn" style="justify-content:center;height:52px;margin-top:14px" data-t="cta">Join the waitlist</button>
+<p class="cap" style="margin:6px 0 0;line-height:1.6;letter-spacing:.05em;text-transform:none;font-size:11px"><span data-t="privacyA">we only use your details to email you about </span><span class="logo-word" style="color:var(--ink);font-size:12px">fee fee.</span><span data-t="privacyB"> we never share them, and you can unsubscribe anytime.</span> <a href="privacy.html" style="color:var(--muted)">privacy</a></p>
+</form>
+<div class="js-thanks" hidden style="display:flex;flex-direction:column;gap:10px;padding:12px 0">
+<p class="mono" style="margin:0" data-t="status">status · on the list</p>
+<p style="margin:0;font-style:italic;font-weight:700;font-size:32px;line-height:1.1"><span data-t="welcome">Welcome to</span> <span class="logo-word" style="font-style:normal;font-weight:400">fee fee.</span></p>
+<p class="b" style="font-size:20px" data-t="welcomeText">we'll write when the doors open.</p>
+</div>
+</div>
+</section>
+
+<section class="block center">
+<img class="reveal" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="width:220px;height:auto;transform:rotate(4deg);margin-bottom:56px">
+<p class="mono reveal" style="margin:0" data-t="forCap">who?</p>
+<h2 class="h reveal" style="margin-top:32px" data-t="forTitle">for every creative on set.</h2>
+<div class="notes reveal" style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:18px 34px;margin-top:64px;max-width:980px">
+<img src="assets/camera_photographer.webp" alt="Camera note: photographer, day rate" style="width:140px;transform:rotate(-6deg);margin-top:30px">
+<img src="assets/hairbrush_hair.webp" alt="Hairbrush note: hair" style="height:150px;width:auto;transform:rotate(7deg)">
+<img src="assets/shirt_wardrobe.webp" alt="Shirt note: wardrobe" style="width:130px;transform:rotate(-3deg);margin-top:50px">
+<img src="assets/clapperboard_video.webp" alt="Clapperboard note: videographer" style="width:140px;transform:rotate(4deg);margin-top:10px">
+<img src="assets/makeup_brush_mua.webp" alt="Make-up brush note: MUA" style="height:150px;width:auto;transform:rotate(-10deg);margin-top:26px">
+<img src="assets/lightbulb_gaffer.webp" alt="Lightbulb note: gaffer" style="height:130px;width:auto;transform:rotate(6deg);margin-top:44px">
+</div>
+</section>
+
+<section class="block split">
+<div class="celadon" style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:80px 32px">
+<img class="reveal" src="assets/letter-01.webp" alt="Handwritten letter: dear creative, you're worth more than the number you were about to say. say it anyway. out loud. then add 10%. x fee fee." style="width:min(360px,80%);height:auto;transform:rotate(-3deg)">
+</div>
+<div style="display:flex;flex-direction:column;justify-content:center;gap:32px;padding:96px clamp(24px,6vw,110px)">
+<p class="mono reveal" style="margin:0"><span data-t="lettersLabel">letters from </span><span class="logo-word" style="font-size:14px">fee fee.</span></p>
+<h2 class="h reveal" data-t="lettersTitle">Short notes on the things nobody explained.</h2>
+<p class="b reveal" style="max-width:460px" data-t="lettersText">usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.</p>
+<a class="mono reveal" href="#join" style="align-self:flex-start;text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:4px"><span data-t="cta">Join the waitlist</span> →</a>
+</div>
+</section>
+
+<section class="block center" style="gap:40px;padding-bottom:80px">
+<p class="reveal" style="margin:0;font-style:italic;font-size:clamp(64px,11vw,180px);line-height:.9">say the number.</p>
+<a class="btn soft reveal" href="#join" data-t="cta">Join the waitlist</a>
+</section>
+</main>
+
+<footer style="max-width:1440px;margin:0 auto;padding:0 32px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)">
+<span data-t="footer">for freelance creatives worldwide</span>
+<span class="logo-word" style="font-size:20px;color:var(--ink)">fee fee.</span>
+<span><a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/" style="text-decoration:none;color:var(--muted)">[instagram]</a></span>
+</footer>
+
+<aside class="pop" id="pop" role="dialog" aria-labelledby="pop-title" hidden>
+<button type="button" id="pop-close" aria-label="close" style="position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;background:transparent;font-family:'Space Mono',monospace;font-size:16px;cursor:pointer">×</button>
+<img src="assets/logo.webp" alt="fee fee. what's your fee?" style="width:150px;height:auto;display:block">
+<p id="pop-title" style="margin:6px 0 0;font-style:italic;font-size:32px;line-height:1" data-t="popTitle">be the first in.</p>
+<p style="margin:0;font-size:18px;line-height:1.45" data-t="popText">real fees, shared by creatives. join the waitlist and get the first fee drop.</p>
+<form class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:4px 0 0">
+<label class="sr" for="pop-email" data-t="email">email</label>
+<input class="field" id="pop-email" name="email" type="email" autocomplete="email" required placeholder="you@studio.com">
+<button type="submit" class="btn" style="justify-content:center;height:48px;font-size:13px" data-t="cta">Join the waitlist</button>
+</form>
+</aside>
+
+<script>
+/* ---- settings ---------------------------------------------------------
+   WAITLIST_ENDPOINT: where sign-ups are sent (MailerLite / Formspree / Tally).
+   Leave empty to test: the form then only shows the thank-you message.   */
+var WAITLIST_ENDPOINT = '';
+
+var COPY = {
+  en: {bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:'who we are',whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' tells you the number, what’s fair, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'for freelance creatives worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.'},
+  nl: {bar:'de wachtlijst is open · voor freelance creatives wereldwijd',navAbout:'over',navJoin:'meld je aan',fcA:'freelance',fcB:'creatives',fcC:'wereldwijd.',cta:'Zet me op de wachtlijst',capVisual:'stil papier, luide bedragen.',whoLabel:'wie we zijn',whoTitle:'Niemand noemt het bedrag.',whoA:'creatives gokken hun tarieven, en als we gokken, gokken we laag. ',whoB:' vertelt je het bedrag, wat eerlijk is, en wat je vraagt voordat je ja zegt.',k1:'Weet.',v1:'echte tarieven, per klus, gebruik en land.',k2:'Lees.',v2:'contracten, gebruiksrechten en buy-outs in gewone taal.',k3:'Vraag.',v3:'precies de vragen die je stelt voordat je ja zegt.',values:'transparantie · solidariteit · eerlijkheid · kennis',joinTitle:'Op de wachtlijst.',joinText:'de deuren gaan binnenkort open, eerst voor een kleine groep. je bent er vroeg bij, met de eerste fee drop in je inbox.',name:'naam',namePh:'voornaam',email:'e-mail',roles:'wat je doet',rolesPh:'kies een of meer rollen',done:'klaar',basedIn:'gevestigd in',cityPh:'stad, land',privacyA:'we gebruiken je gegevens alleen om je te mailen over ',privacyB:' we delen ze nooit, en je kunt je altijd afmelden.',status:'status · op de lijst',welcome:'Welkom bij',welcomeText:'we schrijven je zodra de deuren opengaan.',forCap:'wie?',forTitle:'voor elke creative op set.',lettersLabel:'brieven van ',lettersTitle:'Korte notities over alles wat niemand je uitlegde.',lettersText:'gebruiksrechten, buy-outs, je eerste factuur, nee zeggen. één handgeschreven brief per keer, in je inbox.',footer:'voor freelance creatives wereldwijd',popTitle:'wees er als eerste bij.',popText:'echte tarieven, gedeeld door creatives. meld je aan en krijg de eerste fee drop.'}
+};
+var GROUPS = [
+  ['camera & image',['photographer','photo assistant','videographer / DOP','camera assistant','digital tech','retoucher','editor / colorist','motion designer']],
+  ['light & set',['gaffer','light assistant','set designer','prop stylist','art director']],
+  ['styling & beauty',['fashion stylist','styling assistant','wardrobe','hair stylist','make-up artist','nail artist']],
+  ['production & direction',['producer','production assistant','creative director','director','casting director','location scout']],
+  ['talent',['model','actor','dancer','musician / artist','content creator']],
+  ['other',['illustrator / designer','copywriter','agent','something else']]
+];
+var lang = 'en', joined = false, popClosed = false;
+function storeGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function storeSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+function applyLang(l){
+  lang = l; var t = COPY[l];
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-t]').forEach(function(el){ var k=el.getAttribute('data-t'); if(t[k]!=null) el.textContent=t[k]; });
+  document.querySelectorAll('[data-tp]').forEach(function(el){ var k=el.getAttribute('data-tp'); if(t[k]!=null) el.placeholder=t[k]; });
+  document.querySelectorAll('[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang')===l ? 'true':'false'); });
+  doneBtn.textContent = t.done; updateRoles(); storeSet('ff-lang', l);
+}
+
+/* roles dropdown with checkboxes */
+var panel = document.getElementById('roles-panel'), rbtn = document.getElementById('roles-btn');
+GROUPS.forEach(function(g){
+  var wrap=document.createElement('div'); wrap.style.cssText='display:flex;flex-direction:column;gap:2px';
+  var h=document.createElement('p'); h.className='cap'; h.style.margin='0 0 4px'; h.textContent=g[0]; wrap.appendChild(h);
+  g[1].forEach(function(name){ var lab=document.createElement('label'); var cb=document.createElement('input'); cb.type='checkbox'; cb.name='roles'; cb.value=name; cb.addEventListener('change',updateRoles); lab.appendChild(cb); lab.appendChild(document.createTextNode(name)); wrap.appendChild(lab); });
+  panel.appendChild(wrap);
+});
+var doneBtn=document.createElement('button'); doneBtn.type='button'; doneBtn.className='btn soft'; doneBtn.style.cssText='align-self:flex-end;height:34px;padding:0 16px;font-size:12px'; doneBtn.addEventListener('click',function(){toggleRoles(false)}); panel.appendChild(doneBtn);
+function picked(){ return Array.prototype.map.call(panel.querySelectorAll('input:checked'),function(c){return c.value}); }
+function updateRoles(){ var p=picked(), s=document.getElementById('roles-sum');
+  s.textContent = p.length===0 ? COPY[lang].rolesPh : (p.length<=2 ? p.join(', ') : p.slice(0,2).join(', ')+' +'+(p.length-2));
+  rbtn.style.color = p.length ? 'var(--ink)' : '#7A7E76'; }
+function toggleRoles(open){ var o = open==null ? panel.hidden : open; panel.hidden=!o; rbtn.setAttribute('aria-expanded',o?'true':'false'); document.getElementById('roles-arrow').textContent=o?'↑':'↓'; }
+rbtn.addEventListener('click',function(){toggleRoles()});
+
+/* sign-up */
+function showJoined(){
+  joined = true; storeSet('ff-joined','1');
+  document.getElementById('waitlist').hidden = true;
+  document.querySelector('.js-thanks').hidden = false;
+  document.getElementById('pop').hidden = true;
+}
+document.querySelectorAll('.js-join').forEach(function(f){
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var data = new FormData(f);
+    if (f.id==='waitlist') { data.delete('roles'); data.append('roles', picked().join(', ')); }
+    data.append('language', lang);
+    var btn = f.querySelector('[type=submit]'); btn.disabled = true;
+    if (!WAITLIST_ENDPOINT) { showJoined(); return; }
+    fetch(WAITLIST_ENDPOINT,{method:'POST',body:data,headers:{'Accept':'application/json'}})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); showJoined(); })
+      .catch(function(){ btn.disabled=false; alertMsg(f); });
+  });
+});
+function alertMsg(f){ var p=f.querySelector('.js-err'); if(!p){p=document.createElement('p');p.className='cap js-err';p.setAttribute('role','alert');p.style.margin='4px 0 0';f.appendChild(p);} p.textContent = lang==='nl' ? 'er ging iets mis, probeer het nog eens.' : 'something went wrong, please try again.'; }
+
+/* pop-up after 7 seconds */
+var pop = document.getElementById('pop');
+document.getElementById('pop-close').addEventListener('click',function(){ pop.hidden=true; popClosed=true; storeSet('ff-pop','closed'); });
+setTimeout(function(){ if(!joined && !popClosed && storeGet('ff-pop')!=='closed') pop.hidden=false; }, 7000);
+
+document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){ applyLang(b.getAttribute('data-lang')); }); });
+var saved = storeGet('ff-lang') || ((navigator.language||'').toLowerCase().indexOf('nl')===0 ? 'nl' : 'en');
+applyLang(saved);
+if (storeGet('ff-joined')==='1') { showJoined(); }
+</script>
+</body>
+</html>
