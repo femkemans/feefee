@@ -112,6 +112,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 <p class="cap" style="margin:0">creative rates · est. 2026</p>
 </div>
 <form id="waitlist" class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:0">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <label class="label" for="r-name" data-t="name">name</label>
 <input class="field" id="r-name" name="name" type="text" autocomplete="given-name" data-tp="namePh" placeholder="first name">
 <label class="label" for="r-email" data-t="email">email</label>
@@ -177,7 +178,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 <img src="assets/logo.webp" alt="fee fee. what's your fee?" style="width:150px;height:auto;display:block">
 <p id="pop-title" style="margin:6px 0 0;font-style:italic;font-size:32px;line-height:1" data-t="popTitle">be the first in.</p>
 <p style="margin:0;font-size:18px;line-height:1.45" data-t="popText">real fees, shared by creatives. join the waitlist and get the first fee drop.</p>
-<form class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:4px 0 0">
+<form class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:4px 0 0;position:relative">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <label class="sr" for="pop-email" data-t="email">email</label>
 <input class="field" id="pop-email" name="email" type="email" autocomplete="email" required placeholder="you@studio.com">
 <button type="submit" class="btn" style="justify-content:center;height:48px;font-size:13px" data-t="cta">Join the waitlist</button>
@@ -186,9 +188,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 
 <script>
 /* ---- settings ---------------------------------------------------------
-   WAITLIST_ENDPOINT: where sign-ups are sent (MailerLite / Formspree / Tally).
+   WAITLIST_ENDPOINT: the fee fee. waitlist script (Google Apps Script web app).
    Leave empty to test: the form then only shows the thank-you message.   */
-var WAITLIST_ENDPOINT = '';
+var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxFPessWUdy-93abgWxXhH7tFQvjUxW5vKQIQ7iHDFTW8ZCTHpDOwrJ_HhOaHE-0Ais/exec';
 
 var COPY = {
   en: {bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:'who we are',whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' tells you the number, what’s fair, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'for freelance creatives worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.'},
@@ -244,10 +246,12 @@ document.querySelectorAll('.js-join').forEach(function(f){
     var data = new FormData(f);
     if (f.id==='waitlist') { data.delete('roles'); data.append('roles', picked().join(', ')); }
     data.append('language', lang);
+    data.append('form', f.id==='waitlist' ? 'page' : 'popup');
     var btn = f.querySelector('[type=submit]'); btn.disabled = true;
     if (!WAITLIST_ENDPOINT) { showJoined(); return; }
-    fetch(WAITLIST_ENDPOINT,{method:'POST',body:data,headers:{'Accept':'application/json'}})
-      .then(function(r){ if(!r.ok) throw new Error(r.status); showJoined(); })
+    var body = new URLSearchParams(); data.forEach(function(v,k){ body.append(k,v); });
+    fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
+      .then(function(){ showJoined(); })
       .catch(function(){ btn.disabled=false; alertMsg(f); });
   });
 });
