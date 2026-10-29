@@ -4,385 +4,472 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>say the number – fee fee.</title>
-<meta name="description" content="Share a fee from a past job anonymously. No name, no email.">
+<meta name="description" content="A client asks your rate? Put the job in first. Anonymous, no name, no email.">
 <meta property="og:title" content="say the number. – fee fee.">
-<meta property="og:description" content="share one fee, anonymously. no name, no email.">
+<meta property="og:description" content="a client asks your rate? put the job in first. anonymous, no name, no email.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--field:#EEF4EF;--blue:#1F3FD1}
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto}
+html,body{height:100%}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
 a{color:var(--ink)}
 [hidden]{display:none!important}
-.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 .cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
-.logo{font-family:'Tenor Sans',sans-serif;letter-spacing:-.065em;font-size:26px;text-decoration:none}
+.logo{font-family:'Tenor Sans',sans-serif;letter-spacing:-.065em;font-size:26px;text-decoration:none;text-transform:none;font-weight:400}
 .celadon{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
 
-header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 32px;pointer-events:none}
+header{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;pointer-events:none}
 header>*{pointer-events:auto}
 .lang button{background:none;border:0;font:inherit;cursor:pointer;color:var(--soft);padding:4px}
 .lang button[aria-pressed=true]{color:var(--ink)}
 
 .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100vh}
-.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:110px clamp(28px,5vw,80px) 60px;overflow:hidden}
-.side h1{font-style:italic;font-weight:400;font-size:clamp(60px,7.4vw,124px);line-height:.88;letter-spacing:-.015em;margin:0}
-.side .b{font-size:22px;line-height:1.45;margin:0;max-width:420px}
-.side .how{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
-.side .how li{font-size:20px;line-height:1.4}
-.side .how em{font-weight:700;color:var(--blue)}
-.sticky{align-self:flex-end;margin:4px clamp(0px,2vw,30px) 0 0;width:clamp(140px,11vw,180px);transform:rotate(5deg);filter:drop-shadow(0 18px 24px rgba(28,30,26,.12))}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(30px,5vw,88px) 64px;overflow:hidden}
+.side .kick{margin:0 0 26px}
+.side h1{font-style:italic;font-weight:400;font-size:clamp(64px,7.6vw,128px);line-height:.86;letter-spacing:-.02em;margin:0}
+.side .lead{font-size:23px;line-height:1.45;margin:30px 0 0;max-width:420px}
+.side .foot{position:absolute;left:clamp(30px,5vw,88px);bottom:34px;margin:0}
+.sticky{position:absolute;right:clamp(20px,4vw,64px);bottom:64px;width:clamp(130px,10vw,170px);transform:rotate(5deg);filter:drop-shadow(0 18px 24px rgba(28,30,26,.12));transition:opacity .6s var(--ease)}
 
-.main{padding:120px clamp(24px,6vw,110px) 120px;display:flex;flex-direction:column;align-items:flex-start}
-form{width:100%;max-width:620px}
-.part{margin:0 0 64px}
-.part h2{font-style:italic;font-weight:400;font-size:clamp(40px,4vw,56px);line-height:1;margin:0 0 6px}
-.part .sub{margin:0 0 26px}
-.q{margin:0 0 26px}
-.q>.mono{display:block;margin:0 0 12px}
-.q>.mono small{font-weight:400;color:var(--soft);letter-spacing:.1em}
+.main{display:flex;flex-direction:column;min-height:100vh;padding:120px clamp(24px,6vw,110px) 48px}
+.trail{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 56px;padding:0;list-style:none}
+.trail li{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);transition:color .4s}
+.trail li.done{color:var(--soft)}
+.trail li.now{color:var(--ink);font-weight:700}
+.stage{flex:1;width:100%;max-width:640px}
+.chapter{animation:in .7s var(--ease) both}
+@keyframes in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.q{margin:0 0 40px}
+.q>.label{display:block;margin:0 0 14px}
+.q>.label small{font-weight:400;color:var(--soft);letter-spacing:.1em}
+.q .hint{margin:-6px 0 14px}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{position:relative}
+.chip{position:relative;display:inline-flex}
 .chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.chip span{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:13px;color:var(--ink);transition:background .2s,color .2s,transform .2s;user-select:none}
-.chip:hover span{background:#E2ECE4}
+.chip span{display:inline-flex;align-items:center;min-height:42px;padding:0 20px;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:13px;color:var(--ink);transition:background .25s,color .25s;user-select:none}
+.chip:hover span{background:#E3ECE5}
 .chip input:checked+span{background:var(--ink);color:var(--paper)}
 .chip input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
+.chip.on span::after{content:'×';margin-left:10px;opacity:.6}
 
-.field,select{height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%;appearance:none;-webkit-appearance:none}
-.field::placeholder{color:#7A7E76}
-select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 24px) 21px,calc(100% - 19px) 21px;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
-.field:focus,select:focus{outline:2px solid var(--blue);outline-offset:2px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{position:relative;display:block;cursor:pointer}
+.tile input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.tile .in{display:flex;flex-direction:column;gap:8px;height:100%;padding:24px 24px 22px;border-radius:10px;background:var(--paper);box-shadow:0 1px 0 rgba(28,30,26,.04),0 18px 40px rgba(28,30,26,.07);transition:background .3s,color .3s,transform .3s var(--ease)}
+.tile:hover .in{transform:translateY(-2px)}
+.tile .t{font-style:italic;font-size:30px;line-height:1}
+.tile .s{font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted)}
+.tile input:checked+.in{background:var(--ink);color:var(--paper)}
+.tile input:checked+.in .s{color:#C9CDC5}
+.tile input:focus-visible+.in{outline:2px solid var(--blue);outline-offset:3px}
 
-.roles-panel{margin-top:10px;max-height:300px;overflow-y:auto;background:var(--field);border-radius:20px;padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px 18px}
-.roles-panel .grp{display:flex;flex-direction:column;gap:2px}
-.roles-panel .grp p{margin:0 0 4px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
-.roles-panel label{display:flex;align-items:center;gap:10px;min-height:30px;font-family:'Space Mono',monospace;font-size:13px;cursor:pointer}
-.roles-panel input{width:16px;height:16px;accent-color:var(--ink)}
-.chip.on span{background:var(--ink);color:var(--paper)}
-.chip.on span::after{content:'×';margin-left:10px;opacity:.7}
-/* the number */
-.number{background:var(--paper);border-radius:8px;box-shadow:0 30px 70px rgba(28,30,26,.10);padding:34px 32px 30px}
-.amount{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.amount .sym{font-style:italic;font-size:clamp(48px,6vw,84px);line-height:1;color:var(--soft)}
-.amount input{flex:1 1 220px;min-width:0;border:0;background:transparent;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(64px,8vw,112px);line-height:1;color:var(--ink);padding:0;-moz-appearance:textfield}
-.amount input::placeholder{color:#C9CDC5}
+.field{height:50px;padding:0 22px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%}
+.field::placeholder{color:#868A82}
+.field:focus{outline:2px solid var(--blue);outline-offset:2px}
+.row{display:flex;gap:8px}
+.ghost{height:50px;padding:0 24px;border:0;border-radius:999px;background:var(--celadon);font-family:'Space Mono',monospace;font-size:13px;color:var(--ink);cursor:pointer;white-space:nowrap}
+
+.number{background:var(--paper);border-radius:12px;box-shadow:0 30px 70px rgba(28,30,26,.09);padding:38px 36px 32px}
+.amount{display:flex;align-items:baseline;gap:12px}
+.amount .sym{font-style:italic;font-size:clamp(48px,6vw,88px);line-height:1;color:var(--soft)}
+.amount input{flex:1;min-width:0;border:0;background:transparent;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(72px,9vw,128px);line-height:1;color:var(--ink);padding:0;-moz-appearance:textfield}
+.amount input::placeholder{color:#D6D9D2}
 .amount input:focus{outline:none}
-.amount input::-webkit-outer-spin-button,.amount input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.under{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:22px}
-.cur{display:flex;gap:6px;flex-wrap:wrap}
-.cur .chip span{height:34px;padding:0 14px;font-size:12px}
-.days{display:flex;align-items:center;gap:6px}
-.days button{width:36px;height:36px;border-radius:50%;border:0;background:var(--field);font-family:'Space Mono',monospace;font-size:16px;cursor:pointer;color:var(--ink)}
-.days input{width:56px;height:36px;border:0;background:transparent;text-align:center;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--ink);-moz-appearance:textfield}
-.days input::-webkit-outer-spin-button,.days input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.rate{margin:20px 0 0;font-style:italic;font-size:24px;color:var(--blue);min-height:1.3em}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cur{margin-top:24px}
+.cur .chip span{min-height:34px;padding:0 14px;font-size:12px}
+.steps{display:flex;flex-wrap:wrap;gap:22px 40px;margin-top:28px}
+.step{display:flex;align-items:center;gap:8px}
+.step button{width:38px;height:38px;border-radius:50%;border:0;background:var(--field);font-family:'Space Mono',monospace;font-size:16px;cursor:pointer;color:var(--ink)}
+.step input{width:54px;height:38px;border:0;background:transparent;text-align:center;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--ink);-moz-appearance:textfield}
+.rate{margin:26px 0 0;font-style:italic;font-size:26px;color:var(--blue);min-height:1.3em}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 38px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:14px;cursor:pointer;transition:opacity .2s}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:640px;margin-top:24px;padding-top:12px}
+.back{background:none;border:0;padding:8px 0;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.back:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 40px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:14px;cursor:pointer;text-decoration:none;transition:opacity .2s}
 .btn:hover{opacity:.88}
-.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.soft{background:var(--celadon);color:var(--ink)}
+.err{min-height:1.5em;margin:16px 0 0;color:#9B2C1F;max-width:640px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.err{min-height:1.5em;margin:14px 0 0;color:#9B2C1F}
 
-.thanks{width:100%;max-width:620px;padding-top:6vh}
-.thanks h2{font-style:italic;font-weight:700;font-size:clamp(64px,8vw,112px);line-height:.9;margin:20px 0 22px}
+.ask{margin-top:44px;background:var(--paper);border-radius:12px;box-shadow:0 30px 70px rgba(28,30,26,.09);padding:34px 34px 30px;max-width:600px}
+.ask ol{margin:0;padding-left:24px;font-size:22px;line-height:1.55}
 
-@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.load1{animation:rise 1.4s cubic-bezier(.2,.7,.2,1) both}
-.load2{animation:rise 1.4s .25s cubic-bezier(.2,.7,.2,1) both}
-.load3{animation:rise 1.4s .5s cubic-bezier(.2,.7,.2,1) both}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3{animation:none}}
-
+@media (prefers-reduced-motion: reduce){.chapter{animation:none}.tile .in{transition:none}}
 @media (max-width:900px){
   .wrap{grid-template-columns:1fr}
-  .side{position:relative;height:auto;min-height:0;padding:96px 20px 64px}
-  .sticky{width:140px}
-  .main{padding:56px 20px 96px}
-  header{padding:16px 20px;background:rgba(222,234,224,.0)}
-  .number{padding:26px 20px 24px}
+  .side{position:relative;height:auto;padding:92px 20px 40px}
+  .side h1{font-size:clamp(54px,15vw,80px)}
+  .side .lead{font-size:20px;margin-top:18px}
+  .side .foot,.sticky{display:none}
+  .main{min-height:0;padding:36px 20px 40px}
+  .trail{margin-bottom:36px}
+  header{position:absolute;padding:18px 20px}
+  .tiles{grid-template-columns:1fr}
+  .number{padding:28px 22px 24px}
+  .nav{position:sticky;bottom:0;background:linear-gradient(rgba(253,252,249,0),var(--paper) 30%);padding:28px 0 16px}
 }
 </style>
 </head>
 <body>
 <header class="mono">
-<a class="logo" href="index.html" style="text-transform:none;letter-spacing:-.065em;font-weight:400">fee fee.</a>
+<a class="logo" href="index.html">fee fee.</a>
 <span class="lang"><button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true" style="color:var(--soft)">/</span><button type="button" data-lang="nl" aria-pressed="false">NL</button></span>
 </header>
 
 <div class="wrap">
-<aside class="side celadon">
-<p class="mono load1" style="margin:0" data-t="kicker">anonymous · no name · no email</p>
-<h1 class="load1" data-t="title">say the number.</h1>
-<p class="b load2" data-t="intro">one finished job, one fee. share a job you did or a fee that was agreed, not a quote you’re still sending. every number makes the next creative a little braver.</p>
-<ul class="how load3">
-<li><em data-t="h1k">You share.</em> <span data-t="h1v">one past job, no name.</span></li>
-<li><em data-t="h2k">We wait.</em> <span data-t="h2v">until five people match.</span></li>
-<li><em data-t="h3k">Everyone knows.</em> <span data-t="h3v">only grouped numbers, never you.</span></li>
-</ul>
-<img class="sticky load3" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage.">
+<aside class="side celadon" aria-live="polite">
+<p class="mono kick" id="s-kick"></p>
+<h1 id="s-title"></h1>
+<p class="lead" id="s-lead"></p>
+<img class="sticky" id="s-note" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage.">
+<p class="mono foot" id="s-foot"></p>
 </aside>
 
 <main class="main">
-<form id="fee" novalidate>
+<ol class="trail" id="trail" aria-label="chapters"></ol>
+<form id="fee" class="stage" novalidate>
 <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-<section class="part">
-<h2 data-t="p1">the job.</h2>
-<p class="cap sub" data-t="p1s">what kind of work was it?</p>
-
-<div class="q">
-<span class="mono" id="l-role"><span data-t="role">your role(s) on this job</span> <small data-t="multi">· pick one or more</small></span>
-<button type="button" id="roles-btn" class="field" aria-expanded="false" aria-labelledby="l-role" style="display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;color:#7A7E76">
-<span id="roles-sum" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span><span aria-hidden="true" id="roles-arrow" style="color:var(--ink);font-size:12px">↓</span>
-</button>
-<div class="roles-panel" id="roles-panel" hidden></div>
-<div class="chips" id="role-picked" style="margin-top:10px"></div>
-<div style="display:flex;gap:8px;margin-top:10px">
-<input class="field" id="role-own" type="text" maxlength="40" data-tp="ownPh" placeholder="not listed? type your role" aria-label="add your own role">
-<button type="button" class="btn" id="role-add" style="height:48px;padding:0 22px;background:var(--celadon);color:var(--ink)" data-t="add">add</button>
-</div>
-</div>
-
-<div class="q" role="radiogroup" aria-labelledby="l-job">
-<span class="mono" id="l-job" data-t="jobType">type of job</span>
-<div class="chips" data-group="job_type"></div>
-</div>
-
-<div class="q" role="radiogroup" aria-labelledby="l-client">
-<span class="mono" id="l-client" data-t="clientType">client</span>
-<div class="chips" data-group="client_type"></div>
-</div>
-
-<div class="q">
-<label class="mono" for="country" data-t="country">country of the job</label>
-<input class="field" id="country" type="text" maxlength="60" list="countries" autocomplete="off" required data-tp="countryPh" placeholder="the Netherlands">
-<datalist id="countries"></datalist>
-</div>
-</section>
-
-<section class="part">
-<h2 data-t="p2">the number.</h2>
-<p class="cap sub" data-t="p2s">the total fee you were paid or agreed for the job, excluding vat and expenses.</p>
-<div class="number">
-<div class="amount">
-<span class="sym" id="sym" aria-hidden="true">€</span>
-<input id="fee_amount" type="number" inputmode="numeric" min="1" max="999999" step="1" placeholder="0" aria-label="total fee" required>
-</div>
-<div class="under">
-<div class="cur chips" data-group="currency" role="radiogroup" aria-label="currency"></div>
-<div class="days">
-<span class="mono" style="margin-right:6px" data-t="days">days</span>
-<button type="button" id="dminus" aria-label="fewer days">−</button>
-<input id="days" type="number" inputmode="decimal" min="0.5" max="60" step="0.5" value="1" aria-label="days">
-<button type="button" id="dplus" aria-label="more days">+</button>
-</div>
-</div>
-<div class="days" style="margin-top:14px">
-<span class="mono" style="margin-right:6px"><span data-t="prep">prep / travel days</span></span>
-<button type="button" id="pminus" aria-label="fewer prep days">−</button>
-<input id="prep_days" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="0" aria-label="prep or travel days">
-<button type="button" id="pplus" aria-label="more prep days">+</button>
-</div>
-<p class="rate" id="rate" aria-live="polite"></p>
-</div>
-</section>
-
-<section class="part">
-<h2 data-t="p3">the rights.</h2>
-<p class="cap sub" data-t="p3s">where and how long can they use your work?</p>
-
-<div class="q" role="group" aria-labelledby="l-usage">
-<span class="mono" id="l-usage"><span data-t="usage">where is it used</span> <small data-t="multi2">· pick all that apply</small></span>
-<div class="chips" data-group="usage" data-multi="1"></div>
-</div>
-
-<div class="q" role="radiogroup" aria-labelledby="l-period">
-<span class="mono" id="l-period"><span data-t="period">for how long</span> <small data-t="optional">· optional</small></span>
-<div class="chips" data-group="usage_period"></div>
-</div>
-
-</section>
-
-<section class="part">
-<h2 data-t="p4">the details.</h2>
-<p class="cap sub" data-t="p4s">all optional, but this is what makes a number useful for the next person.</p>
-
-<div class="q" role="radiogroup" aria-labelledby="l-del">
-<span class="mono" id="l-del" data-t="deliverables">final images delivered</span>
-<div class="chips" data-group="deliverables"></div>
-</div>
-
-<div class="q" role="group" aria-labelledby="l-inc">
-<span class="mono" id="l-inc"><span data-t="included">included in the fee</span> <small data-t="multi2">· pick all that apply</small></span>
-<div class="chips" data-group="included" data-multi="1"></div>
-</div>
-
-<div class="q" role="group" aria-labelledby="l-extra">
-<span class="mono" id="l-extra"><span data-t="extra">billed on top</span> <small data-t="multi2">· pick all that apply</small></span>
-<div class="chips" data-group="billed_extra" data-multi="1"></div>
-</div>
-
-<div class="q" role="radiogroup" aria-labelledby="l-pay">
-<span class="mono" id="l-pay" data-t="payment">how was it paid</span>
-<div class="chips" data-group="payment"></div>
-</div>
-
-<div class="q" role="radiogroup" aria-labelledby="l-exp">
-<span class="mono" id="l-exp" data-t="experience">years doing this</span>
-<div class="chips" data-group="experience"></div>
-</div>
-</section>
-
-<button class="btn" type="submit"><span data-t="submit">share anonymously</span> <span aria-hidden="true">→</span></button>
-<p class="cap err" role="alert"></p>
-<p class="cap" style="margin:18px 0 0;max-width:460px"><span data-t="privA">we only store the answers above. no name, no email, no ip address. </span><a href="privacy.html" style="color:var(--muted)" data-t="privL">privacy</a></p>
+<div id="chapter"></div>
 </form>
-
-<div class="thanks" id="thanks" hidden>
-<p class="mono" data-t="tStatus">status · shared</p>
-<h2 data-t="tTitle">thank you.</h2>
-<p class="b" style="font-size:24px;line-height:1.45;margin:0;max-width:460px" data-t="tText">you just made the numbers a little more honest. tell one friend on set to do the same.</p>
-<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">
-<a href="#" id="again" class="btn" style="text-decoration:none" data-t="tAgain">share another fee</a>
-<a href="index.html#join" class="btn" style="text-decoration:none;background:var(--celadon);color:var(--ink)" data-t="tJoin">join the waitlist</a>
+<div class="nav" id="nav">
+<button type="button" class="back" id="back"></button>
+<button type="button" class="btn" id="next"></button>
 </div>
-</div>
+<p class="cap err" id="err" role="alert"></p>
 </main>
 </div>
 
 <script>
-/* fee fee. anonymous fee form → Supabase (insert-only table, see privacy page) */
+/* fee fee. — anonymous fee flow → Supabase (insert-only table; see privacy page) */
 var SUPABASE_URL = 'https://eadxyfxlhwikesonpaer.supabase.co';
-var SUPABASE_KEY = 'sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri'; // public key: can only ADD a fee, never read one
+var SUPABASE_KEY = 'sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri'; // public key: can only ADD an entry, never read one
 
-var ROLES = [
-  ['camera & image',['photographer','photo assistant','videographer / DOP','camera assistant','digital tech','retoucher','editor / colorist','motion designer']],
-  ['light & set',['gaffer','light assistant','set designer','prop stylist','art director']],
-  ['styling & beauty',['fashion stylist','styling assistant','wardrobe','hair stylist','make-up artist','nail artist']],
-  ['production & direction',['producer','production assistant','creative director','director','casting director','location scout']],
-  ['talent',['model','actor','dancer','musician / artist','content creator']],
-  ['other',['illustrator / designer','copywriter','agent','something else']]
+/* ---------- disciplines & roles ---------- */
+var DISC = [
+  ['photography', {en:'photography',nl:'fotografie'}, ['photographer','photo assistant','digital tech','retoucher']],
+  ['film', {en:'film / video',nl:'film / video'}, ['videographer / DOP','director','camera assistant','editor / colorist','motion designer']],
+  ['styling', {en:'styling',nl:'styling'}, ['fashion stylist','styling assistant','wardrobe','prop stylist']],
+  ['hmua', {en:'hair & make-up',nl:'haar & make-up'}, ['make-up artist','hair stylist','hair & make-up','nail artist']],
+  ['light_set', {en:'light & set',nl:'licht & set'}, ['gaffer','light assistant','set designer','art director']],
+  ['production', {en:'production',nl:'productie'}, ['producer','production assistant','creative director','casting director','location scout']],
+  ['talent', {en:'talent',nl:'talent'}, ['model','actor','dancer','musician / artist','content creator']],
+  ['other', {en:'something else',nl:'iets anders'}, ['illustrator / designer','copywriter','agent']]
 ];
-/* value stored in the database → label shown (en / nl) */
-var OPTS = {
+
+/* ---------- option lists: [stored value, en label, nl label] ---------- */
+var O = {
+  stage:[['quoting','quoting now','offerte maken'],['booked','booked','geboekt'],['done','done & paid','klaar & betaald']],
   job_type:[['editorial'],['commercial'],['campaign'],['e-commerce'],['music / artist'],['event'],['content / social'],['film / tv'],['other','other','anders']],
-  client_type:[['brand','brand','merk'],['agency','agency','bureau'],['magazine','magazine','magazine'],['production company','production company','productiebedrijf'],['artist / label'],['private client','private client','particulier'],['other','other','anders']],
+  client_type:[['brand','brand','merk'],['agency','agency','bureau'],['magazine'],['production company','production company','productiebedrijf'],['artist / label'],['private client','private client','particulier'],['other','other','anders']],
   currency:[['EUR','€ EUR'],['USD','$ USD'],['GBP','£ GBP'],['CHF'],['SEK'],['DKK'],['NOK'],['AUD'],['CAD'],['other','other','anders']],
   usage:[['social (organic)','social (organic)','social (organisch)'],['web / e-commerce'],['paid ads','paid ads','betaalde ads'],['press / editorial','press / editorial','pers / redactioneel'],['print'],['out of home / tv','out of home / tv','buitenreclame / tv'],['full buy-out','full buy-out','volledige buy-out'],['not sure','not sure','weet ik niet']],
-  deliverables:[['1-10','1–10'],['11-25','11–25'],['26-50','26–50'],['51-150','51–150'],['150+'],['video / mixed','video / mixed','video / gemengd']],
-  included:[['pre-production','pre-production','pre-productie'],['retouching','retouching','retouche'],['own kit','own kit','eigen apparatuur'],['assistant','assistant','assistent'],['feedback rounds','feedback rounds','feedbackrondes'],['travel','travel','reizen'],['nothing extra','nothing extra','niets extra']],
-  billed_extra:[['kit rental','kit rental','huur apparatuur'],['studio / location','studio / location','studio / locatie'],['crew'],['travel / stay','travel / stay','reis / verblijf'],['rush fee','rush fee','spoedtoeslag'],['overtime','overtime','overuren'],['none','none','niets']],
-  payment:[['paid in full','paid in full','volledig betaald'],['discounted','discounted','met korting'],['trade / tfp','trade / tfp','ruil / tfp'],['paid late (30+ days)','paid late (30+ days)','te laat betaald (30+ dagen)']],
   usage_period:[['up to 3 months','≤ 3 months','≤ 3 maanden'],['6 months','6 months','6 maanden'],['1 year','1 year','1 jaar'],['2 years or more','2+ years','2+ jaar'],['unlimited','unlimited','onbeperkt'],['not sure','not sure','weet ik niet']],
+  territory:[['one country','one country','één land'],['europe','europe','europa'],['worldwide','worldwide','wereldwijd'],['not sure','not sure','weet ik niet']],
+  equipment:[['own kit, in my fee','own kit, in my fee','eigen spullen, in mijn fee'],['own kit, billed separately','own kit, billed separately','eigen spullen, apart gefactureerd'],['rented, billed to client','rented, billed to client','gehuurd, door klant betaald'],['rented, paid by me','rented, paid by me','gehuurd, door mij betaald'],['client provides','client provides','klant regelt het'],['no kit needed','no kit needed','geen spullen nodig']],
+  deliverables:[['1-10','1–10'],['11-25','11–25'],['26-50','26–50'],['51-150','51–150'],['150+'],['video / mixed','video / mixed','video / gemengd']],
+  included:[['pre-production','pre-production','pre-productie'],['assistant','assistant','assistent'],['feedback rounds','feedback rounds','feedbackrondes'],['travel','travel','reizen'],['nothing extra','nothing extra','niets extra']],
+  billed_extra:[['studio / location','studio / location','studio / locatie'],['crew'],['travel / stay','travel / stay','reis / verblijf'],['rush fee','rush fee','spoedtoeslag'],['overtime','overtime','overuren'],['none','none','niets']],
+  payment:[['paid in full','paid in full','volledig betaald'],['discounted','discounted','met korting'],['trade / tfp','trade / tfp','ruil / tfp'],['paid late (30+ days)','paid late (30+ days)','te laat betaald (30+ dagen)']],
   experience:[['0-2 years','0–2'],['3-5 years','3–5'],['6-10 years','6–10'],['10+ years','10+']]
+};
+var EXCLUSIVE = ['nothing extra','none','not sure','no kit needed'];
+
+/* ---------- the craft: questions per discipline (stored in `craft`) ---------- */
+var who3 = [['none','none','geen'],['paid by client','paid by client','betaald door klant'],['paid from my fee','paid from my fee','uit mijn fee']];
+var CRAFT = {
+  photography:[
+    {id:'deliverables', col:1, type:'one', label:{en:'final images to deliver',nl:'aantal eindbeelden'}, opts:O.deliverables.slice(0,5)},
+    {id:'retouch', type:'one', label:{en:'retouching',nl:'retouche'}, opts:[['none','none','geen'],['basic: colour & clean-up','basic: colour & clean-up','basis: kleur & opschonen'],['high-end / beauty'],['compositing']]},
+    {id:'rounds', type:'one', label:{en:'feedback rounds',nl:'feedbackrondes'}, opts:[['1','1 round','1 ronde'],['2','2 rounds','2 rondes'],['3+','3+ rounds','3+ rondes'],['unlimited','unlimited','onbeperkt']]},
+    {id:'equipment', col:1, type:'many', label:{en:'equipment',nl:'apparatuur'}, opts:O.equipment},
+    {id:'assistant', type:'one', label:{en:'assistant / digital tech',nl:'assistent / digital tech'}, opts:who3}
+  ],
+  film:[
+    {id:'output', type:'one', label:{en:'what you deliver',nl:'wat je oplevert'}, opts:[['one hero film','one hero film','één hoofdfilm'],['hero + cutdowns','hero + cutdowns','hoofdfilm + cutdowns'],['social clips only','social clips only','alleen social clips'],['raw footage','raw footage','ruw materiaal']]},
+    {id:'length', type:'one', label:{en:'length of the main edit',nl:'lengte van de hoofdedit'}, opts:[['under 30 sec','under 30 sec','onder 30 sec'],['30-60 sec','30–60 sec'],['1-3 min','1–3 min'],['3+ min']]},
+    {id:'post', type:'many', label:{en:'post-production by you',nl:'post-productie door jou'}, opts:[['edit'],['colour','colour','kleur'],['sound','sound','geluid'],['motion graphics'],['none','none','geen']]},
+    {id:'equipment', col:1, type:'many', label:{en:'equipment',nl:'apparatuur'}, opts:O.equipment},
+    {id:'crew', type:'one', label:{en:'crew around you',nl:'crew om je heen'}, opts:[['solo'],['1 assistant','1 assistant','1 assistent'],['2-4','small crew (2–4)','kleine crew (2–4)'],['5+','full crew (5+)','volledige crew (5+)']]}
+  ],
+  styling:[
+    {id:'looks', type:'one', label:{en:'number of looks',nl:'aantal looks'}, opts:[['1-5','1–5'],['6-10','6–10'],['11-20','11–20'],['20+']]},
+    {id:'shopping_days', type:'one', label:{en:'shopping / pull days',nl:'shop- / pull-dagen'}, opts:[['0'],['1'],['2'],['3+']]},
+    {id:'returns', type:'one', label:{en:'returns day',nl:'retourdag'}, opts:[['paid','paid','betaald'],['unpaid','unpaid','onbetaald'],['not discussed','not discussed','niet besproken']]},
+    {id:'wardrobe', type:'one', label:{en:'wardrobe budget',nl:'kledingbudget'}, opts:[['i manage it','i manage it','ik beheer het'],['client provides clothes','client provides clothes','klant levert kleding'],['loans / pulls only','loans / pulls only','alleen leningen / pulls'],['a mix','a mix','een mix']]},
+    {id:'kit_fee', type:'one', label:{en:'kit fee',nl:'kit fee'}, opts:[['charged separately','charged separately','apart gefactureerd'],['in my fee','in my fee','in mijn fee'],['none','none','geen']]},
+    {id:'assistant', type:'one', label:{en:'styling assistant',nl:'styling-assistent'}, opts:who3}
+  ],
+  hmua:[
+    {id:'talent', type:'one', label:{en:'number of talent',nl:'aantal talent'}, opts:[['1'],['2-3','2–3'],['4-6','4–6'],['7+']]},
+    {id:'looks', type:'one', label:{en:'looks per person',nl:'looks per persoon'}, opts:[['1-2','1–2'],['3-5','3–5'],['6+']]},
+    {id:'kit_fee', type:'one', label:{en:'kit fee',nl:'kit fee'}, opts:[['charged separately','charged separately','apart gefactureerd'],['in my fee','in my fee','in mijn fee'],['none','none','geen']]},
+    {id:'overtime', type:'one', label:{en:'early call / overtime',nl:'vroege call / overuren'}, opts:[['paid extra','paid extra','extra betaald'],['in my fee','in my fee','in mijn fee'],['not discussed','not discussed','niet besproken']]},
+    {id:'assistant', type:'one', label:{en:'assistant',nl:'assistent'}, opts:who3}
+  ],
+  light_set:[
+    {id:'build_days', type:'one', label:{en:'build & strike days',nl:'opbouw- & afbouwdagen'}, opts:[['0'],['1'],['2'],['3+']]},
+    {id:'crew', type:'one', label:{en:'your crew',nl:'jouw crew'}, opts:[['solo'],['1 assistant','1 assistant','1 assistent'],['2-4','2–4'],['5+']]},
+    {id:'equipment', col:1, type:'many', label:{en:'equipment',nl:'apparatuur'}, opts:O.equipment},
+    {id:'truck', type:'one', label:{en:'truck / van',nl:'truck / bus'}, opts:[['billed separately','billed separately','apart gefactureerd'],['in my fee','in my fee','in mijn fee'],['not needed','not needed','niet nodig']]}
+  ],
+  production:[
+    {id:'fee_model', type:'one', label:{en:'how you charge',nl:'hoe je rekent'}, opts:[['day rate','day rate','dagtarief'],['flat project fee','flat project fee','vaste projectprijs'],['% of budget','% of budget','% van budget']]},
+    {id:'budget', type:'one', label:{en:'total production budget',nl:'totaal productiebudget'}, opts:[['under 10k','under 10k','onder 10k'],['10-50k','10–50k'],['50-150k','50–150k'],['150k+'],['not sure','not sure','weet ik niet']]},
+    {id:'team', type:'one', label:{en:'team you manage',nl:'team dat je aanstuurt'}, opts:[['under 5','under 5','onder 5'],['5-15','5–15'],['15-40','15–40'],['40+']]}
+  ],
+  talent:[
+    {id:'agency', type:'one', label:{en:'booked via',nl:'geboekt via'}, opts:[['agency','agency','bureau'],['direct']]},
+    {id:'fittings', type:'one', label:{en:'fittings',nl:'fittings'}, opts:[['none','none','geen'],['paid','paid','betaald'],['unpaid','unpaid','onbetaald']]},
+    {id:'exclusivity', type:'one', label:{en:'exclusivity',nl:'exclusiviteit'}, opts:[['none','none','geen'],['category (e.g. no other beauty brands)','category','categorie'],['full','full','volledig']]}
+  ],
+  other:[]
+};
+
+/* ---------- chapters ---------- */
+var CH = ['start','job','number','craft','rights','details'];
+var CHN = {start:{en:'the start',nl:'het begin'},job:{en:'the job',nl:'de klus'},number:{en:'the number',nl:'het bedrag'},craft:{en:'the craft',nl:'het vak'},rights:{en:'the rights',nl:'de rechten'},details:{en:'the details',nl:'de details'}};
+var SIDE = {
+  start:{en:['a client asks your rate?','say the number.','put the job in here before you answer. one job, one fee, no name.'],nl:['vraagt een klant je tarief?','noem het bedrag.','zet de klus hier in voordat je antwoordt. één klus, één fee, geen naam.']},
+  job:{en:['who is it for?','the job.','what kind of work is it, and who is it for?'],nl:['voor wie is het?','de klus.','wat voor werk is het, en voor wie?']},
+  number:{en:['say it out loud','the number.','your total fee for this job, or the number you’re about to quote. excluding vat and expenses.'],nl:['zeg het hardop','het bedrag.','je totale fee voor deze klus, of het bedrag dat je gaat offreren. exclusief btw en onkosten.']},
+  craft:{en:['{disc}','the craft.','the things that change the price in your field.'],nl:['{disc}','het vak.','de dingen die in jouw vak de prijs bepalen.']},
+  rights:{en:['where fees go up','the rights.','where, how long and how far can they use your work?'],nl:['hier gaan fees omhoog','de rechten.','waar, hoe lang en hoe ver mogen ze je werk gebruiken?']},
+  details:{en:['almost there','the details.','all optional. this is what makes a number useful for the next person.'],nl:['bijna klaar','de details.','allemaal optioneel. dit maakt een bedrag bruikbaar voor de volgende.']},
+  thanks:{en:['shared','thank you.','you just made the numbers a little more honest. now go say yours.'],nl:['gedeeld','dankjewel.','je hebt de bedragen net een beetje eerlijker gemaakt. noem nu de jouwe.']}
+};
+var T = {
+  en:{foot:'anonymous · no name · no email',stage:'where are you at?',disc:'your field',roles:'your role(s)',multi:'· pick one or more',own:'not listed? type your role',add:'add',job_type:'type of job',client_type:'client',country:'country of the job',countryPh:'the Netherlands',days:'shoot days',prep:'prep / travel days',perDay:'≈ {x} per shoot day',usage:'where is it used',usage_period:'for how long',territory:'how far',included:'included in your fee',billed_extra:'billed on top',payment:'how was it paid',experience:'years doing this',optional:'· optional',next:'next',back:'back',submit:'share anonymously',err:'almost there: please answer the questions on this page.',errSend:'something went wrong, please try again in a minute.',askTitle:'before you send your number, ask:',askTip:'copy these into your reply. every answer can raise your fee.',copy:'copy questions',copied:'copied ✓',again:'share another job',join:'join the waitlist',noCraft:'nothing extra to ask here. on to the rights.'},
+  nl:{foot:'anoniem · geen naam · geen e-mail',stage:'waar sta je?',disc:'jouw vak',roles:'je rol(len)',multi:'· kies er één of meer',own:'staat er niet bij? typ je rol',add:'voeg toe',job_type:'soort klus',client_type:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',days:'shootdagen',prep:'voorbereiding / reisdagen',perDay:'≈ {x} per shootdag',usage:'waar wordt het gebruikt',usage_period:'hoe lang',territory:'hoe ver',included:'inbegrepen in je fee',billed_extra:'apart gefactureerd',payment:'hoe is er betaald',experience:'jaren ervaring',optional:'· optioneel',next:'volgende',back:'terug',submit:'deel anoniem',err:'bijna: beantwoord de vragen op deze pagina.',errSend:'er ging iets mis, probeer het over een minuut nog eens.',askTitle:'vraag dit voordat je je bedrag stuurt:',askTip:'kopieer dit in je antwoord. elk antwoord kan je fee verhogen.',copy:'kopieer vragen',copied:'gekopieerd ✓',again:'deel nog een klus',join:'op de wachtlijst',noCraft:'hier niets extra te vragen. door naar de rechten.'}
+};
+var ASK = {
+  base:{en:['where will it be used, for how long, and in which countries?','are prep and travel days paid?','what is the deadline, and is it a rush?','payment terms: 14 or 30 days?','what happens if the shoot is cancelled or moved?'],
+        nl:['waar wordt het gebruikt, hoe lang, en in welke landen?','worden voorbereidings- en reisdagen betaald?','wat is de deadline, en is het spoed?','betaaltermijn: 14 of 30 dagen?','wat gebeurt er als de shoot wordt geannuleerd of verzet?']},
+  photography:{en:['how many final images, and how many retouch rounds?','is an assistant or digital tech budgeted?'],nl:['hoeveel eindbeelden, en hoeveel retoucherondes?','is er budget voor een assistent of digital tech?']},
+  film:{en:['how many edits, cutdowns and formats?','who does colour and sound?'],nl:['hoeveel edits, cutdowns en formaten?','wie doet kleur en geluid?']},
+  styling:{en:['how many looks, and are shopping and returns days paid?','who manages the wardrobe budget?'],nl:['hoeveel looks, en worden shop- en retourdagen betaald?','wie beheert het kledingbudget?']},
+  hmua:{en:['how many talent and looks?','what is the call time, and is overtime paid?'],nl:['hoeveel talent en looks?','hoe laat is de call time, en worden overuren betaald?']},
+  light_set:{en:['how many build and strike days?','is a truck, generator or extra crew needed?'],nl:['hoeveel opbouw- en afbouwdagen?','is er een truck, aggregaat of extra crew nodig?']},
+  production:{en:['what is the total budget, and what is in it?','how many people will you manage?'],nl:['wat is het totale budget, en wat valt erin?','hoeveel mensen stuur je aan?']},
+  talent:{en:['is there exclusivity, and for how long?','are fittings paid?'],nl:['is er exclusiviteit, en hoe lang?','worden fittings betaald?']},
+  other:{en:[],nl:[]}
 };
 var SYM = {EUR:'€',USD:'$',GBP:'£',CHF:'CHF',SEK:'kr',DKK:'kr',NOK:'kr',AUD:'A$',CAD:'C$',other:''};
 var COUNTRIES = ['the Netherlands','Belgium','Germany','France','United Kingdom','Spain','Italy','Portugal','Sweden','Denmark','Norway','Switzerland','Austria','Ireland','United States','Canada','Australia','Japan','South Korea','United Arab Emirates','Mexico','Brazil','South Africa'];
-var COPY = {
-  en:{kicker:'anonymous · no name · no email',title:'say the number.',intro:'one finished job, one fee. share a job you did or a fee that was agreed, not a quote you’re still sending. every number makes the next creative a little braver.',h1k:'You share.',h1v:'one past job, no name.',h2k:'We wait.',h2v:'until five people match.',h3k:'Everyone knows.',h3v:'only grouped numbers, never you.',p1:'the job.',p1s:'what kind of work was it?',role:'your role(s) on this job',multi:'· pick one or more',chooseRole:'choose your role(s)',ownPh:'not listed? type your role',add:'add',jobType:'type of job',clientType:'client',country:'country of the job',countryPh:'the Netherlands',p2:'the number.',p2s:'the total fee you were paid or agreed for the job, excluding vat and expenses.',days:'days',perDay:'≈ {x} per day',p3:'the rights.',p3s:'where and how long can they use your work?',usage:'where is it used',multi2:'· pick all that apply',period:'for how long',experience:'years doing this',optional:'· optional',prep:'prep / travel days',p4:'the details.',p4s:'all optional, but this is what makes a number useful for the next person.',deliverables:'final images delivered',included:'included in the fee',extra:'billed on top',payment:'how was it paid',submit:'share anonymously',privA:'we only store the answers above. no name, no email, no ip address. ',privL:'privacy',tStatus:'status · shared',tTitle:'thank you.',tText:'you just made the numbers a little more honest. tell one friend on set to do the same.',tAgain:'share another fee',tJoin:'join the waitlist',err:'almost there: please answer every question that isn’t optional.',errSend:'something went wrong, please try again in a minute.'},
-  nl:{kicker:'anoniem · geen naam · geen e-mail',title:'noem het bedrag.',intro:'één afgeronde klus, één fee. deel een klus die je hebt gedaan of een fee die is afgesproken, geen offerte die je nog moet sturen. elk bedrag maakt de volgende creative een beetje dapperder.',h1k:'Jij deelt.',h1v:'één eerdere klus, geen naam.',h2k:'Wij wachten.',h2v:'tot vijf mensen overeenkomen.',h3k:'Iedereen weet het.',h3v:'alleen gebundelde cijfers, nooit jij.',p1:'de klus.',p1s:'wat voor werk was het?',role:'je rol(len) op deze klus',multi:'· kies er één of meer',chooseRole:'kies je rol(len)',ownPh:'staat er niet bij? typ je rol',add:'voeg toe',jobType:'soort klus',clientType:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',p2:'het bedrag.',p2s:'de totale fee die je kreeg of afsprak voor de klus, exclusief btw en onkosten.',days:'dagen',perDay:'≈ {x} per dag',p3:'de rechten.',p3s:'waar en hoe lang mogen ze je werk gebruiken?',usage:'waar wordt het gebruikt',multi2:'· kies alles wat klopt',period:'hoe lang',experience:'jaren ervaring',optional:'· optioneel',prep:'voorbereiding / reisdagen',p4:'de details.',p4s:'allemaal optioneel, maar dit maakt een bedrag bruikbaar voor de volgende.',deliverables:'aantal opgeleverde beelden',included:'inbegrepen in de fee',extra:'apart gefactureerd',payment:'hoe is er betaald',submit:'deel anoniem',privA:'we slaan alleen de antwoorden hierboven op. geen naam, geen e-mail, geen ip-adres. ',privL:'privacy',tStatus:'status · gedeeld',tTitle:'dankjewel.',tText:'je hebt de bedragen net een beetje eerlijker gemaakt. vraag één vriend op set hetzelfde te doen.',tAgain:'deel nog een fee',tJoin:'op de wachtlijst',err:'bijna: beantwoord alle vragen die niet optioneel zijn.',errSend:'er ging iets mis, probeer het over een minuut nog eens.'}
-};
-var lang='en';
+
+/* ---------- state ---------- */
+var lang = 'en', at = 0, sent = false;
+var A = {stage:'', discipline:'', roles:[], own:[], job_type:'', client_type:'', country:'', fee_amount:'', currency:'EUR', days:1, prep_days:0,
+         usage:[], usage_period:'', territory:'', included:[], billed_extra:[], payment:'', experience:'', craft:{}};
 function $(id){return document.getElementById(id)}
-function picked(g){var c=document.querySelector('[data-group="'+g+'"] input:checked');return c?c.value:''}
-function pickedAll(g){return Array.prototype.map.call(document.querySelectorAll('[data-group="'+g+'"] input:checked'),function(c){return c.value})}
+function L(o){return lang==='nl' ? (o[2]||o[1]||o[0]) : (o[1]||o[0])}
+function el(tag, cls, txt){var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e}
 
-function buildChips(){
-  document.querySelectorAll('[data-group]').forEach(function(box){
-    var g=box.getAttribute('data-group'), multi=box.hasAttribute('data-multi'), cur=multi?pickedAll(g):[picked(g)]; box.innerHTML='';
-    OPTS[g].forEach(function(o){
-      var lab=document.createElement('label'); lab.className='chip';
-      var inp=document.createElement('input'); inp.type=multi?'checkbox':'radio'; inp.name=g; inp.value=o[0];
-      if(cur.indexOf(o[0])>-1) inp.checked=true;
-      if(multi) inp.addEventListener('change',function(){ var ex=(o[0]==='nothing extra'||o[0]==='none'||o[0]==='not sure'); if(inp.checked){ box.querySelectorAll('input').forEach(function(x){ var xe=(x.value==='nothing extra'||x.value==='none'||x.value==='not sure'); if(x!==inp && (ex||xe)) x.checked=false; }); } });
-      else inp.addEventListener('click',function(){ if(inp.dataset.was==='1' && g!=='currency'){inp.checked=false;inp.dataset.was='';} else {box.querySelectorAll('input').forEach(function(x){x.dataset.was=''}); inp.dataset.was='1';} update(); });
-      if(inp.checked) inp.dataset.was='1';
-      var sp=document.createElement('span'); sp.textContent = lang==='nl' ? (o[2]||o[1]||o[0]) : (o[1]||o[0]);
-      lab.appendChild(inp); lab.appendChild(sp); box.appendChild(lab);
+/* chips: single or multi; get/set via callbacks */
+function chips(name, opts, multi, get, set){
+  var box=el('div','chips');
+  opts.forEach(function(o){
+    var lab=el('label','chip'), inp=document.createElement('input');
+    inp.type=multi?'checkbox':'radio'; inp.name=name; inp.value=o[0];
+    var cur=get(); inp.checked = multi ? cur.indexOf(o[0])>-1 : cur===o[0];
+    inp.addEventListener('click',function(){
+      var v=get();
+      if(multi){
+        var ex=EXCLUSIVE.indexOf(o[0])>-1;
+        if(inp.checked){ v = ex ? [o[0]] : v.filter(function(x){return EXCLUSIVE.indexOf(x)<0}).concat([o[0]]); }
+        else v = v.filter(function(x){return x!==o[0]});
+        set(v); box.querySelectorAll('input').forEach(function(i){ i.checked = v.indexOf(i.value)>-1 });
+      } else {
+        if(v===o[0]){ inp.checked=false; set(''); } else set(o[0]);
+      }
+      onChange();
     });
+    lab.appendChild(inp); lab.appendChild(el('span',null,L(o))); box.appendChild(lab);
   });
-  if(!picked('currency')){ var e=document.querySelector('[data-group="currency"] input[value=EUR]'); e.checked=true; e.dataset.was='1'; }
+  return box;
 }
-var ownRoles=[];
-function chosenRoles(){ return Array.prototype.map.call(document.querySelectorAll('#roles-panel input:checked'),function(c){return c.value}).concat(ownRoles); }
-function buildRoles(){
-  var keep=chosenRoles(), panel=$('roles-panel'); panel.innerHTML='';
-  ROLES.forEach(function(g){
-    var w=document.createElement('div'); w.className='grp'; var h=document.createElement('p'); h.textContent=g[0]; w.appendChild(h);
-    g[1].forEach(function(v){ var l=document.createElement('label'); var c=document.createElement('input'); c.type='checkbox'; c.value=v; c.checked=keep.indexOf(v)>-1; c.addEventListener('change',drawRoles); l.appendChild(c); l.appendChild(document.createTextNode(v)); w.appendChild(l); });
-    panel.appendChild(w);
-  });
-  drawRoles();
+function q(labelTxt, optional, node, hint){
+  var d=el('div','q'), l=el('span','mono label',labelTxt);
+  if(optional){ l.appendChild(document.createTextNode(' ')); l.appendChild(el('small',null,optional)); }
+  d.appendChild(l); if(hint) d.appendChild(el('p','cap hint',hint)); d.appendChild(node); return d;
 }
-function drawRoles(){
-  var r=chosenRoles(), box=$('role-picked'); box.innerHTML='';
-  $('roles-sum').textContent = r.length ? (r.length===1 ? r[0] : r.length+' '+(lang==='nl'?'rollen gekozen':'roles chosen')) : COPY[lang].chooseRole;
-  $('roles-btn').style.color = r.length ? 'var(--ink)' : '#7A7E76';
-  r.forEach(function(v){ var b=document.createElement('button'); b.type='button'; b.className='chip on'; b.style.cssText='border:0;background:none;padding:0;cursor:pointer'; b.setAttribute('aria-label','remove '+v);
-    var sp=document.createElement('span'); sp.textContent=v; b.appendChild(sp);
-    b.addEventListener('click',function(){ var c=document.querySelector('#roles-panel input[value="'+CSS.escape(v)+'"]'); if(c) c.checked=false; ownRoles=ownRoles.filter(function(x){return x!==v}); drawRoles(); });
-    box.appendChild(b); });
-}
-function toggleRoles(open){ var p=$('roles-panel'), o=open==null?p.hidden:open; p.hidden=!o; $('roles-btn').setAttribute('aria-expanded',o?'true':'false'); $('roles-arrow').textContent=o?'↑':'↓'; }
-function addOwn(){ var v=$('role-own').value.replace(/[,<>]/g,' ').trim().slice(0,40); if(v.length<2) return; if(chosenRoles().indexOf(v)<0) ownRoles.push(v); $('role-own').value=''; drawRoles(); }
-function update(){
-  var c=picked('currency')||'EUR', amt=Number($('fee_amount').value), d=Number($('days').value);
-  $('sym').textContent = SYM[c]!=null ? SYM[c] : '';
-  if(amt>0 && d>0){
-    var per=Math.round(amt/d), fmt=per.toLocaleString(lang==='nl'?'nl-NL':'en-GB');
-    $('rate').textContent = d===1 ? '' : COPY[lang].perDay.replace('{x}', (SYM[c]||'')+(SYM[c]&&SYM[c].length>1?' ':'')+fmt);
-  } else $('rate').textContent='';
-}
-function applyLang(l){
-  lang=l; var t=COPY[l]; document.documentElement.lang=l;
-  document.querySelectorAll('[data-t]').forEach(function(n){var k=n.getAttribute('data-t'); if(t[k]!=null) n.textContent=t[k]});
-  document.querySelectorAll('[data-tp]').forEach(function(n){var k=n.getAttribute('data-tp'); if(t[k]!=null) n.placeholder=t[k]});
-  document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false')});
-  document.title = t.title.replace(/\.$/,'')+' – fee fee.';
-  buildRoles(); buildChips(); update();
-  try{localStorage.setItem('ff-lang',l)}catch(e){}
-}
-$('roles-btn').addEventListener('click',function(){toggleRoles()});
-$('role-add').addEventListener('click',addOwn);
-$('role-own').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); addOwn(); } });
-COUNTRIES.forEach(function(c){var o=document.createElement('option'); o.value=c; $('countries').appendChild(o)});
-document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){applyLang(b.getAttribute('data-lang'))})});
-function step(n){var v=Math.max(.5,Math.min(60,(Number($('days').value)||1)+n)); $('days').value=v; update();}
-$('dminus').addEventListener('click',function(){step(-.5)});
-function pstep(n){var v=Math.max(0,Math.min(30,(Number($('prep_days').value)||0)+n)); $('prep_days').value=v;}
-$('pminus').addEventListener('click',function(){pstep(-.5)}); $('pplus').addEventListener('click',function(){pstep(.5)});
-$('dplus').addEventListener('click',function(){step(.5)});
-$('fee_amount').addEventListener('input',update); $('days').addEventListener('input',update);
-var saved=null; try{saved=localStorage.getItem('ff-lang')}catch(e){}
-applyLang(saved==='nl'?'nl':'en');
+function onChange(){ $('err').textContent=''; if(CH[at]==='number') rate(); }
 
-$('fee').addEventListener('submit',function(e){
-  e.preventDefault();
-  var f=e.target, err=f.querySelector('.err'); err.textContent='';
-  if(f.website.value){ done(); return; }
-  var row={
-    role:chosenRoles().join(', ').slice(0,200), job_type:picked('job_type'), client_type:picked('client_type'),
-    country:$('country').value.trim().slice(0,60), days:Number($('days').value), fee_amount:Number($('fee_amount').value),
-    currency:picked('currency'), usage:pickedAll('usage'), prep_days:Number($('prep_days').value)||null,
-    usage_period:picked('usage_period')||null, experience:picked('experience')||null,
-    deliverables:picked('deliverables')||null, included:pickedAll('included').length?pickedAll('included'):null,
-    billed_extra:pickedAll('billed_extra').length?pickedAll('billed_extra'):null, payment:picked('payment')||null
-  };
-  var ok = row.role && row.job_type && row.client_type && row.country.length>=2 && row.days>0 && row.days<=60 && row.fee_amount>0 && row.fee_amount<1000000 && row.currency && row.usage.length>0;
-  if(!ok){ err.textContent=COPY[lang].err; return; }
-  var btn=f.querySelector('[type=submit]'); btn.disabled=true;
-  fetch(SUPABASE_URL+'/rest/v1/fee_entries',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); done(); })
-    .catch(function(){ err.textContent=COPY[lang].errSend; })
-    .then(function(){ btn.disabled=false; });
+/* ---------- chapter renderers ---------- */
+var R = {
+  start:function(c){
+    c.appendChild(q(T[lang].stage,null,chips('stage',O.stage,false,function(){return A.stage},function(v){A.stage=v})));
+    var tiles=el('div','tiles');
+    DISC.forEach(function(d){
+      var lab=el('label','tile'), inp=document.createElement('input'); inp.type='radio'; inp.name='discipline'; inp.value=d[0]; inp.checked=A.discipline===d[0];
+      var inn=el('span','in'); inn.appendChild(el('span','t',d[1][lang])); inn.appendChild(el('span','s',d[2].slice(0,3).join(' · ')));
+      inp.addEventListener('change',function(){ if(A.discipline!==d[0]){ A.discipline=d[0]; A.roles=[]; A.craft={}; } render(); });
+      lab.appendChild(inp); lab.appendChild(inn); tiles.appendChild(lab);
+    });
+    c.appendChild(q(T[lang].disc,null,tiles));
+    if(A.discipline){
+      var d=DISC.filter(function(x){return x[0]===A.discipline})[0];
+      var wrap=el('div');
+      var rc=chips('roles',d[2].map(function(r){return [r]}),true,function(){return A.roles},function(v){A.roles=v});
+      wrap.appendChild(rc);
+      var picked=el('div','chips'); picked.style.marginTop='10px';
+      A.own.forEach(function(v){ var b=el('button','chip on'); b.type='button'; b.style.cssText='border:0;background:none;padding:0;cursor:pointer'; b.appendChild(el('span',null,v)); b.setAttribute('aria-label','remove '+v);
+        b.addEventListener('click',function(){ A.own=A.own.filter(function(x){return x!==v}); render(); }); picked.appendChild(b); });
+      wrap.appendChild(picked);
+      var row=el('div','row'); row.style.marginTop='10px';
+      var own=el('input','field'); own.type='text'; own.maxLength=40; own.placeholder=T[lang].own; own.setAttribute('aria-label',T[lang].own);
+      var add=el('button','ghost',T[lang].add); add.type='button';
+      function addOwn(){ var v=own.value.replace(/[,<>]/g,' ').trim().slice(0,40); if(v.length<2) return; if(A.own.indexOf(v)<0 && A.roles.indexOf(v)<0) A.own.push(v); render(); }
+      add.addEventListener('click',addOwn); own.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); addOwn(); } });
+      row.appendChild(own); row.appendChild(add); wrap.appendChild(row);
+      c.appendChild(q(T[lang].roles,T[lang].multi,wrap));
+    }
+  },
+  job:function(c){
+    c.appendChild(q(T[lang].job_type,null,chips('job_type',O.job_type,false,function(){return A.job_type},function(v){A.job_type=v})));
+    c.appendChild(q(T[lang].client_type,null,chips('client_type',O.client_type,false,function(){return A.client_type},function(v){A.client_type=v})));
+    var inp=el('input','field'); inp.type='text'; inp.maxLength=60; inp.placeholder=T[lang].countryPh; inp.value=A.country; inp.setAttribute('list','countries'); inp.autocomplete='off'; inp.id='country';
+    inp.addEventListener('input',function(){ A.country=inp.value; onChange(); });
+    var dl=el('datalist'); dl.id='countries'; COUNTRIES.forEach(function(x){ var o=el('option'); o.value=x; dl.appendChild(o); });
+    var w=el('div'); w.appendChild(inp); w.appendChild(dl);
+    c.appendChild(q(T[lang].country,null,w));
+  },
+  number:function(c){
+    var box=el('div','number'), am=el('div','amount'), sym=el('span','sym',SYM[A.currency]||''); sym.id='sym'; sym.setAttribute('aria-hidden','true');
+    var inp=el('input'); inp.type='number'; inp.inputMode='numeric'; inp.min='1'; inp.max='999999'; inp.placeholder='0'; inp.value=A.fee_amount; inp.id='fee_amount'; inp.setAttribute('aria-label','fee');
+    inp.addEventListener('input',function(){ A.fee_amount=inp.value; onChange(); });
+    am.appendChild(sym); am.appendChild(inp); box.appendChild(am);
+    var cur=chips('currency',O.currency,false,function(){return A.currency},function(v){A.currency=v||'EUR'; $('sym').textContent=SYM[A.currency]||''}); cur.classList.add('cur'); box.appendChild(cur);
+    var steps=el('div','steps');
+    [['days',T[lang].days,.5,60],['prep_days',T[lang].prep,0,30]].forEach(function(s){
+      var st=el('div','step'); st.appendChild(el('span','mono',s[1]));
+      var mi=el('button',null,'−'), v=el('input'), pl=el('button',null,'+'); mi.type=pl.type='button';
+      v.type='number'; v.step='0.5'; v.min=s[2]; v.max=s[3]; v.value=A[s[0]]; v.id=s[0]; v.setAttribute('aria-label',s[1]);
+      function setv(n){ n=Math.max(s[2],Math.min(s[3],n)); A[s[0]]=n; v.value=n; onChange(); }
+      mi.addEventListener('click',function(){setv((Number(v.value)||0)-.5)}); pl.addEventListener('click',function(){setv((Number(v.value)||0)+.5)});
+      v.addEventListener('input',function(){ A[s[0]]=Number(v.value)||0; onChange(); });
+      st.appendChild(mi); st.appendChild(v); st.appendChild(pl); steps.appendChild(st);
+    });
+    box.appendChild(steps);
+    var r=el('p','rate'); r.id='rate'; r.setAttribute('aria-live','polite'); box.appendChild(r);
+    c.appendChild(box); rate();
+  },
+  craft:function(c){
+    var qs=CRAFT[A.discipline]||[];
+    if(!qs.length){ c.appendChild(el('p','cap',T[lang].noCraft)); return; }
+    qs.forEach(function(x){
+      var get=function(){ return A.craft[x.id]!=null ? A.craft[x.id] : (x.type==='many'?[]:'') };
+      var set=function(v){ A.craft[x.id]=v };
+      c.appendChild(q(x.label[lang], T[lang].optional, chips('c_'+x.id, x.opts, x.type==='many', get, set)));
+    });
+  },
+  rights:function(c){
+    c.appendChild(q(T[lang].usage,T[lang].multi,chips('usage',O.usage,true,function(){return A.usage},function(v){A.usage=v})));
+    c.appendChild(q(T[lang].usage_period,T[lang].optional,chips('usage_period',O.usage_period,false,function(){return A.usage_period},function(v){A.usage_period=v})));
+    c.appendChild(q(T[lang].territory,T[lang].optional,chips('territory',O.territory,false,function(){return A.territory},function(v){A.territory=v})));
+  },
+  details:function(c){
+    c.appendChild(q(T[lang].included,T[lang].optional,chips('included',O.included,true,function(){return A.included},function(v){A.included=v})));
+    c.appendChild(q(T[lang].billed_extra,T[lang].optional,chips('billed_extra',O.billed_extra,true,function(){return A.billed_extra},function(v){A.billed_extra=v})));
+    if(A.stage==='done') c.appendChild(q(T[lang].payment,T[lang].optional,chips('payment',O.payment,false,function(){return A.payment},function(v){A.payment=v})));
+    c.appendChild(q(T[lang].experience,T[lang].optional,chips('experience',O.experience,false,function(){return A.experience},function(v){A.experience=v})));
+  }
+};
+function rate(){
+  var r=$('rate'); if(!r) return; var amt=Number(A.fee_amount), d=Number(A.days);
+  if(amt>0 && d>0 && d!==1){ var s=SYM[A.currency]||''; r.textContent=T[lang].perDay.replace('{x}', s+(s.length>1?' ':'')+Math.round(amt/d).toLocaleString(lang==='nl'?'nl-NL':'en-GB')); }
+  else r.textContent='';
+}
+function valid(){
+  var c=CH[at];
+  if(c==='start') return A.stage && A.discipline && (A.roles.length||A.own.length);
+  if(c==='job') return A.job_type && A.client_type && A.country.trim().length>=2;
+  if(c==='number'){ var f=Number(A.fee_amount), d=Number(A.days); return f>0 && f<1000000 && d>0 && d<=60; }
+  if(c==='rights') return A.usage.length>0;
+  return true;
+}
+
+/* ---------- render ---------- */
+function side(key){
+  var s=SIDE[key][lang], d=DISC.filter(function(x){return x[0]===A.discipline})[0]; $('s-kick').textContent=s[0].replace('{disc}', d ? (lang==='nl'?'voor ':'for ')+d[1][lang] : ''); $('s-title').textContent=s[1]; $('s-lead').textContent=s[2];
+  $('s-foot').textContent=T[lang].foot; $('s-note').style.opacity = key==='start' ? 1 : 0;
+}
+var lastAt=-1;
+function render(){
+  var t=T[lang], c=$('chapter'); c.innerHTML=''; if(lastAt!==at){ c.className=''; void c.offsetWidth; c.className='chapter'; lastAt=at; }
+  var tr=$('trail'); tr.innerHTML='';
+  CH.forEach(function(k,i){ var li=el('li',i<at?'done':(i===at?'now':''),CHN[k][lang]); if(i===at) li.setAttribute('aria-current','step'); tr.appendChild(li); });
+  if(sent){ thanks(); return; }
+  side(CH[at]); R[CH[at]](c);
+  $('back').textContent='← '+t.back; $('back').style.visibility = at===0 ? 'hidden' : 'visible';
+  $('next').textContent = at===CH.length-1 ? t.submit+' →' : t.next+' →';
+  $('nav').hidden=false;
+}
+function thanks(){
+  side('thanks'); $('trail').innerHTML=''; $('nav').hidden=true;
+  var c=$('chapter'), t=T[lang];
+  if(A.stage==='quoting'){
+    var list=ASK.base[lang].slice(0,1).concat((ASK[A.discipline]||ASK.other)[lang]).concat(ASK.base[lang].slice(1));
+    var box=el('div','ask'); box.appendChild(el('p','mono',t.askTitle)); box.firstChild.style.margin='0 0 16px';
+    var ol=el('ol'); list.forEach(function(x){ ol.appendChild(el('li',null,x)); }); box.appendChild(ol);
+    var tip=el('p','cap',t.askTip); tip.style.margin='18px 0 0'; box.appendChild(tip);
+    var cp=el('button','btn soft',t.copy); cp.type='button'; cp.style.cssText='height:44px;padding:0 22px;font-size:12px;margin-top:18px';
+    cp.addEventListener('click',function(){ var txt=list.map(function(x,i){return (i+1)+'. '+x}).join('\n');
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ cp.textContent=t.copied; setTimeout(function(){cp.textContent=t.copy},2000); },function(){}); });
+    box.appendChild(cp); c.appendChild(box);
+  }
+  var row=el('div'); row.style.cssText='display:flex;flex-wrap:wrap;gap:12px;margin-top:40px';
+  var again=el('a','btn',t.again); again.href='#'; again.addEventListener('click',function(e){ e.preventDefault(); location.reload(); });
+  var join=el('a','btn soft',t.join); join.href='index.html#join';
+  row.appendChild(again); row.appendChild(join); c.appendChild(row);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(n){ at=Math.max(0,Math.min(CH.length-1,n)); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+$('next').addEventListener('click',function(){
+  if(!valid()){ $('err').textContent=T[lang].err; return; }
+  $('err').textContent='';
+  if(at<CH.length-1) go(at+1); else submit();
 });
-function done(){ $('fee').hidden=true; $('thanks').hidden=false; window.scrollTo({top:0,behavior:'smooth'}); }
-$('again').addEventListener('click',function(e){ e.preventDefault(); $('fee').reset(); ownRoles=[]; document.querySelectorAll('#roles-panel input').forEach(function(c){c.checked=false}); $('days').value=1; $('prep_days').value=0; applyLang(lang); $('thanks').hidden=true; $('fee').hidden=false; });
+$('back').addEventListener('click',function(){ $('err').textContent=''; go(at-1); });
+$('fee').addEventListener('submit',function(e){ e.preventDefault(); $('next').click(); });
+document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){
+  lang=b.getAttribute('data-lang'); document.documentElement.lang=lang;
+  document.querySelectorAll('[data-lang]').forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-lang')===lang?'true':'false') });
+  try{localStorage.setItem('ff-lang',lang)}catch(e){} render(); }); });
+
+/* ---------- submit ---------- */
+function clean(o){ var r={}; Object.keys(o).forEach(function(k){ var v=o[k]; if(v!=='' && v!=null && !(Array.isArray(v)&&!v.length)) r[k]=v; }); return r; }
+function submit(){
+  if(document.querySelector('[name=website]').value){ sent=true; render(); return; }
+  var craft=clean(A.craft), equipment=craft.equipment||null, deliverables=craft.deliverables||null;
+  delete craft.equipment; delete craft.deliverables;
+  var row={
+    stage:A.stage, discipline:A.discipline, role:A.roles.concat(A.own).join(', ').slice(0,200),
+    job_type:A.job_type, client_type:A.client_type, country:A.country.trim().slice(0,60),
+    fee_amount:Number(A.fee_amount), currency:A.currency, days:Number(A.days), prep_days:Number(A.prep_days)||null,
+    usage:A.usage, usage_period:A.usage_period||null, territory:A.territory||null,
+    equipment:equipment, deliverables:deliverables, craft:Object.keys(craft).length?craft:null,
+    included:A.included.length?A.included:null, billed_extra:A.billed_extra.length?A.billed_extra:null,
+    payment:(A.stage==='done'?A.payment:'')||null, experience:A.experience||null
+  };
+  var btn=$('next'); btn.disabled=true;
+  fetch(SUPABASE_URL+'/rest/v1/fee_entries',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); sent=true; render(); })
+    .catch(function(){ $('err').textContent=T[lang].errSend; })
+    .then(function(){ btn.disabled=false; });
+}
+
+/* ---------- init ---------- */
+(function(){ var s=null; try{s=localStorage.getItem('ff-lang')}catch(e){} if(s==='nl'){ lang='nl'; document.documentElement.lang='nl';
+  document.querySelectorAll('[data-lang]').forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-lang')==='nl'?'true':'false') }); } render(); })();
 </script>
 </body>
 </html>
