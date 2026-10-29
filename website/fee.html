@@ -48,6 +48,16 @@ header>*{pointer-events:auto}
 .q>.label{display:block;margin:0 0 14px}
 .q>.label small{font-weight:400;color:var(--soft);letter-spacing:.1em}
 .q .hint{margin:-6px 0 14px}
+.qm{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:10px;border:0;border-radius:50%;background:var(--field);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;vertical-align:1px;letter-spacing:0;transition:background .2s,color .2s}
+.qm:hover,.qm.on{background:var(--ink);color:var(--paper)}
+.info{margin:-2px 0 18px;max-width:580px;padding:18px 22px;border-radius:10px;background:var(--field);color:var(--muted)}
+.info p{margin:0 0 8px;font-size:18px;line-height:1.45;font-style:italic}
+.info p:last-child{margin-bottom:0}
+.info dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:4px 0 10px}
+.info dl:last-child{margin-bottom:0}
+.info dt{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);padding-top:4px}
+.info dd{margin:0;font-size:18px;line-height:1.4}
+@media (max-width:600px){.info dl{grid-template-columns:1fr;gap:2px}.info dd{margin-bottom:8px}}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{position:relative;display:inline-flex}
@@ -88,6 +98,10 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .step{display:flex;align-items:center;gap:8px}
 .step button{width:38px;height:38px;border-radius:50%;border:0;background:var(--field);font-family:'Space Mono',monospace;font-size:16px;cursor:pointer;color:var(--ink)}
 .step input{width:54px;height:38px;border:0;background:transparent;text-align:center;font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--ink);-moz-appearance:textfield}
+.steps{flex-direction:column;gap:14px}
+.steprow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.step .lab{display:inline-block;min-width:150px}
+.rates .chip span{min-height:32px;padding:0 12px;font-size:11px}
 .rate{margin:26px 0 0;font-style:italic;font-size:26px;color:var(--blue);min-height:1.3em}
 
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:640px;margin-top:24px;padding-top:12px}
@@ -181,6 +195,40 @@ var O = {
   payment:[['paid in full','paid in full','volledig betaald'],['discounted','discounted','met korting'],['trade / tfp','trade / tfp','ruil / tfp'],['paid late (30+ days)','paid late (30+ days)','te laat betaald (30+ dagen)']],
   experience:[['0-2 years','0–2'],['3-5 years','3–5'],['6-10 years','6–10'],['10+ years','10+']]
 };
+
+/* ---------- "?" explanations ---------- */
+var INFO = {
+  stage:{en:'quoting now: a client asked your rate and you haven’t answered yet. booked: the job is confirmed. done & paid: the job is finished and the invoice is paid.',nl:'offerte maken: een klant vroeg je tarief en je hebt nog niet geantwoord. geboekt: de klus is bevestigd. klaar & betaald: de klus is af en de factuur is betaald.'},
+  job_type:{en:'editorial: for a magazine or publication, usually lower fees but good for your portfolio. commercial: content for a brand to sell something. campaign: the main images of a brand’s season or launch, often seen everywhere, so usually the highest fees. e-commerce: product or model images for a webshop, often many images per day.',nl:'redactioneel: voor een magazine of publicatie, meestal lagere fees maar goed voor je portfolio. commercieel: content voor een merk om iets te verkopen. campagne: de hoofdbeelden van een seizoen of lancering, vaak overal te zien, dus meestal de hoogste fees. e-commerce: product- of modelbeelden voor een webshop, vaak veel beelden per dag.'},
+  client_type:{en:'who pays you. brand: directly the company. agency: a creative or advertising agency working for a brand. production company: hires the crew for a shoot. it matters: agencies and productions often have set budgets, brands sometimes don’t know what’s normal.',nl:'wie jou betaalt. merk: direct het bedrijf. bureau: een creatief of reclamebureau dat voor een merk werkt. productiebedrijf: huurt de crew in voor een shoot. het maakt uit: bureaus en producties hebben vaak vaste budgetten, merken weten soms niet wat normaal is.'},
+  usage:{en:'where the client may show your work. social (organic): posts on their own channels, without paying to promote them. web / e-commerce: their website or webshop. paid ads: they pay to show it (sponsored posts, online ads), so it reaches far more people. press / editorial: press releases, magazines. print: brochures, catalogues, packaging. out of home / tv: billboards, posters, bus stops, tv. full buy-out: they may use it everywhere, as long as they want. the wider the use, the higher your fee.',nl:'waar de klant je werk mag laten zien. social (organisch): posts op hun eigen kanalen, zonder te betalen voor bereik. web / e-commerce: hun website of webshop. betaalde ads: ze betalen om het te tonen (gesponsorde posts, online advertenties), dus het bereikt veel meer mensen. pers / redactioneel: persberichten, magazines. print: brochures, catalogi, verpakking. buitenreclame / tv: billboards, posters, abri’s, tv. volledige buy-out: ze mogen het overal gebruiken, zo lang ze willen. hoe breder het gebruik, hoe hoger je fee.'},
+  usage_period:{en:'how long the client may use your work. after that period they should pay again to keep using it. longer = more money.',nl:'hoe lang de klant je werk mag gebruiken. daarna horen ze opnieuw te betalen om het te blijven gebruiken. langer = meer geld.'},
+  territory:{en:'in which countries the work may be used. one country is the smallest licence, worldwide the biggest.',nl:'in welke landen het werk gebruikt mag worden. één land is de kleinste licentie, wereldwijd de grootste.'},
+  prep_rate:{en:'prep days are days you work before the shoot: moodboards, shopping, tests, meetings. many creatives charge them at 50–100% of their day rate. never for free.',nl:'voorbereidingsdagen zijn dagen dat je vóór de shoot werkt: moodboards, shoppen, tests, meetings. veel creatives rekenen 50–100% van hun dagtarief. nooit gratis.'},
+  travel_rate:{en:'travel days are days you only travel to or from the job. the standard is 50% of your day rate.',nl:'reisdagen zijn dagen dat je alleen naar of van de klus reist. de standaard is 50% van je dagtarief.'},
+  equipment:{en:'kit is your gear: camera, lights, steamers, brushes. you can include it in your fee, bill it separately (a kit fee), or rent it and pass the cost on to the client.',nl:'kit is je apparatuur: camera, lampen, stomers, kwasten. je kunt het in je fee meenemen, apart factureren (een kit fee) of huren en de kosten doorberekenen aan de klant.'},
+  assistant:{en:'does someone assist you on set, and who pays them? if it comes out of your own fee, your real day rate is lower than it looks.',nl:'assisteert iemand je op set, en wie betaalt diegene? komt het uit je eigen fee, dan is je echte dagtarief lager dan het lijkt.'},
+  deliverables:{en:'how many final, edited images the client receives. more images = more editing time.',nl:'hoeveel definitieve, bewerkte beelden de klant krijgt. meer beelden = meer bewerkingstijd.'},
+  retouch:{en:'basic: colour correction and small clean-ups. high-end / beauty: detailed skin, hair and product work. compositing: combining several images into one.',nl:'basis: kleurcorrectie en kleine opschoning. high-end / beauty: gedetailleerd werk aan huid, haar en product. compositing: meerdere beelden samenvoegen tot één.'},
+  retouch_level:{en:'basic: colour correction and small clean-ups. high-end / beauty: detailed skin, hair and product work. compositing: combining several images into one.',nl:'basis: kleurcorrectie en kleine opschoning. high-end / beauty: gedetailleerd werk aan huid, haar en product. compositing: meerdere beelden samenvoegen tot één.'},
+  retouch_images:{en:'how many images you retouch. this is often billed per image on top of the shoot fee.',nl:'hoeveel beelden je retoucheert. dit wordt vaak per beeld gefactureerd bovenop de shootfee.'},
+  rounds:{en:'how many times the client may ask for changes. agree on this up front: unlimited rounds can eat your whole fee.',nl:'hoe vaak de klant om aanpassingen mag vragen. spreek dit vooraf af: onbeperkte rondes kunnen je hele fee opeten.'},
+  shopping_days:{en:'days spent pulling or buying clothes from brands, showrooms and shops before the shoot.',nl:'dagen dat je kleding ophaalt of koopt bij merken, showrooms en winkels vóór de shoot.'},
+  returns:{en:'the day you bring everything back after the shoot. it’s work, so it should be paid.',nl:'de dag dat je alles terugbrengt na de shoot. het is werk, dus hoort betaald te worden.'},
+  wardrobe:{en:'who handles the money for the clothes. managing a budget means more responsibility and more admin.',nl:'wie het geld voor de kleding beheert. een budget beheren betekent meer verantwoordelijkheid en meer administratie.'},
+  kit_fee:{en:'a fee for the products and tools you bring (make-up, brushes, steamer, tape). it covers the cost of what you use up.',nl:'een vergoeding voor de producten en tools die je meeneemt (make-up, kwasten, stomer, tape). het dekt wat je verbruikt.'},
+  overtime:{en:'extra pay for very early call times or days longer than the agreed hours (usually 10).',nl:'extra betaling voor heel vroege call times of dagen langer dan de afgesproken uren (meestal 10).'},
+  build_days:{en:'days to build and break down the set or lighting before and after the shoot.',nl:'dagen om de set of het licht op te bouwen en af te breken voor en na de shoot.'},
+  fee_model:{en:'day rate: a price per day. flat fee: one price for the whole project. % of budget: a percentage of the total production budget.',nl:'dagtarief: een prijs per dag. vaste prijs: één bedrag voor het hele project. % van budget: een percentage van het totale productiebudget.'},
+  fittings:{en:'trying on clothes before the shoot. it takes your time, so it’s often paid.',nl:'kleding passen vóór de shoot. het kost je tijd, dus wordt vaak betaald.'},
+  exclusivity:{en:'you can’t work for competing brands for a while. that limits your income, so it should raise your fee a lot.',nl:'je mag een tijd niet voor concurrerende merken werken. dat beperkt je inkomen, dus hoort je fee flink te verhogen.'},
+  agency:{en:'via an agency they usually take a commission (often 20%) from your fee or on top of it.',nl:'via een bureau nemen ze meestal een commissie (vaak 20%) van je fee of erbovenop.'},
+  output:{en:'hero film: the main video. cutdowns: shorter versions of it for social or ads.',nl:'hoofdfilm: de belangrijkste video. cutdowns: kortere versies ervan voor social of ads.'},
+  post:{en:'the work after filming: edit (cutting), colour (grading), sound and motion graphics.',nl:'het werk na het filmen: edit (monteren), kleur (grading), geluid en motion graphics.'},
+  included:{en:'what your fee already covers, so the client doesn’t pay extra for it.',nl:'wat je fee al dekt, zodat de klant er niet extra voor betaalt.'},
+  billed_extra:{en:'costs you invoice on top of your fee. rush fee: extra for very fast delivery.',nl:'kosten die je bovenop je fee factureert. spoedtoeslag: extra voor heel snelle levering.'},
+  payment:{en:'trade / tfp: you work for free in exchange for images (time for prints). paid late: more than 30 days after invoicing.',nl:'ruil / tfp: je werkt gratis in ruil voor beelden (time for prints). te laat: meer dan 30 dagen na factureren.'}
+};
 var EXCLUSIVE = ['nothing extra','none','not sure','no kit needed'];
 
 /* ---------- the craft: questions per discipline (stored in `craft`) ---------- */
@@ -247,7 +295,12 @@ function craftQs(){
   Object.keys(ROLE_EXTRA).forEach(function(r){ if(roles.indexOf(r)>-1) ROLE_EXTRA[r].forEach(function(x){ if(ids.indexOf(x.id)<0){ base.push(x); ids.push(x.id); } }); });
   /* photographer + retoucher: the general retouch question is covered by the retoucher ones */
   if(roles.indexOf('retoucher')>-1) base=base.filter(function(x){return x.id!=='retouch'});
-  return base;
+  /* on set first, then everything post-production together */
+  var POST=['deliverables','retouch_images','retouch','retouch_level','rounds','output','length','post','edits'];
+  var set=base.filter(function(x){return POST.indexOf(x.id)<0}), post=base.filter(function(x){return POST.indexOf(x.id)>-1});
+  post.sort(function(a,b){return POST.indexOf(a.id)-POST.indexOf(b.id)});
+  set.forEach(function(x){x.grp='set'}); post.forEach(function(x){x.grp='post'});
+  return set.concat(post);
 }
 
 /* ---------- chapters ---------- */
@@ -263,8 +316,8 @@ var SIDE = {
   thanks:{en:['shared','thank you.','you just made the numbers a little more honest. now go say yours.'],nl:['gedeeld','dankjewel.','je hebt de bedragen net een beetje eerlijker gemaakt. noem nu de jouwe.']}
 };
 var T = {
-  en:{foot:'anonymous · no name · no email',stage:'where are you at?',disc:'your field',roles:'your role(s)',multi:'· pick one or more',own:'not listed? type your role',add:'add',job_type:'type of job',client_type:'client',country:'country of the job',countryPh:'the Netherlands',date:'shoot date',dateNote:'· optional, only for your own calendar. never stored.',calTitle:'add it to your calendar',calText:'save this job as an option, with your prep days in front of it.',calNoDate:'pick the shoot date to save this job as an option in your calendar.',calGoogle:'google calendar',calIcs:'apple / outlook (.ics)',calOption:'OPTION',calBooked:'BOOKED',calPrep:'prep / travel',calFee:'fee',calFrom:'saved with fee fee. · feefee.co',days:'shoot days',prep:'prep / travel days',perDay:'≈ {x} per shoot day',usage:'where is it used',usage_period:'for how long',territory:'how far',included:'included in your fee',billed_extra:'billed on top',payment:'how was it paid',experience:'years doing this',optional:'· optional',next:'next',back:'back',submit:'share anonymously',err:'almost there: please answer the questions on this page.',errSend:'something went wrong, please try again in a minute.',askTitle:'before you send your number, ask:',askTip:'copy these into your reply. every answer can raise your fee.',copy:'copy questions',copied:'copied ✓',again:'share another job',join:'join the waitlist',noCraft:'nothing extra to ask here. on to the rights.'},
-  nl:{foot:'anoniem · geen naam · geen e-mail',stage:'waar sta je?',disc:'jouw vak',roles:'je rol(len)',multi:'· kies er één of meer',own:'staat er niet bij? typ je rol',add:'voeg toe',job_type:'soort klus',client_type:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',date:'shootdatum',dateNote:'· optioneel, alleen voor je eigen agenda. wordt nooit opgeslagen.',calTitle:'zet het in je agenda',calText:'sla deze klus op als optie, met je voorbereidingsdagen ervoor.',calNoDate:'kies de shootdatum om deze klus als optie in je agenda te zetten.',calGoogle:'google agenda',calIcs:'apple / outlook (.ics)',calOption:'OPTIE',calBooked:'GEBOEKT',calPrep:'voorbereiding / reizen',calFee:'fee',calFrom:'opgeslagen met fee fee. · feefee.co',days:'shootdagen',prep:'voorbereiding / reisdagen',perDay:'≈ {x} per shootdag',usage:'waar wordt het gebruikt',usage_period:'hoe lang',territory:'hoe ver',included:'inbegrepen in je fee',billed_extra:'apart gefactureerd',payment:'hoe is er betaald',experience:'jaren ervaring',optional:'· optioneel',next:'volgende',back:'terug',submit:'deel anoniem',err:'bijna: beantwoord de vragen op deze pagina.',errSend:'er ging iets mis, probeer het over een minuut nog eens.',askTitle:'vraag dit voordat je je bedrag stuurt:',askTip:'kopieer dit in je antwoord. elk antwoord kan je fee verhogen.',copy:'kopieer vragen',copied:'gekopieerd ✓',again:'deel nog een klus',join:'op de wachtlijst',noCraft:'hier niets extra te vragen. door naar de rechten.'}
+  en:{foot:'anonymous · no name · no email',stage:'where are you at?',disc:'your field',roles:'your role(s)',multi:'· pick one or more',own:'not listed? type your role',add:'add',job_type:'type of job',client_type:'client',country:'country of the job',countryPh:'the Netherlands',date:'shoot date',dateNote:'· optional, only for your own calendar. never stored.',calTitle:'add it to your calendar',calText:'save this job as an option, with your prep and travel days in front of it.',calNoDate:'pick the shoot date to save this job as an option in your calendar.',calGoogle:'google calendar',calIcs:'apple / outlook (.ics)',calOption:'OPTION',calBooked:'BOOKED',calPrep:'prep',calFee:'fee',calFrom:'saved with fee fee. · feefee.co',days:'shoot days',prep:'prep / travel days',prepOnly:'prep days',onSet:'on set.',postProd:'post-production.',travel:'travel days',paidAt:'paid at',unpaid:'unpaid',perDay:'≈ {x} day rate',calTravel:'travel',usage:'where is it used',usage_period:'for how long',territory:'how far',included:'included in your fee',billed_extra:'billed on top',payment:'how was it paid',experience:'years doing this',optional:'· optional',next:'next',back:'back',submit:'share anonymously',err:'almost there: please answer the questions on this page.',errSend:'something went wrong, please try again in a minute.',askTitle:'before you send your number, ask:',askTip:'copy these into your reply. every answer can raise your fee.',copy:'copy questions',copied:'copied ✓',again:'share another job',join:'join the waitlist',noCraft:'nothing extra to ask here. on to the rights.'},
+  nl:{foot:'anoniem · geen naam · geen e-mail',stage:'waar sta je?',disc:'jouw vak',roles:'je rol(len)',multi:'· kies er één of meer',own:'staat er niet bij? typ je rol',add:'voeg toe',job_type:'soort klus',client_type:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',date:'shootdatum',dateNote:'· optioneel, alleen voor je eigen agenda. wordt nooit opgeslagen.',calTitle:'zet het in je agenda',calText:'sla deze klus op als optie, met je voorbereidings- en reisdagen ervoor.',calNoDate:'kies de shootdatum om deze klus als optie in je agenda te zetten.',calGoogle:'google agenda',calIcs:'apple / outlook (.ics)',calOption:'OPTIE',calBooked:'GEBOEKT',calPrep:'voorbereiding',calFee:'fee',calFrom:'opgeslagen met fee fee. · feefee.co',days:'shootdagen',prep:'voorbereiding / reisdagen',prepOnly:'voorbereidingsdagen',onSet:'op set.',postProd:'post-productie.',travel:'reisdagen',paidAt:'betaald tegen',unpaid:'onbetaald',perDay:'≈ {x} dagtarief',calTravel:'reizen',usage:'waar wordt het gebruikt',usage_period:'hoe lang',territory:'hoe ver',included:'inbegrepen in je fee',billed_extra:'apart gefactureerd',payment:'hoe is er betaald',experience:'jaren ervaring',optional:'· optioneel',next:'volgende',back:'terug',submit:'deel anoniem',err:'bijna: beantwoord de vragen op deze pagina.',errSend:'er ging iets mis, probeer het over een minuut nog eens.',askTitle:'vraag dit voordat je je bedrag stuurt:',askTip:'kopieer dit in je antwoord. elk antwoord kan je fee verhogen.',copy:'kopieer vragen',copied:'gekopieerd ✓',again:'deel nog een klus',join:'op de wachtlijst',noCraft:'hier niets extra te vragen. door naar de rechten.'}
 };
 var ASK = {
   base:{en:['where will it be used, for how long, and in which countries?','are prep and travel days paid?','what is the deadline, and is it a rush?','payment terms: 14 or 30 days?','what happens if the shoot is cancelled or moved?'],
@@ -283,7 +336,7 @@ var COUNTRIES = ['the Netherlands','Belgium','Germany','France','United Kingdom'
 
 /* ---------- state ---------- */
 var lang = 'en', at = 0, sent = false;
-var A = {stage:'', discipline:'', roles:[], own:[], job_type:'', client_type:'', country:'', fee_amount:'', currency:'EUR', days:1, prep_days:0,
+var A = {stage:'', discipline:'', roles:[], own:[], job_type:'', client_type:'', country:'', fee_amount:'', currency:'EUR', days:1, prep_days:0, travel_days:0, prep_rate:'100', travel_rate:'50',
          date:'', usage:[], usage_period:'', territory:'', included:[], billed_extra:[], payment:'', experience:'', craft:{}};
 function $(id){return document.getElementById(id)}
 function L(o){return lang==='nl' ? (o[2]||o[1]||o[0]) : (o[1]||o[0])}
@@ -291,7 +344,7 @@ function el(tag, cls, txt){var e=document.createElement(tag); if(cls) e.classNam
 
 /* chips: single or multi; get/set via callbacks */
 function chips(name, opts, multi, get, set){
-  var box=el('div','chips');
+  var box=el('div','chips'); box.dataset.q=name.replace(/^c_/,'');
   opts.forEach(function(o){
     var lab=el('label','chip'), inp=document.createElement('input');
     inp.type=multi?'checkbox':'radio'; inp.name=name; inp.value=o[0];
@@ -315,7 +368,26 @@ function chips(name, opts, multi, get, set){
 function q(labelTxt, optional, node, hint){
   var d=el('div','q'), l=el('span','mono label',labelTxt);
   if(optional){ l.appendChild(document.createTextNode(' ')); l.appendChild(el('small',null,optional)); }
-  d.appendChild(l); if(hint) d.appendChild(el('p','cap hint',hint)); d.appendChild(node); return d;
+  d.appendChild(l); if(hint) d.appendChild(el('p','cap hint',hint));
+  var key=node && node.dataset && node.dataset.q;
+  if(key && INFO[key]) addInfo(l, d, INFO[key][lang]);
+  d.appendChild(node); return d;
+}
+function infoNode(text){
+  var box=el('div','info'), dl=null;
+  text.split(/(?<=\.)\s+/).forEach(function(sn){
+    var i=sn.indexOf(': ');
+    if(i>0 && i<36){ if(!dl){ dl=el('dl'); box.appendChild(dl); }
+      dl.appendChild(el('dt',null,sn.slice(0,i))); dl.appendChild(el('dd',null,sn.slice(i+2))); }
+    else { dl=null; box.appendChild(el('p',null,sn)); }
+  });
+  return box;
+}
+function addInfo(label, parent, text){
+  var b=el('button','qm','?'); b.type='button'; b.setAttribute('aria-label',lang==='nl'?'uitleg':'explain'); b.setAttribute('aria-expanded','false');
+  var p=infoNode(text); p.hidden=true;
+  b.addEventListener('click',function(){ p.hidden=!p.hidden; b.setAttribute('aria-expanded',p.hidden?'false':'true'); b.classList.toggle('on',!p.hidden); });
+  label.appendChild(b); parent.appendChild(p);
 }
 function onChange(){ $('err').textContent=''; if(CH[at]==='number') rate(); }
 
@@ -368,23 +440,34 @@ var R = {
     am.appendChild(sym); am.appendChild(inp); box.appendChild(am);
     var cur=chips('currency',O.currency,false,function(){return A.currency},function(v){A.currency=v||'EUR'; $('sym').textContent=SYM[A.currency]||''}); cur.classList.add('cur'); box.appendChild(cur);
     var steps=el('div','steps');
-    [['prep_days',T[lang].prep,0,30],['days',T[lang].days,.5,60]].forEach(function(s){
-      var st=el('div','step'); st.appendChild(el('span','mono',s[1]));
+    var RATES=[['100','100%'],['75','75%'],['50','50%'],['25','25%'],['0','unpaid','onbetaald']];
+    [['prep_days',T[lang].prepOnly,0,30,'prep_rate'],['travel_days',T[lang].travel,0,30,'travel_rate'],['days',T[lang].days,.5,60,null]].forEach(function(s){
+      var wrapS=el('div','steprow'), st=el('div','step'); st.appendChild(el('span','mono lab',s[1]));
       var mi=el('button',null,'−'), v=el('input'), pl=el('button',null,'+'); mi.type=pl.type='button';
       v.type='number'; v.step='0.5'; v.min=s[2]; v.max=s[3]; v.value=A[s[0]]; v.id=s[0]; v.setAttribute('aria-label',s[1]);
-      function setv(n){ n=Math.max(s[2],Math.min(s[3],n)); A[s[0]]=n; v.value=n; onChange(); }
+      var rc=null;
+      if(s[4]){ rc=chips(s[4],RATES,false,function(){return A[s[4]]},function(v){A[s[4]]=v}); rc.classList.add('rates');
+        var rl=el('span','cap',T[lang].paidAt); rl.style.cssText='margin-right:4px;align-self:center'; rc.insertBefore(rl, rc.firstChild); }
+      var infoP=null; if(s[4] && INFO[s[4]]){ var qb=el('button','qm','?'); qb.type='button'; qb.setAttribute('aria-label',lang==='nl'?'uitleg':'explain'); infoP=infoNode(INFO[s[4]][lang]); infoP.hidden=true; qb.addEventListener('click',function(){ infoP.hidden=!infoP.hidden; qb.classList.toggle('on',!infoP.hidden); }); st.firstChild.appendChild(qb); }
+      function vis(){ if(rc) rc.hidden = !(Number(A[s[0]])>0); }
+      function setv(n){ n=Math.max(s[2],Math.min(s[3],n)); A[s[0]]=n; v.value=n; vis(); onChange(); }
       mi.addEventListener('click',function(){setv((Number(v.value)||0)-.5)}); pl.addEventListener('click',function(){setv((Number(v.value)||0)+.5)});
-      v.addEventListener('input',function(){ A[s[0]]=Number(v.value)||0; onChange(); });
-      st.appendChild(mi); st.appendChild(v); st.appendChild(pl); steps.appendChild(st);
+      v.addEventListener('input',function(){ A[s[0]]=Number(v.value)||0; vis(); onChange(); });
+      st.appendChild(mi); st.appendChild(v); st.appendChild(pl); wrapS.appendChild(st); if(rc){ wrapS.appendChild(rc); vis(); }
+      if(infoP){ infoP.style.flexBasis='100%'; wrapS.appendChild(infoP); }
+      steps.appendChild(wrapS);
     });
     box.appendChild(steps);
     var r=el('p','rate'); r.id='rate'; r.setAttribute('aria-live','polite'); box.appendChild(r);
+    var rb=el('p','cap'); rb.id='rate-b'; rb.style.margin='6px 0 0'; box.appendChild(rb);
     c.appendChild(box); rate();
   },
   craft:function(c){
     var qs=craftQs();
     if(!qs.length){ c.appendChild(el('p','cap',T[lang].noCraft)); return; }
+    var both = qs.some(function(x){return x.grp==='set'}) && qs.some(function(x){return x.grp==='post'}), last='';
     qs.forEach(function(x){
+      if(both && x.grp!==last){ var h=el('h3',null,x.grp==='set'?T[lang].onSet:T[lang].postProd); h.style.cssText='font-style:italic;font-weight:400;font-size:34px;line-height:1;margin:'+(last?'56px':'0')+' 0 26px'; c.appendChild(h); last=x.grp; }
       var get=function(){ return A.craft[x.id]!=null ? A.craft[x.id] : (x.type==='many'?[]:'') };
       var set=function(v){ A.craft[x.id]=v };
       c.appendChild(q(x.label[lang], T[lang].optional, chips('c_'+x.id, x.opts, x.type==='many', get, set)));
@@ -403,9 +486,17 @@ var R = {
   }
 };
 function rate(){
-  var r=$('rate'); if(!r) return; var amt=Number(A.fee_amount), d=Number(A.days);
-  if(amt>0 && d>0 && d!==1){ var s=SYM[A.currency]||''; r.textContent=T[lang].perDay.replace('{x}', s+(s.length>1?' ':'')+Math.round(amt/d).toLocaleString(lang==='nl'?'nl-NL':'en-GB')); }
-  else r.textContent='';
+  var r=$('rate'), rb=$('rate-b'); if(!r) return; var t=T[lang], amt=Number(A.fee_amount), d=Number(A.days)||0;
+  var pd=Number(A.prep_days)||0, td=Number(A.travel_days)||0, pp=Number(A.prep_rate)/100, tp=Number(A.travel_rate)/100;
+  var units=d+pd*pp+td*tp;
+  if(amt>0 && d>0 && (units!==1 || pd||td)){
+    var s=SYM[A.currency]||'', fmt=function(n){ return s+(s.length>1?' ':'')+Math.round(n).toLocaleString(lang==='nl'?'nl-NL':'en-GB'); };
+    var day=amt/units; r.textContent=t.perDay.replace('{x}', fmt(day));
+    var parts=[d+' '+t.days+' × '+fmt(day)];
+    if(pd) parts.push(pd+' '+t.prepOnly+' × '+(pp?fmt(day*pp)+' ('+A.prep_rate+'%)':t.unpaid));
+    if(td) parts.push(td+' '+t.travel+' × '+(tp?fmt(day*tp)+' ('+A.travel_rate+'%)':t.unpaid));
+    rb.textContent = parts.join('  ·  ');
+  } else { r.textContent=''; rb.textContent=''; }
 }
 function valid(){
   var c=CH[at];
@@ -457,11 +548,11 @@ function ymd(d){ return d.toISOString().slice(0,10).replace(/-/g,''); }
 function calInfo(){
   var t=T[lang], d=DISC.filter(function(x){return x[0]===A.discipline})[0];
   var start = A.date ? new Date(A.date+'T00:00:00Z') : null;
-  var prep = Math.ceil(Number(A.prep_days)||0), shoot = Math.max(1,Math.ceil(Number(A.days)||1));
+  var prep = Math.ceil(Number(A.prep_days)||0), travel = Math.ceil(Number(A.travel_days)||0), shoot = Math.max(1,Math.ceil(Number(A.days)||1));
   var title = (A.stage==='booked' ? t.calBooked : t.calOption)+' · '+(A.job_type||'')+' · '+(A.client_type||'');
   var s=SYM[A.currency]||''; var fee = A.fee_amount ? s+(s.length>1?' ':'')+Number(A.fee_amount).toLocaleString(lang==='nl'?'nl-NL':'en-GB') : '';
-  var desc = [A.roles.concat(A.own).join(', '), fee ? t.calFee+': '+fee+' ('+Number(A.days)+' '+t.days+(Number(A.prep_days)?(', '+Number(A.prep_days)+' '+t.prep):'')+')' : '', A.country, '', t.calFrom].filter(function(x){return x!==null}).join('\n');
-  return {start:start, prep:prep, shoot:shoot, title:title, desc:desc};
+  var desc = [A.roles.concat(A.own).join(', '), fee ? t.calFee+': '+fee+' ('+Number(A.days)+' '+t.days+(Number(A.prep_days)?(', '+Number(A.prep_days)+' '+t.prepOnly+' @ '+A.prep_rate+'%'):'')+(Number(A.travel_days)?(', '+Number(A.travel_days)+' '+t.travel+' @ '+A.travel_rate+'%'):'')+')' : '', A.country, '', t.calFrom].filter(function(x){return x!==null}).join('\n');
+  return {start:start, prep:prep, travel:travel, shoot:shoot, title:title, desc:desc};
 }
 function icsFile(){
   var i=calInfo(), now=new Date(), lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//fee fee.//say the number//EN','CALSCALE:GREGORIAN'];
@@ -469,7 +560,8 @@ function icsFile(){
   function ev(uid, s, days, title){ var e=new Date(s.getTime()+days*864e5);
     lines.push('BEGIN:VEVENT','UID:'+uid+'@feefee.co','DTSTAMP:'+now.toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;VALUE=DATE:'+ymd(s),'DTEND;VALUE=DATE:'+ymd(e),'SUMMARY:'+esc(title),'DESCRIPTION:'+esc(i.desc),'TRANSP:'+(A.stage==='booked'?'OPAQUE':'TRANSPARENT'),'END:VEVENT'); }
   var id=Date.now().toString(36);
-  if(i.prep){ ev(id+'p', new Date(i.start.getTime()-i.prep*864e5), i.prep, T[lang].calPrep+' · '+i.title); }
+  if(i.prep){ ev(id+'p', new Date(i.start.getTime()-(i.prep+i.travel)*864e5), i.prep, T[lang].calPrep+' · '+i.title); }
+  if(i.travel){ ev(id+'t', new Date(i.start.getTime()-i.travel*864e5), i.travel, T[lang].calTravel+' · '+i.title); }
   ev(id, i.start, i.shoot, i.title);
   lines.push('END:VCALENDAR'); return lines.join('\r\n');
 }
@@ -512,7 +604,8 @@ function submit(){
   var row={
     stage:A.stage, discipline:A.discipline, role:A.roles.concat(A.own).join(', ').slice(0,200),
     job_type:A.job_type, client_type:A.client_type, country:A.country.trim().slice(0,60),
-    fee_amount:Number(A.fee_amount), currency:A.currency, days:Number(A.days), prep_days:Number(A.prep_days)||null,
+    fee_amount:Number(A.fee_amount), currency:A.currency, days:Number(A.days), prep_days:Number(A.prep_days)||null, travel_days:Number(A.travel_days)||null,
+    prep_rate:Number(A.prep_days)?A.prep_rate:null, travel_rate:Number(A.travel_days)?A.travel_rate:null,
     usage:A.usage, usage_period:A.usage_period||null, territory:A.territory||null,
     equipment:equipment, deliverables:deliverables, craft:Object.keys(craft).length?craft:null,
     included:A.included.length?A.included:null, billed_extra:A.billed_extra.length?A.billed_extra:null,
