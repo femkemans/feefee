@@ -7,7 +7,14 @@
 <meta name="description" content="real fees, shared by creatives. know what's fair before you say yes. join the waitlist.">
 <meta property="og:title" content="fee fee. – what's your fee?">
 <meta property="og:description" content="real fees, shared by creatives. join the waitlist.">
-<meta property="og:image" content="assets/logo.webp">
+<meta property="og:image" content="https://feefee.co/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fee fee. what's your fee?">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fee fee.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://feefee.co/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -237,7 +244,7 @@ body{padding-bottom:40px}
 <footer style="max-width:1440px;margin:0 auto;padding:0 32px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)">
 <span data-t="footer">for freelance creatives worldwide</span>
 <span class="logo-word" style="font-size:20px;color:var(--ink)">fee fee.</span>
-<span><a href="fee.html" style="text-decoration:none;color:var(--muted)">share your fee</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/" style="text-decoration:none;color:var(--muted)">[instagram]</a></span>
+<span><a href="fee.html" style="text-decoration:none;color:var(--muted)">share your fee</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/feefee.co/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--muted)">@feefee.co</a></span>
 </footer>
 
 <a href="#join" class="bar mono" data-t="bar">waitlist now open · for freelance creatives worldwide</a>
@@ -364,7 +371,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !veil.hi
 setTimeout(function(){ if(!joined && !popClosed && storeGet('ff-pop')!=='closed'){ veil.hidden=false; } }, 1200);
 
 document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){ applyLang(b.getAttribute('data-lang')); }); });
-var saved = storeGet('ff-lang') || ((navigator.language||'').toLowerCase().indexOf('nl')===0 ? 'nl' : 'en');
+var saved = storeGet('ff-lang') === 'nl' ? 'nl' : 'en';   /* always English, unless the visitor chose NL */
 applyLang(saved);
 if (storeGet('ff-joined')==='1') { showJoined(); }
 
