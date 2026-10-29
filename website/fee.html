@@ -627,7 +627,7 @@ function submit(){
 }
 
 /* ---------- init ---------- */
-(function(){ var s=null; try{s=localStorage.getItem('ff-lang')}catch(e){} if(s==='nl'){ lang='nl'; document.documentElement.lang='nl';
+(function(){ var s='en'; /* always start in English */ if(s==='nl'){ lang='nl'; document.documentElement.lang='nl';
   document.querySelectorAll('[data-lang]').forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-lang')==='nl'?'true':'false') }); } render(); })();
 </script>
 </body>
