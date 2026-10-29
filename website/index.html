@@ -15,7 +15,7 @@
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+html{scroll-behavior:smooth}
 body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;overflow-x:hidden}
 img{max-width:100%}
 a{color:var(--ink)}a:hover{color:var(--muted)}
@@ -37,7 +37,17 @@ input::placeholder{color:#7A7E76}
 .split>*{flex:1 1 480px;min-width:0}
 .center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 32px}
 header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.bar{background:var(--celadon);padding:10px 24px;text-align:center;font-size:10px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:block;background:rgba(222,234,224,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 24px;text-align:center;font-size:10px;color:var(--ink);text-decoration:none}
+.bar:hover{color:var(--ink)}
+body{padding-bottom:40px}
+.nav-logo{opacity:0;pointer-events:none;transition:opacity .45s ease;justify-self:center}
+.nav-logo.on{opacity:1;pointer-events:auto}
+.nav-logo img{display:block;height:24px;width:auto}
+.sticky{width:220px;transform:translateX(clamp(70px,20vw,300px)) rotate(5deg)}
+#hero-logo{position:relative;z-index:25;transform-origin:0 0;will-change:transform}
+.hero h1{animation:fade 1.4s ease both}
+.paper{filter:drop-shadow(0 1px 1px rgba(28,30,26,.10)) drop-shadow(0 8px 14px rgba(28,30,26,.07)) drop-shadow(0 26px 40px rgba(28,30,26,.09))}
+.sticky{filter:drop-shadow(0 1px 1px rgba(28,30,26,.12)) drop-shadow(0 10px 12px rgba(28,30,26,.08)) drop-shadow(0 30px 34px rgba(28,30,26,.10))}
 .nav{max-width:1440px;margin:0 auto;padding:18px 32px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px}
 .nav a{text-decoration:none}
 .lang button{min-height:34px;padding:0 4px;border:0;background:transparent;cursor:pointer;color:#8A8E86}
@@ -59,19 +69,18 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 .pop{position:relative;width:min(400px,100%);background:var(--paper);border-radius:6px;padding:36px 32px 30px;box-shadow:0 1px 0 rgba(28,30,26,.04),0 40px 90px rgba(28,30,26,.16);display:flex;flex-direction:column;gap:14px;animation:rise .9s .1s cubic-bezier(.2,.7,.2,1) both;-webkit-font-smoothing:antialiased}
 .pop[hidden],[hidden]{display:none!important}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3,.reveal,.pop,.veil{animation:none}}
-@media (max-width:700px){.nav{padding:14px 18px;grid-template-columns:auto 1fr}.nav>nav{display:none!important}.nav .hide-sm{display:none}.center{padding:96px 18px}}
+@media (max-width:700px){.sticky{width:170px;transform:translateX(44px) rotate(5deg)}.bar{font-size:8.5px;letter-spacing:.08em;padding:11px 10px;white-space:nowrap}.nav-logo{justify-self:start}.nav{padding:14px 18px;grid-template-columns:auto 1fr}.nav>nav{display:none!important}.nav .hide-sm{display:none}.center{padding:96px 18px}}
 </style>
 </head>
 <body>
 
-<div class="bar mono" data-t="bar">waitlist now open · for freelance creatives worldwide</div>
 
 <header>
 <div class="nav mono">
 <nav style="display:flex;align-items:center;gap:20px">
 <a class="hide-sm" href="#about" data-t="navAbout">about</a>
 </nav>
-<a href="#top" class="logo-word" style="font-size:26px">fee fee.</a>
+<a href="#top" class="nav-logo" id="nav-logo" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:18px">
 <div class="lang" style="display:flex;align-items:center;gap:2px">
 <button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
@@ -83,29 +92,11 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 </header>
 
 <main>
-<section id="top" class="block center" style="padding-bottom:140px">
+<section id="top" class="block center" style="padding-bottom:120px">
 <div class="hero">
-<h1 class="load1" style="margin:0"><img src="assets/logo.svg" alt="fee fee. what's your fee?" width="994" height="323" style="width:100%;height:auto;display:block"></h1>
-<p class="h load2 hero-line"><span data-t="fcA">freelance</span><br><strong style="font-weight:700" data-t="fcB">creatives</strong><br><span data-t="fcC">worldwide.</span></p>
+<h1 style="margin:0"><img id="hero-logo" src="assets/logo.svg" alt="fee fee. what's your fee?" width="994" height="323" style="width:100%;height:auto;display:block"></h1>
 </div>
 <a class="btn load3" href="#join" style="margin-top:64px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
-</section>
-
-<section id="about" class="block split">
-<div style="min-height:70vh;position:relative;overflow:hidden">
-<img src="assets/pen.webp" alt="A blue ballpoint pen, softly out of focus, against a pale background." style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-<p class="cap" style="position:absolute;left:32px;bottom:28px;margin:0" data-t="capVisual">quiet paper, loud numbers.</p>
-</div>
-<div class="celadon" style="display:flex;flex-direction:column;justify-content:center;gap:32px;padding:96px clamp(24px,6vw,110px)">
-<p class="mono reveal" style="margin:0" data-t="whoLabel">who we are</p>
-<h2 class="h reveal" data-t="whoTitle">Nobody says the number.</h2>
-<p class="b reveal" style="max-width:480px"><span data-t="whoA">creatives guess their rates, and when we guess, we guess low. </span><span class="logo-word">fee fee.</span><span data-t="whoB"> tells you the number, what's fair, and what to ask before you say yes.</span></p>
-<div class="reveal" style="display:flex;flex-direction:column;gap:10px">
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
-</div>
-</div>
 </section>
 
 <section id="join" class="block center">
@@ -141,8 +132,21 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 </div>
 </section>
 
+<section id="about" class="block celadon" style="display:flex;align-items:center;justify-content:center;padding:120px clamp(24px,6vw,110px)">
+<div style="width:min(620px,100%);display:flex;flex-direction:column;gap:32px">
+<p class="mono reveal" style="margin:0" data-t="whoLabel">who we are</p>
+<h2 class="h reveal" data-t="whoTitle">Nobody says the number.</h2>
+<p class="b reveal" style="max-width:480px"><span data-t="whoA">creatives guess their rates, and when we guess, we guess low. </span><span class="logo-word">fee fee.</span><span data-t="whoB"> tells you the number, what's fair, and what to ask before you say yes.</span></p>
+<div class="reveal" style="display:flex;flex-direction:column;gap:10px">
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
+</div>
+</div>
+</section>
+
 <section class="block center">
-<img class="reveal" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="width:220px;height:auto;transform:rotate(4deg);margin-bottom:56px">
+<div class="reveal" style="align-self:stretch;display:flex;justify-content:center;margin-bottom:56px"><img class="sticky" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="height:auto"></div>
 <p class="mono reveal" style="margin:0" data-t="forCap">who?</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="forTitle">for every creative on set.</h2>
 <div class="notes reveal" style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:18px 34px;margin-top:64px;max-width:980px">
@@ -157,7 +161,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 
 <section class="block split">
 <div class="celadon" style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:80px 32px">
-<img class="reveal" src="assets/letter-01.webp" alt="Handwritten letter: dear creative, you're worth more than the number you were about to say. say it anyway. out loud. then add 10%. x fee fee." style="width:min(360px,80%);height:auto;transform:rotate(-3deg)">
+<div class="reveal" style="display:flex;justify-content:center;width:100%"><img class="paper" src="assets/letter-01.webp" alt="Handwritten letter: dear creative, you're worth more than the number you were about to say. say it anyway. out loud. then add 10%. x fee fee." style="width:min(360px,80%);height:auto;transform:rotate(-3deg)"></div>
 </div>
 <div style="display:flex;flex-direction:column;justify-content:center;gap:32px;padding:96px clamp(24px,6vw,110px)">
 <p class="mono reveal" style="margin:0"><span data-t="lettersLabel">letters from </span><span class="logo-word" style="font-size:14px">fee fee.</span></p>
@@ -178,6 +182,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 <span class="logo-word" style="font-size:20px;color:var(--ink)">fee fee.</span>
 <span><a href="fee.html" style="text-decoration:none;color:var(--muted)">share your fee</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/" style="text-decoration:none;color:var(--muted)">[instagram]</a></span>
 </footer>
+
+<a href="#join" class="bar mono" data-t="bar">waitlist now open · for freelance creatives worldwide</a>
 
 <div class="veil" id="veil" hidden>
 <aside class="pop" id="pop" role="dialog" aria-modal="true" aria-labelledby="pop-title">
@@ -277,6 +283,27 @@ document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener
 var saved = storeGet('ff-lang') || ((navigator.language||'').toLowerCase().indexOf('nl')===0 ? 'nl' : 'en');
 applyLang(saved);
 if (storeGet('ff-joined')==='1') { showJoined(); }
+
+/* big logo glides up and shrinks into the header */
+(function(){
+  var hero=document.getElementById('hero-logo'), nav=document.getElementById('nav-logo'), navImg=nav.querySelector('img');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches, b=null, raf=0;
+  function docTop(el){ var y=0; while(el){ y+=el.offsetTop; el=el.offsetParent; } return y; }
+  function docLeft(el){ var x=0; while(el){ x+=el.offsetLeft; el=el.offsetParent; } return x; }
+  function measure(){ var t=navImg.getBoundingClientRect(); b={x:docLeft(hero), y:docTop(hero), w:hero.offsetWidth, h:hero.offsetHeight, tx:t.left, ty:t.top, tw:t.width}; update(); }
+  function update(){ raf=0; if(!b) return; var s=window.scrollY||0;
+    if(reduce){ var past=s>b.y+b.h-b.ty; nav.classList.toggle('on',past); return; }
+    var D=Math.max(120,(b.y-b.ty)+innerHeight*.12), p=Math.min(1,Math.max(0,s/D));
+    var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2, sc=1+(b.tw/b.w-1)*e;
+    var dx=(b.tx-b.x)*e, dy=(b.y+(b.ty-b.y)*e)-(b.y-s);
+    hero.style.transform='translate('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px) scale('+sc.toFixed(4)+')';
+    hero.style.opacity=p>.9?Math.max(0,(1-p)/.1):1; hero.style.visibility=p>=1?'hidden':'visible';
+    nav.classList.toggle('on',p>.9); }
+  window.addEventListener('scroll',function(){ if(!raf) raf=requestAnimationFrame(update); },{passive:true});
+  window.addEventListener('resize',function(){ hero.style.transform=''; measure(); });
+  if(document.readyState==='complete') measure(); else window.addEventListener('load',measure);
+  measure();
+})();
 </script>
 </body>
 </html>
