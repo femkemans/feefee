@@ -53,10 +53,13 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 .load2{animation:rise 1.6s .35s cubic-bezier(.2,.7,.2,1) both}
 .load3{animation:fade 1.6s .7s ease both}
 @supports (animation-timeline: view()){.reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 28%}}
-.pop{position:fixed;right:24px;bottom:24px;z-index:40;width:min(360px,calc(100vw - 48px));background:var(--paper);border-radius:6px;padding:28px 26px 24px;box-shadow:0 30px 80px rgba(28,30,26,.18);display:flex;flex-direction:column;gap:14px;animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero{width:min(720px,100%);display:flex;flex-direction:column}
+.hero-line{margin-top:88px;align-self:flex-start;text-align:left;padding-left:2%}
+.veil{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(253,252,249,.42);backdrop-filter:blur(16px) saturate(1.05);-webkit-backdrop-filter:blur(16px) saturate(1.05);animation:fade .7s ease both}
+.pop{position:relative;width:min(400px,100%);background:var(--paper);border-radius:6px;padding:36px 32px 30px;box-shadow:0 1px 0 rgba(28,30,26,.04),0 40px 90px rgba(28,30,26,.16);display:flex;flex-direction:column;gap:14px;animation:rise .9s .1s cubic-bezier(.2,.7,.2,1) both;-webkit-font-smoothing:antialiased}
 .pop[hidden],[hidden]{display:none!important}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3,.reveal,.pop{animation:none}}
-@media (max-width:700px){.nav{padding:14px 18px}.nav .hide-sm{display:none}.center{padding:96px 18px}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3,.reveal,.pop,.veil{animation:none}}
+@media (max-width:700px){.nav{padding:14px 18px;grid-template-columns:auto 1fr}.nav>nav{display:none!important}.nav .hide-sm{display:none}.center{padding:96px 18px}}
 </style>
 </head>
 <body>
@@ -65,24 +68,27 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 
 <header>
 <div class="nav mono">
-<nav style="display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+<nav style="display:flex;align-items:center;gap:20px">
+<a class="hide-sm" href="#about" data-t="navAbout">about</a>
+</nav>
+<a href="#top" class="logo-word" style="font-size:26px">fee fee.</a>
+<div style="display:flex;justify-content:flex-end;align-items:center;gap:18px">
 <div class="lang" style="display:flex;align-items:center;gap:2px">
 <button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
 <span aria-hidden="true" style="color:#8A8E86">/</span>
 <button type="button" class="mono" data-lang="nl" aria-pressed="false">NL</button>
 </div>
-<a class="hide-sm" href="#about" data-t="navAbout">about</a>
-</nav>
-<a href="#top" class="logo-word" style="font-size:26px">fee fee.</a>
-<div style="display:flex;justify-content:flex-end"><a href="#join" style="display:inline-flex;align-items:center;height:34px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--paper)" data-t="navJoin">join</a></div>
+<a href="#join" style="display:inline-flex;align-items:center;height:34px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--paper)" data-t="navJoin">join</a></div>
 </div>
 </header>
 
 <main>
 <section id="top" class="block center" style="padding-bottom:140px">
-<h1 class="load1" style="margin:0;width:min(720px,100%)"><img src="assets/logo.webp" alt="fee fee. what's your fee?" width="1315" height="417" style="width:100%;height:auto;display:block"></h1>
-<p class="h load2" style="margin-top:88px"><span data-t="fcA">freelance</span><br><strong style="font-weight:700" data-t="fcB">creatives</strong><br><span data-t="fcC">worldwide.</span></p>
-<a class="btn load3" href="#join" style="margin-top:56px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
+<div class="hero">
+<h1 class="load1" style="margin:0"><img src="assets/logo.svg" alt="fee fee. what's your fee?" width="994" height="323" style="width:100%;height:auto;display:block"></h1>
+<p class="h load2 hero-line"><span data-t="fcA">freelance</span><br><strong style="font-weight:700" data-t="fcB">creatives</strong><br><span data-t="fcC">worldwide.</span></p>
+</div>
+<a class="btn load3" href="#join" style="margin-top:64px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
 </section>
 
 <section id="about" class="block split">
@@ -170,12 +176,13 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 <footer style="max-width:1440px;margin:0 auto;padding:0 32px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)">
 <span data-t="footer">for freelance creatives worldwide</span>
 <span class="logo-word" style="font-size:20px;color:var(--ink)">fee fee.</span>
-<span><a href="fee.html" style="text-decoration:none;color:var(--muted)">share your fee</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/" style="text-decoration:none;color:var(--muted)">[instagram]</a></span>
+<span><a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/" style="text-decoration:none;color:var(--muted)">[instagram]</a></span>
 </footer>
 
-<aside class="pop" id="pop" role="dialog" aria-labelledby="pop-title" hidden>
+<div class="veil" id="veil" hidden>
+<aside class="pop" id="pop" role="dialog" aria-modal="true" aria-labelledby="pop-title">
 <button type="button" id="pop-close" aria-label="close" style="position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;background:transparent;font-family:'Space Mono',monospace;font-size:16px;cursor:pointer">×</button>
-<img src="assets/logo.webp" alt="fee fee. what's your fee?" style="width:150px;height:auto;display:block">
+<img src="assets/logo.svg" alt="fee fee. what's your fee?" style="width:170px;height:auto;display:block">
 <p id="pop-title" style="margin:6px 0 0;font-style:italic;font-size:32px;line-height:1" data-t="popTitle">be the first in.</p>
 <p style="margin:0;font-size:18px;line-height:1.45" data-t="popText">real fees, shared by creatives. join the waitlist and get the first fee drop.</p>
 <form class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:4px 0 0;position:relative">
@@ -185,6 +192,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdro
 <button type="submit" class="btn" style="justify-content:center;height:48px;font-size:13px" data-t="cta">Join the waitlist</button>
 </form>
 </aside>
+</div>
 
 <script>
 /* ---- settings ---------------------------------------------------------
@@ -238,7 +246,7 @@ function showJoined(){
   joined = true; storeSet('ff-joined','1');
   document.getElementById('waitlist').hidden = true;
   document.querySelector('.js-thanks').hidden = false;
-  document.getElementById('pop').hidden = true;
+  document.getElementById('veil').hidden = true;
 }
 document.querySelectorAll('.js-join').forEach(function(f){
   f.addEventListener('submit',function(e){
@@ -257,10 +265,13 @@ document.querySelectorAll('.js-join').forEach(function(f){
 });
 function alertMsg(f){ var p=f.querySelector('.js-err'); if(!p){p=document.createElement('p');p.className='cap js-err';p.setAttribute('role','alert');p.style.margin='4px 0 0';f.appendChild(p);} p.textContent = lang==='nl' ? 'er ging iets mis, probeer het nog eens.' : 'something went wrong, please try again.'; }
 
-/* pop-up after 7 seconds */
-var pop = document.getElementById('pop');
-document.getElementById('pop-close').addEventListener('click',function(){ pop.hidden=true; popClosed=true; storeSet('ff-pop','closed'); });
-setTimeout(function(){ if(!joined && !popClosed && storeGet('ff-pop')!=='closed') pop.hidden=false; }, 7000);
+/* pop-up first, centered over a milk-glass blur */
+var veil = document.getElementById('veil');
+function closePop(){ veil.hidden=true; popClosed=true; storeSet('ff-pop','closed'); }
+document.getElementById('pop-close').addEventListener('click',closePop);
+veil.addEventListener('click',function(e){ if(e.target===veil) closePop(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !veil.hidden) closePop(); });
+setTimeout(function(){ if(!joined && !popClosed && storeGet('ff-pop')!=='closed'){ veil.hidden=false; } }, 1200);
 
 document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){ applyLang(b.getAttribute('data-lang')); }); });
 var saved = storeGet('ff-lang') || ((navigator.language||'').toLowerCase().indexOf('nl')===0 ? 'nl' : 'en');
