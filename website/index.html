@@ -43,6 +43,28 @@ body{padding-bottom:40px}
 .nav-logo{opacity:0;pointer-events:none;transition:opacity .45s ease;justify-self:center}
 .nav-logo.on{opacity:1;pointer-events:auto}
 .nav-logo img{display:block;height:24px;width:auto}
+.drop{width:min(460px,100%);background:var(--paper);border-radius:4px;padding:34px 34px 30px;text-align:left;display:flex;flex-direction:column;gap:6px;transform:rotate(-1.2deg);margin-top:36px}
+.drop-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}
+.drop-role{margin:0;font-style:italic;font-size:30px;line-height:1.1}
+.drop-meta{margin:6px 0 24px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--muted)}
+.drop-fee{margin:0;font-size:clamp(46px,7vw,64px);line-height:1;color:var(--blue)}
+.drop-fee small{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--muted);margin-left:8px;vertical-align:middle}
+.drop-plus{margin:8px 0 0;font-size:30px;line-height:1.1;color:var(--blue)}
+.drop-plus small{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--muted);margin-left:8px;vertical-align:middle}
+.drop-fine{margin:26px 0 0;font-family:'Space Mono',monospace;font-size:10.5px;line-height:1.6;letter-spacing:.04em;color:var(--muted)}
+.more{align-self:flex-start;background:none;border:0;padding:6px 0;cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--ink)}
+.more span{color:var(--muted)}
+.more-box{display:flex;flex-direction:column;gap:10px}
+.invite{display:flex;flex-direction:column;gap:10px;margin-top:18px;padding:22px;background:var(--field);border-radius:14px}
+.invite-row{display:flex;gap:8px}
+.invite-row .field{font-size:12px;flex:1;min-width:0;background:var(--paper)}
+.faq{width:min(680px,100%);display:flex;flex-direction:column;gap:6px;margin-top:40px;text-align:left}
+.faq details{padding:18px 0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:24px;font-style:italic;font-size:clamp(24px,3vw,32px);line-height:1.15}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:'Space Mono',monospace;font-style:normal;font-size:16px;color:var(--muted);transition:transform .3s ease}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:14px 0 0;max-width:560px}
 .sticky{width:220px;transform:translateX(clamp(70px,20vw,300px)) rotate(5deg)}
 #hero-logo{position:relative;z-index:25;transform-origin:0 0;will-change:transform}
 .hero h1{animation:fade 1.4s ease both}
@@ -99,6 +121,20 @@ body{padding-bottom:40px}
 <a class="btn load3" href="#join" style="margin-top:64px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
 </section>
 
+<section id="drop" class="center" style="padding:40px 24px 120px">
+<p class="mono reveal" style="margin:0" data-t="dropLabel">a fee drop looks like this</p>
+<div class="reveal" style="width:100%;display:flex;justify-content:center">
+<article class="drop paper" aria-label="example fee drop">
+<div class="drop-top"><span class="cap" data-t="dropTag">example · fee drop #00</span><span class="logo-word" style="font-size:20px">fee fee.</span></div>
+<p class="drop-role" data-t="dropRole">photographer, campaign</p>
+<p class="drop-meta" data-t="dropMeta">1 shoot day · the netherlands · online usage, 1 year</p>
+<p class="drop-fee"><span data-t="dropDayFee">€1,100</span><small data-t="dropDay">day rate</small></p>
+<p class="drop-plus"><span data-t="dropUsageFee">+ €650</span><small data-t="dropUsage">usage buy-out</small></p>
+<p class="drop-fine" data-t="dropFine">example only. real fees, shared anonymously by real creatives, drop when the doors open.</p>
+</article>
+</div>
+</section>
+
 <section id="join" class="block center">
 <p class="mono reveal" style="margin:0" data-t="values">transparency · solidarity · fairness · knowledge</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="joinTitle">Join the waitlist.</h2>
@@ -110,10 +146,12 @@ body{padding-bottom:40px}
 </div>
 <form id="waitlist" class="js-join" style="display:flex;flex-direction:column;gap:10px;margin:0">
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-<label class="label" for="r-name" data-t="name">name</label>
-<input class="field" id="r-name" name="name" type="text" autocomplete="given-name" data-tp="namePh" placeholder="first name">
 <label class="label" for="r-email" data-t="email">email</label>
 <input class="field" id="r-email" name="email" type="email" autocomplete="email" required placeholder="you@studio.com">
+<button type="button" class="more" id="more-btn" aria-expanded="false" aria-controls="more-box"><span data-t="moreA" style="color:var(--ink)">+ tell us more</span> <span data-t="moreB">(optional)</span></button>
+<div class="more-box" id="more-box" hidden>
+<label class="label" for="r-name" data-t="name">name</label>
+<input class="field" id="r-name" name="name" type="text" autocomplete="given-name" data-tp="namePh" placeholder="first name">
 <p class="label" id="roles-label" style="margin-bottom:0" data-t="roles">what you do</p>
 <button type="button" id="roles-btn" class="field" aria-expanded="false" aria-labelledby="roles-label" style="display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;color:#7A7E76">
 <span id="roles-sum" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">choose one or more roles</span><span aria-hidden="true" id="roles-arrow" style="color:var(--ink);font-size:12px">↓</span>
@@ -121,6 +159,7 @@ body{padding-bottom:40px}
 <div class="roles-panel" id="roles-panel" hidden></div>
 <label class="label" for="r-city" data-t="basedIn">based in</label>
 <input class="field" id="r-city" name="city" type="text" autocomplete="address-level2" data-tp="cityPh" placeholder="city, country">
+</div>
 <button type="submit" class="btn" style="justify-content:center;height:52px;margin-top:14px" data-t="cta">Join the waitlist</button>
 <p class="cap" style="margin:6px 0 0;line-height:1.6;letter-spacing:.05em;text-transform:none;font-size:11px"><span data-t="privacyA">we only use your details to email you about </span><span class="logo-word" style="color:var(--ink);font-size:12px">fee fee.</span><span data-t="privacyB"> we never share them, and you can unsubscribe anytime.</span> <a href="privacy.html" style="color:var(--muted)">privacy</a></p>
 </form>
@@ -128,6 +167,11 @@ body{padding-bottom:40px}
 <p class="mono" style="margin:0" data-t="status">status · on the list</p>
 <p style="margin:0;font-style:italic;font-weight:700;font-size:32px;line-height:1.1"><span data-t="welcome">Welcome to</span> <span class="logo-word" style="font-style:normal;font-weight:400">fee fee.</span></p>
 <p class="b" style="font-size:20px" data-t="welcomeText">we'll write when the doors open.</p>
+<div class="invite">
+<p class="label" style="margin:0" data-t="inviteLabel">get in earlier</p>
+<p style="margin:0;font-size:18px;line-height:1.45" data-t="inviteText">invite the creatives you work with. the more people join through your link, the earlier you're in.</p>
+<div class="invite-row"><label class="sr" for="invite-link" data-t="inviteLabel">get in earlier</label><input class="field" id="invite-link" readonly value="https://feefee.co"><button type="button" class="btn" id="invite-btn" style="height:46px;padding:0 20px;font-size:12px" data-t="inviteBtn">share</button></div>
+</div>
 </div>
 </div>
 </section>
@@ -142,6 +186,16 @@ body{padding-bottom:40px}
 <p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
 <p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
 </div>
+</div>
+</section>
+
+<section id="faq" class="center" style="padding:120px 24px 80px">
+<p class="mono reveal" style="margin:0" data-t="faqLabel">questions</p>
+<div class="faq reveal">
+<details><summary data-t="q1">is it free?</summary><p class="b" data-t="a1">the waitlist is free. how the rest works, you'll hear first.</p></details>
+<details><summary data-t="q2">is sharing my fee anonymous?</summary><p class="b" data-t="a2">yes. you share one past job, without your name, email or ip address. fees are only shown grouped, once at least five people have shared for the same group. never per person.</p></details>
+<details><summary data-t="q3">who's behind fee fee.?</summary><p class="b" data-t="a3">it was started by Femke Juffermans, a Dutch creative director and photographer. but fee fee. belongs to everyone who shares a number: freelance creatives everywhere, not just one circle.</p></details>
+<details><summary data-t="q4">what do I get on the waitlist?</summary><p class="b" data-t="a4">the first fee drop, letters on usage, buy-outs and invoices, and early access. invite creatives through your own link and you're in even earlier.</p></details>
 </div>
 </section>
 
@@ -207,8 +261,8 @@ body{padding-bottom:40px}
 var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxFPessWUdy-93abgWxXhH7tFQvjUxW5vKQIQ7iHDFTW8ZCTHpDOwrJ_HhOaHE-0Ais/exec';
 
 var COPY = {
-  en: {bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:'who we are',whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' tells you the number, what’s fair, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'for freelance creatives worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.'},
-  nl: {bar:'de wachtlijst is open · voor freelance creatives wereldwijd',navAbout:'over',navJoin:'meld je aan',fcA:'freelance',fcB:'creatives',fcC:'wereldwijd.',cta:'Zet me op de wachtlijst',capVisual:'stil papier, luide bedragen.',whoLabel:'wie we zijn',whoTitle:'Niemand noemt het bedrag.',whoA:'creatives gokken hun tarieven, en als we gokken, gokken we laag. ',whoB:' vertelt je het bedrag, wat eerlijk is, en wat je vraagt voordat je ja zegt.',k1:'Weet.',v1:'echte tarieven, per klus, gebruik en land.',k2:'Lees.',v2:'contracten, gebruiksrechten en buy-outs in gewone taal.',k3:'Vraag.',v3:'precies de vragen die je stelt voordat je ja zegt.',values:'transparantie · solidariteit · eerlijkheid · kennis',joinTitle:'Op de wachtlijst.',joinText:'de deuren gaan binnenkort open, eerst voor een kleine groep. je bent er vroeg bij, met de eerste fee drop in je inbox.',name:'naam',namePh:'voornaam',email:'e-mail',roles:'wat je doet',rolesPh:'kies een of meer rollen',done:'klaar',basedIn:'gevestigd in',cityPh:'stad, land',privacyA:'we gebruiken je gegevens alleen om je te mailen over ',privacyB:' we delen ze nooit, en je kunt je altijd afmelden.',status:'status · op de lijst',welcome:'Welkom bij',welcomeText:'we schrijven je zodra de deuren opengaan.',forCap:'wie?',forTitle:'voor elke creative op set.',lettersLabel:'brieven van ',lettersTitle:'Korte notities over alles wat niemand je uitlegde.',lettersText:'gebruiksrechten, buy-outs, je eerste factuur, nee zeggen. één handgeschreven brief per keer, in je inbox.',footer:'voor freelance creatives wereldwijd',popTitle:'wees er als eerste bij.',popText:'echte tarieven, gedeeld door creatives. meld je aan en krijg de eerste fee drop.'}
+  en: {bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:'who we are',whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' tells you the number, what’s fair, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'for freelance creatives worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.',dropLabel:'a fee drop looks like this',dropTag:'example · fee drop #00',dropRole:'photographer, campaign',dropMeta:'1 shoot day · the netherlands · online usage, 1 year',dropDayFee:'€1,100',dropDay:'day rate',dropUsageFee:'+ €650',dropUsage:'usage buy-out',dropFine:'example only. real fees, shared anonymously by real creatives, drop when the doors open.',moreA:'+ tell us more',moreB:'(optional)',inviteLabel:'get in earlier',inviteText:'invite the creatives you work with. the more people join through your link, the earlier you\u2019re in.',inviteBtn:'share',copied:'copied',faqLabel:'questions',q1:'is it free?',a1:'the waitlist is free. how the rest works, you\u2019ll hear first.',q2:'is sharing my fee anonymous?',a2:'yes. you share one past job, without your name, email or ip address. fees are only shown grouped, once at least five people have shared for the same group. never per person.',q3:'who\u2019s behind fee fee.?',a3:'it was started by Femke Juffermans, a Dutch creative director and photographer. but fee fee. belongs to everyone who shares a number: freelance creatives everywhere, not just one circle.',q4:'what do I get on the waitlist?',a4:'the first fee drop, letters on usage, buy-outs and invoices, and early access. invite creatives through your own link and you\u2019re in even earlier.',shareText:'real fees, shared by creatives. join the fee fee. waitlist:'},
+  nl: {bar:'de wachtlijst is open · voor freelance creatives wereldwijd',navAbout:'over',navJoin:'meld je aan',fcA:'freelance',fcB:'creatives',fcC:'wereldwijd.',cta:'Zet me op de wachtlijst',capVisual:'stil papier, luide bedragen.',whoLabel:'wie we zijn',whoTitle:'Niemand noemt het bedrag.',whoA:'creatives gokken hun tarieven, en als we gokken, gokken we laag. ',whoB:' vertelt je het bedrag, wat eerlijk is, en wat je vraagt voordat je ja zegt.',k1:'Weet.',v1:'echte tarieven, per klus, gebruik en land.',k2:'Lees.',v2:'contracten, gebruiksrechten en buy-outs in gewone taal.',k3:'Vraag.',v3:'precies de vragen die je stelt voordat je ja zegt.',values:'transparantie · solidariteit · eerlijkheid · kennis',joinTitle:'Op de wachtlijst.',joinText:'de deuren gaan binnenkort open, eerst voor een kleine groep. je bent er vroeg bij, met de eerste fee drop in je inbox.',name:'naam',namePh:'voornaam',email:'e-mail',roles:'wat je doet',rolesPh:'kies een of meer rollen',done:'klaar',basedIn:'gevestigd in',cityPh:'stad, land',privacyA:'we gebruiken je gegevens alleen om je te mailen over ',privacyB:' we delen ze nooit, en je kunt je altijd afmelden.',status:'status · op de lijst',welcome:'Welkom bij',welcomeText:'we schrijven je zodra de deuren opengaan.',forCap:'wie?',forTitle:'voor elke creative op set.',lettersLabel:'brieven van ',lettersTitle:'Korte notities over alles wat niemand je uitlegde.',lettersText:'gebruiksrechten, buy-outs, je eerste factuur, nee zeggen. één handgeschreven brief per keer, in je inbox.',footer:'voor freelance creatives wereldwijd',popTitle:'wees er als eerste bij.',popText:'echte tarieven, gedeeld door creatives. meld je aan en krijg de eerste fee drop.',dropLabel:'zo ziet een fee drop eruit',dropTag:'voorbeeld · fee drop #00',dropRole:'fotograaf, campagne',dropMeta:'1 shootdag · nederland · online gebruik, 1 jaar',dropDayFee:'€1.100',dropDay:'dagtarief',dropUsageFee:'+ €650',dropUsage:'buy-out gebruiksrechten',dropFine:'alleen een voorbeeld. echte tarieven, anoniem gedeeld door echte creatives, komen zodra de deuren opengaan.',moreA:'+ vertel meer',moreB:'(optioneel)',inviteLabel:'eerder binnen',inviteText:'nodig de creatives uit met wie je werkt. hoe meer mensen via jouw link aanmelden, hoe eerder jij binnen bent.',inviteBtn:'delen',copied:'gekopieerd',faqLabel:'vragen',q1:'is het gratis?',a1:'de wachtlijst is gratis. hoe de rest werkt, hoor jij als eerste.',q2:'deel ik mijn tarief anoniem?',a2:'ja. je deelt één afgeronde klus, zonder naam, e-mail of ip-adres. tarieven worden alleen gegroepeerd getoond, zodra minstens vijf mensen voor dezelfde groep hebben gedeeld. nooit per persoon.',q3:'wie zit er achter fee fee.?',a3:'fee fee. is gestart door Femke Juffermans, creative director en fotograaf. maar fee fee. is van iedereen die een bedrag deelt: freelance creatives overal, niet alleen één kring.',q4:'wat krijg ik op de wachtlijst?',a4:'de eerste fee drop, brieven over gebruiksrechten, buy-outs en facturen, en vroege toegang. nodig creatives uit via je eigen link en je bent nog eerder binnen.',shareText:'echte tarieven, gedeeld door creatives. zet jezelf op de fee fee. wachtlijst:'}
 };
 var GROUPS = [
   ['camera & image',['photographer','photo assistant','videographer / DOP','camera assistant','digital tech','retoucher','editor / colorist','motion designer']],
@@ -248,12 +302,37 @@ function toggleRoles(open){ var o = open==null ? panel.hidden : open; panel.hidd
 rbtn.addEventListener('click',function(){toggleRoles()});
 
 /* sign-up */
-function showJoined(){
+/* referral: everyone gets a short invite code; ?ref=CODE credits the person who invited you */
+var refIn = (new URLSearchParams(location.search)).get('ref');
+if (refIn && /^[a-z0-9]{6,12}$/.test(refIn)) storeSet('ff-ref', refIn);
+var codeCache = null;
+function myCode(){
+  if (codeCache) return codeCache;
+  var c = storeGet('ff-code');
+  if (!c || !/^[a-z0-9]{8}$/.test(c)) { var abc='abcdefghjkmnpqrstuvwxyz23456789', a=new Uint8Array(8); crypto.getRandomValues(a); c=''; for (var i=0;i<8;i++) c+=abc[a[i]%abc.length]; storeSet('ff-code', c); }
+  return codeCache = c;
+}
+function inviteUrl(){ return 'https://feefee.co/?ref=' + myCode(); }
+function showJoined(fromPop){
   joined = true; storeSet('ff-joined','1');
   document.getElementById('waitlist').hidden = true;
   document.querySelector('.js-thanks').hidden = false;
   document.getElementById('veil').hidden = true;
+  document.getElementById('invite-link').value = inviteUrl();
+  if (fromPop) document.getElementById('join').scrollIntoView({behavior:'smooth'});
 }
+document.getElementById('invite-btn').addEventListener('click', function(){
+  var b=this, url=inviteUrl(), t=COPY[lang];
+  if (navigator.share) { navigator.share({title:'fee fee.', text:t.shareText, url:url}).catch(function(){}); return; }
+  var done=function(){ b.textContent=t.copied; setTimeout(function(){ b.textContent=t.inviteBtn; },1800); };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done,function(){ var i=document.getElementById('invite-link'); i.select(); document.execCommand('copy'); done(); });
+  else { var i=document.getElementById('invite-link'); i.select(); document.execCommand('copy'); done(); }
+});
+document.getElementById('more-btn').addEventListener('click', function(){
+  var box=document.getElementById('more-box'), open=box.hidden; box.hidden=!open; this.setAttribute('aria-expanded', open?'true':'false');
+  this.hidden = open;
+  if (open) document.getElementById('r-name').focus();
+});
 document.querySelectorAll('.js-join').forEach(function(f){
   f.addEventListener('submit',function(e){
     e.preventDefault();
@@ -261,11 +340,13 @@ document.querySelectorAll('.js-join').forEach(function(f){
     if (f.id==='waitlist') { data.delete('roles'); data.append('roles', picked().join(', ')); }
     data.append('language', lang);
     data.append('form', f.id==='waitlist' ? 'page' : 'popup');
+    data.append('code', myCode());
+    var ref = storeGet('ff-ref'); if (ref && ref !== myCode()) data.append('ref', ref);
     var btn = f.querySelector('[type=submit]'); btn.disabled = true;
-    if (!WAITLIST_ENDPOINT) { showJoined(); return; }
+    if (!WAITLIST_ENDPOINT) { showJoined(f.id!=='waitlist'); return; }
     var body = new URLSearchParams(); data.forEach(function(v,k){ body.append(k,v); });
     fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
-      .then(function(){ showJoined(); })
+      .then(function(){ showJoined(f.id!=='waitlist'); })
       .catch(function(){ btn.disabled=false; alertMsg(f); });
   });
 });
