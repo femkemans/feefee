@@ -234,6 +234,22 @@ var CRAFT = {
   other:[]
 };
 
+/* extra questions when a specific role is picked (also across fields) */
+var IMG = [['1-10','1–10'],['11-25','11–25'],['26-50','26–50'],['51-150','51–150'],['150+']];
+var ROLE_EXTRA = {
+  'retoucher':[{id:'retouch_images', type:'one', label:{en:'images to retouch',nl:'aantal te retoucheren beelden'}, opts:IMG},
+               {id:'retouch_level', type:'one', label:{en:'retouch level',nl:'retoucheniveau'}, opts:[['basic: colour & clean-up','basic: colour & clean-up','basis: kleur & opschonen'],['high-end / beauty'],['compositing']]}],
+  'editor / colorist':[{id:'edits', type:'one', label:{en:'number of edits / cutdowns',nl:'aantal edits / cutdowns'}, opts:[['1'],['2-5','2–5'],['6-10','6–10'],['10+']]}],
+  'digital tech':[{id:'tech_kit', type:'one', label:{en:'tech cart / laptop kit',nl:'tech cart / laptop-kit'}, opts:[['billed separately','billed separately','apart gefactureerd'],['in my fee','in my fee','in mijn fee'],['client provides','client provides','klant regelt het']]}]
+};
+function craftQs(){
+  var base=(CRAFT[A.discipline]||[]).slice(), ids=base.map(function(x){return x.id}), roles=A.roles.concat(A.own).map(function(r){return r.toLowerCase()});
+  Object.keys(ROLE_EXTRA).forEach(function(r){ if(roles.indexOf(r)>-1) ROLE_EXTRA[r].forEach(function(x){ if(ids.indexOf(x.id)<0){ base.push(x); ids.push(x.id); } }); });
+  /* photographer + retoucher: the general retouch question is covered by the retoucher ones */
+  if(roles.indexOf('retoucher')>-1) base=base.filter(function(x){return x.id!=='retouch'});
+  return base;
+}
+
 /* ---------- chapters ---------- */
 var CH = ['start','job','number','craft','rights','details'];
 var CHN = {start:{en:'the start',nl:'het begin'},job:{en:'the job',nl:'de klus'},number:{en:'the number',nl:'het bedrag'},craft:{en:'the craft',nl:'het vak'},rights:{en:'the rights',nl:'de rechten'},details:{en:'the details',nl:'de details'}};
@@ -247,8 +263,8 @@ var SIDE = {
   thanks:{en:['shared','thank you.','you just made the numbers a little more honest. now go say yours.'],nl:['gedeeld','dankjewel.','je hebt de bedragen net een beetje eerlijker gemaakt. noem nu de jouwe.']}
 };
 var T = {
-  en:{foot:'anonymous · no name · no email',stage:'where are you at?',disc:'your field',roles:'your role(s)',multi:'· pick one or more',own:'not listed? type your role',add:'add',job_type:'type of job',client_type:'client',country:'country of the job',countryPh:'the Netherlands',days:'shoot days',prep:'prep / travel days',perDay:'≈ {x} per shoot day',usage:'where is it used',usage_period:'for how long',territory:'how far',included:'included in your fee',billed_extra:'billed on top',payment:'how was it paid',experience:'years doing this',optional:'· optional',next:'next',back:'back',submit:'share anonymously',err:'almost there: please answer the questions on this page.',errSend:'something went wrong, please try again in a minute.',askTitle:'before you send your number, ask:',askTip:'copy these into your reply. every answer can raise your fee.',copy:'copy questions',copied:'copied ✓',again:'share another job',join:'join the waitlist',noCraft:'nothing extra to ask here. on to the rights.'},
-  nl:{foot:'anoniem · geen naam · geen e-mail',stage:'waar sta je?',disc:'jouw vak',roles:'je rol(len)',multi:'· kies er één of meer',own:'staat er niet bij? typ je rol',add:'voeg toe',job_type:'soort klus',client_type:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',days:'shootdagen',prep:'voorbereiding / reisdagen',perDay:'≈ {x} per shootdag',usage:'waar wordt het gebruikt',usage_period:'hoe lang',territory:'hoe ver',included:'inbegrepen in je fee',billed_extra:'apart gefactureerd',payment:'hoe is er betaald',experience:'jaren ervaring',optional:'· optioneel',next:'volgende',back:'terug',submit:'deel anoniem',err:'bijna: beantwoord de vragen op deze pagina.',errSend:'er ging iets mis, probeer het over een minuut nog eens.',askTitle:'vraag dit voordat je je bedrag stuurt:',askTip:'kopieer dit in je antwoord. elk antwoord kan je fee verhogen.',copy:'kopieer vragen',copied:'gekopieerd ✓',again:'deel nog een klus',join:'op de wachtlijst',noCraft:'hier niets extra te vragen. door naar de rechten.'}
+  en:{foot:'anonymous · no name · no email',stage:'where are you at?',disc:'your field',roles:'your role(s)',multi:'· pick one or more',own:'not listed? type your role',add:'add',job_type:'type of job',client_type:'client',country:'country of the job',countryPh:'the Netherlands',date:'shoot date',dateNote:'· optional, only for your own calendar. never stored.',calTitle:'add it to your calendar',calText:'save this job as an option, with your prep days in front of it.',calNoDate:'pick the shoot date to save this job as an option in your calendar.',calGoogle:'google calendar',calIcs:'apple / outlook (.ics)',calOption:'OPTION',calBooked:'BOOKED',calPrep:'prep / travel',calFee:'fee',calFrom:'saved with fee fee. · feefee.co',days:'shoot days',prep:'prep / travel days',perDay:'≈ {x} per shoot day',usage:'where is it used',usage_period:'for how long',territory:'how far',included:'included in your fee',billed_extra:'billed on top',payment:'how was it paid',experience:'years doing this',optional:'· optional',next:'next',back:'back',submit:'share anonymously',err:'almost there: please answer the questions on this page.',errSend:'something went wrong, please try again in a minute.',askTitle:'before you send your number, ask:',askTip:'copy these into your reply. every answer can raise your fee.',copy:'copy questions',copied:'copied ✓',again:'share another job',join:'join the waitlist',noCraft:'nothing extra to ask here. on to the rights.'},
+  nl:{foot:'anoniem · geen naam · geen e-mail',stage:'waar sta je?',disc:'jouw vak',roles:'je rol(len)',multi:'· kies er één of meer',own:'staat er niet bij? typ je rol',add:'voeg toe',job_type:'soort klus',client_type:'opdrachtgever',country:'land van de klus',countryPh:'Nederland',date:'shootdatum',dateNote:'· optioneel, alleen voor je eigen agenda. wordt nooit opgeslagen.',calTitle:'zet het in je agenda',calText:'sla deze klus op als optie, met je voorbereidingsdagen ervoor.',calNoDate:'kies de shootdatum om deze klus als optie in je agenda te zetten.',calGoogle:'google agenda',calIcs:'apple / outlook (.ics)',calOption:'OPTIE',calBooked:'GEBOEKT',calPrep:'voorbereiding / reizen',calFee:'fee',calFrom:'opgeslagen met fee fee. · feefee.co',days:'shootdagen',prep:'voorbereiding / reisdagen',perDay:'≈ {x} per shootdag',usage:'waar wordt het gebruikt',usage_period:'hoe lang',territory:'hoe ver',included:'inbegrepen in je fee',billed_extra:'apart gefactureerd',payment:'hoe is er betaald',experience:'jaren ervaring',optional:'· optioneel',next:'volgende',back:'terug',submit:'deel anoniem',err:'bijna: beantwoord de vragen op deze pagina.',errSend:'er ging iets mis, probeer het over een minuut nog eens.',askTitle:'vraag dit voordat je je bedrag stuurt:',askTip:'kopieer dit in je antwoord. elk antwoord kan je fee verhogen.',copy:'kopieer vragen',copied:'gekopieerd ✓',again:'deel nog een klus',join:'op de wachtlijst',noCraft:'hier niets extra te vragen. door naar de rechten.'}
 };
 var ASK = {
   base:{en:['where will it be used, for how long, and in which countries?','are prep and travel days paid?','what is the deadline, and is it a rush?','payment terms: 14 or 30 days?','what happens if the shoot is cancelled or moved?'],
@@ -268,7 +284,7 @@ var COUNTRIES = ['the Netherlands','Belgium','Germany','France','United Kingdom'
 /* ---------- state ---------- */
 var lang = 'en', at = 0, sent = false;
 var A = {stage:'', discipline:'', roles:[], own:[], job_type:'', client_type:'', country:'', fee_amount:'', currency:'EUR', days:1, prep_days:0,
-         usage:[], usage_period:'', territory:'', included:[], billed_extra:[], payment:'', experience:'', craft:{}};
+         date:'', usage:[], usage_period:'', territory:'', included:[], billed_extra:[], payment:'', experience:'', craft:{}};
 function $(id){return document.getElementById(id)}
 function L(o){return lang==='nl' ? (o[2]||o[1]||o[0]) : (o[1]||o[0])}
 function el(tag, cls, txt){var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e}
@@ -341,6 +357,9 @@ var R = {
     var dl=el('datalist'); dl.id='countries'; COUNTRIES.forEach(function(x){ var o=el('option'); o.value=x; dl.appendChild(o); });
     var w=el('div'); w.appendChild(inp); w.appendChild(dl);
     c.appendChild(q(T[lang].country,null,w));
+    var dt=el('input','field'); dt.type='date'; dt.value=A.date; dt.id='date'; dt.setAttribute('aria-label',T[lang].date);
+    dt.addEventListener('input',function(){ A.date=dt.value; });
+    c.appendChild(q(T[lang].date,T[lang].dateNote,dt));
   },
   number:function(c){
     var box=el('div','number'), am=el('div','amount'), sym=el('span','sym',SYM[A.currency]||''); sym.id='sym'; sym.setAttribute('aria-hidden','true');
@@ -349,7 +368,7 @@ var R = {
     am.appendChild(sym); am.appendChild(inp); box.appendChild(am);
     var cur=chips('currency',O.currency,false,function(){return A.currency},function(v){A.currency=v||'EUR'; $('sym').textContent=SYM[A.currency]||''}); cur.classList.add('cur'); box.appendChild(cur);
     var steps=el('div','steps');
-    [['days',T[lang].days,.5,60],['prep_days',T[lang].prep,0,30]].forEach(function(s){
+    [['prep_days',T[lang].prep,0,30],['days',T[lang].days,.5,60]].forEach(function(s){
       var st=el('div','step'); st.appendChild(el('span','mono',s[1]));
       var mi=el('button',null,'−'), v=el('input'), pl=el('button',null,'+'); mi.type=pl.type='button';
       v.type='number'; v.step='0.5'; v.min=s[2]; v.max=s[3]; v.value=A[s[0]]; v.id=s[0]; v.setAttribute('aria-label',s[1]);
@@ -363,7 +382,7 @@ var R = {
     c.appendChild(box); rate();
   },
   craft:function(c){
-    var qs=CRAFT[A.discipline]||[];
+    var qs=craftQs();
     if(!qs.length){ c.appendChild(el('p','cap',T[lang].noCraft)); return; }
     qs.forEach(function(x){
       var get=function(){ return A.craft[x.id]!=null ? A.craft[x.id] : (x.type==='many'?[]:'') };
@@ -426,11 +445,50 @@ function thanks(){
       if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ cp.textContent=t.copied; setTimeout(function(){cp.textContent=t.copy},2000); },function(){}); });
     box.appendChild(cp); c.appendChild(box);
   }
+  if(A.stage!=='done') c.appendChild(calBox());
   var row=el('div'); row.style.cssText='display:flex;flex-wrap:wrap;gap:12px;margin-top:40px';
   var again=el('a','btn',t.again); again.href='#'; again.addEventListener('click',function(e){ e.preventDefault(); location.reload(); });
   var join=el('a','btn soft',t.join); join.href='index.html#join';
   row.appendChild(again); row.appendChild(join); c.appendChild(row);
   window.scrollTo({top:0,behavior:'smooth'});
+}
+/* ---------- calendar option (.ics + Google), built in the browser, nothing stored ---------- */
+function ymd(d){ return d.toISOString().slice(0,10).replace(/-/g,''); }
+function calInfo(){
+  var t=T[lang], d=DISC.filter(function(x){return x[0]===A.discipline})[0];
+  var start = A.date ? new Date(A.date+'T00:00:00Z') : null;
+  var prep = Math.ceil(Number(A.prep_days)||0), shoot = Math.max(1,Math.ceil(Number(A.days)||1));
+  var title = (A.stage==='booked' ? t.calBooked : t.calOption)+' · '+(A.job_type||'')+' · '+(A.client_type||'');
+  var s=SYM[A.currency]||''; var fee = A.fee_amount ? s+(s.length>1?' ':'')+Number(A.fee_amount).toLocaleString(lang==='nl'?'nl-NL':'en-GB') : '';
+  var desc = [A.roles.concat(A.own).join(', '), fee ? t.calFee+': '+fee+' ('+Number(A.days)+' '+t.days+(Number(A.prep_days)?(', '+Number(A.prep_days)+' '+t.prep):'')+')' : '', A.country, '', t.calFrom].filter(function(x){return x!==null}).join('\n');
+  return {start:start, prep:prep, shoot:shoot, title:title, desc:desc};
+}
+function icsFile(){
+  var i=calInfo(), now=new Date(), lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//fee fee.//say the number//EN','CALSCALE:GREGORIAN'];
+  function esc(x){ return String(x).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+  function ev(uid, s, days, title){ var e=new Date(s.getTime()+days*864e5);
+    lines.push('BEGIN:VEVENT','UID:'+uid+'@feefee.co','DTSTAMP:'+now.toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;VALUE=DATE:'+ymd(s),'DTEND;VALUE=DATE:'+ymd(e),'SUMMARY:'+esc(title),'DESCRIPTION:'+esc(i.desc),'TRANSP:'+(A.stage==='booked'?'OPAQUE':'TRANSPARENT'),'END:VEVENT'); }
+  var id=Date.now().toString(36);
+  if(i.prep){ ev(id+'p', new Date(i.start.getTime()-i.prep*864e5), i.prep, T[lang].calPrep+' · '+i.title); }
+  ev(id, i.start, i.shoot, i.title);
+  lines.push('END:VCALENDAR'); return lines.join('\r\n');
+}
+function calBox(){
+  var t=T[lang], box=el('div','ask'); box.style.marginTop='24px';
+  var h=el('p','mono',t.calTitle); h.style.margin='0 0 10px'; box.appendChild(h);
+  var p=el('p','cap',A.date ? t.calText : t.calNoDate); p.style.margin='0 0 18px'; box.appendChild(p);
+  if(!A.date){
+    var dt=el('input','field'); dt.type='date'; dt.style.maxWidth='260px'; dt.setAttribute('aria-label',t.date);
+    dt.addEventListener('input',function(){ A.date=dt.value; var n=calBox(); box.replaceWith(n); }); box.appendChild(dt); return box;
+  }
+  var row=el('div'); row.style.cssText='display:flex;flex-wrap:wrap;gap:10px';
+  var i=calInfo(), end=new Date(i.start.getTime()+i.shoot*864e5);
+  var g=el('a','btn soft',t.calGoogle); g.target='_blank'; g.rel='noopener'; g.style.cssText='height:44px;padding:0 22px;font-size:12px';
+  g.href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(i.title)+'&dates='+ymd(i.start)+'/'+ymd(end)+'&details='+encodeURIComponent(i.desc);
+  var ics=el('button','btn soft',t.calIcs); ics.type='button'; ics.style.cssText='height:44px;padding:0 22px;font-size:12px';
+  ics.addEventListener('click',function(){ var blob=new Blob([icsFile()],{type:'text/calendar'}), a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='fee-fee-option.ics'; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500); });
+  row.appendChild(g); row.appendChild(ics); box.appendChild(row);
+  return box;
 }
 function go(n){ at=Math.max(0,Math.min(CH.length-1,n)); render(); window.scrollTo({top:0,behavior:'smooth'}); }
 $('next').addEventListener('click',function(){
