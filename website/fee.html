@@ -140,6 +140,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   .nav{position:sticky;bottom:0;background:linear-gradient(rgba(253,252,249,0),var(--paper) 30%);padding:28px 0 16px}
 }
 .fair{margin:36px 0 0;max-width:560px;color:var(--muted);line-height:1.7;text-transform:none;letter-spacing:.02em}
+.logo-word{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;text-transform:none}
 </style>
 </head>
 <body>
@@ -632,6 +633,7 @@ function submit(){
 (function(){ var s='en'; /* always start in English */ if(s==='nl'){ lang='nl'; document.documentElement.lang='nl';
   document.querySelectorAll('[data-lang]').forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-lang')==='nl'?'true':'false') }); } render(); })();
 </script>
+<script src="assets/logo-word.js"></script>
 <script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
