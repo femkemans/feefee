@@ -438,21 +438,29 @@ rbtn.addEventListener('click',function(){toggleRoles()});
 /* sign-up */
 /* referral: everyone gets a short invite code; ?ref=CODE credits the person who invited you */
 var refIn = (new URLSearchParams(location.search)).get('ref');
-if (refIn && /^[a-z0-9]{6,12}$/.test(refIn)) storeSet('ff-ref', refIn);
+refIn = (refIn||'').toLowerCase().trim();
+if (refIn && /^[a-z0-9]{4,14}$/.test(refIn)) storeSet('ff-ref', refIn);
 var codeCache = null;
+/* invite codes: a word from the set + two numbers, e.g. polaroid42 (older 8-letter codes keep working) */
+var WORDS=['polaroid','softbox','gaffer','tripod','flash','lens','film','grain','frame','tape','tulle','lipstick','steamer','clapper','wrap','golden','studio','muse','sketch','canvas','ribbon','sequin','velvet','linen','denim','blush','chrome','mirror','props','take','scene','cue','spark','glow','bloom','hairspray','pins','rollers','shutter','reel','dolly','boom','focus','apron','fringe','lace','satin','bounce','haze','wardrobe'];
 function myCode(){
   if (codeCache) return codeCache;
   var c = storeGet('ff-code');
-  if (!c || !/^[a-z0-9]{8}$/.test(c)) { var abc='abcdefghjkmnpqrstuvwxyz23456789', a=new Uint8Array(8); crypto.getRandomValues(a); c=''; for (var i=0;i<8;i++) c+=abc[a[i]%abc.length]; storeSet('ff-code', c); }
+  if (!c || !/^[a-z0-9]{4,14}$/.test(c)) {
+    var r=new Uint32Array(2); crypto.getRandomValues(r);
+    c = WORDS[r[0]%WORDS.length] + String(10 + r[1]%90);
+    storeSet('ff-code', c);
+  }
   return codeCache = c;
 }
 function inviteUrl(){ return 'https://feefee.co/?ref=' + myCode(); }
+function inviteShort(){ return 'feefee.co/?ref=' + myCode(); }
 function showJoined(fromPop){
   joined = true; storeSet('ff-joined','1');
   document.getElementById('hero-join').hidden = true; document.getElementById('hero-in').hidden = false; document.getElementById('bar').hidden = true;
   document.getElementById('waitlist').hidden = true;
   document.querySelector('.js-thanks').hidden = false;
-  document.getElementById('invite-link').value = inviteUrl();
+  document.getElementById('invite-link').value = inviteShort();
   if (fromPop) document.getElementById('join').scrollIntoView({behavior:'smooth'});
 }
 document.getElementById('invite-btn').addEventListener('click', function(){
@@ -470,20 +478,33 @@ document.getElementById('more-btn').addEventListener('click', function(){
 document.querySelectorAll('.js-join').forEach(function(f){
   f.addEventListener('submit',function(e){
     e.preventDefault();
+    var btn = f.querySelector('[type=submit]'); btn.disabled = true;
+    freeCode(function(){ send(f, btn); });
+  });
+});
+/* make sure the fun invite code isn't taken yet (max 4 tries, never blocks sign-up) */
+function freeCode(done, tries){
+  tries = tries||0;
+  if (storeGet('ff-joined')==='1' || !WAITLIST_ENDPOINT || tries>3) return done();
+  var c = myCode();
+  fetch(WAITLIST_ENDPOINT+'?check='+encodeURIComponent(c),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+    if (d && d.free===false){ codeCache=null; storeSet('ff-code',''); return freeCode(done, tries+1); }
+    done();
+  }).catch(function(){ done(); });
+}
+function send(f, btn){
     var data = new FormData(f);
     if (f.id==='waitlist') { data.delete('roles'); data.append('roles', picked().join(', ')); }
     data.append('language', lang);
     data.append('form', f.id==='waitlist' ? 'page' : 'hero');
     data.append('code', myCode());
     var ref = storeGet('ff-ref'); if (ref && ref !== myCode()) data.append('ref', ref);
-    var btn = f.querySelector('[type=submit]'); btn.disabled = true;
     if (!WAITLIST_ENDPOINT) { showJoined(f.id!=='waitlist'); storyCard(); return; }
     var body = new URLSearchParams(); data.forEach(function(v,k){ body.append(k,v); });
     fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
       .then(function(){ showJoined(f.id!=='waitlist'); setTimeout(function(){ loadCount(storyCard); },900); })
       .catch(function(){ btn.disabled=false; alertMsg(f); });
-  });
-});
+}
 function alertMsg(f){ var p=f.querySelector('.js-err'); if(!p){p=document.createElement('p');p.className='cap js-err';p.setAttribute('role','alert');p.style.margin='4px 0 0';f.appendChild(p);} p.textContent = lang==='nl' ? 'er ging iets mis, probeer het nog eens.' : 'something went wrong, please try again.'; }
 
 
@@ -562,7 +583,7 @@ function storyCard(){
       x.save(); x.translate(W/2,1080); x.rotate(-0.03); x.fillStyle='#1F3FD1'; x.font="96px 'Reenie Beanie', cursive";
       x.fillText(listCount?t.cardNum.replace('{n}',listCount):t.cardNoNum,0,0); x.restore();
       x.fillStyle='#1C1E1A'; x.font="italic 60px 'Cormorant Garamond', serif"; x.fillText(t.cardLine,W/2,1260);
-      x.font="700 30px 'Space Mono', monospace"; x.letterSpacing='4px'; x.fillText(t.cardJoin.toUpperCase(),W/2,1700);
+      x.font="700 30px 'Space Mono', monospace"; x.letterSpacing='4px'; x.fillText(t.cardJoin.toUpperCase(),W/2,1660); x.letterSpacing='2px'; x.fillStyle='#1F3FD1'; x.font="700 34px 'Space Mono', monospace"; x.fillText('feefee.co/?ref='+myCode(),W/2,1730);
       cv.toBlob(function(b){ if(!b) return; var url=URL.createObjectURL(b);
         document.getElementById('story-img').src=url; document.getElementById('story-dl').href=url;
         storyBlob=b; document.getElementById('story').hidden=false; },'image/png');
