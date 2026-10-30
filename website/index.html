@@ -112,11 +112,10 @@ body{padding-bottom:40px}
 
 <header>
 <div class="nav mono">
-<nav style="display:flex;align-items:center;gap:20px">
-<a class="hide-sm" href="#about" data-t="navAbout">about</a>
-</nav>
+<div aria-hidden="true"></div>
 <a href="#top" class="nav-logo" id="nav-logo" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:18px">
+<a class="hide-sm" href="#about" data-t="navAbout">about</a>
 <div class="lang" style="display:flex;align-items:center;gap:2px">
 <button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
 <span aria-hidden="true" style="color:#8A8E86">/</span>
@@ -134,8 +133,23 @@ body{padding-bottom:40px}
 <a class="btn load3" href="#join" style="margin-top:64px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
 </section>
 
-<section id="drop" class="center" style="padding:40px 24px 120px">
-<p class="mono reveal" style="margin:0" data-t="dropLabel">a fee drop looks like this</p>
+<section id="about" class="center" style="padding:80px 24px 120px">
+<div class="reveal" style="align-self:stretch;display:flex;justify-content:center;margin-bottom:56px"><img class="sticky" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="height:auto"></div>
+<p class="mono reveal" style="margin:0" data-t="probLabel">the problem</p>
+<h2 class="h reveal" style="margin-top:32px" data-t="probTitle">Nobody says the number.</h2>
+<p class="b reveal" style="margin-top:28px;max-width:520px" data-t="probText">a client asks your rate. you don’t know what the job really pays, so you guess. and when we guess, we guess low. usage, buy-outs, overtime: nobody explains them. every freelance creative figures it out alone.</p>
+</section>
+
+<section id="solution" class="center" style="padding:80px 24px 140px">
+<p class="mono reveal" style="margin:0" data-t="solLabel">the solution</p>
+<h2 class="h reveal" style="margin-top:32px" data-t="solTitle">So we share it.</h2>
+<p class="b reveal" style="margin-top:28px;max-width:520px"><span class="logo-word">fee fee.</span><span data-t="solText"> is where freelance creatives share real fees, anonymously, and help each other ask the right questions before saying yes.</span></p>
+<div class="reveal" style="display:flex;flex-direction:column;gap:10px;margin-top:36px;text-align:left">
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
+<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
+</div>
+<p class="mono reveal" style="margin:80px 0 0" data-t="dropLabel">a fee drop looks like this</p>
 <div class="reveal" style="width:100%;display:flex;justify-content:center">
 <article class="drop paper" aria-label="example fee drop">
 <div class="drop-top"><span class="cap" data-t="dropTag">example · fee drop #00</span><span class="logo-word" style="font-size:20px">fee fee.</span></div>
@@ -146,6 +160,43 @@ body{padding-bottom:40px}
 <p class="drop-fine" data-t="dropFine">example only. real fees, shared anonymously by real creatives, drop when the doors open.</p>
 </article>
 </div>
+</section>
+
+<section id="who" class="block center">
+<p class="mono reveal" style="margin:0" data-t="whoLabel">who we are · for who</p>
+<h2 class="h reveal" style="margin-top:32px" data-t="forTitle">for every creative on set.</h2>
+<p class="b reveal" style="margin-top:28px;max-width:540px" data-t="whoText">a community of freelance creatives, based in amsterdam and open worldwide. photographers, stylists, make-up artists, models, producers, assistants: any level, anywhere. freelancing can feel like everyone on their own island. here, we find and help each other.</p>
+<div class="notes reveal" style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:28px 56px;margin-top:64px;max-width:980px">
+<img src="assets/camera_photographer.webp" alt="Camera note: photographer, day rate" style="width:min(210px,40vw);transform:rotate(-6deg);margin-top:30px">
+<img src="assets/shirt_wardrobe.webp" alt="Shirt note: wardrobe" style="width:min(180px,36vw);transform:rotate(-3deg);margin-top:50px">
+<img src="assets/clapperboard_video.webp" alt="Clapperboard note: videographer" style="width:min(220px,42vw);transform:rotate(4deg);margin-top:10px">
+</div>
+</section>
+
+<section id="manifesto" class="center" style="padding:60px 24px 140px">
+<p class="mono reveal" style="margin:0 0 56px" data-t="manLabel">our manifesto</p>
+<div class="reveal" style="display:flex;justify-content:center;width:100%">
+<article class="paper man">
+<span class="tape" aria-hidden="true"></span>
+<div class="man-top"><span class="man-cap"><span data-t="manCap">n°00</span><br><b data-t="manSub">manifesto</b></span><span class="logo-word" style="font-size:20px">fee fee.</span></div>
+<p class="man-hand" data-t="manText">nobody says the number.
+so we guess. and we guess low.
+
+a fee is information, not a secret.
+&quot;great exposure&quot; is not a rate.
+usage is work, and work gets paid.
+
+so we share. no names, just the number.
+what you charge is always your call.
+now you make it knowing.
+
+say the number.</p>
+<hr class="man-line">
+<p class="man-sign">x fee fee.</p>
+</article>
+</div>
+<p class="b reveal" style="margin-top:72px;max-width:460px" data-t="manAsk">agree? sign it by joining the waitlist. it’s free, and the more of us there are, the better the numbers get.</p>
+<a class="btn reveal" href="#join" style="margin-top:32px"><span data-t="manBtn">Sign &amp; join</span> <span aria-hidden="true">↓</span></a>
 </section>
 
 <section id="join" class="block center">
@@ -189,83 +240,14 @@ body{padding-bottom:40px}
 </div>
 </section>
 
-<section id="about" class="block" style="display:flex;align-items:center;justify-content:center;padding:120px clamp(24px,6vw,110px)">
-<div style="width:min(620px,100%);display:flex;flex-direction:column;gap:32px">
-<p class="mono reveal" style="margin:0" data-t="whoLabel">who we are</p>
-<h2 class="h reveal" data-t="whoTitle">Nobody says the number.</h2>
-<p class="b reveal" style="max-width:480px"><span data-t="whoA">creatives guess their rates, and when we guess, we guess low. </span><span class="logo-word">fee fee.</span><span data-t="whoB"> shows you what others were paid, what goes into a fee, and what to ask before you say yes.</span></p>
-<div class="reveal" style="display:flex;flex-direction:column;gap:10px">
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
-</div>
-</div>
-</section>
-
-<section id="manifesto" class="center" style="padding:60px 24px 140px">
-<p class="mono reveal" style="margin:0 0 56px" data-t="manLabel">our manifesto</p>
-<div class="reveal" style="display:flex;justify-content:center;width:100%">
-<article class="paper man" lang="en">
-<span class="tape" aria-hidden="true"></span>
-<div class="man-top"><span class="man-cap"><span data-t="manCap">letters from fee fee. · n°00</span><br><b data-t="manSub">manifesto</b></span><span class="logo-word" style="font-size:20px">fee fee.</span></div>
-<p class="man-hand" data-t="manText">nobody says the number.
-so we guess. and when we guess, we guess low.
-
-we believe a fee is information, not a secret.
-we believe everyone on set deserves to know what the job paid.
-the photographer. the stylist. the make-up artist. the model. the producer. the assistant.
-we believe &quot;great exposure&quot; is not a rate.
-we believe usage is work, and work gets paid.
-we believe asking is not rude. guessing is expensive.
-
-so we share.
-real fees, by job, usage and country.
-no names. no gossip. just the number.
-what you charge is always your call.
-now you make it knowing.
-
-soft on people. sharp on fees.
-
-say the number.</p>
-<hr class="man-line">
-<p class="man-sign">x fee fee.</p>
-</article>
-</div>
-</section>
-
 <section id="faq" class="center" style="padding:120px 24px 80px">
 <p class="mono reveal" style="margin:0" data-t="faqLabel">questions</p>
 <div class="faq reveal">
-<details><summary data-t="q1">what is fee fee.?</summary><p class="b" data-t="a1">a community, for freelance creatives worldwide. freelance creatives often work alone, each on their own island. fee fee. connects us: share real numbers, ask each other questions, find the people you work with and help the next creative say the right number. open to every freelance creative, everywhere.</p></details>
 <details><summary data-t="q2">is this for me?</summary><p class="b" data-t="a2">yes, if you freelance in a creative job. any level, anywhere: photographers, stylists, MUAs, assistants, models, producers and everyone else on set. just starting out? you’re exactly who this is for.</p></details>
 <details><summary data-t="q3">do I have to pay?</summary><p class="b" data-t="a3">no. joining costs nothing and you don’t pay anything now. just sign up, no stress.</p></details>
 <details><summary data-t="q4">is sharing my fee anonymous?</summary><p class="b" data-t="a4">yes. no name, no email. fees only show grouped, never per person.</p></details>
 <details><summary data-t="q5">what happens after I sign up?</summary><p class="b" data-t="a5">you’re on the list. when the doors open, the first fee drop lands in your inbox. no spam, just a few letters. unsubscribe anytime.</p></details>
-<details><summary data-t="q6">can I bring my people?</summary><p class="b" data-t="a6">please do. invite the creatives you work with through your own link. the more of us there are, the better the numbers get for everyone, and the earlier you’re in.</p></details>
 <details><summary data-t="q7">who’s behind fee fee.?</summary><p class="b" data-t="a7">it was started by Femke Juffermans, a Dutch creative director and photographer. but fee fee. belongs to everyone who joins and shares: freelance creatives everywhere, helping each other, not just one circle.</p></details>
-</div>
-</section>
-
-<section class="block center">
-<div class="reveal" style="align-self:stretch;display:flex;justify-content:center;margin-bottom:56px"><img class="sticky" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="height:auto"></div>
-<p class="mono reveal" style="margin:0" data-t="forCap">who?</p>
-<h2 class="h reveal" style="margin-top:32px" data-t="forTitle">for every creative on set.</h2>
-<div class="notes reveal" style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:28px 56px;margin-top:64px;max-width:980px">
-<img src="assets/camera_photographer.webp" alt="Camera note: photographer, day rate" style="width:min(210px,40vw);transform:rotate(-6deg);margin-top:30px">
-<img src="assets/shirt_wardrobe.webp" alt="Shirt note: wardrobe" style="width:min(180px,36vw);transform:rotate(-3deg);margin-top:50px">
-<img src="assets/clapperboard_video.webp" alt="Clapperboard note: videographer" style="width:min(220px,42vw);transform:rotate(4deg);margin-top:10px">
-</div>
-</section>
-
-<section class="block split">
-<div style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:80px 32px">
-<div class="reveal" style="display:flex;justify-content:center;width:100%"><img class="paper" src="assets/letter-02.webp" onerror="this.onerror=null;this.src='assets/letter-01.webp'" alt="Handwritten letter from Femke, usage: dear creative, they want the photos for socials. socials is usage. usage is money. ask how long, where and who. then put a number on it. x femke" style="width:min(400px,84%);height:auto;transform:rotate(-1deg)"></div>
-</div>
-<div style="display:flex;flex-direction:column;justify-content:center;gap:32px;padding:96px clamp(24px,6vw,110px)">
-<p class="mono reveal" style="margin:0"><span data-t="lettersLabel">letters from </span><span class="logo-word" style="font-size:14px">fee fee.</span></p>
-<h2 class="h reveal" data-t="lettersTitle">Short notes on the things nobody explained.</h2>
-<p class="b reveal" style="max-width:460px" data-t="lettersText">usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.</p>
-<a class="mono reveal" href="#join" style="align-self:flex-start;text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:4px"><span data-t="cta">Join the waitlist</span> →</a>
 </div>
 </section>
 
@@ -291,8 +273,8 @@ say the number.</p>
 var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxFPessWUdy-93abgWxXhH7tFQvjUxW5vKQIQ7iHDFTW8ZCTHpDOwrJ_HhOaHE-0Ais/exec';
 
 var COPY = {
-  en: {manLabel:'our manifesto',manCap:'letters from fee fee. · n°00',manSub:'manifesto',manText:'nobody says the number.\nso we guess. and when we guess, we guess low.\n\nwe believe a fee is information, not a secret.\nwe believe everyone on set deserves to know what the job paid.\nthe photographer. the stylist. the make-up artist. the model. the producer. the assistant.\nwe believe "great exposure" is not a rate.\nwe believe usage is work, and work gets paid.\nwe believe asking is not rude. guessing is expensive.\n\nso we share.\nreal fees, by job, usage and country.\nno names. no gossip. just the number.\nwhat you charge is always your call.\nnow you make it knowing.\n\nsoft on people. sharp on fees.\n\nsay the number.',bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:'who we are',whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' shows you what others were paid, what goes into a fee, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'based in amsterdam, the netherlands · working worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.',dropLabel:'a fee drop looks like this',dropTag:'example · fee drop #00',dropRole:'photographer, campaign',dropMeta:'1 shoot day · the netherlands · online usage, 1 year',dropDayFee:'€1,100',dropDay:'day rate',dropUsageFee:'+ €650',dropUsage:'usage buy-out',dropFine:'example only. real fees, shared anonymously by real creatives, drop when the doors open.',moreA:'+ tell us more',moreB:'(optional)',inviteLabel:'get in earlier',inviteText:'bring your people. invite the creatives you work with: the more of us, the better the numbers, and the earlier you\u2019re in.',inviteBtn:'share',copied:'copied',faqLabel:'questions',shareText:'real fees, shared by creatives. join the fee fee. waitlist:',q1:'what is fee fee.?',a1:'a community, for freelance creatives worldwide. freelance creatives often work alone, each on their own island. fee fee. connects us: share real numbers, ask each other questions, find the people you work with and help the next creative say the right number. open to every freelance creative, everywhere.',q2:'is this for me?',a2:'yes, if you freelance in a creative job. any level, anywhere: photographers, stylists, MUAs, assistants, models, producers and everyone else on set. just starting out? you\u2019re exactly who this is for.',q3:'do I have to pay?',a3:'no. joining costs nothing and you don\u2019t pay anything now. just sign up, no stress.',q4:'is sharing my fee anonymous?',a4:'yes. no name, no email. fees only show grouped, never per person.',q5:'what happens after I sign up?',a5:'you’re on the list. when the doors open, the first fee drop lands in your inbox. no spam, just a few letters. unsubscribe anytime.',q6:'can I bring my people?',a6:'please do. invite the creatives you work with through your own link. the more of us there are, the better the numbers get for everyone, and the earlier you\u2019re in.',q7:'who\u2019s behind fee fee.?',a7:'it was started by Femke Juffermans, a Dutch creative director and photographer. but fee fee. belongs to everyone who joins and shares: freelance creatives everywhere, helping each other, not just one circle.'},
-  nl: {manLabel:'ons manifest',manCap:'brieven van fee fee. · n°00',manSub:'manifest',manText:'niemand noemt het bedrag.\ndus we gokken. en als we gokken, gokken we laag.\n\nwij geloven dat een fee informatie is, geen geheim.\nwij geloven dat iedereen op set mag weten wat een klus betaalde.\nde fotograaf. de stylist. de visagist. het model. de producer. de assistent.\nwij geloven dat "goede exposure" geen tarief is.\nwij geloven dat gebruiksrechten werk zijn, en werk wordt betaald.\nwij geloven dat vragen niet onbeleefd is. gokken is duur.\n\ndus we delen.\nechte fees, per klus, gebruik en land.\ngeen namen. geen roddels. alleen het bedrag.\nwat jij vraagt, bepaal jij.\nnu weet je waarop.\n\nzacht voor mensen. scherp op fees.\n\nnoem het bedrag.',bar:'de wachtlijst is open · voor freelance creatives wereldwijd',navAbout:'over',navJoin:'meld je aan',fcA:'freelance',fcB:'creatives',fcC:'wereldwijd.',cta:'Zet me op de wachtlijst',capVisual:'stil papier, luide bedragen.',whoLabel:'wie we zijn',whoTitle:'Niemand noemt het bedrag.',whoA:'creatives gokken hun tarieven, en als we gokken, gokken we laag. ',whoB:' laat zien wat anderen betaald kregen, wat er in een fee zit, en wat je vraagt voordat je ja zegt.',k1:'Weet.',v1:'echte tarieven, per klus, gebruik en land.',k2:'Lees.',v2:'contracten, gebruiksrechten en buy-outs in gewone taal.',k3:'Vraag.',v3:'precies de vragen die je stelt voordat je ja zegt.',values:'transparantie · solidariteit · eerlijkheid · kennis',joinTitle:'Op de wachtlijst.',joinText:'de deuren gaan binnenkort open, eerst voor een kleine groep. je bent er vroeg bij, met de eerste fee drop in je inbox.',name:'naam',namePh:'voornaam',email:'e-mail',roles:'wat je doet',rolesPh:'kies een of meer rollen',done:'klaar',basedIn:'gevestigd in',cityPh:'stad, land',privacyA:'we gebruiken je gegevens alleen om je te mailen over ',privacyB:' we delen ze nooit, en je kunt je altijd afmelden.',status:'status · op de lijst',welcome:'Welkom bij',welcomeText:'we schrijven je zodra de deuren opengaan.',forCap:'wie?',forTitle:'voor elke creative op set.',lettersLabel:'brieven van ',lettersTitle:'Korte notities over alles wat niemand je uitlegde.',lettersText:'gebruiksrechten, buy-outs, je eerste factuur, nee zeggen. één handgeschreven brief per keer, in je inbox.',footer:'gevestigd in amsterdam · werkzaam wereldwijd',popTitle:'wees er als eerste bij.',popText:'echte tarieven, gedeeld door creatives. meld je aan en krijg de eerste fee drop.',dropLabel:'zo ziet een fee drop eruit',dropTag:'voorbeeld · fee drop #00',dropRole:'fotograaf, campagne',dropMeta:'1 shootdag · nederland · online gebruik, 1 jaar',dropDayFee:'€1.100',dropDay:'dagtarief',dropUsageFee:'+ €650',dropUsage:'buy-out gebruiksrechten',dropFine:'alleen een voorbeeld. echte tarieven, anoniem gedeeld door echte creatives, komen zodra de deuren opengaan.',moreA:'+ vertel meer',moreB:'(optioneel)',inviteLabel:'eerder binnen',inviteText:'neem je mensen mee. nodig de creatives uit met wie je werkt: hoe meer we zijn, hoe beter de bedragen, en hoe eerder jij binnen bent.',inviteBtn:'delen',copied:'gekopieerd',faqLabel:'vragen',shareText:'echte tarieven, gedeeld door creatives. zet jezelf op de fee fee. wachtlijst:',q1:'wat is fee fee.?',a1:'een community, voor freelance creatives wereldwijd. freelance creatives werken vaak alleen, ieder op een eigen eiland. fee fee. verbindt ons: echte bedragen delen, elkaar vragen stellen, de mensen vinden met wie je werkt, en de volgende creative helpen het juiste bedrag te noemen. open voor elke freelance creative, overal.',q2:'is dit voor mij?',a2:'ja, als je freelance werkt in een creatief vak. elk niveau, overal: fotografen, stylisten, visagisten, assistenten, modellen, producers en iedereen op set. net begonnen? dan ben je precies voor wie dit is.',q3:'moet ik betalen?',a3:'nee. aanmelden kost niets en je betaalt nu helemaal niets. gewoon aanmelden, geen stress.',q4:'deel ik mijn tarief anoniem?',a4:'ja. geen naam, geen e-mail. tarieven worden alleen gegroepeerd getoond, nooit per persoon.',q5:'wat gebeurt er na aanmelden?',a5:'je staat op de lijst. zodra de deuren opengaan, krijg je de eerste fee drop in je inbox. geen spam, alleen af en toe een brief. afmelden kan altijd.',q6:'mag ik mijn mensen meenemen?',a6:'graag! nodig de creatives met wie je werkt uit via je eigen link. hoe meer we zijn, hoe beter de bedragen voor iedereen worden, en hoe eerder jij binnen bent.',q7:'wie zit er achter fee fee.?',a7:'fee fee. is gestart door Femke Juffermans, creative director en fotograaf. maar fee fee. is van iedereen die meedoet en deelt: freelance creatives overal die elkaar helpen, niet alleen één kring.'}
+  en: {manLabel:'our manifesto',manCap:"n°00",manSub:'manifesto',manText:"nobody says the number.\nso we guess. and we guess low.\n\na fee is information, not a secret.\n\"great exposure\" is not a rate.\nusage is work, and work gets paid.\n\nso we share. no names, just the number.\nwhat you charge is always your call.\nnow you make it knowing.\n\nsay the number.",bar:'waitlist now open · for freelance creatives worldwide',navAbout:'about',navJoin:'join',fcA:'freelance',fcB:'creatives',fcC:'worldwide.',cta:'Join the waitlist',capVisual:'quiet paper, loud numbers.',whoLabel:"who we are · for who",whoTitle:'Nobody says the number.',whoA:'creatives guess their rates, and when we guess, we guess low. ',whoB:' shows you what others were paid, what goes into a fee, and what to ask before you say yes.',k1:'Know.',v1:'real fees, by job, usage and country.',k2:'Read.',v2:'contracts, usage and buy-outs in plain words.',k3:'Ask.',v3:'the exact questions to ask before saying yes.',values:'transparency · solidarity · fairness · knowledge',joinTitle:'Join the waitlist.',joinText:'the doors open soon, for a small group first. you’re in early, with the first fee drop in your inbox.',name:'name',namePh:'first name',email:'email',roles:'what you do',rolesPh:'choose one or more roles',done:'done',basedIn:'based in',cityPh:'city, country',privacyA:'we only use your details to email you about ',privacyB:' we never share them, and you can unsubscribe anytime.',status:'status · on the list',welcome:'Welcome to',welcomeText:'we’ll write when the doors open.',forCap:'who?',forTitle:'for every creative on set.',lettersLabel:'letters from ',lettersTitle:'Short notes on the things nobody explained.',lettersText:'usage, buy-outs, first invoices, saying no. one handwritten letter at a time, in your inbox.',footer:'based in amsterdam, the netherlands · working worldwide',popTitle:'be the first in.',popText:'real fees, shared by creatives. join the waitlist and get the first fee drop.',dropLabel:'a fee drop looks like this',dropTag:'example · fee drop #00',dropRole:'photographer, campaign',dropMeta:'1 shoot day · the netherlands · online usage, 1 year',dropDayFee:'€1,100',dropDay:'day rate',dropUsageFee:'+ €650',dropUsage:'usage buy-out',dropFine:'example only. real fees, shared anonymously by real creatives, drop when the doors open.',moreA:'+ tell us more',moreB:'(optional)',inviteLabel:'get in earlier',inviteText:'bring your people. invite the creatives you work with: the more of us, the better the numbers, and the earlier you\u2019re in.',inviteBtn:'share',copied:'copied',faqLabel:'questions',shareText:'real fees, shared by creatives. join the fee fee. waitlist:',q1:'what is fee fee.?',a1:'a community, for freelance creatives worldwide. freelance creatives often work alone, each on their own island. fee fee. connects us: share real numbers, ask each other questions, find the people you work with and help the next creative say the right number. open to every freelance creative, everywhere.',q2:'is this for me?',a2:'yes, if you freelance in a creative job. any level, anywhere: photographers, stylists, MUAs, assistants, models, producers and everyone else on set. just starting out? you\u2019re exactly who this is for.',q3:'do I have to pay?',a3:'no. joining costs nothing and you don\u2019t pay anything now. just sign up, no stress.',q4:'is sharing my fee anonymous?',a4:'yes. no name, no email. fees only show grouped, never per person.',q5:'what happens after I sign up?',a5:'you’re on the list. when the doors open, the first fee drop lands in your inbox. no spam, just a few letters. unsubscribe anytime.',q6:'can I bring my people?',a6:'please do. invite the creatives you work with through your own link. the more of us there are, the better the numbers get for everyone, and the earlier you\u2019re in.',q7:'who\u2019s behind fee fee.?',a7:'it was started by Femke Juffermans, a Dutch creative director and photographer. but fee fee. belongs to everyone who joins and shares: freelance creatives everywhere, helping each other, not just one circle.',probLabel:"the problem",probTitle:"Nobody says the number.",probText:"a client asks your rate. you don’t know what the job really pays, so you guess. and when we guess, we guess low. usage, buy-outs, overtime: nobody explains them. every freelance creative figures it out alone.",solLabel:"the solution",solTitle:"So we share it.",solText:" is where freelance creatives share real fees, anonymously, and help each other ask the right questions before saying yes.",whoText:"a community of freelance creatives, based in amsterdam and open worldwide. photographers, stylists, make-up artists, models, producers, assistants: any level, anywhere. freelancing can feel like everyone on their own island. here, we find and help each other.",manAsk:"agree? sign it by joining the waitlist. it’s free, and the more of us there are, the better the numbers get.",manBtn:"Sign & join",manCap:"n°00",manText:"nobody says the number.\nso we guess. and we guess low.\n\na fee is information, not a secret.\n\"great exposure\" is not a rate.\nusage is work, and work gets paid.\n\nso we share. no names, just the number.\nwhat you charge is always your call.\nnow you make it knowing.\n\nsay the number.",whoLabel:"who we are · for who",probLabel:"the problem",probTitle:"Nobody says the number.",probText:"a client asks your rate. you don’t know what the job really pays, so you guess. and when we guess, we guess low. usage, buy-outs, overtime: nobody explains them. every freelance creative figures it out alone.",solLabel:"the solution",solTitle:"So we share it.",solText:" is where freelance creatives share real fees, anonymously, and help each other ask the right questions before saying yes.",whoText:"a community of freelance creatives, based in amsterdam and open worldwide. photographers, stylists, make-up artists, models, producers, assistants: any level, anywhere. freelancing can feel like everyone on their own island. here, we find and help each other.",manAsk:"agree? sign it by joining the waitlist. it’s free, and the more of us there are, the better the numbers get.",manBtn:"Sign & join"},
+  nl: {manLabel:'ons manifest',manCap:"n°00",manSub:'manifest',manText:"niemand noemt het bedrag.\ndus we gokken. en we gokken laag.\n\neen fee is informatie, geen geheim.\n\"goede exposure\" is geen tarief.\ngebruiksrechten zijn werk, en werk wordt betaald.\n\ndus we delen. geen namen, alleen het bedrag.\nwat jij vraagt, bepaal jij.\nnu weet je waarop.\n\nnoem het bedrag.",bar:'de wachtlijst is open · voor freelance creatives wereldwijd',navAbout:'over',navJoin:'meld je aan',fcA:'freelance',fcB:'creatives',fcC:'wereldwijd.',cta:'Zet me op de wachtlijst',capVisual:'stil papier, luide bedragen.',whoLabel:"wie we zijn · voor wie",whoTitle:'Niemand noemt het bedrag.',whoA:'creatives gokken hun tarieven, en als we gokken, gokken we laag. ',whoB:' laat zien wat anderen betaald kregen, wat er in een fee zit, en wat je vraagt voordat je ja zegt.',k1:'Weet.',v1:'echte tarieven, per klus, gebruik en land.',k2:'Lees.',v2:'contracten, gebruiksrechten en buy-outs in gewone taal.',k3:'Vraag.',v3:'precies de vragen die je stelt voordat je ja zegt.',values:'transparantie · solidariteit · eerlijkheid · kennis',joinTitle:'Op de wachtlijst.',joinText:'de deuren gaan binnenkort open, eerst voor een kleine groep. je bent er vroeg bij, met de eerste fee drop in je inbox.',name:'naam',namePh:'voornaam',email:'e-mail',roles:'wat je doet',rolesPh:'kies een of meer rollen',done:'klaar',basedIn:'gevestigd in',cityPh:'stad, land',privacyA:'we gebruiken je gegevens alleen om je te mailen over ',privacyB:' we delen ze nooit, en je kunt je altijd afmelden.',status:'status · op de lijst',welcome:'Welkom bij',welcomeText:'we schrijven je zodra de deuren opengaan.',forCap:'wie?',forTitle:'voor elke creative op set.',lettersLabel:'brieven van ',lettersTitle:'Korte notities over alles wat niemand je uitlegde.',lettersText:'gebruiksrechten, buy-outs, je eerste factuur, nee zeggen. één handgeschreven brief per keer, in je inbox.',footer:'gevestigd in amsterdam · werkzaam wereldwijd',popTitle:'wees er als eerste bij.',popText:'echte tarieven, gedeeld door creatives. meld je aan en krijg de eerste fee drop.',dropLabel:'zo ziet een fee drop eruit',dropTag:'voorbeeld · fee drop #00',dropRole:'fotograaf, campagne',dropMeta:'1 shootdag · nederland · online gebruik, 1 jaar',dropDayFee:'€1.100',dropDay:'dagtarief',dropUsageFee:'+ €650',dropUsage:'buy-out gebruiksrechten',dropFine:'alleen een voorbeeld. echte tarieven, anoniem gedeeld door echte creatives, komen zodra de deuren opengaan.',moreA:'+ vertel meer',moreB:'(optioneel)',inviteLabel:'eerder binnen',inviteText:'neem je mensen mee. nodig de creatives uit met wie je werkt: hoe meer we zijn, hoe beter de bedragen, en hoe eerder jij binnen bent.',inviteBtn:'delen',copied:'gekopieerd',faqLabel:'vragen',shareText:'echte tarieven, gedeeld door creatives. zet jezelf op de fee fee. wachtlijst:',q1:'wat is fee fee.?',a1:'een community, voor freelance creatives wereldwijd. freelance creatives werken vaak alleen, ieder op een eigen eiland. fee fee. verbindt ons: echte bedragen delen, elkaar vragen stellen, de mensen vinden met wie je werkt, en de volgende creative helpen het juiste bedrag te noemen. open voor elke freelance creative, overal.',q2:'is dit voor mij?',a2:'ja, als je freelance werkt in een creatief vak. elk niveau, overal: fotografen, stylisten, visagisten, assistenten, modellen, producers en iedereen op set. net begonnen? dan ben je precies voor wie dit is.',q3:'moet ik betalen?',a3:'nee. aanmelden kost niets en je betaalt nu helemaal niets. gewoon aanmelden, geen stress.',q4:'deel ik mijn tarief anoniem?',a4:'ja. geen naam, geen e-mail. tarieven worden alleen gegroepeerd getoond, nooit per persoon.',q5:'wat gebeurt er na aanmelden?',a5:'je staat op de lijst. zodra de deuren opengaan, krijg je de eerste fee drop in je inbox. geen spam, alleen af en toe een brief. afmelden kan altijd.',q6:'mag ik mijn mensen meenemen?',a6:'graag! nodig de creatives met wie je werkt uit via je eigen link. hoe meer we zijn, hoe beter de bedragen voor iedereen worden, en hoe eerder jij binnen bent.',q7:'wie zit er achter fee fee.?',a7:'fee fee. is gestart door Femke Juffermans, creative director en fotograaf. maar fee fee. is van iedereen die meedoet en deelt: freelance creatives overal die elkaar helpen, niet alleen één kring.',probLabel:"het probleem",probTitle:"Niemand noemt het bedrag.",probText:"een klant vraagt je tarief. je weet niet wat de klus echt betaalt, dus je gokt. en als we gokken, gokken we laag. gebruiksrechten, buy-outs, overuren: niemand legt het uit. elke freelance creative zoekt het alleen uit.",solLabel:"de oplossing",solTitle:"Dus delen we het.",solText:" is waar freelance creatives echte fees delen, anoniem, en elkaar helpen de juiste vragen te stellen voordat je ja zegt.",whoText:"een community van freelance creatives, gevestigd in amsterdam en open voor iedereen wereldwijd. fotografen, stylisten, visagisten, modellen, producers, assistenten: elk niveau, overal. freelancen voelt vaak alsof iedereen op een eigen eiland zit. hier vinden en helpen we elkaar.",manAsk:"eens? teken het door je op de wachtlijst te zetten. het is gratis, en hoe meer we zijn, hoe beter de bedragen.",manBtn:"Teken & doe mee",manCap:"n°00",manText:"niemand noemt het bedrag.\ndus we gokken. en we gokken laag.\n\neen fee is informatie, geen geheim.\n\"goede exposure\" is geen tarief.\ngebruiksrechten zijn werk, en werk wordt betaald.\n\ndus we delen. geen namen, alleen het bedrag.\nwat jij vraagt, bepaal jij.\nnu weet je waarop.\n\nnoem het bedrag.",whoLabel:"wie we zijn · voor wie",probLabel:"het probleem",probTitle:"Niemand noemt het bedrag.",probText:"een klant vraagt je tarief. je weet niet wat de klus echt betaalt, dus je gokt. en als we gokken, gokken we laag. gebruiksrechten, buy-outs, overuren: niemand legt het uit. elke freelance creative zoekt het alleen uit.",solLabel:"de oplossing",solTitle:"Dus delen we het.",solText:" is waar freelance creatives echte fees delen, anoniem, en elkaar helpen de juiste vragen te stellen voordat je ja zegt.",whoText:"een community van freelance creatives, gevestigd in amsterdam en open voor iedereen wereldwijd. fotografen, stylisten, visagisten, modellen, producers, assistenten: elk niveau, overal. freelancen voelt vaak alsof iedereen op een eigen eiland zit. hier vinden en helpen we elkaar.",manAsk:"eens? teken het door je op de wachtlijst te zetten. het is gratis, en hoe meer we zijn, hoe beter de bedragen.",manBtn:"Teken & doe mee"}
 };
 var GROUPS = [
   ['camera & image',['photographer','photo assistant','videographer / DOP','camera assistant','digital tech','retoucher','editor / colorist','motion designer']],
