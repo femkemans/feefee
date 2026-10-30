@@ -42,7 +42,7 @@ input::placeholder{color:#7A7E76}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .split{display:flex;flex-wrap:wrap}
 .split>*{flex:1 1 480px;min-width:0}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 32px}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 32px}
 header{position:sticky;top:0;z-index:20;background:rgba(253,252,249,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:block;background:rgba(222,234,224,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 24px;text-align:center;font-size:10px;color:var(--ink);text-decoration:none}
 .bar:hover{color:var(--ink)}
@@ -96,7 +96,7 @@ body{padding-bottom:40px}
 .hero-line{margin-top:88px;align-self:flex-start;text-align:left;padding-left:2%}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.load1,.load2,.load3,.reveal{animation:none}}
-@media (max-width:700px){.sticky{width:170px;transform:translateX(44px) rotate(5deg)}.bar{font-size:8.5px;letter-spacing:.08em;padding:11px 10px;white-space:nowrap}.nav{position:relative;display:flex;justify-content:flex-end;padding:14px 18px}.nav-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}.nav .lang{position:absolute;left:12px;top:50%;transform:translateY(-50%)}.nav>nav{display:none!important}.nav .hide-sm{display:none}.center{padding:96px 18px}}
+@media (max-width:700px){.sticky{width:170px;transform:translateX(44px) rotate(5deg)}.bar{font-size:8.5px;letter-spacing:.08em;padding:11px 10px;white-space:nowrap}.nav{position:relative;display:flex;justify-content:flex-end;padding:14px 18px}.nav-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}.nav .lang{position:absolute;left:12px;top:50%;transform:translateY(-50%)}.nav>nav{display:none!important}.nav .hide-sm{display:none}.center{padding:48px 18px}}
 .man{position:relative;width:min(600px,100%);background:url(assets/grain.png) repeat,#FFFEFA;background-size:120px 120px,auto;padding:64px clamp(26px,6vw,64px) 52px;transform:rotate(-1deg);text-align:left}
 .man .tape{position:absolute;top:-16px;left:50%;width:120px;height:34px;transform:translateX(-50%) rotate(-3deg);background:rgba(226,219,196,.78);box-shadow:0 1px 2px rgba(28,30,26,.08)}
 .man-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:40px}
@@ -126,7 +126,7 @@ body{padding-bottom:40px}
 </header>
 
 <main>
-<section id="top" class="block center" style="padding-bottom:120px">
+<section id="top" class="block center" style="padding-bottom:64px">
 <div class="hero">
 <h1 style="margin:0"><img id="hero-logo" src="assets/logo.svg" alt="fee fee. what's your fee?" width="994" height="323" style="width:100%;height:auto;display:block"></h1>
 </div>
@@ -134,14 +134,14 @@ body{padding-bottom:40px}
 <a class="btn load3" href="#join" style="margin-top:40px"><span data-t="cta">Join the waitlist</span> <span aria-hidden="true">↓</span></a>
 </section>
 
-<section id="about" class="center" style="padding:80px 24px 120px">
+<section id="about" class="center">
 <p class="mono reveal" style="margin:0" data-t="probLabel">the problem</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="probTitle">Nobody says the number.</h2>
 <p class="b reveal" style="margin-top:28px;max-width:520px" data-t="probText">a client asks your rate. you don’t know what the job really pays, so you guess. and when we guess, we guess low. usage, buy-outs, overtime: nobody explains them. every freelance creative figures it out alone.</p>
 <div class="reveal" style="align-self:stretch;display:flex;justify-content:center;margin-top:64px"><img class="sticky" src="assets/note-to-self.webp" alt="Sticky note, handwritten: note to self: always ask about usage." style="height:auto"></div>
 </section>
 
-<section id="solution" class="center" style="padding:80px 24px 140px">
+<section id="solution" class="center">
 <p class="mono reveal" style="margin:0" data-t="solLabel">the solution</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="solTitle">So we share it.</h2>
 <p class="b reveal" style="margin-top:28px;max-width:520px"><span class="logo-word">fee fee.</span><span data-t="solText"> is where freelance creatives share real fees, anonymously, and help each other ask the right questions before saying yes.</span></p>
@@ -152,7 +152,7 @@ body{padding-bottom:40px}
 </div>
 </section>
 
-<section id="who" class="block center">
+<section id="who" class="center">
 <p class="mono reveal" style="margin:0" data-t="whoLabel">who we are · for who</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="forTitle">for every creative on set.</h2>
 <p class="b reveal" style="margin-top:28px;max-width:540px" data-t="whoText">a community of freelance creatives, based in amsterdam and open worldwide. photographers, stylists, make-up artists, models, producers, assistants: any level, anywhere. freelancing can feel like everyone on their own island. here, we find and help each other.</p>
@@ -163,7 +163,7 @@ body{padding-bottom:40px}
 </div>
 </section>
 
-<section id="join" class="block center">
+<section id="join" class="center">
 <p class="mono reveal" style="margin:0" data-t="values">transparency · solidarity · fairness · knowledge</p>
 <h2 class="h reveal" style="margin-top:32px" data-t="joinTitle">Join the waitlist.</h2>
 <p class="b reveal" style="margin-top:28px;max-width:500px" data-t="joinText">the doors open soon, for a small group first. you're in early, with the first fee drop in your inbox.</p>
@@ -204,7 +204,7 @@ body{padding-bottom:40px}
 </div>
 </section>
 
-<section id="faq" class="center" style="padding:120px 24px 80px">
+<section id="faq" class="center">
 <p class="mono reveal" style="margin:0" data-t="faqLabel">questions</p>
 <div class="faq reveal">
 <details><summary><span data-t="q2">is this for me?</span></summary><p class="b" data-t="a2">yes, if you freelance in a creative job. any level, anywhere: photographers, stylists, MUAs, assistants, models, producers and everyone else on set. just starting out? you’re exactly who this is for.</p></details>
@@ -215,7 +215,7 @@ body{padding-bottom:40px}
 </div>
 </section>
 
-<section class="block center" style="gap:40px;padding-bottom:80px">
+<section class="center" style="gap:40px;padding-top:96px;padding-bottom:96px">
 <p class="reveal" style="margin:0;font-style:italic;font-size:clamp(64px,11vw,180px);line-height:.9">say the number.</p>
 <a class="btn soft reveal" href="#join" data-t="cta">Join the waitlist</a>
 </section>
