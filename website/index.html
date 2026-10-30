@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Reenie+Beanie&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
+:root{--hand:'Reenie Beanie',cursive;--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--field:#EEF4EF;--blue:#1F3FD1}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;overflow-x:hidden}
@@ -102,9 +102,9 @@ body{padding-bottom:40px}
 .man-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:40px}
 .man-cap{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);line-height:1.9}
 .man-cap b{color:var(--ink)}
-.man-hand{font-family:'Reenie Beanie',cursive;font-size:clamp(25px,3.3vw,31px);line-height:1.22;color:var(--blue);white-space:pre-line;margin:0}
+.man-hand{font-family:var(--hand);font-size:clamp(25px,3.3vw,31px);line-height:1.22;color:var(--blue);white-space:pre-line;margin:0}
 .man-line{border:0;border-top:1.5px solid var(--blue);opacity:.85;margin:26px 0 14px;width:78%}
-.man-sign{font-family:'Reenie Beanie',cursive;font-size:40px;line-height:1;color:var(--blue);margin:0}
+.man-sign{font-family:var(--hand);font-size:40px;line-height:1;color:var(--blue);margin:0}
 .ov{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:72px 20px 64px;background:rgba(253,252,249,.38);backdrop-filter:blur(22px) saturate(1.1);-webkit-backdrop-filter:blur(22px) saturate(1.1);opacity:0;transition:opacity .35s ease}
 .ov.on{opacity:1}
 .ov-in{display:flex;flex-direction:column;align-items:center;text-align:center;margin:auto 0;transform:translateY(18px);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
@@ -113,6 +113,7 @@ body{padding-bottom:40px}
 body.ov-open{overflow:hidden}
 @media (prefers-reduced-motion: reduce){.ov,.ov-in{transition:none}}
 .hover-link{text-decoration:none;color:inherit}.hover-link:hover,.hover-link:focus-visible{text-decoration:underline;text-underline-offset:3px;color:inherit}
+.hand{font-family:var(--hand);font-style:normal;font-weight:400;color:var(--blue);font-size:1.5em;line-height:1;letter-spacing:.01em;margin-right:.15em}
 </style>
 </head>
 <body>
@@ -153,9 +154,9 @@ body.ov-open{overflow:hidden}
 <h2 class="h reveal" style="margin-top:32px" data-t="solTitle">So we share it.</h2>
 <p class="b reveal" style="margin-top:28px;max-width:520px"><span class="logo-word">fee fee.</span><span data-t="solText"> is where freelance creatives share real fees, anonymously, and help each other ask the right questions before saying yes.</span></p>
 <div class="reveal" style="display:flex;flex-direction:column;gap:10px;margin-top:36px;text-align:left">
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
-<p class="b"><em style="font-weight:700;color:var(--blue)" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
+<p class="b"><em class="hand" data-t="k1">Know.</em> <span data-t="v1">real fees, by job, usage and country.</span></p>
+<p class="b"><em class="hand" data-t="k2">Read.</em> <span data-t="v2">contracts, usage and buy-outs in plain words.</span></p>
+<p class="b"><em class="hand" data-t="k3">Ask.</em> <span data-t="v3">the exact questions to ask before saying yes.</span></p>
 </div>
 </section>
 
