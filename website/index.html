@@ -475,6 +475,19 @@ document.getElementById('more-btn').addEventListener('click', function(){
   this.hidden = open;
   if (open) document.getElementById('r-name').focus();
 });
+/* bot check (Cloudflare Turnstile, invisible): real people never see it. without a token the sign-up
+   is still saved, but no welcome mail is sent, so bots can't use this form to mail strangers. */
+var TS_KEY = '0x4AAAAAAFtYW8uQfI_xKNWw', tsBox = null, tsId = null;
+function tsToken(cb){
+  var done = false, fin = function(t){ if (done) return; done = true; cb(t || ''); };
+  if (!window.turnstile) return fin('');
+  try {
+    if (tsId !== null) { try { turnstile.remove(tsId); } catch (e) {} }
+    if (!tsBox) { tsBox = document.createElement('div'); tsBox.style.cssText = 'position:fixed;bottom:0;left:0;width:1px;height:1px;overflow:hidden'; document.body.appendChild(tsBox); }
+    tsId = turnstile.render(tsBox, { sitekey: TS_KEY, callback: fin, 'error-callback': function(){ fin(''); }, 'timeout-callback': function(){ fin(''); } });
+  } catch (e) { fin(''); }
+  setTimeout(function(){ fin(''); }, 8000);
+}
 document.querySelectorAll('.js-join').forEach(function(f){
   f.addEventListener('submit',function(e){
     e.preventDefault();
@@ -501,9 +514,12 @@ function send(f, btn){
     var ref = storeGet('ff-ref'); if (ref && ref !== myCode()) data.append('ref', ref);
     if (!WAITLIST_ENDPOINT) { showJoined(f.id!=='waitlist'); storyCard(); return; }
     var body = new URLSearchParams(); data.forEach(function(v,k){ body.append(k,v); });
-    fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
-      .then(function(){ showJoined(f.id!=='waitlist'); setTimeout(function(){ loadCount(storyCard); },900); })
-      .catch(function(){ btn.disabled=false; alertMsg(f); });
+    tsToken(function(tok){
+      if (tok) body.append('cf-turnstile-response', tok);
+      fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
+        .then(function(){ showJoined(f.id!=='waitlist'); setTimeout(function(){ loadCount(storyCard); },900); })
+        .catch(function(){ btn.disabled=false; alertMsg(f); });
+    });
 }
 function alertMsg(f){ var p=f.querySelector('.js-err'); if(!p){p=document.createElement('p');p.className='cap js-err';p.setAttribute('role','alert');p.style.margin='4px 0 0';f.appendChild(p);} p.textContent = lang==='nl' ? 'er ging iets mis, probeer het nog eens.' : 'something went wrong, please try again.'; }
 
@@ -648,6 +664,7 @@ loadCount(function(){ if(joined) storyCard(); });
   if(location.hash==='#manifesto') open();
 })();
 </script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <script src="assets/logo-word.js"></script>
 <script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
