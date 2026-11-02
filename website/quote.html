@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>make your quote – fee fee.</title>
+<meta name="description" content="A free quote template for freelance creatives. Day rate, prep days, usage and expenses, in one clean PDF. Nothing is saved.">
+<meta property="og:title" content="make your quote – fee fee.">
+<meta property="og:description" content="day rate, prep days, usage, expenses. one clean pdf. free for every freelance creative.">
+<meta property="og:image" content="https://feefee.co/assets/og.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fee fee.">
+<meta property="og:url" content="https://feefee.co/quote.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+[hidden]{display:none!important}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
+.logo{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;text-decoration:none;text-transform:none;color:var(--ink)}
+
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 34px}
+.top .logo{font-size:26px}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:0;align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:100vh}
+.side h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:14px 0 14px}
+.side .lead{font-size:20px;line-height:1.45;margin:0 0 32px;max-width:460px}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 28px;padding:18px 0 0}
+legend{padding:0 10px 0 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+label{display:block}
+label span{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 4px;color:var(--muted)}
+input,select,textarea{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
+textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
+.full{grid-column:1/-1}
+.line{display:grid;grid-template-columns:minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:8px;align-items:center}
+.line input{padding:9px 8px;font-size:13px}
+.line .x{background:none;border:0;font:18px 'Space Mono',monospace;cursor:pointer;color:var(--soft)}
+.line .x:hover{color:var(--ink)}
+.line-head{display:grid;grid-template-columns:minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:6px}
+.line-head span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.group-cap{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:16px 0 8px}
+.add{background:none;border:1px dashed var(--ink);font:12px 'Space Mono',monospace;padding:9px 14px;cursor:pointer;width:100%}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:var(--paper);border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:18px 26px;cursor:pointer;width:100%}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-top:10px}
+.hint{font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;color:var(--muted);margin:8px 0 0}
+.ask{background:var(--paper);padding:18px 20px;margin:0 0 28px;border-left:3px solid var(--blue)}
+.ask p{margin:0 0 8px;font-size:17px;line-height:1.4}
+.ask p:last-child{margin:0}
+
+.stage{position:sticky;top:0;padding:48px clamp(20px,4vw,64px) 80px;display:flex;justify-content:center}
+.doc{background:#fff;width:100%;max-width:720px;aspect-ratio:210/297;box-shadow:0 30px 60px -30px rgba(28,30,26,.35),0 2px 6px rgba(28,30,26,.06);padding:56px 56px 40px;display:flex;flex-direction:column;font-size:15px;overflow:hidden}
+.doc .d-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+.doc .who{font-style:italic;font-weight:500;font-size:34px;line-height:1}
+.doc .role{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-top:8px;color:var(--muted)}
+.doc .meta{text-align:right;font-family:'Space Mono',monospace;font-size:10px;line-height:1.8;color:var(--muted)}
+.doc .meta b{color:var(--ink);font-size:11px;letter-spacing:.2em}
+.doc .parties{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:34px 0 20px;font-family:'Space Mono',monospace;font-size:10px;line-height:1.7}
+.doc .parties .k{letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+.doc .job{border-top:1px solid var(--ink);border-bottom:1px solid var(--faint);padding:14px 0;margin-bottom:6px}
+.doc .job .t{font-style:italic;font-size:24px;line-height:1.1}
+.doc .job .s{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.06em}
+.doc table{width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:10.5px}
+.doc th{text-align:left;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-size:9px;padding:12px 0 6px}
+.doc td{padding:7px 0;border-bottom:1px solid #EEEFEC;vertical-align:top}
+.doc td.n,.doc th.n{text-align:right;white-space:nowrap;padding-left:12px}
+.doc tr.grp td{border:0;padding:14px 0 2px;letter-spacing:.14em;text-transform:uppercase;font-size:9px;color:var(--muted)}
+.doc .sum{margin-top:14px;margin-left:auto;width:58%;font-family:'Space Mono',monospace;font-size:10.5px}
+.doc .sum div{display:flex;justify-content:space-between;padding:4px 0}
+.doc .total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);margin-top:8px;padding-top:10px}
+.doc .total .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.doc .total .v{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:38px;color:var(--blue);line-height:1}
+.doc .terms{margin-top:auto;padding-top:18px;font-family:'Space Mono',monospace;font-size:8.5px;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.doc .terms .k{letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+.doc .sign{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:16px;font-family:'Space Mono',monospace;font-size:8.5px;color:var(--soft);letter-spacing:.1em;text-transform:uppercase}
+.doc .sign div{border-top:1px solid var(--faint);padding-top:5px}
+.doc .made{margin-top:14px;text-align:center;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.doc .made .logo{font-size:10px;letter-spacing:-.02em;color:var(--soft)}
+.empty{color:var(--faint)}
+
+@media (max-width:900px){
+ .wrap{grid-template-columns:1fr}
+ .side{min-height:0}
+ .stage{position:static;padding:32px 12px 60px}
+ .doc{padding:30px 26px;font-size:13px;aspect-ratio:auto;min-height:0}
+ .doc .who{font-size:26px}
+ .doc .total .v{font-size:30px}
+ .doc .parties{grid-template-columns:1fr;gap:14px}
+}
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ .top,.side,.no-print{display:none!important}
+ .wrap{display:block}
+ .stage{position:static;padding:0;display:block}
+ .doc{box-shadow:none;max-width:none;width:210mm;height:297mm;aspect-ratio:auto;padding:18mm 17mm 12mm;font-size:12pt}
+ .doc .parties{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="top no-print"><a class="logo" href="/">fee fee.</a><a class="mono" href="/#join" style="text-decoration:none">join the waitlist</a></div>
+
+<div class="wrap">
+<form class="side" id="f" autocomplete="on" onsubmit="return false">
+<p class="mono" style="margin:0">template 01 · before you quote</p>
+<h1>Make your quote.</h1>
+<p class="lead">fill it in, check your quote, download it as a pdf. nothing leaves your device. what you charge is always your call.</p>
+
+<div class="ask">
+<p class="mono" style="margin-bottom:10px">ask these first</p>
+<p>where will the images be used, and for how long?</p>
+<p>how many final images, and how many looks?</p>
+<p>how long is the day, and when does overtime start?</p>
+<p>who pays travel, kit and assistants?</p>
+</div>
+
+<fieldset><legend class="mono">you</legend>
+<div class="grid2">
+<label class="full"><span>your name</span><input name="me" placeholder="Femke Juffermans" autocomplete="name"></label>
+<label class="full"><span>what you do</span><input name="role" placeholder="photographer"></label>
+<label><span>email</span><input name="email" type="email" placeholder="you@studio.com" autocomplete="email"></label>
+<label><span>phone</span><input name="phone" placeholder="+31 6 ..." autocomplete="tel"></label>
+<label class="full"><span>address / city</span><input name="addr" placeholder="Amsterdam, NL"></label>
+<label><span>vat number</span><input name="vat" placeholder="optional"></label>
+<label><span>chamber of commerce</span><input name="coc" placeholder="optional"></label>
+</div></fieldset>
+
+<fieldset><legend class="mono">client</legend>
+<div class="grid2">
+<label class="full"><span>company</span><input name="client" placeholder="Brand or agency"></label>
+<label><span>contact person</span><input name="contact" placeholder="name"></label>
+<label><span>their email</span><input name="cemail" type="email" placeholder="optional"></label>
+</div></fieldset>
+
+<fieldset><legend class="mono">the job</legend>
+<div class="grid2">
+<label class="full"><span>job title</span><input name="job" placeholder="SS27 campaign"></label>
+<label><span>shoot date(s)</span><input name="dates" placeholder="12–13 march"></label>
+<label><span>location</span><input name="loc" placeholder="Amsterdam, studio"></label>
+<label><span>quote number</span><input name="qno"></label>
+<label><span>currency</span><select name="cur"><option value="€">€ euro</option><option value="$">$ dollar</option><option value="£">£ pound</option></select></label>
+</div></fieldset>
+
+<fieldset><legend class="mono">the fee</legend>
+<div class="line-head"><span>what</span><span>qty</span><span>rate</span><span></span></div>
+<p class="group-cap">days &amp; work</p>
+<div id="g-work"></div>
+<button type="button" class="add" data-add="work">+ add a line</button>
+<p class="group-cap">usage</p>
+<div id="g-usage"></div>
+<button type="button" class="add" data-add="usage">+ add a line</button>
+<p class="hint">usage is money. write it out: where, how long, which countries. e.g. "online + social, 1 year, Benelux".</p>
+<p class="group-cap">expenses</p>
+<div id="g-exp"></div>
+<button type="button" class="add" data-add="exp">+ add a line</button>
+<div class="grid2" style="margin-top:18px">
+<label><span>vat %</span><input name="vatp" type="number" min="0" max="50" step="0.5" value="21"></label>
+<label><span>valid for (days)</span><input name="valid" type="number" min="1" value="14"></label>
+</div>
+</fieldset>
+
+<fieldset><legend class="mono">terms</legend>
+<label><span>edit them so they fit your job</span><textarea name="terms"></textarea></label>
+</fieldset>
+
+<button type="button" class="btn" id="dl">download pdf</button>
+<button type="button" class="btn soft" id="reset">start over</button>
+<p class="hint">your quote is only kept on this device, so you can come back to it. we never see it.</p>
+<p class="hint" style="margin-top:24px">not legal advice. just a good start, made with creatives.</p>
+</form>
+
+<div class="stage">
+<article class="doc" id="doc">
+<div class="d-top">
+<div><div class="who" id="p-me"></div><div class="role" id="p-role"></div></div>
+<div class="meta"><b>QUOTE</b><br><span id="p-qno"></span><br><span id="p-date"></span><br>valid until <span id="p-until"></span></div>
+</div>
+<div class="parties">
+<div><div class="k">from</div><div id="p-from"></div></div>
+<div><div class="k">for</div><div id="p-to"></div></div>
+</div>
+<div class="job"><div class="t" id="p-job"></div><div class="s" id="p-jobmeta"></div></div>
+<table><thead><tr><th>description</th><th class="n">qty</th><th class="n">rate</th><th class="n">amount</th></tr></thead><tbody id="p-lines"></tbody></table>
+<div class="sum">
+<div><span>subtotal</span><span id="p-sub"></span></div>
+<div><span id="p-vatk">vat</span><span id="p-vat"></span></div>
+<div class="total"><span class="k">total</span><span class="v" id="p-total"></span></div>
+</div>
+<div class="terms"><div class="k">terms</div><div id="p-terms"></div></div>
+<div class="sign"><div>for the client · name, date, signature</div><div>for <span id="p-sign"></span></div></div>
+<div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
+</article>
+</div>
+</div>
+
+<script>
+(function(){
+var f=document.getElementById('f'), KEY='ff-quote-v1';
+var DEF={
+ work:[['shoot day',1,0],['prep day',1,0],['post-production / edit',1,0]],
+ usage:[['usage: online + social, 1 year, worldwide',1,0]],
+ exp:[['assistant',1,0],['equipment / rental',1,0],['travel',1,0]]
+};
+var TERMS=['valid for the number of days shown above.',
+'usage: only as described in this quote. any other use, period or territory needs a new agreement and fee.',
+'a shoot day is max. 10 hours incl. lunch. overtime is charged per hour at 1/8 of the day rate.',
+'cancellation: 50% of the fee within 72 hours, 100% within 24 hours before the shoot.',
+'payment within 30 days of the invoice date.',
+'final images are delivered after payment. copyright stays with the maker.'].join('\n');
+function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v);}catch(e){return null;}}
+function line(group,d,q,r){
+ var w=document.createElement('div'); w.className='line';
+ w.innerHTML='<input aria-label="what" class="d"><input aria-label="qty" class="q" type="number" min="0" step="0.5" inputmode="decimal"><input aria-label="rate" class="r" type="number" min="0" step="1" inputmode="decimal" placeholder="0"><button type="button" class="x" aria-label="remove line">×</button>';
+ w.querySelector('.d').value=d||''; w.querySelector('.q').value=q==null?1:q; w.querySelector('.r').value=r?r:'';
+ w.querySelector('.x').onclick=function(){w.remove();render();};
+ document.getElementById('g-'+group).appendChild(w);
+}
+function lines(group){return [].map.call(document.querySelectorAll('#g-'+group+' .line'),function(w){return [w.querySelector('.d').value.trim(),parseFloat(w.querySelector('.q').value)||0,parseFloat(w.querySelector('.r').value)||0];});}
+function val(n){return (f.elements[n].value||'').trim();}
+function money(x,c){ var s=(Math.round(x*100)/100).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}); return c+' '+s; }
+function fmtDate(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
+function set(id,t,ph){var e=document.getElementById(id); e.textContent=t||ph||''; e.classList.toggle('empty',!t);}
+function render(){
+ var c=val('cur')||'€', today=new Date(), until=new Date(today.getTime()+(parseInt(val('valid'))||14)*864e5);
+ set('p-me',val('me'),'your name'); set('p-role',val('role'),'what you do');
+ set('p-qno',val('qno'),'Q-001'); document.getElementById('p-date').textContent=fmtDate(today); document.getElementById('p-until').textContent=fmtDate(until);
+ set('p-from',[val('me'),val('addr'),val('email'),val('phone'),val('vat')&&('vat '+val('vat')),val('coc')&&('coc '+val('coc'))].filter(Boolean).join('\n'),'your details');
+ document.getElementById('p-from').style.whiteSpace='pre-line';
+ set('p-to',[val('client'),val('contact')&&('attn. '+val('contact')),val('cemail')].filter(Boolean).join('\n'),'client');
+ document.getElementById('p-to').style.whiteSpace='pre-line';
+ set('p-job',val('job'),'job title'); set('p-jobmeta',[val('dates'),val('loc')].filter(Boolean).join('  ·  '),'dates · location');
+ var tb=document.getElementById('p-lines'); tb.innerHTML=''; var sub=0;
+ [['work','days & work'],['usage','usage'],['exp','expenses']].forEach(function(g){
+  var L=lines(g[0]).filter(function(x){return x[0]||x[2];}); if(!L.length) return;
+  var gr=document.createElement('tr'); gr.className='grp'; var gt=document.createElement('td'); gt.colSpan=4; gt.textContent=g[1]; gr.appendChild(gt); tb.appendChild(gr);
+  L.forEach(function(x){ var a=x[1]*x[2]; sub+=a; var tr=document.createElement('tr');
+   [x[0]||'—', String(x[1]).replace('.',','), x[2]?money(x[2],c):'—', a?money(a,c):'—'].forEach(function(v,i){var td=document.createElement('td'); td.textContent=v; if(i) td.className='n'; tr.appendChild(td);});
+   tb.appendChild(tr); });
+ });
+ var vp=parseFloat(val('vatp'))||0, vat=sub*vp/100;
+ document.getElementById('p-sub').textContent=money(sub,c);
+ document.getElementById('p-vatk').textContent='vat '+String(vp).replace('.',',')+'%';
+ document.getElementById('p-vat').textContent=money(vat,c);
+ document.getElementById('p-total').textContent=money(sub+vat,c);
+ document.getElementById('p-terms').textContent=val('terms');
+ set('p-sign',val('me'),'you');
+ save();
+}
+function save(){
+ var data={}; [].forEach.call(f.elements,function(e){ if(e.name) data[e.name]=e.value; });
+ data._lines={work:lines('work'),usage:lines('usage'),exp:lines('exp')};
+ store(KEY,JSON.stringify(data));
+}
+function load(){
+ var raw=store(KEY), data=null; try{ data=raw?JSON.parse(raw):null; }catch(e){}
+ ['work','usage','exp'].forEach(function(g){ document.getElementById('g-'+g).innerHTML=''; ((data&&data._lines&&data._lines[g])||DEF[g]).forEach(function(x){line(g,x[0],x[1],x[2]);}); });
+ [].forEach.call(f.elements,function(e){ if(e.name && data && data[e.name]!=null) e.value=data[e.name]; });
+ if(!val('terms')) f.elements.terms.value=TERMS;
+ if(!val('qno')){ var d=new Date(); f.elements.qno.value='Q-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+ render();
+}
+f.addEventListener('input',render); f.addEventListener('change',render);
+document.querySelectorAll('[data-add]').forEach(function(b){ b.onclick=function(){ line(b.dataset.add,'',1,0); render(); var L=document.querySelectorAll('#g-'+b.dataset.add+' .d'); L[L.length-1].focus(); }; });
+document.getElementById('dl').onclick=function(){
+ var t=document.title; document.title=('quote '+val('qno')+' '+val('client')).trim(); window.print(); setTimeout(function(){document.title=t;},500);
+};
+document.getElementById('reset').onclick=function(){ if(confirm('start a new, empty quote?')){ store(KEY,null); f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; load(); } };
+load();
+})();
+</script>
+</body>
+</html>
