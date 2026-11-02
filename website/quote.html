@@ -80,6 +80,8 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 .doc .total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);margin-top:8px;padding-top:10px}
 .doc .total .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
 .doc .total .v{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:38px;color:var(--blue);line-height:1}
+.doc .deliv{margin-top:18px;font-family:'Space Mono',monospace;font-size:9.5px;line-height:1.7;border-top:1px solid #EEEFEC;padding-top:12px}
+.doc .deliv .k{letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-size:9px;margin-bottom:4px}
 .doc .terms{margin-top:auto;padding-top:18px;font-family:'Space Mono',monospace;font-size:8.5px;line-height:1.65;color:var(--muted);white-space:pre-wrap}
 .doc .terms .k{letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
 .doc .sign{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:16px;font-family:'Space Mono',monospace;font-size:8.5px;color:var(--soft);letter-spacing:.1em;text-transform:uppercase}
@@ -160,7 +162,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <p class="group-cap">usage</p>
 <div id="g-usage"></div>
 <button type="button" class="add" data-add="usage">+ add a line</button>
-<p class="hint">usage is money. write it out: where, how long, which countries. e.g. "online + social, 1 year, Benelux".</p>
+<p class="hint">usage is money. write it out: where, how long, which countries. "unlimited time, region and media" is the most expensive buy-out there is, so price it like one.</p>
 <p class="group-cap">expenses</p>
 <div id="g-exp"></div>
 <button type="button" class="add" data-add="exp">+ add a line</button>
@@ -168,6 +170,20 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <label><span>vat %</span><input name="vatp" type="number" min="0" max="50" step="0.5" value="21"></label>
 <label><span>valid for (days)</span><input name="valid" type="number" min="1" value="14"></label>
 </div>
+</fieldset>
+
+<fieldset><legend class="mono">what they get</legend>
+<div class="grid2">
+<label><span>final images</span><input name="imgs" type="number" min="0" value="20"></label>
+<label><span>selected by</span><select name="sel"><option>the client, during or after the shoot</option><option>me, the maker</option><option>together, on set</option></select></label>
+<label><span>delivered as</span><select name="fmt"><option>HR TIFF (print) + HR JPEG (online)</option><option>HR JPEG (online)</option><option>RAW + HR JPEG</option></select></label>
+<label><span>feedback rounds</span><input name="rounds" type="number" min="0" value="1"></label>
+<label><span>extra image, per image</span><input name="extra" type="number" min="0" value="35"></label>
+<label><span>delivery within (days)</span><input name="deliv" type="number" min="1" value="10"></label>
+<label class="full" style="display:flex;gap:10px;align-items:center"><input name="credit" type="checkbox" checked style="width:auto"><span style="margin:0">credit on social media (@yourname)</span></label>
+<label class="full"><span>your instagram (for the credit)</span><input name="ig" placeholder="@yourname"></label>
+</div>
+<p class="hint">the more you write down, the less they can stretch it later.</p>
 </fieldset>
 
 <fieldset><legend class="mono">terms</legend>
@@ -197,6 +213,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <div><span id="p-vatk">vat</span><span id="p-vat"></span></div>
 <div class="total"><span class="k">total</span><span class="v" id="p-total"></span></div>
 </div>
+<div class="deliv" id="p-deliv"></div>
 <div class="terms"><div class="k">terms</div><div id="p-terms"></div></div>
 <div class="sign"><div>for the client · name, date, signature</div><div>for <span id="p-sign"></span></div></div>
 <div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
@@ -206,22 +223,23 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 
 <script>
 (function(){
-var f=document.getElementById('f'), KEY='ff-quote-v1';
+var f=document.getElementById('f'), KEY='ff-quote-v2';
 var DEF={
- work:[['shoot day',1,0],['prep day',1,0],['post-production / edit',1,0]],
- usage:[['usage: online + social, 1 year, worldwide',1,0]],
- exp:[['assistant',1,0],['equipment / rental',1,0],['travel',1,0]]
+ work:[['pre-production: concept, light plan',1,0],['shoot day (8 hours)',1,0],['equipment: camera, lenses, laptop',1,0],['post-production: selection + retouch',1,0]],
+ usage:[['usage: online + social, 1 year, Benelux',1,0]],
+ exp:[['assistant',1,0],['light equipment (estimate)',1,0],['travel (km)',0,0.23]]
 };
-var TERMS=['valid for the number of days shown above.',
+var TERMS=['this quote is accepted when signed or confirmed by email. valid for the number of days shown above.',
 'usage: only as described in this quote. any other use, period or territory needs a new agreement and fee.',
-'a shoot day is max. 10 hours incl. lunch. overtime is charged per hour at 1/8 of the day rate.',
+'a full day is 8 hours, a half day 4 hours, excl. lunch. overtime is charged per started hour at 1/8 of the day rate.',
+'estimates (marked as such) are confirmed before booking. travel is charged per km.',
 'cancellation: 50% of the fee within 72 hours, 100% within 24 hours before the shoot.',
-'payment within 30 days of the invoice date.',
-'final images are delivered after payment. copyright stays with the maker.'].join('\n');
+'payment within 14 days of the invoice date. for jobs over 2,500, 50% is invoiced at booking.',
+'usage starts on payment. copyright stays with the maker.'].join('\n');
 function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v);}catch(e){return null;}}
 function line(group,d,q,r){
  var w=document.createElement('div'); w.className='line';
- w.innerHTML='<input aria-label="what" class="d"><input aria-label="qty" class="q" type="number" min="0" step="0.5" inputmode="decimal"><input aria-label="rate" class="r" type="number" min="0" step="1" inputmode="decimal" placeholder="0"><button type="button" class="x" aria-label="remove line">×</button>';
+ w.innerHTML='<input aria-label="what" class="d"><input aria-label="qty" class="q" type="number" min="0" step="0.5" inputmode="decimal"><input aria-label="rate" class="r" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><button type="button" class="x" aria-label="remove line">×</button>';
  w.querySelector('.d').value=d||''; w.querySelector('.q').value=q==null?1:q; w.querySelector('.r').value=r?r:'';
  w.querySelector('.x').onclick=function(){w.remove();render();};
  document.getElementById('g-'+group).appendChild(w);
@@ -254,18 +272,25 @@ function render(){
  document.getElementById('p-vat').textContent=money(vat,c);
  document.getElementById('p-total').textContent=money(sub+vat,c);
  document.getElementById('p-terms').textContent=val('terms');
+ var n=parseInt(val('imgs'))||0, rd=parseInt(val('rounds')), ex=parseFloat(val('extra'))||0, D=[];
+ if(n) D.push(n+' final images, selected by '+val('sel')+'.');
+ D.push('delivered as '+val('fmt')+', within '+(parseInt(val('deliv'))||10)+' working days after the final selection.');
+ if(!isNaN(rd)) D.push(rd+' feedback round'+(rd===1?'':'s')+' included.');
+ if(ex) D.push('extra images: '+money(ex,c)+' per image.');
+ if(f.elements.credit.checked) D.push('credit on social media: '+(val('ig')||'@'+(val('me')||'yourname').toLowerCase().replace(/\s+/g,''))+'.');
+ var dv=document.getElementById('p-deliv'); dv.innerHTML='<div class="k">what you get</div>'; var t=document.createElement('div'); t.textContent=D.join(' '); dv.appendChild(t);
  set('p-sign',val('me'),'you');
  save();
 }
 function save(){
- var data={}; [].forEach.call(f.elements,function(e){ if(e.name) data[e.name]=e.value; });
+ var data={}; [].forEach.call(f.elements,function(e){ if(e.name) data[e.name]=e.type==='checkbox'?e.checked:e.value; });
  data._lines={work:lines('work'),usage:lines('usage'),exp:lines('exp')};
  store(KEY,JSON.stringify(data));
 }
 function load(){
  var raw=store(KEY), data=null; try{ data=raw?JSON.parse(raw):null; }catch(e){}
  ['work','usage','exp'].forEach(function(g){ document.getElementById('g-'+g).innerHTML=''; ((data&&data._lines&&data._lines[g])||DEF[g]).forEach(function(x){line(g,x[0],x[1],x[2]);}); });
- [].forEach.call(f.elements,function(e){ if(e.name && data && data[e.name]!=null) e.value=data[e.name]; });
+ [].forEach.call(f.elements,function(e){ if(e.name && data && data[e.name]!=null){ if(e.type==='checkbox') e.checked=!!data[e.name]; else e.value=data[e.name]; } });
  if(!val('terms')) f.elements.terms.value=TERMS;
  if(!val('qno')){ var d=new Date(); f.elements.qno.value='Q-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
  render();
