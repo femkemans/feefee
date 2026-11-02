@@ -124,11 +124,13 @@ body.ov-open{overflow:hidden}
 .ov-board{position:fixed;inset:0;pointer-events:none;z-index:0}
 .ov-board img,.ov-board .qn{position:absolute;height:auto;transform:rotate(var(--r)) translateY(10px);opacity:0;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 1px 1px rgba(28,30,26,.12)) drop-shadow(0 10px 14px rgba(28,30,26,.10))}
 .ov.on .ov-board img,.ov.on .ov-board .qn{opacity:1;transform:rotate(var(--r))}
-.ov.on .ov-board>:nth-child(2){transition-delay:.1s}.ov.on .ov-top>:nth-child(1){transition-delay:.06s}.ov.on .ov-top>:nth-child(2){transition-delay:.18s}.ov.on .ov-top>:nth-child(3){transition-delay:.12s}
-.ov-board .qn{margin:0;width:17vh;aspect-ratio:1/1;box-sizing:border-box;padding:2.4vh 1.6vh 2.6vh 2vh;background:url(assets/grain.png) repeat,linear-gradient(172deg,#FAF3D1,#F4EABF);background-size:120px 120px,auto;font-family:'Nothing You Could Do',var(--hand);font-weight:400;color:#2A45C9;font-size:1.75vh;line-height:1.35;display:flex;flex-direction:column;justify-content:space-between}
+.ov.on .ov-top>:nth-child(2){transition-delay:.08s}.ov.on .ov-top>:nth-child(3){transition-delay:.16s}.ov.on .ov-top>:nth-child(4){transition-delay:.12s}.ov.on .ov-top>:nth-child(5){transition-delay:.2s}
+.ov-board .qn{margin:0;width:17vh;aspect-ratio:1/1;box-sizing:border-box;padding:2.4vh 1.6vh 2.6vh 2vh;background:url(assets/grain.png) repeat,linear-gradient(172deg,#FAF3D1,#F4EABF);background-size:120px 120px,auto;font-family:'Nothing You Could Do',var(--hand);font-weight:400;color:#2A45C9;font-size:1.4vh;line-height:1.4;display:flex;flex-direction:column;justify-content:space-between}
 .ov-board .qn small{font-size:1em;text-align:left}
 .ov-board .qn span{text-align:right}
 .ov-top{z-index:2}
+.ov-board>*{pointer-events:auto;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.ov-board>.dragging{cursor:grabbing;filter:drop-shadow(0 2px 2px rgba(28,30,26,.14)) drop-shadow(0 18px 22px rgba(28,30,26,.16));transition:none!important}
 .ov .man-hand,.ov .man-sign{font-family:'Nothing You Could Do',var(--hand);font-weight:400;color:#2A45C9}
 .ov .man-hand{font-size:clamp(13px,min(2.6vw,2.05vh),24px)!important;line-height:1.42!important}
 .ov-in{position:relative;z-index:1}
@@ -409,14 +411,12 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 </footer>
 
 <div class="ov" id="manifesto" role="dialog" aria-modal="true" aria-label="manifesto" hidden>
-<div class="ov-board" aria-hidden="true">
-<img src="assets/note-to-self.webp" alt="" style="left:calc(50% - 44vh);top:8vh;width:17vh;--r:-9deg">
-<p class="qn" style="left:calc(50% + 25vh);top:30vh;--r:-6deg"><small>note to self:</small><span>prep days are<br>paid days.</span></p>
-</div>
 <div class="ov-board ov-top" aria-hidden="true">
-<p class="qn" style="left:calc(50% - 46vh);top:47vh;--r:7deg"><small>note to self:</small><span>"exposure" is<br>not a rate.</span></p>
-<p class="qn" style="left:calc(50% - 38vh);top:64vh;width:14vh;--r:-4deg"><small>reminder:</small><span>invoice the<br>same day.</span></p>
-<p class="qn" style="left:calc(50% + 22vh);top:7vh;--r:9deg"><small>reminder:</small><span>get it in writing.<br>always.</span></p>
+<img src="assets/note-to-self.webp" alt="" draggable="false" style="left:calc(50% - 45vh);top:9vh;width:17vh;--r:-9deg">
+<p class="qn" style="left:calc(50% + 24vh);top:8vh;--r:8deg"><small>reminder:</small><span>get it in writing.<br>always.</span></p>
+<p class="qn" style="left:calc(50% + 27vh);top:36vh;--r:-5deg"><small>note to self:</small><span>prep days are<br>paid days.</span></p>
+<p class="qn" style="left:calc(50% - 47vh);top:44vh;--r:6deg"><small>note to self:</small><span>"exposure" is<br>not a rate.</span></p>
+<p class="qn" style="left:calc(50% - 39vh);top:65vh;width:14vh;--r:-4deg"><small>reminder:</small><span>invoice the<br>same day.</span></p>
 </div>
 <button type="button" class="ov-x" id="ov-x" aria-label="close" data-ta="close">×</button>
 <div class="ov-in">
@@ -722,11 +722,23 @@ loadCount(function(){ if(joined) storyCard(); });
   ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
   document.getElementById('ov-join').addEventListener('click',function(e){ e.preventDefault(); close(true); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!ov.hidden) close(); });
+  /* sticky notes: drag them around the window */
+  var dragging=false, zTop=10;
+  ov.querySelectorAll('.ov-board>*').forEach(function(n){
+    n.addEventListener('pointerdown',function(e){
+      e.preventDefault(); e.stopPropagation(); dragging=true;
+      var r=n.getBoundingClientRect(), b=n.offsetParent.getBoundingClientRect(), ox=e.clientX-(n.offsetLeft+b.left), oy=e.clientY-(n.offsetTop+b.top);
+      n.style.zIndex=++zTop; n.classList.add('dragging'); n.setPointerCapture(e.pointerId);
+      function mv(ev){ n.style.left=(ev.clientX-b.left-ox)+'px'; n.style.top=(ev.clientY-b.top-oy)+'px'; }
+      function up(){ dragging=false; n.classList.remove('dragging'); n.removeEventListener('pointermove',mv); n.removeEventListener('pointerup',up); n.removeEventListener('pointercancel',up); }
+      n.addEventListener('pointermove',mv); n.addEventListener('pointerup',up); n.addEventListener('pointercancel',up);
+    });
+  });
   /* scrolling down (wheel, trackpad or swipe up) closes the manifesto and shows the homepage */
   var ty=null;
   ov.addEventListener('wheel',function(e){ if(!ov.hidden && ov.classList.contains('on') && e.deltaY>12) close(); },{passive:true});
   ov.addEventListener('touchstart',function(e){ ty=e.touches[0].clientY; },{passive:true});
-  ov.addEventListener('touchmove',function(e){ if(ty!==null && ty-e.touches[0].clientY>40 && ov.classList.contains('on')){ ty=null; close(); } },{passive:true});
+  ov.addEventListener('touchmove',function(e){ if(!dragging && ty!==null && ty-e.touches[0].clientY>40 && ov.classList.contains('on')){ ty=null; close(); } },{passive:true});
   if(location.hash==='#manifesto') open();
 })();
 </script>
