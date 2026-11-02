@@ -89,6 +89,12 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 .doc .made{margin-top:14px;text-align:center;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .doc .made .logo{font-size:10px;letter-spacing:-.02em;color:var(--soft)}
 .empty{color:var(--faint)}
+.kind{display:inline-flex;border:1px solid var(--ink);margin:0 0 22px}
+.kind button{background:transparent;border:0;font:700 11px 'Space Mono',monospace;letter-spacing:.16em;text-transform:uppercase;padding:10px 18px;cursor:pointer;color:var(--ink)}
+.kind button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.deskbar{font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;margin:-14px 0 26px;color:var(--muted)}
+.deskbar a{color:var(--ink)}
+.doc .pay{margin-top:16px;background:#F4F7F4;padding:12px 14px;font-family:'Space Mono',monospace;font-size:10px;line-height:1.7}
 
 @media (max-width:900px){
  .wrap{grid-template-columns:1fr}
@@ -101,6 +107,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 }
 @page{size:A4;margin:0}
 @media print{
+ .doc .pay{background:#F4F7F4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
  body{background:#fff}
  .top,.side,.no-print{display:none!important}
  .wrap{display:block}
@@ -115,11 +122,14 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 
 <div class="wrap">
 <form class="side" id="f" autocomplete="on" onsubmit="return false">
-<p class="mono" style="margin:0">template 01 · before you quote</p>
-<h1>Make your quote.</h1>
+<div class="kind" role="group" aria-label="document type"><button type="button" data-kind="quote" aria-pressed="true">quote</button><button type="button" data-kind="invoice" aria-pressed="false">invoice</button></div>
+<input type="hidden" name="kind" value="quote">
+<p class="mono" style="margin:0" id="eyebrow">template 01 · before you quote</p>
+<h1 id="h1">Make your quote.</h1>
+<div class="deskbar" id="deskbar"></div>
 <p class="lead">fill it in, check your quote, download it as a pdf. nothing leaves your device. what you charge is always your call.</p>
 
-<div class="ask">
+<div class="ask" id="askbox">
 <p class="mono" style="margin-bottom:10px">ask these first</p>
 <p>where will the images be used, and for how long?</p>
 <p>how many final images, and how many looks?</p>
@@ -136,6 +146,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <label class="full"><span>address / city</span><input name="addr" placeholder="Amsterdam, NL"></label>
 <label><span>vat number</span><input name="vat" placeholder="optional"></label>
 <label><span>chamber of commerce</span><input name="coc" placeholder="optional"></label>
+<label class="full"><span>iban (shown on invoices)</span><input name="iban" placeholder="NL00 BANK 0000 0000 00"></label>
 </div></fieldset>
 
 <fieldset><legend class="mono">client</legend>
@@ -150,7 +161,8 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <label class="full"><span>job title</span><input name="job" placeholder="SS27 campaign"></label>
 <label><span>shoot date(s)</span><input name="dates" placeholder="12–13 march"></label>
 <label><span>location</span><input name="loc" placeholder="Amsterdam, studio"></label>
-<label><span>quote number</span><input name="qno"></label>
+<label><span id="l-qno">quote number</span><input name="qno"></label>
+<label><span id="l-date">quote date</span><input name="docdate" type="date"></label>
 <label><span>currency</span><select name="cur"><option value="€">€ euro</option><option value="$">$ dollar</option><option value="£">£ pound</option></select></label>
 </div></fieldset>
 
@@ -168,7 +180,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <button type="button" class="add" data-add="exp">+ add a line</button>
 <div class="grid2" style="margin-top:18px">
 <label><span>vat %</span><input name="vatp" type="number" min="0" max="50" step="0.5" value="21"></label>
-<label><span>valid for (days)</span><input name="valid" type="number" min="1" value="14"></label>
+<label><span id="l-valid">valid for (days)</span><input name="valid" type="number" min="1" value="14"></label>
 </div>
 </fieldset>
 
@@ -190,9 +202,11 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <label><span>edit them so they fit your job</span><textarea name="terms"></textarea></label>
 </fieldset>
 
+<button type="button" class="btn" id="savebtn" hidden>save to my desk</button>
+<p class="hint" id="savemsg" style="text-align:center"></p>
 <button type="button" class="btn" id="dl">download pdf</button>
-<button type="button" class="btn soft" id="reset">start over</button>
-<p class="hint">your quote is only kept on this device, so you can come back to it. we never see it.</p>
+<button type="button" class="btn soft" id="startover">start over</button>
+<p class="hint" id="privacy-note">your quote is only kept on this device, so you can come back to it. we never see it. <a href="account.html">log in</a> to keep all your quotes and invoices on your own desk.</p>
 <p class="hint" style="margin-top:24px">not legal advice. just a good start, made with creatives.</p>
 </form>
 
@@ -200,7 +214,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 <article class="doc" id="doc">
 <div class="d-top">
 <div><div class="who" id="p-me"></div><div class="role" id="p-role"></div></div>
-<div class="meta"><b>QUOTE</b><br><span id="p-qno"></span><br><span id="p-date"></span><br>valid until <span id="p-until"></span></div>
+<div class="meta"><b id="p-kind">QUOTE</b><br><span id="p-qno"></span><br><span id="p-date"></span><br><span id="p-untilk">valid until</span> <span id="p-until"></span></div>
 </div>
 <div class="parties">
 <div><div class="k">from</div><div id="p-from"></div></div>
@@ -215,12 +229,15 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 </div>
 <div class="deliv" id="p-deliv"></div>
 <div class="terms"><div class="k">terms</div><div id="p-terms"></div></div>
-<div class="sign"><div>for the client · name, date, signature</div><div>for <span id="p-sign"></span></div></div>
+<div class="pay" id="p-pay" hidden></div>
+<div class="sign" id="p-signrow"><div>for the client · name, date, signature</div><div>for <span id="p-sign"></span></div></div>
 <div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
 </article>
 </div>
 </div>
 
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
 <script>
 (function(){
 var f=document.getElementById('f'), KEY='ff-quote-v2';
@@ -229,13 +246,16 @@ var DEF={
  usage:[['usage: online + social, 1 year, Benelux',1,0]],
  exp:[['assistant',1,0],['light equipment (estimate)',1,0],['travel (km)',0,0.23]]
 };
+var QTERMS;
+var ITERMS=['usage as agreed in the quote. usage starts on payment. copyright stays with the maker.',
+'after the due date, statutory commercial interest and collection costs may be charged.'].join('\n');
 var TERMS=['this quote is accepted when signed or confirmed by email. valid for the number of days shown above.',
 'usage: only as described in this quote. any other use, period or territory needs a new agreement and fee.',
 'a full day is 8 hours, a half day 4 hours, excl. lunch. overtime is charged per started hour at 1/8 of the day rate.',
 'estimates (marked as such) are confirmed before booking. travel is charged per km.',
 'cancellation: 50% of the fee within 72 hours, 100% within 24 hours before the shoot.',
 'payment within 14 days of the invoice date. for jobs over 2,500, 50% is invoiced at booking.',
-'usage starts on payment. copyright stays with the maker.'].join('\n');
+'usage starts on payment. copyright stays with the maker.'].join('\n'); QTERMS=TERMS;
 function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v);}catch(e){return null;}}
 function line(group,d,q,r){
  var w=document.createElement('div'); w.className='line';
@@ -250,7 +270,17 @@ function money(x,c){ var s=(Math.round(x*100)/100).toLocaleString('en-GB',{minim
 function fmtDate(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
 function set(id,t,ph){var e=document.getElementById(id); e.textContent=t||ph||''; e.classList.toggle('empty',!t);}
 function render(){
- var c=val('cur')||'€', today=new Date(), until=new Date(today.getTime()+(parseInt(val('valid'))||14)*864e5);
+ var kind=val('kind')||'quote', inv=kind==='invoice';
+ var c=val('cur')||'€', today=val('docdate')?new Date(val('docdate')+'T12:00:00'):new Date(), until=new Date(today.getTime()+(parseInt(val('valid'))||14)*864e5);
+ document.getElementById('p-kind').textContent=inv?'INVOICE':'QUOTE';
+ document.getElementById('p-untilk').textContent=inv?'due':'valid until';
+ document.getElementById('h1').textContent=inv?'Make your invoice.':'Make your quote.';
+ document.getElementById('eyebrow').textContent=inv?'template 02 · get paid':'template 01 · before you quote';
+ document.getElementById('l-qno').textContent=inv?'invoice number':'quote number';
+ document.getElementById('l-date').textContent=inv?'invoice date':'quote date';
+ document.getElementById('l-valid').textContent=inv?'pay within (days)':'valid for (days)';
+ document.getElementById('askbox').hidden=inv; document.getElementById('p-signrow').hidden=inv;
+ document.querySelectorAll('.kind button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.kind===kind?'true':'false'); });
  set('p-me',val('me'),'your name'); set('p-role',val('role'),'what you do');
  set('p-qno',val('qno'),'Q-001'); document.getElementById('p-date').textContent=fmtDate(today); document.getElementById('p-until').textContent=fmtDate(until);
  set('p-from',[val('me'),val('addr'),val('email'),val('phone'),val('vat')&&('vat '+val('vat')),val('coc')&&('coc '+val('coc'))].filter(Boolean).join('\n'),'your details');
@@ -271,6 +301,9 @@ function render(){
  document.getElementById('p-vatk').textContent='vat '+String(vp).replace('.',',')+'%';
  document.getElementById('p-vat').textContent=money(vat,c);
  document.getElementById('p-total').textContent=money(sub+vat,c);
+ SUB=sub; GRAND=sub+vat;
+ var pay=document.getElementById('p-pay'); pay.hidden=!inv;
+ if(inv) pay.textContent='please transfer '+money(sub+vat,c)+' before '+fmtDate(until)+(val('iban')?' to '+val('iban'):'')+(val('me')?' in the name of '+val('me'):'')+', stating invoice number '+(val('qno')||'')+'. thank you!';
  document.getElementById('p-terms').textContent=val('terms');
  var n=parseInt(val('imgs'))||0, rd=parseInt(val('rounds')), ex=parseFloat(val('extra'))||0, D=[];
  if(n) D.push(n+' final images, selected by '+val('sel')+'.');
@@ -282,26 +315,80 @@ function render(){
  set('p-sign',val('me'),'you');
  save();
 }
-function save(){
+var SUB=0, GRAND=0, DOC_ID=null, USER=null, dirty=false, timer=null, LOADING=false;
+function collect(){
  var data={}; [].forEach.call(f.elements,function(e){ if(e.name) data[e.name]=e.type==='checkbox'?e.checked:e.value; });
- data._lines={work:lines('work'),usage:lines('usage'),exp:lines('exp')};
- store(KEY,JSON.stringify(data));
+ data._lines={work:lines('work'),usage:lines('usage'),exp:lines('exp')}; data._sub=SUB; data._grand=GRAND; return data;
 }
-function load(){
- var raw=store(KEY), data=null; try{ data=raw?JSON.parse(raw):null; }catch(e){}
+var ME=['me','role','email','phone','addr','vat','coc','iban','ig','cur','vatp'];
+function save(){
+ if(LOADING) return;
+ var data=collect();
+ if(!DOC_ID) store(KEY,JSON.stringify(data));
+ var mine={}; ME.forEach(function(k){ mine[k]=data[k]; }); store('ff-me',JSON.stringify(mine));
+ if(USER && DOC_ID){ dirty=true; clearTimeout(timer); timer=setTimeout(push,1500); msg('saving…'); }
+}
+function msg(t){ document.getElementById('savemsg').textContent=t; }
+function push(){
+ if(!USER) return; var data=collect();
+ return window.ffDesk.save({id:DOC_ID,kind:data.kind||'quote',number:data.qno,client:data.client,job:data.job,total:SUB,currency:data.cur,data:data}).then(function(r){
+  if(r.error){ msg('could not save: '+r.error.message); return; }
+  if(!DOC_ID){ DOC_ID=r.data.id; history.replaceState(null,'','quote.html?doc='+DOC_ID); store(KEY,null); document.getElementById('savebtn').hidden=true; }
+  dirty=false; msg('saved on your desk ✓');
+ });
+}
+function newNumber(kind){ var d=new Date(); return (kind==='invoice'?'INV-':'Q-')+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+function todayISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function setKind(k){
+ var was=val('kind'); f.elements.kind.value=k;
+ if(was!==k){
+  if(!val('qno') || val('qno')===newNumber(was)) f.elements.qno.value=newNumber(k);
+  var t=val('terms'); if(!t || t===QTERMS || t===ITERMS) f.elements.terms.value = k==='invoice'?ITERMS:QTERMS;
+  if(k==='invoice' && (!val('valid') || val('valid')==='14')) f.elements.valid.value='14';
+ }
+ render();
+}
+document.querySelectorAll('.kind button').forEach(function(b){ b.onclick=function(){ setKind(b.dataset.kind); }; });
+function load(given){
+ var raw=store(KEY), data=null; try{ data=given!==undefined?given:(raw?JSON.parse(raw):null); }catch(e){}
  ['work','usage','exp'].forEach(function(g){ document.getElementById('g-'+g).innerHTML=''; ((data&&data._lines&&data._lines[g])||DEF[g]).forEach(function(x){line(g,x[0],x[1],x[2]);}); });
  [].forEach.call(f.elements,function(e){ if(e.name && data && data[e.name]!=null){ if(e.type==='checkbox') e.checked=!!data[e.name]; else e.value=data[e.name]; } });
- if(!val('terms')) f.elements.terms.value=TERMS;
- if(!val('qno')){ var d=new Date(); f.elements.qno.value='Q-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+ if(!data){ try{ var me=JSON.parse(store('ff-me')||'null'); if(me) ME.forEach(function(k){ if(me[k]!=null && f.elements[k]) f.elements[k].value=me[k]; }); }catch(e){} }
+ if(!val('kind')) f.elements.kind.value='quote';
+ if(!val('terms')) f.elements.terms.value= val('kind')==='invoice'?ITERMS:TERMS;
+ if(!val('qno')) f.elements.qno.value=newNumber(val('kind'));
+ if(!val('docdate')) f.elements.docdate.value=todayISO();
  render();
 }
 f.addEventListener('input',render); f.addEventListener('change',render);
 document.querySelectorAll('[data-add]').forEach(function(b){ b.onclick=function(){ line(b.dataset.add,'',1,0); render(); var L=document.querySelectorAll('#g-'+b.dataset.add+' .d'); L[L.length-1].focus(); }; });
 document.getElementById('dl').onclick=function(){
- var t=document.title; document.title=('quote '+val('qno')+' '+val('client')).trim(); window.print(); setTimeout(function(){document.title=t;},500);
+ var t=document.title; document.title=((val('kind')||'quote')+' '+val('qno')+' '+val('client')).trim(); window.print(); setTimeout(function(){document.title=t;},500);
 };
-document.getElementById('reset').onclick=function(){ if(confirm('start a new, empty quote?')){ store(KEY,null); f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; load(); } };
-load();
+document.getElementById("startover").onclick=function(){ if(confirm('start a new, empty one?')){ if(DOC_ID){ location.href='quote.html?new='+(val('kind')||'quote'); return; } store(KEY,null); f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; f.elements.docdate.value=''; load(null); } };
+document.getElementById('savebtn').onclick=function(){ msg('saving…'); push(); };
+window.addEventListener('beforeunload',function(e){ if(dirty){ push(); } });
+var Q=new URLSearchParams(location.search), wantNew=Q.get('new'), docId=Q.get('doc'), copyId=Q.get('copy');
+function fresh(k){ f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; f.elements.docdate.value=''; f.elements.kind.value=k; load(null); }
+if(wantNew) fresh(wantNew==='invoice'?'invoice':'quote'); else load();
+if(window.ffDesk){
+ window.ffDesk.user().then(function(u){
+  USER=u; var bar=document.getElementById('deskbar');
+  if(!u){ bar.innerHTML='<a href="account.html">log in</a> to keep all your quotes and invoices on your desk.'; return; }
+  bar.innerHTML='on your desk · <a href="account.html">see all</a>';
+  document.getElementById('privacy-note').textContent='saved on your own desk. only you can see it.';
+  var id=docId||copyId;
+  if(id){ window.ffDesk.get(id).then(function(r){
+    if(r.error||!r.data){ msg('could not open this one.'); return; }
+    var d=r.data.data||{};
+    if(copyId){ d.qno=''; d.docdate=''; if(Q.get('as')==='invoice'){ d.kind='invoice'; if(!d.terms||d.terms===QTERMS) d.terms=ITERMS; d.ref=r.data.number; } }
+    if(docId) DOC_ID=docId;
+    LOADING=true; f.reset(); load(d); LOADING=false;
+    if(docId){ msg('saved on your desk ✓'); } else { document.getElementById('savebtn').hidden=false; msg(''); }
+  }); }
+  else document.getElementById('savebtn').hidden=false;
+ });
+}
 })();
 </script>
 </body>
