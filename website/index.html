@@ -179,7 +179,7 @@ body.ov-open{overflow:hidden}
 .hero-in{margin-top:40px;font-family:var(--hand);font-size:34px;color:var(--blue)}
 .bar .go{display:none}
 @media (max-width:700px){
- .hero-form{flex-direction:column}.hero-form .btn{justify-content:center}
+ .hero-form{display:none!important}
  .bar{left:50%;right:auto;bottom:16px;transform:translateX(-50%);border-radius:999px;background:var(--ink);color:var(--paper);padding:15px 26px;font-size:12px;letter-spacing:.1em;box-shadow:0 10px 30px rgba(28,30,26,.25);transition:opacity .3s,transform .3s}
  .bar:hover{color:var(--paper)}.bar .long{display:none}.bar .go{display:inline}
  .bar.off{opacity:0;pointer-events:none;transform:translate(-50%,20px)}
@@ -457,7 +457,7 @@ say the number.</p>
 </div>
 </div>
 
-<a href="#top" class="bar mono" id="bar"><span class="long" data-t="bar">waitlist now open · for freelance creatives worldwide</span><span class="go" data-t="barGo">join · it’s free</span></a>
+<a href="#join" class="bar mono" id="bar"><span class="long" data-t="bar">waitlist now open · for freelance creatives worldwide</span><span class="go" data-t="barGo">join · it’s free</span></a>
 
 
 <script>
@@ -719,7 +719,7 @@ loadCount(function(){ if(joined) storyCard(); });
 (function(){
   var bar=document.getElementById('bar'); if(!('IntersectionObserver' in window)) return;
   var vis=new Set(), io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?vis.add(e.target):vis.delete(e.target); }); bar.classList.toggle('off',vis.size>0); });
-  ['hero-join','waitlist'].forEach(function(id){ var el=document.getElementById(id); if(el) io.observe(el); });
+  ['top','waitlist'].forEach(function(id){ var el=document.getElementById(id); if(el) io.observe(el); });
 })();
 /* manifesto overlay, frosted glass */
 (function(){
