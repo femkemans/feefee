@@ -129,6 +129,12 @@ body.ov-open{overflow:hidden}
 .ov-board .qn small{font-size:1em;text-align:left}
 .ov-board .qn span{text-align:right}
 .ov-top{z-index:2}
+.qn-mine{gap:4px}
+.qn-mine textarea{flex:1;width:100%;border:0;background:transparent;resize:none;padding:0;font:inherit;color:inherit;font-size:1.55vh;line-height:1.35;outline:none;cursor:text}
+.qn-mine textarea::placeholder{color:rgba(42,69,201,.45)}
+.qn-mine button{align-self:flex-end;border:0;background:none;padding:0;font:inherit;color:inherit;font-size:1.4vh;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.qn-mine.sent button{text-decoration:none;cursor:default}
+.qn.qn-community small{opacity:.8}
 .ov-board>*{pointer-events:auto;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
 .ov-board>.dragging{cursor:grabbing;filter:drop-shadow(0 2px 2px rgba(28,30,26,.14)) drop-shadow(0 18px 22px rgba(28,30,26,.16));transition:none!important}
 .ov .man-hand,.ov .man-sign{font-family:'Nothing You Could Do',var(--hand);font-weight:400;color:#2A45C9}
@@ -417,6 +423,12 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="qn" style="left:calc(50% + 27vh);top:36vh;--r:-5deg"><small>note to self:</small><span>prep days are<br>paid days.</span></p>
 <p class="qn" style="left:calc(50% - 47vh);top:44vh;--r:6deg"><small>note to self:</small><span>"exposure" is<br>not a rate.</span></p>
 <p class="qn" style="left:calc(50% - 39vh);top:65vh;width:14vh;--r:-4deg"><small>reminder:</small><span>invoice the<br>same day.</span></p>
+<form class="qn qn-mine" id="note-form" style="left:calc(50% + 26vh);top:63vh;--r:3deg" autocomplete="off">
+<small>your note:</small>
+<input type="text" name="website" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+<textarea name="note" maxlength="120" rows="3" placeholder="write yours here…" aria-label="write your own note"></textarea>
+<button type="submit">stick it ↗</button>
+</form>
 </div>
 <button type="button" class="ov-x" id="ov-x" aria-label="close" data-ta="close">×</button>
 <div class="ov-in">
@@ -712,7 +724,7 @@ loadCount(function(){ if(joined) storyCard(); });
 /* manifesto overlay, frosted glass */
 (function(){
   var ov=document.getElementById('manifesto'), x=document.getElementById('ov-x'), last=null;
-  function open(){ last=document.activeElement; ov.hidden=false; document.body.classList.add('ov-open'); requestAnimationFrame(function(){ ov.classList.add('on'); }); x.focus(); }
+  function open(){ last=document.activeElement; ov.hidden=false; if(typeof loadNotes==='function') setTimeout(loadNotes,0); document.body.classList.add('ov-open'); requestAnimationFrame(function(){ ov.classList.add('on'); }); x.focus(); }
   function close(go){ ov.classList.remove('on'); document.body.classList.remove('ov-open');
     setTimeout(function(){ ov.hidden=true; },350);
     if(location.hash==='#manifesto') history.replaceState(null,'',location.pathname+location.search);
@@ -724,16 +736,42 @@ loadCount(function(){ if(joined) storyCard(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!ov.hidden) close(); });
   /* sticky notes: drag them around the window */
   var dragging=false, zTop=10;
-  ov.querySelectorAll('.ov-board>*').forEach(function(n){
+  function bindDrag(n){
     n.addEventListener('pointerdown',function(e){
+      if(e.target.closest('textarea,button,input')) return;
       e.preventDefault(); e.stopPropagation(); dragging=true;
-      var r=n.getBoundingClientRect(), b=n.offsetParent.getBoundingClientRect(), ox=e.clientX-(n.offsetLeft+b.left), oy=e.clientY-(n.offsetTop+b.top);
+      var b=n.offsetParent.getBoundingClientRect(), ox=e.clientX-(n.offsetLeft+b.left), oy=e.clientY-(n.offsetTop+b.top);
       n.style.zIndex=++zTop; n.classList.add('dragging'); n.setPointerCapture(e.pointerId);
       function mv(ev){ n.style.left=(ev.clientX-b.left-ox)+'px'; n.style.top=(ev.clientY-b.top-oy)+'px'; }
       function up(){ dragging=false; n.classList.remove('dragging'); n.removeEventListener('pointermove',mv); n.removeEventListener('pointerup',up); n.removeEventListener('pointercancel',up); }
       n.addEventListener('pointermove',mv); n.addEventListener('pointerup',up); n.addEventListener('pointercancel',up);
     });
-  });
+  }
+  ov.querySelectorAll('.ov-board>*').forEach(bindDrag);
+  /* write your own note: saved for Femke to approve, nothing goes live automatically */
+  var nf=document.getElementById('note-form');
+  if(nf){ nf.addEventListener('submit',function(e){
+    e.preventDefault(); if(nf.classList.contains('sent')) return;
+    var ta=nf.querySelector('textarea'), txt=ta.value.trim(); if(txt.length<3){ ta.focus(); return; }
+    var body=new URLSearchParams(); body.append('form','note'); body.append('note',txt.slice(0,120)); body.append('website',nf.querySelector('[name=website]').value);
+    nf.classList.add('sent'); ta.readOnly=true; nf.querySelector('button').textContent='sent to fee fee. ✓';
+    if(WAITLIST_ENDPOINT) fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body}).catch(function(){});
+  }); }
+  /* approved notes from the community (max 2 at a time) */
+  var notesLoaded=false;
+  function loadNotes(){
+    if(notesLoaded||!WAITLIST_ENDPOINT) return; notesLoaded=true;
+    fetch(WAITLIST_ENDPOINT+'?notes=1',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+      var list=(d&&d.notes)||[]; if(!list.length) return;
+      list=list.sort(function(){return Math.random()-.5}).slice(0,2);
+      var slots=[['calc(50% - 61vh)','27vh','-3deg'],['calc(50% + 45vh)','24vh','5deg']], board=ov.querySelector('.ov-top');
+      list.forEach(function(t,i){
+        var n=document.createElement('p'); n.className='qn qn-community'; n.style.left=slots[i][0]; n.style.top=slots[i][1]; n.style.setProperty('--r',slots[i][2]);
+        var sm=document.createElement('small'); sm.textContent='from a creative:'; var sp=document.createElement('span'); sp.textContent=t;
+        n.appendChild(sm); n.appendChild(sp); board.appendChild(n); bindDrag(n);
+      });
+    }).catch(function(){});
+  }
   /* scrolling down (wheel, trackpad or swipe up) closes the manifesto and shows the homepage */
   var ty=null;
   ov.addEventListener('wheel',function(e){ if(!ov.hidden && ov.classList.contains('on') && e.deltaY>12) close(); },{passive:true});
