@@ -66,12 +66,12 @@ body{padding-bottom:40px}
 .invite-row{display:flex;gap:8px}
 .invite-row .field{font-size:12px;flex:1;min-width:0;background:var(--paper)}
 .faq{width:min(680px,100%);display:flex;flex-direction:column;gap:6px;margin-top:40px;text-align:left}
-.faq details{padding:18px 0}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:24px;font-style:italic;font-size:clamp(24px,3vw,32px);line-height:1.15}
+.faq details{padding:11px 0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:24px;font-style:italic;font-size:clamp(19px,2vw,23px);line-height:1.2}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:'+';font-family:'Space Mono',monospace;font-style:normal;font-size:16px;color:var(--muted);transition:transform .3s ease}
 .faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{margin:14px 0 0;max-width:560px}
+.faq details p{margin:10px 0 4px;max-width:540px}
 .sticky{width:220px;transform:translateX(clamp(70px,20vw,300px)) rotate(5deg)}
 #hero-logo{position:relative;z-index:25;transform-origin:0 0;will-change:transform}
 .hero h1{animation:fade 1.4s ease both}
@@ -169,7 +169,7 @@ body.ov-open{overflow:hidden}
 .story-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 /* easy reading */
 .b{font-family:'DM Sans',system-ui,sans-serif;font-size:19px;line-height:1.65;letter-spacing:.005em}
-.faq details p.b{font-size:18px}
+.faq details p.b{font-size:15px;line-height:1.55}
 .q-list li{font-family:'DM Sans',system-ui,sans-serif;font-size:18px;line-height:1.5;color:var(--ink);grid-template-columns:44px 1fr}
 .q-list li::before{font-family:var(--hand);font-size:30px;letter-spacing:0;color:var(--blue)}
 .hero-form{display:flex;gap:8px;width:min(480px,100%);margin-top:40px}
@@ -232,7 +232,7 @@ main>section:not(#top) .h{margin-top:0!important}
 #solution>p{max-width:1100px!important;font-size:clamp(40px,5.6vw,88px)!important;line-height:1.02!important}
 #quote .q-pick{margin-top:40px}
 #quote .q-card{margin-left:0}
-#faq .faq{width:100%;max-width:820px;margin:0}
+#faq .faq{width:100%;max-width:640px;margin:0}
 /* what's inside: three paper previews, scattered like notes on a desk */
 #inside .h{margin-bottom:64px}
 .inside{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(40px,6vw,96px);row-gap:48px;width:100%;align-items:start}
