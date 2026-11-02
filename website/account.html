@@ -134,7 +134,7 @@ function closeMenus(){ document.querySelectorAll('.menu').forEach(function(m){m.
 document.addEventListener('click',closeMenus);
 document.querySelectorAll('.tabs button').forEach(function(b){ b.onclick=function(){ filter=b.dataset.f; document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); render(); }; });
 document.getElementById('lf').onsubmit=function(e){ e.preventDefault(); var m=document.getElementById('lmsg'), em=document.getElementById('em').value.trim(); m.textContent='sending…';
- D.login(em).then(function(r){ m.textContent = r.error ? ('that did not work: '+r.error.message) : 'check your inbox. the link logs you in on this device.'; }); };
+ D.login(em).then(function(r){ m.textContent = r.error ? ('that did not work: '+r.error.message) : 'check your inbox (and your spam). open the link on any device to log in.'; }); };
 document.getElementById('out').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
 function start(user){
  if(!user){ document.getElementById('login').hidden=false; return; }
@@ -145,7 +145,7 @@ function start(user){
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });
  try{ var loc=localStorage.getItem('ff-quote-v2'); if(loc){ var n=document.getElementById('local'); n.hidden=false; n.innerHTML='you have a quote saved on this device. <a href="quote.html">open it</a> and press "save to my desk" to keep it here.'; } }catch(e){}
 }
-D.sb.auth.onAuthStateChange(function(ev,session){ if(ev==='SIGNED_IN' && /[?&]code=/.test(location.search)){ location.replace('account.html'); } });
+D.sb.auth.onAuthStateChange(function(ev,session){ if(ev==='SIGNED_IN' && (/[?&]code=/.test(location.search)||/access_token=/.test(location.hash))){ location.replace('account.html'); } });
 D.user().then(start);
 })();
 </script>

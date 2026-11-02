@@ -4,7 +4,7 @@
 (function(){
   var URL_ = 'https://eadxyfxlhwikesonpaer.supabase.co';
   var KEY_ = 'sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri';
-  var sb = window.supabase.createClient(URL_, KEY_, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' } });
+  var sb = window.supabase.createClient(URL_, KEY_, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit' } });
   window.ffDesk = {
     sb: sb,
     user: function(){ return sb.auth.getSession().then(function(r){ return r.data.session ? r.data.session.user : null; }); },
