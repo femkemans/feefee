@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>questions – fee fee.</title>
+<meta name="description" content="The questions freelance creatives ask about rates, usage, quotes and getting paid. Search them all. Answers come from fee fee. members who've been there.">
+<meta property="og:title" content="ask anything. – fee fee.">
+<meta property="og:description" content="rates, usage, quotes, getting paid. the questions creatives ask, answered by creatives who've been there.">
+<meta property="og:image" content="https://feefee.co/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fee fee.">
+<meta property="og:url" content="https://feefee.co/questions.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://feefee.co/questions.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+:root{--hand:'Reenie Beanie',cursive;--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1;--butter:#F7EFC9;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
+.logo-word{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;text-transform:none}
+.celadon{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 34px}
+header .logo{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;font-size:26px;text-decoration:none}
+header nav{display:flex;align-items:center;gap:18px}
+header nav a,header nav button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:none;border:0;cursor:pointer;color:var(--ink);padding:4px 0}
+header nav .join{background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 18px}
+
+.hero{max-width:1180px;margin:0 auto;padding:56px 34px 30px}
+.hero h1{font-style:italic;font-weight:400;font-size:clamp(60px,8vw,128px);line-height:.88;letter-spacing:-.02em;margin:18px 0 0}
+.hero .lead{font-size:23px;line-height:1.45;margin:26px 0 0;max-width:600px}
+.hero .hand{font-family:var(--hand);color:var(--blue);font-size:30px;line-height:1;margin:18px 0 0;transform:rotate(-2deg);transform-origin:left}
+
+.tools{position:sticky;top:0;z-index:10;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;border-bottom:1px solid #E6E8E3}
+.tools-in{max-width:1180px;margin:0 auto;padding:16px 34px;display:flex;flex-direction:column;gap:12px}
+.field{height:50px;padding:0 22px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%}
+textarea.field{height:auto;min-height:110px;border-radius:18px;padding:16px 22px;line-height:1.5;resize:vertical}
+select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 26px) 22px,calc(100% - 20px) 22px;background-size:6px 6px;background-repeat:no-repeat}
+.field::placeholder{color:#868A82}
+.field:focus{outline:2px solid var(--blue);outline-offset:2px}
+.search{position:relative}
+.search .field{padding-left:50px}
+.search svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);width:16px;height:16px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:36px;padding:0 16px;border-radius:999px;border:0;background:var(--field);font-family:'Space Mono',monospace;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
+.chip:hover{background:#E3ECE5}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.toolrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.toolrow select.field{width:auto;min-width:200px;height:38px;font-size:12px;padding-right:44px;background-position:calc(100% - 24px) 16px,calc(100% - 18px) 16px}
+
+.layout{max-width:1180px;margin:0 auto;padding:34px 34px 100px;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:56px;align-items:start}
+.list{display:flex;flex-direction:column;gap:18px}
+.q{background:var(--paper);border-radius:12px;box-shadow:0 1px 0 rgba(28,30,26,.04),0 18px 40px rgba(28,30,26,.07);scroll-margin-top:170px}
+.q-head{display:block;width:100%;text-align:left;background:none;border:0;padding:26px 30px 22px;cursor:pointer;color:inherit;font:inherit}
+.q-head:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:12px}
+.q-who{margin:0 0 8px}
+.q-title{margin:0;font-style:italic;font-weight:500;font-size:clamp(24px,2.4vw,31px);line-height:1.15}
+.q-body{margin:10px 0 0;font-size:19px;line-height:1.45;color:var(--muted)}
+.q-foot{display:flex;align-items:center;gap:14px;margin-top:16px}
+.q-foot .n{display:inline-flex;align-items:center;gap:8px}
+.q-foot .n::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue)}
+.q-foot .open{margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);transition:transform .3s var(--ease)}
+.q.on .q-foot .open{transform:rotate(180deg)}
+.q-ans{padding:0 30px 28px;animation:in .5s var(--ease) both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.q-ans hr{border:0;border-top:1px solid #E6E8E3;margin:0 0 22px}
+
+.lock{position:relative;border-radius:10px;overflow:hidden}
+.lock .ghost{padding:18px 22px;filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
+.lock .ghost p{margin:0 0 14px;font-family:var(--hand);color:var(--blue);font-size:24px;line-height:1.1}
+.lock .gate{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px;background:linear-gradient(rgba(253,252,249,.55),rgba(253,252,249,.92))}
+.lock .gate b{font-style:italic;font-weight:500;font-size:26px;line-height:1.1}
+.lock .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+
+.ans{display:flex;gap:14px;margin:0 0 20px}
+.av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:lowercase}
+.ans p{margin:2px 0 0;font-family:var(--hand);color:var(--blue);font-size:25px;line-height:1.12;white-space:pre-line}
+.reply{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 24px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;cursor:pointer;text-decoration:none;transition:opacity .2s;white-space:nowrap}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.soft{background:var(--celadon);color:var(--ink)}
+.empty{padding:40px 0;font-size:22px;font-style:italic;color:var(--muted)}
+
+aside{position:sticky;top:180px;display:flex;flex-direction:column;gap:18px}
+.card{border-radius:12px;padding:28px 28px 26px}
+.card h2{margin:6px 0 10px;font-style:italic;font-weight:500;font-size:34px;line-height:1}
+.card p{margin:0 0 14px;font-size:19px;line-height:1.45}
+.card form{display:flex;flex-direction:column;gap:10px}
+.card .field{background:var(--paper)}
+.label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:6px 0 -2px}
+.sticky{background:var(--butter);padding:20px 22px;transform:rotate(-1.2deg);box-shadow:0 18px 30px -18px rgba(28,30,26,.35)}
+.sticky p{margin:0;font-family:var(--hand);font-size:27px;line-height:1.05;color:var(--ink)}
+.msg{margin:2px 0 0;min-height:1.4em}
+
+footer{max-width:1180px;margin:0 auto;padding:0 34px 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none}
+
+@media (max-width:900px){
+ .layout{grid-template-columns:1fr;gap:40px}
+ aside{position:static}
+}
+@media (max-width:600px){
+ header{padding:18px 16px}
+ header nav .hide-sm{display:none}
+ .hero{padding:30px 16px 22px}
+ .hero .lead{font-size:20px}
+ .tools-in{padding:12px 16px}
+ .layout{padding:24px 16px 80px}
+ .q-head{padding:22px 20px 18px}
+ .q-ans{padding:0 20px 22px}
+ .toolrow select.field{min-width:0;flex:1}
+ footer{padding:0 16px 32px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<a class="logo" href="/">fee fee.</a>
+<nav>
+<a class="hide-sm" href="index.html#solution">about</a>
+<span class="cap" id="who" hidden></span>
+<button type="button" id="login-top">log in</button>
+<button type="button" id="logout" hidden>log out</button>
+<a class="join" href="index.html#join">join</a>
+</nav>
+</header>
+
+<section class="hero">
+<p class="mono" style="margin:0">community · ask anything</p>
+<h1>Ask anything.</h1>
+<p class="lead">the questions freelance creatives ask about rates, usage, quotes and getting paid. search them, read them, send in your own. the answers come from members, creatives who've been there.</p>
+<p class="hand">no question is too small.</p>
+</section>
+
+<div class="tools">
+<div class="tools-in">
+<label class="search"><span class="sr">search questions</span>
+<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5.2"/><path d="M11 11l3.6 3.6"/></svg>
+<input class="field" id="q" type="search" placeholder="search, e.g. buy-out, deposit, overtime" autocomplete="off">
+</label>
+<div class="chips" id="topics" role="group" aria-label="topic"></div>
+<div class="toolrow">
+<label><span class="sr">what you do</span><select class="field" id="role"><option value="">every role</option></select></label>
+<span class="cap" id="count" aria-live="polite"></span>
+</div>
+</div>
+</div>
+
+<div class="layout">
+<main>
+<div class="list" id="list">
+<!-- starter questions: written in the page so search engines can read them. the same ones are in supabase/questions.sql -->
+<article class="q" id="q-socials-usage" data-slug="socials-usage" data-topic="usage" data-role="photographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a photographer asked · usage</p><h3 class="q-title">a brand wants my photos for 'socials'. what do I ask before I quote?</h3><p class="q-body">organic posts on their own account, or paid ads too? and for how long?</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-prep-day-paid" data-slug="prep-day-paid" data-topic="rates" data-role="stylist"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a stylist asked · rates</p><h3 class="q-title">should my prep day be paid at the full day rate?</h3><p class="q-body">shopping, pulls and fittings take me a full day before every shoot. the client only budgets the shoot day.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-day-rate-starting" data-slug="day-rate-starting" data-topic="rates" data-role="stylist"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a stylist asked · rates</p><h3 class="q-title">I'm two years in. what's a normal day rate for editorial?</h3><p class="q-body">editorial pays less than commercial, I know. but how much less is normal?</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-buyout-price" data-slug="buyout-price" data-topic="usage" data-role="photographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a photographer asked · usage</p><h3 class="q-title">how do I price a buy-out?</h3><p class="q-body">the client wants 'all rights, forever'. is there a rule of thumb on top of the day rate?</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-deposit" data-slug="deposit" data-topic="getting paid" data-role="producer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a producer asked · getting paid</p><h3 class="q-title">can I ask for a deposit before the shoot?</h3><p class="q-body">a new client, a big production. I'll be paying crew and studio upfront.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-late-payment" data-slug="late-payment" data-topic="getting paid" data-role="photographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a photographer asked · getting paid</p><h3 class="q-title">the invoice is 60 days late. what do I send now?</h3><p class="q-body">friendly reminders didn't work. what's the next step that doesn't burn the relationship?</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-kit-fee" data-slug="kit-fee" data-topic="quotes & invoices" data-role="makeup artist"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a makeup artist asked · quotes &amp; invoices</p><h3 class="q-title">do I charge separately for my kit?</h3><p class="q-body">brushes, products, the whole case. it wears out and I replace it.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-overtime" data-slug="overtime" data-topic="contracts" data-role="stylist"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a stylist asked · contracts</p><h3 class="q-title">the shoot ran 13 hours. can I bill overtime afterwards?</h3><p class="q-body">nothing about overtime was in the quote.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-cancellation" data-slug="cancellation" data-topic="contracts" data-role="videographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a videographer asked · contracts</p><h3 class="q-title">the client cancelled two days before. do they still pay?</h3><p class="q-body">I turned down another job for this date.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-agency-cut" data-slug="agency-cut" data-topic="clients" data-role="photographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a photographer asked · clients</p><h3 class="q-title">an agency books me and takes 20%. is that normal?</h3><p class="q-body">I'm not signed with them, they just found me for one job.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-assistant-rate" data-slug="assistant-rate" data-topic="rates" data-role="stylist"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a stylist asked · rates</p><h3 class="q-title">what do I pay my assistant?</h3><p class="q-body">I want to be fair, but my own budget is small.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+<article class="q" id="q-free-test" data-slug="free-test" data-topic="clients" data-role="photographer"><button type="button" class="q-head" aria-expanded="false"><p class="cap q-who">a photographer asked · clients</p><h3 class="q-title">a brand asks for a 'test shoot' for free. yes or no?</h3><p class="q-body">they say it could lead to a big campaign.</p><div class="q-foot cap"><span class="n">members answer</span><span class="open" aria-hidden="true">↓</span></div></button></article>
+</div>
+<p class="empty" id="empty" hidden>nothing yet for that. ask it, someone else is wondering too.</p>
+</main>
+
+<aside>
+<div class="card celadon" id="ask">
+<p class="mono" style="margin:0">your question</p>
+<h2>Ask it here.</h2>
+<p>anonymous by default. we read every question before it goes up.</p>
+<form id="ask-form">
+<label class="label" for="a-title">your question</label>
+<input class="field" id="a-title" maxlength="200" required placeholder="e.g. how much do I charge for a lookbook?">
+<label class="label" for="a-body">a bit more context <span style="font-weight:400;letter-spacing:.08em">(optional)</span></label>
+<textarea class="field" id="a-body" maxlength="2000" placeholder="the job, the client, what they offered"></textarea>
+<label class="label" for="a-topic">topic</label>
+<select class="field" id="a-topic"></select>
+<label class="label" for="a-role">what you do</label>
+<input class="field" id="a-role" maxlength="60" placeholder="e.g. stylist">
+<label class="label" for="a-name">your name <span style="font-weight:400;letter-spacing:.08em">(optional, leave empty to stay anonymous)</span></label>
+<input class="field" id="a-name" maxlength="60" autocomplete="name" placeholder="anonymous">
+<input type="text" id="a-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+<button class="btn" style="margin-top:8px;height:52px">send my question</button>
+<p class="cap msg" id="ask-msg" role="status"></p>
+</form>
+</div>
+<div class="sticky"><p>answers are for members. that keeps them honest, and keeps the numbers inside the room.</p></div>
+</aside>
+</div>
+
+<footer>
+<span>based in amsterdam · working worldwide</span>
+<span><a href="index.html#manifesto">manifesto</a> · <a href="privacy.html">privacy</a> · <a href="mailto:hello@feefee.co">hello@feefee.co</a></span>
+</footer>
+
+<template id="t-lock">
+<div class="lock">
+<div class="ghost" aria-hidden="true"><p>ask them first how long they want to use it, and where. then quote the day plus usage on top.</p><p>I always put it in writing before the shoot day, never after.</p><p>for me it went from 650 to 1100 once I split it out.</p></div>
+<div class="gate">
+<span class="cap n-line"></span>
+<b>answers are for members.</b>
+<span class="cap">doors open january 2027. join the waitlist to be one of the first in.</span>
+<div class="row"><a class="btn" href="index.html#join">join the waitlist</a><button type="button" class="btn soft js-login">I'm a member, log in</button></div>
+</div>
+</div>
+</template>
+
+<template id="t-login">
+<form class="reply js-login-form">
+<p class="cap" style="margin:0">log in with your email. we send you a link, no password needed.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input class="field" type="email" required autocomplete="email" placeholder="you@studio.com" style="flex:1;min-width:200px"><button class="btn">send me a link</button></div>
+<p class="cap msg" role="status"></p>
+</form>
+</template>
+
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script>
+/* fee fee. questions — public list + search; answers are members only.
+   Data lives in Supabase (see supabase/questions.sql): questions are public once
+   approved, answers are readable and writable only for rows in `members`.
+   If those tables aren't there yet, the page still works with the starter
+   questions written above. */
+(function(){
+var D=window.ffDesk, sb=D&&D.sb;
+var TOPICS=['rates','usage','quotes & invoices','contracts','getting paid','clients','starting out'];
+var state={topic:'',role:'',q:'',user:null,member:false,counts:{}};
+var $=function(id){return document.getElementById(id)};
+function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+function article(n){ var v=/^[aeiou]/i.test(n)?'an ':'a '; return v+n; }
+function initials(n){ n=(n||'').trim(); if(!n) return 'ff'; var p=n.split(/\s+/); return (p[0][0]+(p[1]?p[1][0]:(p[0][1]||''))).toLowerCase(); }
+
+/* ---------- build a card (used for questions from the database) ---------- */
+function card(q){
+ var a=el('article','q'); a.id='q-'+q.slug; a.dataset.slug=q.slug; a.dataset.topic=q.topic||''; a.dataset.role=(q.role||'').toLowerCase();
+ var b=el('button','q-head'); b.type='button'; b.setAttribute('aria-expanded','false');
+ var who=(q.display_name?q.display_name:(q.role?article(q.role.toLowerCase()):'someone'))+' asked'+(q.topic?' · '+q.topic:'');
+ b.appendChild(el('p','cap q-who',who));
+ b.appendChild(el('h3','q-title',q.title));
+ if(q.body) b.appendChild(el('p','q-body',q.body));
+ var f=el('div','q-foot cap'); f.appendChild(el('span','n','members answer')); var o=el('span','open','↓'); o.setAttribute('aria-hidden','true'); f.appendChild(o);
+ b.appendChild(f); a.appendChild(b); return a;
+}
+function cards(){ return Array.prototype.slice.call(document.querySelectorAll('#list .q')); }
+
+/* ---------- filters ---------- */
+function chips(){
+ var T=$('topics'); T.innerHTML='';
+ [''].concat(TOPICS).forEach(function(t){ var c=el('button','chip',t||'all'); c.type='button'; c.setAttribute('aria-pressed',String(state.topic===t)); c.onclick=function(){ state.topic=t; chips(); filter(); }; T.appendChild(c); });
+}
+function roles(){
+ var R=$('role'), seen={}, cur=R.value; while(R.options.length>1) R.remove(1);
+ cards().forEach(function(c){ var r=c.dataset.role; if(r) seen[r]=1; });
+ Object.keys(seen).sort().forEach(function(r){ var o=el('option',null,r); o.value=r; R.appendChild(o); });
+ R.value=cur;
+}
+function filter(){
+ var words=norm(state.q).split(/\s+/).filter(Boolean), n=0;
+ cards().forEach(function(c){
+  var text=norm(c.textContent);
+  var ok=(!state.topic||c.dataset.topic===state.topic)&&(!state.role||c.dataset.role===state.role)&&words.every(function(w){return text.indexOf(w)>-1;});
+  c.hidden=!ok; if(ok) n++;
+ });
+ $('count').textContent=n+(n===1?' question':' questions');
+ $('empty').hidden=n>0;
+}
+$('q').addEventListener('input',function(){ state.q=this.value; filter(); });
+$('role').addEventListener('change',function(){ state.role=this.value; filter(); });
+var sel=$('a-topic'); TOPICS.forEach(function(t){ var o=el('option',null,t); o.value=t; sel.appendChild(o); });
+
+/* ---------- counts on the cards ---------- */
+function paintCounts(){
+ cards().forEach(function(c){ var n=state.counts[c.dataset.slug]||0, s=c.querySelector('.q-foot .n');
+  s.textContent=n? n+(n===1?' answer':' answers')+(state.member?'':' · members only') : (state.member?'no answers yet, be the first':'members answer'); });
+}
+
+/* ---------- open a question ---------- */
+function open(c, scroll){
+ var on=c.classList.toggle('on'); c.querySelector('.q-head').setAttribute('aria-expanded',String(on));
+ var box=c.querySelector('.q-ans'); if(box) box.remove();
+ if(!on){ if(location.hash==='#'+c.id) history.replaceState(null,'',location.pathname+location.search); return; }
+ history.replaceState(null,'','#'+c.id);
+ box=el('div','q-ans'); box.appendChild(el('hr')); c.appendChild(box);
+ if(state.member) members(c.dataset.slug, box); else gate(c.dataset.slug, box);
+ if(scroll) c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('list').addEventListener('click',function(e){ var h=e.target.closest('.q-head'); if(h) open(h.parentNode); });
+
+function loginForm(box, back){
+ var f=$('t-login').content.firstElementChild.cloneNode(true), m=f.querySelector('.msg');
+ if(state.user&&!state.member){ m.textContent='you’re logged in as '+state.user.email+', but this email isn’t a member yet. membership opens in january.'; f.querySelector('div').remove(); f.querySelector('p').remove(); }
+ f.onsubmit=function(e){ e.preventDefault(); if(!D){ m.textContent='login isn’t available right now.'; return; }
+  var em=f.querySelector('input').value.trim(); m.textContent='sending…';
+  D.login(em, back).then(function(r){ m.textContent=r.error? r.error.message : 'check your inbox. the link brings you right back here.'; }); };
+ box.appendChild(f); var i=f.querySelector('input'); if(i) i.focus();
+}
+function gate(slug, box){
+ var g=$('t-lock').content.firstElementChild.cloneNode(true), n=state.counts[slug]||0;
+ g.querySelector('.n-line').textContent=n? n+(n===1?' answer':' answers')+' waiting' : 'be the first to answer';
+ g.querySelector('.js-login').onclick=function(){ this.disabled=true; loginForm(box, location.origin+location.pathname+'?open='+encodeURIComponent(slug)); };
+ box.appendChild(g);
+}
+function members(slug, box){
+ var list=el('div'); box.appendChild(list); list.appendChild(el('p','cap','loading answers…'));
+ sb.from('answers').select('id,display_name,role,body,created_at').eq('question_slug',slug).order('created_at',{ascending:true}).then(function(r){
+  list.innerHTML='';
+  if(r.error){ list.appendChild(el('p','cap','couldn’t load the answers. try again in a bit.')); return; }
+  if(!r.data.length) list.appendChild(el('p','cap','no answers yet. you’ve been there? help them out.'));
+  r.data.forEach(function(a){ var row=el('div','ans'); row.appendChild(el('span','av',initials(a.display_name||a.role)));
+   var t=el('div'); t.appendChild(el('span','cap',(a.display_name||(a.role?article(a.role):'a member'))+' replied'+(a.display_name&&a.role?' · '+a.role:''))); t.appendChild(el('p',null,a.body)); row.appendChild(t); list.appendChild(row); });
+ });
+ var f=el('form','reply'), ta=el('textarea','field'); ta.required=true; ta.maxLength=4000; ta.placeholder='your answer. be honest, be kind, share numbers if you can.';
+ var who=el('div'); who.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
+ var nm=el('input','field'); nm.placeholder='your name (optional)'; nm.maxLength=60; nm.style.cssText='flex:1;min-width:160px';
+ var rl=el('input','field'); rl.placeholder='what you do'; rl.maxLength=60; rl.style.cssText='flex:1;min-width:160px';
+ try{ nm.value=localStorage.getItem('ff-name')||''; rl.value=localStorage.getItem('ff-role')||''; }catch(e){}
+ who.appendChild(nm); who.appendChild(rl);
+ var btn=el('button','btn','post my answer'), m=el('p','cap msg'); btn.style.alignSelf='flex-start';
+ f.appendChild(ta); f.appendChild(who); f.appendChild(btn); f.appendChild(m);
+ f.onsubmit=function(e){ e.preventDefault(); btn.disabled=true; m.textContent='';
+  try{ localStorage.setItem('ff-name',nm.value.trim()); localStorage.setItem('ff-role',rl.value.trim()); }catch(e){}
+  sb.from('answers').insert({question_slug:slug, body:ta.value.trim(), display_name:nm.value.trim()||null, role:rl.value.trim()||null}).then(function(r){
+   btn.disabled=false; if(r.error){ m.textContent='couldn’t post: '+r.error.message; return; }
+   state.counts[slug]=(state.counts[slug]||0)+1; paintCounts(); box.innerHTML=''; box.appendChild(el('hr')); members(slug, box); });
+ };
+ box.appendChild(f);
+}
+
+/* ---------- ask a question ---------- */
+function slugify(s){ return norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60)+'-'+Math.random().toString(36).slice(2,7); }
+$('ask-form').onsubmit=function(e){
+ e.preventDefault(); var m=$('ask-msg'), btn=this.querySelector('button');
+ if($('a-web').value) return;
+ var title=$('a-title').value.trim(); if(title.length<8){ m.textContent='a little longer please, so people know what you mean.'; return; }
+ if(!sb){ m.textContent='sending isn’t available right now. mail it to hello@feefee.co'; return; }
+ btn.disabled=true; m.textContent='sending…';
+ var clean=function(v){ return v.replace(/[<>]/g,'').trim(); };
+ sb.from('questions').insert({slug:slugify(title), title:clean(title).slice(0,200), body:clean($('a-body').value).slice(0,2000)||null, topic:$('a-topic').value,
+  role:clean($('a-role').value).toLowerCase().slice(0,60)||null, display_name:clean($('a-name').value).slice(0,60)||null, status:'pending'}).then(function(r){
+  btn.disabled=false;
+  if(r.error){ m.textContent='that didn’t go through. try again, or mail it to hello@feefee.co'; return; }
+  $('ask-form').reset(); m.textContent='thank you. we read it and put it up soon.';
+ });
+};
+
+/* ---------- account ---------- */
+$('login-top').onclick=function(){ var c=cards().filter(function(x){return !x.hidden;})[0]; if(c){ if(!c.classList.contains('on')) open(c,true); var b=c.querySelector('.js-login'); if(b) b.click(); else c.scrollIntoView({behavior:'smooth'}); } };
+$('logout').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
+
+function load(){
+ if(!sb) return Promise.resolve();
+ var p1=D.user().then(function(u){ state.user=u; if(!u) return; $('who').textContent=u.email; $('who').hidden=false; $('logout').hidden=false; $('login-top').hidden=true;
+   return sb.rpc('is_member').then(function(r){ state.member=!r.error&&r.data===true; }); });
+ var p2=sb.from('questions').select('slug,title,body,topic,role,display_name,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(r){
+   if(r.error||!r.data) return; var L=$('list'), first=L.firstElementChild;
+   r.data.forEach(function(q){ if(!document.getElementById('q-'+q.slug)) L.insertBefore(card(q), first); }); });
+ var p3=sb.rpc('answer_counts').then(function(r){ if(!r.error&&r.data) r.data.forEach(function(x){ state.counts[x.question_slug]=Number(x.n); }); });
+ return Promise.all([p1,p2,p3]).catch(function(){});
+}
+
+chips(); roles(); filter();
+load().then(function(){ roles(); filter(); paintCounts();
+ var o=new URLSearchParams(location.search).get('open'), id=o?'q-'+o:(location.hash||'').slice(1), h=id&&/^q-[a-z0-9-]+$/.test(id)&&document.getElementById(id);
+ if(o) history.replaceState(null,'',location.pathname+(h?'#'+id:''));
+ if(h&&h.classList.contains('q')) open(h,true); });
+})();
+</script>
+<script src="assets/logo-word.js"></script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
