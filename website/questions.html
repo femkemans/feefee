@@ -324,8 +324,7 @@ function loginForm(box, back){
  var f=$('t-login').content.firstElementChild.cloneNode(true), m=f.querySelector('.msg');
  if(state.user&&!state.member){ m.textContent='you’re logged in as '+state.user.email+', but this email isn’t a member yet. membership opens in january.'; f.querySelector('div').remove(); f.querySelector('p').remove(); }
  f.onsubmit=function(e){ e.preventDefault(); if(!D){ m.textContent='login isn’t available right now.'; return; }
-  var em=f.querySelector('input').value.trim(); m.textContent='sending…';
-  D.login(em, back).then(function(r){ m.textContent=r.error? r.error.message : 'check your inbox. the link brings you right back here.'; }); };
+  D.sendLink(f.querySelector('input').value.trim(), back, f.querySelector('button'), m); };
  box.appendChild(f); var i=f.querySelector('input'); if(i) i.focus();
 }
 function gate(slug, box){

@@ -133,8 +133,7 @@ function render(){
 function closeMenus(){ document.querySelectorAll('.menu').forEach(function(m){m.remove();}); }
 document.addEventListener('click',closeMenus);
 document.querySelectorAll('.tabs button').forEach(function(b){ b.onclick=function(){ filter=b.dataset.f; document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); render(); }; });
-document.getElementById('lf').onsubmit=function(e){ e.preventDefault(); var m=document.getElementById('lmsg'), em=document.getElementById('em').value.trim(); m.textContent='sending…';
- D.login(em).then(function(r){ m.textContent = r.error ? ('that did not work: '+r.error.message) : 'check your inbox (and your spam). open the link on any device to log in.'; }); };
+document.getElementById('lf').onsubmit=function(e){ e.preventDefault(); D.sendLink(document.getElementById('em').value.trim(), null, this.querySelector('button'), document.getElementById('lmsg')); };
 document.getElementById('out').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
 function start(user){
  if(!user){ document.getElementById('login').hidden=false; return; }
