@@ -8,7 +8,7 @@
   window.ffDesk = {
     sb: sb,
     user: function(){ return sb.auth.getSession().then(function(r){ return r.data.session ? r.data.session.user : null; }); },
-    login: function(email){ return sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin + '/account.html' } }); },
+    login: function(email, back){ return sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: back || (location.origin + '/account.html') } }); },
     logout: function(){ return sb.auth.signOut(); },
     list: function(){ return sb.from('documents').select('id,kind,number,client,job,total,currency,status,created_at,updated_at').order('updated_at', { ascending: false }); },
     get: function(id){ return sb.from('documents').select('*').eq('id', id).single(); },
