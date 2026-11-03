@@ -79,9 +79,9 @@ select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-i
 .q-ans hr{border:0;border-top:1px solid #E6E8E3;margin:0 0 22px}
 
 .lock{position:relative;border-radius:10px;overflow:hidden}
-.lock .ghost{padding:18px 22px;filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
+.lock .ghost{position:absolute;inset:0;padding:18px 22px;overflow:hidden;filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
 .lock .ghost p{margin:0 0 14px;font-family:var(--hand);color:var(--blue);font-size:24px;line-height:1.1}
-.lock .gate{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px;background:linear-gradient(rgba(253,252,249,.55),rgba(253,252,249,.92))}
+.lock .gate{position:relative;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:34px 20px;background:linear-gradient(rgba(253,252,249,.55),rgba(253,252,249,.92))}
 .lock .gate b{font-style:italic;font-weight:500;font-size:26px;line-height:1.1}
 .lock .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 
@@ -142,7 +142,7 @@ footer a{color:var(--muted);text-decoration:none}
 </header>
 
 <section class="hero">
-<p class="mono" style="margin:0">community · ask anything</p>
+<p class="mono" style="margin:0">community</p>
 <h1>Ask anything.</h1>
 <p class="lead">the questions freelance creatives ask about rates, usage, quotes and getting paid. search them, read them, send in your own. the answers come from members, creatives who've been there.</p>
 <p class="hand">no question is too small.</p>
@@ -198,7 +198,6 @@ footer a{color:var(--muted);text-decoration:none}
 
 <aside>
 <div class="card celadon" id="ask">
-<p class="mono" style="margin:0">your question</p>
 <h2>Ask it here.</h2>
 <p>anonymous by default. we read every question before it goes up.</p>
 <form id="ask-form">
@@ -232,8 +231,8 @@ footer a{color:var(--muted);text-decoration:none}
 <div class="gate">
 <span class="cap n-line"></span>
 <b>answers are for members.</b>
-<span class="cap">doors open january 2027. join the waitlist to be one of the first in.</span>
-<div class="row"><a class="btn" href="index.html#join">join the waitlist</a><button type="button" class="btn soft js-login">I'm a member, log in</button></div>
+<span class="cap">log in with your email to read them and add your own. free while we're starting.</span>
+<div class="row"><button type="button" class="btn js-login">log in to read</button></div>
 </div>
 </div>
 </template>
@@ -322,10 +321,9 @@ document.getElementById('list').addEventListener('click',function(e){ var h=e.ta
 
 function loginForm(box, back){
  var f=$('t-login').content.firstElementChild.cloneNode(true), m=f.querySelector('.msg');
- if(state.user&&!state.member){ m.textContent='you’re logged in as '+state.user.email+', but this email isn’t a member yet. membership opens in january.'; f.querySelector('div').remove(); f.querySelector('p').remove(); }
+
  f.onsubmit=function(e){ e.preventDefault(); if(!D){ m.textContent='login isn’t available right now.'; return; }
-  var em=f.querySelector('input').value.trim(); m.textContent='sending…';
-  D.login(em, back).then(function(r){ m.textContent=r.error? r.error.message : 'check your inbox. the link brings you right back here.'; }); };
+  D.sendLink(f.querySelector('input').value.trim(), back, f.querySelector('button'), m); };
  box.appendChild(f); var i=f.querySelector('input'); if(i) i.focus();
 }
 function gate(slug, box){
@@ -384,7 +382,7 @@ $('logout').onclick=function(){ D.logout().then(function(){ location.reload(); }
 function load(){
  if(!sb) return Promise.resolve();
  var p1=D.user().then(function(u){ state.user=u; if(!u) return; $('who').textContent=u.email; $('who').hidden=false; $('logout').hidden=false; $('login-top').hidden=true;
-   return sb.rpc('is_member').then(function(r){ state.member=!r.error&&r.data===true; }); });
+   state.member=true; });
  var p2=sb.from('questions').select('slug,title,body,topic,role,display_name,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(r){
    if(r.error||!r.data) return; var L=$('list'), first=L.firstElementChild;
    r.data.forEach(function(q){ if(!document.getElementById('q-'+q.slug)) L.insertBefore(card(q), first); }); });

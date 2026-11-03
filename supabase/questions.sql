@@ -4,7 +4,7 @@
 -- Who can do what:
 --   everyone (no login)  read approved questions, see how many answers each has,
 --                        send in a new question (it waits for approval)
---   members              read answers, post answers
+--   members              read answers, post answers (for now: anyone logged in)
 --   femke (dashboard)    approve questions (status → 'approved'), add members
 --
 -- A member is someone with a row in public.members. For now femke adds rows by
@@ -23,9 +23,12 @@ drop policy if exists "members see own row" on public.members;
 create policy "members see own row" on public.members
   for select using (user_id = auth.uid());
 
+-- For now everyone who logs in counts as a member (decided 3 Nov 2026: free while
+-- we start). When paid membership arrives, swap the body for:
+--   select exists (select 1 from public.members where user_id = auth.uid());
 create or replace function public.is_member() returns boolean
 language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.members where user_id = auth.uid());
+  select auth.uid() is not null;
 $$;
 grant execute on function public.is_member() to anon, authenticated;
 
