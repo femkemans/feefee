@@ -93,5 +93,20 @@ insert into public.questions (slug, title, body, topic, role, status) values
  ('cancellation', 'the client cancelled two days before. do they still pay?', 'I turned down another job for this date.', 'contracts', 'videographer', 'approved'),
  ('agency-cut', 'an agency books me and takes 20%. is that normal?', 'I''m not signed with them, they just found me for one job.', 'clients', 'photographer', 'approved'),
  ('assistant-rate', 'what do I pay my assistant?', 'I want to be fair, but my own budget is small.', 'rates', 'stylist', 'approved'),
- ('free-test', 'a brand asks for a ''test shoot'' for free. yes or no?', 'they say it could lead to a big campaign.', 'clients', 'photographer', 'approved')
+ ('free-test', 'a brand asks for a ''test shoot'' for free. yes or no?', 'they say it could lead to a big campaign.', 'clients', 'photographer', 'approved'),
+ -- recurring questions from the reddit research (nov 2026)
+ ('beginner-rate', 'how much do I charge as a beginner, with no idea what the standard rate is?', 'first paid job. I don''t want to scare them off, but I don''t want to work for nothing either.', 'starting out', 'content creator', 'approved'),
+ ('junior-day-rate-city', 'what''s a normal day rate for a junior in my city?', 'I''m asked for my day rate and I don''t have one yet.', 'rates', 'animator', 'approved'),
+ ('day-hourly-project', 'day rate, hourly rate or project fee: which one do I use?', 'the client asks for ''a price''. I don''t know which way to quote it.', 'quotes & invoices', 'designer', 'approved'),
+ ('day-hours', 'does a day rate mean 8 hours, or 10 to 12?', 'on set days keep getting longer. where does a day end?', 'rates', 'videographer', 'approved'),
+ ('half-day', 'what''s a half day worth, and when does it become a full day?', 'they want me ''just for the morning''. I can''t book anything else that day anyway.', 'rates', 'photographer', 'approved'),
+ ('under-or-over', 'did I undercharge, or did I overcharge?', 'I sent the invoice and now I keep doubting the number.', 'rates', 'videographer', 'approved'),
+ ('scope-creep', 'how do I stop scope creep when I quote a flat fee?', 'one more look, one more round of changes. the fee stays the same.', 'contracts', 'designer', 'approved'),
+ ('cheaper-portfolio', 'should I charge less to build my portfolio, or to win a long-term client?', 'they promise more work later if I do this one cheap.', 'starting out', 'photographer', 'approved'),
+ ('friends-discount', 'how do I say no when family or friends want a discount?', 'a cousin''s wedding. they expect a ''family price''.', 'clients', 'photographer', 'approved'),
+ ('abroad-rates', 'should my rates differ for clients abroad, or by country?', 'a brand from another country wants to book me. do I quote my own rate, or theirs?', 'rates', 'stylist', 'approved'),
+ ('tax-aside', 'how much do I set aside for tax from each fee?', 'my first year freelance. I don''t want a surprise next spring.', 'getting paid', 'makeup artist', 'approved'),
+ ('undercut', 'how do I keep my price when others in my field undercut it?', 'the client says someone else does it for half.', 'clients', 'photographer', 'approved'),
+ ('budget-first', 'should I ask the client for their budget first?', 'it feels rude, but saying my number first feels worse.', 'quotes & invoices', 'copywriter', 'approved'),
+ ('quote-include', 'what should a quote include so the price is clear upfront?', 'I keep explaining afterwards what was and wasn''t in the price.', 'quotes & invoices', 'stylist', 'approved')
 on conflict (slug) do nothing;
