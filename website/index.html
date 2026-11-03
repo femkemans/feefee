@@ -178,8 +178,10 @@ body.ov-open{overflow:hidden}
 .hero-note{margin:14px 0 0;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
 .hero-in{margin-top:40px;font-family:var(--hand);font-size:34px;color:var(--blue)}
 .bar .go{display:none}
+.hero-cta{display:none}
 @media (max-width:700px){
  .hero-form{display:none!important}
+ .hero-cta{display:inline-flex}
  .bar{left:50%;right:auto;bottom:16px;transform:translateX(-50%);border-radius:999px;background:var(--ink);color:var(--paper);padding:15px 26px;font-size:12px;letter-spacing:.1em;box-shadow:0 10px 30px rgba(28,30,26,.25);transition:opacity .3s,transform .3s}
  .bar:hover{color:var(--paper)}.bar .long{display:none}.bar .go{display:inline}
  .bar.off{opacity:0;pointer-events:none;transform:translate(-50%,20px)}
@@ -303,6 +305,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 </div>
 <p class="mono load3" style="margin:56px 0 0" data-t="tagline">for freelance creatives worldwide</p>
 <p class="b load3" style="margin:14px auto 0;max-width:560px;text-wrap:balance" data-t="heroWhat">freelancing is hard to figure out alone. fees, usage, contracts, invoices: let's figure it out together.</p>
+<a href="#join" class="btn load3 hero-cta" id="hero-cta" style="margin-top:36px" data-t="heroBtn">join the waitlist</a>
 <form class="hero-form js-join load3" id="hero-join">
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <label class="sr" for="h-email" data-t="email">email</label>
@@ -410,7 +413,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <footer class="foot" style="max-width:1440px;margin:0 auto;padding:0 32px 40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)">
 <span data-t="footer">based in amsterdam, the netherlands · working worldwide</span>
 <span class="logo-word" style="font-size:20px;color:var(--ink)">fee fee.</span>
-<span><a href="#manifesto" style="text-decoration:none;color:var(--muted)">manifesto</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="https://www.instagram.com/feefee.co/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--muted)">@feefee.co</a></span>
+<span><a href="#manifesto" style="text-decoration:none;color:var(--muted)">manifesto</a> · <a href="privacy.html" style="text-decoration:none;color:var(--muted)">privacy</a> · <a href="mailto:hello@feefee.co" style="text-decoration:none;color:var(--muted)">hello@feefee.co</a> · <a href="https://www.instagram.com/feefee.co/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--muted)">@feefee.co</a></span>
 </footer>
 
 <div class="ov" id="manifesto" role="dialog" aria-modal="true" aria-label="manifesto" hidden>
@@ -527,7 +530,7 @@ function inviteUrl(){ return 'https://feefee.co/?ref=' + myCode(); }
 function inviteShort(){ return 'feefee.co/?ref=' + myCode(); }
 function showJoined(fromPop){
   joined = true; storeSet('ff-joined','1');
-  document.getElementById('hero-join').hidden = true; document.getElementById('hero-in').hidden = false; document.getElementById('bar').hidden = true;
+  document.getElementById('hero-join').hidden = true; var hc=document.getElementById('hero-cta'); if(hc) hc.hidden = true; document.getElementById('hero-in').hidden = false; document.getElementById('bar').hidden = true;
   document.getElementById('waitlist').hidden = true;
   document.querySelector('.js-thanks').hidden = false;
   document.getElementById('invite-link').value = inviteShort();
@@ -559,7 +562,7 @@ document.querySelectorAll('.js-join').forEach(function(f){
     e.preventDefault();
     if (f.id==='hero-join') { var em=document.getElementById('r-email'); em.value=f.querySelector('[name=email]').value; document.getElementById('join').scrollIntoView({behavior:'smooth'}); setTimeout(function(){ document.getElementById('r-name').focus({preventScroll:true}); },600); return; }
     if (f.id==='waitlist' && picked().length===0) { toggleRoles(true); rolesMsg(true); rbtn.focus(); return; }
-    var btn = f.querySelector('[type=submit]'); btn.disabled = true;
+    var btn = f.querySelector('[type=submit]'); btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = lang==='nl' ? 'even geduld…' : 'joining…';
     freeCode(function(){ send(f, btn); });
   });
 });
@@ -586,7 +589,7 @@ function send(f, btn){
       if (tok) body.append('cf-turnstile-response', tok);
       fetch(WAITLIST_ENDPOINT,{method:'POST',mode:'no-cors',body:body})
         .then(function(){ showJoined(f.id!=='waitlist'); setTimeout(function(){ loadCount(storyCard); },900); })
-        .catch(function(){ btn.disabled=false; alertMsg(f); });
+        .catch(function(){ btn.disabled=false; if(btn.dataset.label) btn.textContent=btn.dataset.label; alertMsg(f); });
     });
 }
 function alertMsg(f){ var p=f.querySelector('.js-err'); if(!p){p=document.createElement('p');p.className='cap js-err';p.setAttribute('role','alert');p.style.margin='4px 0 0';f.appendChild(p);} p.textContent = lang==='nl' ? 'er ging iets mis, probeer het nog eens.' : 'something went wrong, please try again.'; }
