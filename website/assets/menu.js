@@ -3,39 +3,41 @@
    Pages that are not built yet show in grey with "soon". A blue dot = members only. */
 (function(){
   var D = [
-    ['Fees', [
-      ['fee explorer', '', 1],
+    ['The numbers', [
+      ['the range', '', 1],
       ['the fee drop', '/drops.html'],
-      ['share your fee', '/fee.html'],
-      ['keeping it safe', '']
+      ['say your number', '/fee.html'],
+      ['day rate maker', ''],
+      ['off the record', '']
     ]],
-    ['Learn', [
-      ['fee notes', ''],
-      ['usage and buy-outs', ''],
-      ['contract decoder', ''],
+    ['The brief', [
+      ['set words', ''],
+      ['usage, decoded', ''],
+      ['the small print', ''],
+      ['ask first', ''],
+      ['notes', ''],
       ['call sheet', '/callsheet.html'],
-      ['more templates', ''],
       ['quote and invoice', '/quote.html', 1],
-      ['question lists', '']
+      ['more in the kit', '']
     ]],
-    ['Community', [
-      ['ask and answer', '/questions.html'],
-      ['directory', '', 1],
-      ['creative calls', '/call.html', 1],
-      ['evenings', '']
+    ['The crew', [
+      ['ask anything', '/questions.html'],
+      ['the crew list', '', 1],
+      ['coffee with femke', '/call.html', 1],
+      ['after wrap', '']
     ]],
-    ['About', [
+    ['Why', [
       ['manifesto', '/manifesto.html'],
-      ['letter from femke', ''],
+      ['a letter from femke', ''],
       ['faq', '/index.html#faq'],
       ['privacy', '/privacy.html']
     ]],
-    ['Members', [
+    ['Your desk', [
       ['join the waitlist', '/index.html#join', 0, 'out'],
       ['your desk', '/account.html', 1],
       ['your terms', '/terms.html', 1],
       ['your link page', '/account.html', 1],
-      ['bring a friend', '', 1]
+      ['bring your people', '', 1]
     ]]
   ];
 
@@ -47,10 +49,10 @@
   + '.ffm.on{opacity:1;visibility:visible;transition:opacity .35s ease}'
   + '.ffm-top{max-width:1440px;margin:0 auto;padding:18px 32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}'
   + '.ffm-x{justify-self:start;font-family:"Space Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:0;padding:8px 0;cursor:pointer;color:#1C1E1A}'
-  + '.ffm-x:hover{color:#1F3FD1}'
+  + '.ffm-x:hover{color:#1F3FD1}.ffm-x:focus:not(:focus-visible){outline:none}'
   + '.ffm-top img{display:block;height:24px;width:auto}'
   + '.ffm-grid{max-width:1240px;margin:0 auto;padding:72px 32px 40px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px}'
-  + '.ffm h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:40px;line-height:1;margin:0 0 22px;letter-spacing:-.01em}'
+  + '.ffm h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(30px,2.6vw,40px);white-space:nowrap;line-height:1;margin:0 0 22px;letter-spacing:-.01em}'
   + '.ffm ul{list-style:none;margin:0;padding:0}'
   + '.ffm li{font-family:"Cormorant Garamond",Georgia,serif;font-size:21px;line-height:1.6}'
   + '.ffm li a{color:#1C1E1A;text-decoration:none;border-bottom:1px solid transparent}'
