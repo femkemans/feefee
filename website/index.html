@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script src="/assets/preview.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>fee fee. – what's your fee?</title>
 <meta name="description" content="freelancing is hard to figure out alone. fees, usage, contracts, invoices: let's figure it out together. join the waitlist.">
@@ -264,8 +265,8 @@ main>section:not(#top) .h{margin-top:0!important}
 .ins figcaption b{color:var(--ink);font-weight:600}
 @media (max-width:860px){.inside{grid-template-columns:1fr;row-gap:56px}.ins:nth-child(n){margin-top:0}.ins:nth-child(2){padding-left:18px}.ins-card{min-height:0}}
 /* celadon, the world colour: two calm full-bleed bands with grain, paper cards on top */
-html.ff-in #hero-cta,html.ff-in #hero-join,html.ff-in #hero-note,html.ff-in #join,html.ff-in #bar,html.ff-in #ov-join,html.ff-in [data-t=manAsk]{display:none!important}
-html.ff-in .hero-desk{display:inline-flex!important}
+html.ff-preview.ff-in #hero-cta,html.ff-preview.ff-in #hero-join,html.ff-preview.ff-in #hero-note,html.ff-preview.ff-in #join,html.ff-preview.ff-in #bar,html.ff-preview.ff-in #ov-join,html.ff-preview.ff-in [data-t=manAsk]{display:none!important}
+html.ff-preview.ff-in .hero-desk{display:inline-flex!important}
 main>section#join{position:relative;isolation:isolate;padding-top:calc(var(--gap)*.8)!important;padding-bottom:calc(var(--gap)*.8)!important;margin-bottom:var(--gap)}
 #join::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);z-index:-1;background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
 #join .card{box-shadow:0 1px 2px rgba(28,30,26,.05),0 18px 40px rgba(28,30,26,.08)}
@@ -307,7 +308,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <div></div>
 <a href="#top" class="nav-logo" id="nav-logo" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:18px">
-<a class="hide-sm" href="questions.html" data-t="navQuestions">questions</a>
+<a class="hide-sm" href="questions.html" data-t="navQuestions" data-preview>questions</a>
 <a class="hide-sm" href="#solution" data-t="navAbout">about</a>
 <div class="lang" style="display:none!important;align-items:center;gap:2px">
 <button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
@@ -316,7 +317,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 </div>
 
 <a href="#join" class="nav-join" data-auth="out" style="display:inline-flex;align-items:center;background:var(--ink);color:var(--paper)" data-t="navJoin">join</a>
-<a href="account.html" class="nav-join" data-auth="in" hidden style="display:inline-flex;align-items:center;background:var(--ink);color:var(--paper)">your desk</a></div>
+<a href="account.html" class="nav-join" data-auth="in" data-preview hidden style="display:inline-flex;align-items:center;background:var(--ink);color:var(--paper)">your desk</a></div>
 </div>
 </header>
 
@@ -328,7 +329,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="mono load3" style="margin:56px 0 0" data-t="tagline">for freelance creatives worldwide</p>
 <p class="b load3" style="margin:14px auto 0;max-width:560px;text-wrap:balance" data-t="heroWhat">freelancing is hard to figure out alone. fees, usage, contracts, invoices: let's figure it out together.</p>
 <a href="#join" class="btn load3 hero-cta" id="hero-cta" style="margin-top:36px" data-t="heroBtn">join the waitlist</a>
-<a href="account.html" class="btn load3 hero-desk" style="margin-top:36px;display:none">your desk</a>
+<a href="account.html" class="btn load3 hero-desk" data-preview style="margin-top:36px;display:none">your desk</a>
 <form class="hero-form js-join load3" id="hero-join">
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <label class="sr" for="h-email" data-t="email">email</label>
@@ -337,7 +338,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 </form>
 <p class="hero-note load3" id="hero-note" style="display:none!important"><span data-t="heroNote">free · no spam</span><span class="js-count-wrap" hidden> · <span class="js-count"></span> <span data-t="heroIn">creatives in</span></span></p>
 <p class="hero-in" id="hero-in" hidden style="display:none!important" data-t="heroDone">you’re in. ✓</p>
-<p class="hero-link load3">already freelancing? <a href="fee.html">share a fee you were paid →</a></p>
+<p class="hero-link load3" data-preview>already freelancing? <a href="fee.html">share a fee you were paid →</a></p>
 <div class="hero-fees">
 <!-- optional b&w portrait: drop a file at assets/hero-portrait.jpg and it shows up here; until then nothing is shown -->
 <figure class="hero-portrait" id="hero-portrait"><img src="assets/hero-portrait.jpg" alt="" width="600" height="750" onload="this.parentNode.classList.add('on')" onerror="this.parentNode.remove()"></figure>
@@ -360,7 +361,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="ins-note">day rate. 1 prep day + 1 shoot day, both paid. usage: magazine only.</p>
 <p class="cap ins-ex">example · finished job · shared anonymously</p>
 </article>
-<figcaption><b>real fees, shared your way.</b> anonymous or with your name, you choose. what jobs actually paid, so nobody has to guess. <a href="fee.html" style="color:var(--blue);white-space:nowrap">share a fee →</a></figcaption>
+<figcaption><b>real fees, shared your way.</b> anonymous or with your name, you choose. what jobs actually paid, so nobody has to guess. <a href="fee.html" data-preview style="color:var(--blue);white-space:nowrap">share a fee →</a></figcaption>
 </figure>
 <figure class="ins">
 <article class="paper ins-card ins-ask">
@@ -369,7 +370,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <div class="ins-r"><span class="ins-av">ph</span><div><span class="cap">photographer replied</span><p class="ins-a">ask: organic or paid? how long? which channels? paid ads is a different price.</p></div></div>
 <div class="ins-r"><span class="ins-av">pr</span><div><span class="cap">producer replied</span><p class="ins-a">and get the usage in writing before the shoot, not after.</p></div></div>
 </article>
-<figcaption><b>a community that answers.</b> post a question, get honest replies from creatives who've been there. <a href="questions.html" style="color:var(--blue);white-space:nowrap">read the questions →</a></figcaption>
+<figcaption><b>a community that answers.</b> post a question, get honest replies from creatives who've been there. <a href="questions.html" data-preview style="color:var(--blue);white-space:nowrap">read the questions →</a></figcaption>
 </figure>
 <figure class="ins">
 <article class="paper ins-card ins-tpl">
@@ -377,7 +378,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="ins-h">before you quote</p>
 <ol class="ins-list"><li>what's the usage, and for how long?</li><li>how many prep and shoot days?</li><li>who pays crew, gear and studio?</li><li>how many final images?</li><li>is there overtime pay after 10 hours?</li><li>what if it's cancelled last minute?</li><li>when do I get paid, and can I ask for a deposit?</li></ol>
 </article>
-<figcaption><b>templates &amp; checklists.</b> question lists, quotes and invoices, ready to use. <a href="quote.html" style="color:var(--blue);white-space:nowrap">try the quote →</a></figcaption>
+<figcaption><b>templates &amp; checklists.</b> question lists, quotes and invoices, ready to use. <a href="quote.html" data-preview style="color:var(--blue);white-space:nowrap">try the quote →</a></figcaption>
 </figure>
 </div>
 </section>
