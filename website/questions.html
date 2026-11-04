@@ -205,7 +205,6 @@ footer a{color:var(--muted);text-decoration:none}
 <p class="cap msg" id="ask-msg" role="status"></p>
 </form>
 </div>
-<div class="sticky"><p>answers are for members. that keeps them honest, and keeps the numbers inside the room.</p></div>
 </aside>
 </div>
 
@@ -334,7 +333,7 @@ function members(slug, box){
  var who=el('div'); who.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
  var nm=el('input','field'); nm.placeholder='your name (optional)'; nm.maxLength=60; nm.style.cssText='flex:1;min-width:160px';
  var rl=el('input','field'); rl.placeholder='what you do'; rl.maxLength=60; rl.style.cssText='flex:1;min-width:160px';
- try{ nm.value=localStorage.getItem('ff-name')||''; rl.value=localStorage.getItem('ff-role')||''; }catch(e){}
+ var meta=(state.user&&state.user.user_metadata)||{}; try{ nm.value=meta.name||localStorage.getItem('ff-name')||''; rl.value=meta.role||localStorage.getItem('ff-role')||''; }catch(e){ nm.value=meta.name||''; rl.value=meta.role||''; }
  who.appendChild(nm); who.appendChild(rl);
  var btn=el('button','btn','post my answer'), m=el('p','cap msg'); btn.style.alignSelf='flex-start';
  f.appendChild(ta); f.appendChild(who); f.appendChild(btn); f.appendChild(m);

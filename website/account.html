@@ -22,11 +22,17 @@ a{color:var(--ink)}
 .top{display:flex;justify-content:space-between;align-items:center;padding:22px 34px}
 .top .logo{font-size:26px}
 .who{margin:-6px 0 28px}
+.profile{margin-top:80px;max-width:760px}
+.profile h2{font-style:italic;font-weight:500;font-size:44px;line-height:1;margin:0 0 12px}
+.profile .pl{font-size:20px;line-height:1.6;max-width:36em;margin:0 0 24px}
+.card.pf{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+.pf .wide{grid-column:1/-1}
+@media (max-width:700px){.pf{grid-template-columns:1fr}}
 main{max-width:980px;margin:0 auto;padding:40px 24px 100px}
 h1{font-style:italic;font-weight:500;font-size:clamp(48px,7vw,86px);line-height:.95;margin:12px 0 18px}
 .lead{font-size:21px;line-height:1.45;max-width:560px;margin:0 0 36px}
 .card{background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3);padding:34px;max-width:480px}
-label span{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 6px;color:var(--muted)}
+label span{display:block;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.02em;margin:0 0 6px;color:var(--ink)}
 input{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:12px 14px;outline:none}
 input:focus{box-shadow:0 0 0 2px var(--blue)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:var(--paper);border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;cursor:pointer;text-decoration:none}
@@ -95,6 +101,20 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 <div class="tabs"><button data-f="all" aria-pressed="true">all</button><button data-f="quote" aria-pressed="false">quotes</button><button data-f="invoice" aria-pressed="false">invoices</button></div>
 <div id="list"></div>
 <p class="cap" style="margin-top:40px">amounts excl. vat. click the status to change it.</p>
+
+<div class="profile" id="profile">
+<h2>Your profile.</h2>
+<p class="pl">only you see this for now. we use your name and what you do when you answer a question. your fees are never linked to it.</p>
+<form class="card pf" id="pf">
+<label><span>your name</span><input id="p-name" maxlength="60" autocomplete="name" placeholder="first and last name"></label>
+<label><span>what you do</span><input id="p-role" maxlength="60" placeholder="e.g. stylist"></label>
+<label><span>based in</span><input id="p-city" maxlength="60" autocomplete="address-level2" placeholder="city, country"></label>
+<label><span>instagram</span><input id="p-ig" maxlength="40" placeholder="@yourname"></label>
+<label class="wide"><span>one line about you</span><input id="p-bio" maxlength="140" placeholder="e.g. fashion stylist, mostly editorial and e-commerce"></label>
+<label class="wide"><span>website or portfolio</span><input id="p-web" inputmode="url" maxlength="200" placeholder="https://"></label>
+<div class="wide row"><button class="btn">save my profile</button><span class="cap" id="p-msg" role="status"></span></div>
+</form>
+</div>
 </section>
 
 </main>
@@ -141,12 +161,28 @@ document.addEventListener('click',closeMenus);
 document.querySelectorAll('.tabs button').forEach(function(b){ b.onclick=function(){ filter=b.dataset.f; document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); render(); }; });
 document.getElementById('lf').onsubmit=function(e){ e.preventDefault(); D.sendLink(document.getElementById('em').value.trim(), null, this.querySelector('button'), document.getElementById('lmsg')); };
 document.getElementById('out').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
+function fillProfile(user){
+ var m=user.user_metadata||{}, F={name:'p-name',role:'p-role',city:'p-city',instagram:'p-ig',bio:'p-bio',website:'p-web'};
+ Object.keys(F).forEach(function(k){ document.getElementById(F[k]).value=m[k]||''; });
+ document.getElementById('pf').onsubmit=function(e){ e.preventDefault(); var b=this.querySelector('button'), msg=document.getElementById('p-msg'), d={};
+  Object.keys(F).forEach(function(k){ d[k]=document.getElementById(F[k]).value.replace(/[<>]/g,'').trim(); });
+  if(d.instagram) d.instagram='@'+d.instagram.replace(/^(https?:\/\/)?(www\.)?instagram\.com\//i,'').replace(/^@+/,'').replace(/[\/?#].*$/,'');
+  if(d.website && !/^https?:\/\//.test(d.website)) d.website='https://'+d.website;
+  b.disabled=true; msg.textContent='saving…';
+  D.sb.auth.updateUser({data:d}).then(function(r){ b.disabled=false;
+   if(r.error){ msg.textContent='that did not work: '+r.error.message; return; }
+   msg.textContent='saved.'; document.getElementById('p-ig').value=d.instagram; document.getElementById('p-web').value=d.website;
+   var nm=(d.name||'').split(' ')[0]; document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
+   try{ localStorage.setItem('ff-name',d.name); localStorage.setItem('ff-role',d.role); }catch(e){} });
+ };
+}
 function start(user){
  if(!user){ document.getElementById('login').hidden=false; return; }
  document.getElementById('desk').hidden=false; document.getElementById('out').hidden=false;
  document.getElementById('who').textContent='logged in as '+user.email;
  var meta=user.user_metadata||{}; var nm=(meta.name||'').split(' ')[0];
  document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
+ fillProfile(user);
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });
  try{ var loc=localStorage.getItem('ff-quote-v2'); if(loc){ var n=document.getElementById('local'); n.hidden=false; n.innerHTML='you have a quote saved on this device. <a href="quote.html">open it</a> and press "save to my desk" to keep it here.'; } }catch(e){}
 }
