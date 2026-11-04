@@ -1,0 +1,30 @@
+/* fee fee. terms and conditions document (terms.html, t.html, quote.html).
+   white paper, one calm column, numbered clauses. prints on A4 across pages. */
+.tc{--tc-ink:#1C1E1A;--tc-muted:#4A4E46;--tc-soft:#8A8E86;--tc-faint:#C9CDC5;color:var(--tc-ink);font-family:'Cormorant Garamond',Georgia,serif}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;border-bottom:1px solid var(--tc-ink);padding-bottom:22px;margin-bottom:8px}
+.tc-title{font-style:italic;font-weight:500;font-size:40px;line-height:1;letter-spacing:-.01em;margin:0}
+.tc-by{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--tc-muted);margin:12px 0 0}
+.tc-meta{text-align:right;font-family:'Space Mono',monospace;font-size:10px;line-height:1.8;color:var(--tc-muted);flex:none;max-width:46%}
+.tc-ver{color:var(--tc-soft);margin-top:4px}
+.tc-empty{color:var(--tc-faint)}
+.tc-list{list-style:none;margin:0;padding:0}
+.tc-c{display:grid;grid-template-columns:34px minmax(0,1fr);gap:0 12px;padding:16px 0;border-bottom:1px solid #EEEFEC;break-inside:avoid;page-break-inside:avoid}
+.tc-c:last-child{border-bottom:0}
+.tc-n{font-family:'Space Mono',monospace;font-size:10px;color:var(--tc-soft);padding-top:5px}
+.tc-h{font-style:italic;font-weight:500;font-size:20px;line-height:1.2;margin:0 0 6px}
+.tc-b{font-size:16px;line-height:1.6;margin:0 0 8px;max-width:60ch}
+.tc-b:last-child{margin-bottom:0}
+.tc-made{margin:26px 0 0;text-align:center;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--tc-faint)}
+.tc-logo{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.02em;text-transform:none;font-size:10px;color:var(--tc-soft)}
+@media (max-width:700px){
+ .tc-top{flex-direction:column;gap:14px}
+ .tc-meta{text-align:left;max-width:none}
+ .tc-title{font-size:32px}
+ .tc-c{grid-template-columns:26px minmax(0,1fr);gap:0 8px}
+}
+@media print{
+ .tc-title{font-size:30pt}
+ .tc-h{font-size:13.5pt}
+ .tc-b{font-size:11pt;line-height:1.5}
+ .tc-c{padding:9pt 0}
+}

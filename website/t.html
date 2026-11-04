@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>terms and conditions – fee fee.</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/terms.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;color:#1C1E1A;font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,#DEEAE0;background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+main{max-width:860px;margin:0 auto;padding:44px 20px 90px}
+.paper{background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.35),0 2px 6px rgba(28,30,26,.06);padding:60px 64px 34px}
+.bar{display:flex;justify-content:flex-end;margin:0 0 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#1C1E1A;color:#FDFCF9;border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:15px 22px;cursor:pointer}
+.gone{font-size:22px;line-height:1.6;max-width:32em}
+.gone h1{font-style:italic;font-weight:500;font-size:clamp(40px,6vw,64px);line-height:1;margin:0 0 16px}
+@media (max-width:700px){.paper{padding:30px 22px 24px}main{padding:24px 10px 60px}}
+@page{size:A4;margin:16mm 17mm 14mm}
+@media print{body{background:#fff}main{padding:0;max-width:none}.bar{display:none}.paper{box-shadow:none;padding:0}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+<main>
+<div class="bar" id="bar" hidden><button type="button" class="btn" id="dl">download pdf</button></div>
+<article class="paper tc" id="doc" hidden></article>
+<div class="gone" id="gone" hidden><h1>Nothing here.</h1><p>this link doesn’t work, or it isn’t shared anymore. ask the person who sent it for a new one.</p></div>
+</main>
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script src="assets/terms.js"></script>
+<script>
+(function(){
+var id=(new URLSearchParams(location.search).get('id')||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+function gone(){ document.getElementById('gone').hidden=false; }
+if(!id || !window.ffTerms || !window.ffDesk) return gone();
+ffTerms.bySlug(id).then(function(r){
+ if(!r.state) return gone();
+ var me=r.state.me||{}, name=me.biz||me.name;
+ if(name) document.title='terms and conditions – '+name;
+ ffTerms.render(document.getElementById('doc'), r.state, { date: r.updated ? new Date(r.updated) : new Date() });
+ document.getElementById('doc').hidden=false; document.getElementById('bar').hidden=false;
+ document.getElementById('dl').onclick=function(){ window.print(); };
+}, gone);
+})();
+</script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
