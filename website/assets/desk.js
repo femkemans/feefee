@@ -41,6 +41,24 @@
       if (doc.id) return sb.from('documents').update(row).eq('id', doc.id).select('id').single();
       return sb.from('documents').insert(row).select('id').single();
     },
+    /* personal defaults (your details, numbering, vat, terms), kept with the
+       login so they follow you to every device */
+    settings: function(){ return sb.auth.getUser().then(function(r){ var u=r.data&&r.data.user; return (u&&u.user_metadata&&u.user_metadata.desk)||null; }); },
+    saveSettings: function(s){ return sb.auth.updateUser({ data: { desk: s } }); },
+    /* next free number for a prefix, e.g. INV-2026- → INV-2026-004 */
+    nextNumber: function(kind, prefix, digits, exceptId){
+      return sb.from('documents').select('id,number').eq('kind', kind).then(function(r){
+        var max = 0;
+        (r.data || []).forEach(function(d){
+          if (exceptId && d.id === exceptId) return;
+          var n = d.number || '';
+          if (n.indexOf(prefix) !== 0) return;
+          var m = /^(\d+)$/.exec(n.slice(prefix.length));
+          if (m) max = Math.max(max, parseInt(m[1], 10));
+        });
+        return prefix + String(max + 1).padStart(digits || 3, '0');
+      });
+    },
     status: function(id, status){ return sb.from('documents').update({ status: status, updated_at: new Date().toISOString() }).eq('id', id); },
     remove: function(id){ return sb.from('documents').delete().eq('id', id); }
   };
