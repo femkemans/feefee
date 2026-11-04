@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-gate-title="Log in to make your quote." data-gate-text="quotes and invoices are for members.">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<script>document.documentElement.classList.add('ffg')</script>
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1}
 *{box-sizing:border-box}
@@ -58,7 +60,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 .ask p{margin:0 0 8px;font-size:17px;line-height:1.4}
 .ask p:last-child{margin:0}
 
-.stage{position:sticky;top:0;padding:48px clamp(20px,4vw,64px) 80px;display:flex;justify-content:center}
+.stage{position:sticky;top:var(--ffh-h,70px);padding:48px clamp(20px,4vw,64px) 80px;display:flex;justify-content:center}
 .doc{background:#fff;width:100%;max-width:720px;aspect-ratio:210/297;box-shadow:0 30px 60px -30px rgba(28,30,26,.35),0 2px 6px rgba(28,30,26,.06);padding:56px 56px 40px;display:flex;flex-direction:column;font-size:15px;overflow:hidden}
 .doc .d-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
 .doc .who{font-style:italic;font-weight:500;font-size:34px;line-height:1}
@@ -118,13 +120,16 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 </style>
 </head>
 <body>
-<div class="top no-print"><a class="logo" href="/">fee fee.</a><a class="mono" href="/#join" style="text-decoration:none">join the waitlist</a></div>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
 
 <div class="wrap">
 <form class="side" id="f" autocomplete="on" onsubmit="return false">
 <div class="kind" role="group" aria-label="document type"><button type="button" data-kind="quote" aria-pressed="true">quote</button><button type="button" data-kind="invoice" aria-pressed="false">invoice</button></div>
 <input type="hidden" name="kind" value="quote">
-<p class="mono" style="margin:0" id="eyebrow">template 01 · before you quote</p>
 <h1 id="h1">Make your quote.</h1>
 <div class="deskbar" id="deskbar"></div>
 <p class="lead">fill it in, check your quote, download it as a pdf. nothing leaves your device. what you charge is always your call.</p>
@@ -275,7 +280,7 @@ function render(){
  document.getElementById('p-kind').textContent=inv?'INVOICE':'QUOTE';
  document.getElementById('p-untilk').textContent=inv?'due':'valid until';
  document.getElementById('h1').textContent=inv?'Make your invoice.':'Make your quote.';
- document.getElementById('eyebrow').textContent=inv?'template 02 · get paid':'template 01 · before you quote';
+
  document.getElementById('l-qno').textContent=inv?'invoice number':'quote number';
  document.getElementById('l-date').textContent=inv?'invoice date':'quote date';
  document.getElementById('l-valid').textContent=inv?'pay within (days)':'valid for (days)';
@@ -391,5 +396,7 @@ if(window.ffDesk){
 }
 })();
 </script>
+<script src="assets/nav.js"></script>
+<script src="assets/gate.js"></script>
 </body>
 </html>

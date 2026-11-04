@@ -1,0 +1,24 @@
+/* fee fee. site header: the homepage bar on every page.
+   logo centred, QUESTIONS · ABOUT · LOG IN · JOIN on the right, one line.
+   logged in: JOIN becomes YOUR DESK. on phones: log in left, logo centre, join right. */
+:root{--ffh-h:70px}
+.ffh{position:sticky;top:0;z-index:40;background:url(grain.png) repeat,#FDFCF9;background-size:120px 120px,auto}
+.ffh.float{position:fixed;left:0;right:0;background:none}
+.ffh-in{max-width:1440px;margin:0 auto;padding:18px 32px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px}
+.ffh a,.ffh button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:#1C1E1A;background:none;border:0;padding:0;cursor:pointer;line-height:1}
+.ffh a:hover,.ffh button:hover{color:#1F3FD1}
+.ffh-l{display:flex;align-items:center}
+.ffh-logo{justify-self:center;display:block}
+.ffh-logo img{display:block;height:24px;width:auto}
+.ffh-r{display:flex;justify-content:flex-end;align-items:center;gap:18px}
+.ffh .ffh-btn{display:inline-flex;align-items:center;height:34px;padding:0 16px;background:#1C1E1A;color:#FDFCF9}
+.ffh .ffh-btn:hover{color:#FDFCF9;opacity:.88}
+.ffh .sm{display:none}
+.ffh [hidden]{display:none!important}
+@media (max-width:700px){
+ :root{--ffh-h:62px}
+ .ffh-in{padding:14px 18px}
+ .ffh .lg{display:none}
+ .ffh .sm{display:inline-flex}
+}
+@media print{.ffh{display:none}}
