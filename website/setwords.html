@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>set words – fee fee.</title>
+<meta name="description" content="The words nobody explains when you start freelancing on set: day rate, usage, buy-out, option, hold, kill fee, call time, TFP and more. One line each, plain English.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+main{max-width:1040px;margin:0 auto;padding:72px 32px 120px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:end;border-bottom:1px solid var(--ink);padding-bottom:28px}
+h1{font-style:italic;font-weight:500;font-size:clamp(56px,7vw,96px);line-height:.92;margin:0}
+.lead{font-size:21px;line-height:1.6;margin:0 0 18px;max-width:30em}
+.find{display:flex;gap:10px;align-items:center}
+.find input{flex:1;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:12px 14px;outline:none}
+.find input:focus{box-shadow:0 0 0 2px var(--blue)}
+.az{display:flex;flex-wrap:wrap;gap:4px 14px;padding:18px 0;font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.az a{color:var(--ink);text-decoration:none}
+.az a:hover{color:var(--blue)}
+.az span{color:var(--faint)}
+.group{display:grid;grid-template-columns:90px minmax(0,1fr);border-top:1px solid var(--faint);padding-top:10px;margin-top:22px}
+.group>h2{font-style:italic;font-weight:500;font-size:44px;line-height:1;margin:0;color:var(--soft)}
+dl{margin:0}
+.w{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr);gap:24px;padding:14px 0;border-bottom:1px solid #ECEEE9}
+.w:last-child{border-bottom:0}
+dt{font-style:italic;font-size:26px;line-height:1.2}
+dd{margin:0;font-size:20px;line-height:1.6;max-width:34em}
+dd a{color:var(--ink);text-decoration-color:var(--blue);text-underline-offset:3px}
+dd a:hover{color:var(--blue)}
+.aka{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--soft);margin-top:4px;letter-spacing:.04em}
+.none{font-size:20px;margin:40px 0}
+.end{margin-top:72px;border-top:1px solid var(--ink);padding-top:24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.end p{margin:0;font-size:20px;line-height:1.6;max-width:30em}
+.btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;text-decoration:none}
+@media (max-width:760px){main{padding:40px 18px 80px}.top{grid-template-columns:1fr;gap:20px}.group{grid-template-columns:1fr}.group>h2{font-size:34px;margin-bottom:4px}.w{grid-template-columns:1fr;gap:4px}dt{font-size:24px}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<main>
+<div class="top">
+<h1>Set words.</h1>
+<div>
+<p class="lead">the words nobody explains when you start. one line each, in plain english. if a client uses a word you don't know, look it up here before you say yes.</p>
+<label class="find"><input id="q" type="search" placeholder="search a word" aria-label="search a word"></label>
+</div>
+</div>
+<nav class="az" id="az" aria-label="jump to a letter"></nav>
+<div id="list"></div>
+<p class="none" id="none" hidden>not here yet. <a href="questions.html">ask it on the questions page</a> and we'll add it.</p>
+
+<div class="end">
+<p>missing a word? the people who answer questions on fee fee. use these every day.</p>
+<a class="btn" href="questions.html">ask anything</a>
+</div>
+</main>
+
+<script>
+/* [word, plain explanation (may contain links), also called] */
+var W=[
+['basecamp','the place on a shoot day where crew park, eat and get ready, when the set itself has no room.'],
+['brief','what the client wants: the idea, the look, the deliverables, the budget and the deadline. ask for it in writing.'],
+['buy-out','one payment for the right to use your work, for an agreed period, media and territory. on top of your day rate, not instead of it.','usage fee'],
+['call sheet','the one page with who, where and what time for the shoot day. <a href="callsheet.html">make one here</a>.'],
+['call time','the time you are on set and ready to start. not the time you leave home.'],
+['cancellation fee','what the client pays when they cancel a confirmed booking. agree it before, and put it in <a href="terms.html">your terms</a>.'],
+['commercial','work that sells something: campaigns, ads, e-commerce. usually paid more than editorial, plus usage.'],
+['confirm','the client turns an option into a booking. from now on the date is theirs, and the cancellation fee applies.','book'],
+['crew call','the call time for the whole team, before talent arrives.'],
+['day rate','your fee for one shoot day. write down how many hours a day is for you, often 8 or 10 including lunch.'],
+['deliverables','exactly what you hand over: how many images or videos, which sizes and formats, and by when.'],
+['derig','packing up the set and the gear after the last shot. it is part of the working day.'],
+['editorial','work for a magazine or a story, not to sell a product. lower fees, more freedom, and the credit counts.'],
+['expenses','costs you pay for the job: travel, props, rental, parking. bill them on top, with receipts.'],
+['exclusivity','the client asks you not to work for competitors for a while. that is worth extra money.'],
+['half day','usually up to 4 or 5 hours. often charged at more than half your day rate, because the rest of the day is gone anyway.'],
+['hold','you keep a date free for a client. ask how long they need, and what happens if someone else asks for that date.'],
+['kill fee','what you get paid when a job is stopped after you started working on it.'],
+['kit fee','what you charge for using your own gear on a job: camera, light, steamer, make-up kit.','gear fee'],
+['option','a soft hold on your date. first option means they asked first. they confirm or release before the deadline you agree.','first option, second option'],
+['overtime','hours past the agreed day. agree the hourly rate before the shoot, not after.'],
+['per diem','a fixed amount per day for food and small costs when you travel for a job.'],
+['PO number','purchase order number. some clients can only pay an invoice that has one, so ask for it at the booking.'],
+['payment terms','how many days the client has to pay your invoice, for example 14 or 30 days. put it on your <a href="quote.html">quote and invoice</a>.'],
+['PPM','pre-production meeting. everyone goes through the plan, the looks and the schedule before the shoot.'],
+['prep day','a paid day to get ready: shopping, castings, fittings, building a set.'],
+['pre-light','setting up the light the day before, so the shoot day can start right away.'],
+['quote','your price for the job before it starts. it says what is included and what is not. <a href="quote.html">make one here</a>.','estimate'],
+['rate card','your standard prices on one page: day rate, half day, kit fee, usage. a starting point, not a final price.'],
+['recce','visiting a location before the shoot to check light, space and access.','scout'],
+['release','the client gives your optioned date back. you are free to take other work that day.'],
+['retouch rounds','how many times the client can ask for changes. agree a number, and charge for extra rounds.','feedback rounds'],
+['talent','the people in front of the camera: models, actors, real people.'],
+['territory','where in the world the work may be used: one country, a region, or worldwide.'],
+['TFP','time for prints: nobody gets paid, everyone gets the images. fine for your portfolio, not for a brand.'],
+['travel day','a day you travel for a job and cannot work. usually paid at a lower rate than a shoot day.'],
+['treatment','your plan for the shoot in words and pictures, made to win the job.'],
+['usage','where, how long and where in the world your work is used. it changes the price.'],
+['wrap','the end of the shoot day. "that’s a wrap."']
+];
+W.sort(function(a,b){ return a[0].toLowerCase().localeCompare(b[0].toLowerCase()); });
+function draw(q){
+  q=(q||'').trim().toLowerCase(); var L=document.getElementById('list'); L.innerHTML='';
+  var shown=W.filter(function(w){ return !q || (w[0]+' '+w[1].replace(/<[^>]+>/g,'')+' '+(w[2]||'')).toLowerCase().indexOf(q)>-1; });
+  var groups={}; shown.forEach(function(w){ var k=w[0][0].toUpperCase(); (groups[k]=groups[k]||[]).push(w); });
+  Object.keys(groups).sort().forEach(function(k){
+    var g=document.createElement('section'); g.className='group'; g.id='l-'+k;
+    var dl=document.createElement('dl');
+    groups[k].forEach(function(w){ var d=document.createElement('div'); d.className='w';
+      d.innerHTML='<dt>'+w[0]+'</dt><dd>'+w[1]+(w[2]?'<span class="aka">also: '+w[2]+'</span>':'')+'</dd>'; dl.appendChild(d); });
+    g.innerHTML='<h2>'+k.toLowerCase()+'</h2>'; g.appendChild(dl); L.appendChild(g);
+  });
+  document.getElementById('none').hidden=shown.length>0;
+  var az=document.getElementById('az'); az.innerHTML='';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c){
+    if(groups[c]){ var a=document.createElement('a'); a.href='#l-'+c; a.textContent=c; az.appendChild(a); }
+    else { var s=document.createElement('span'); s.textContent=c; az.appendChild(s); } });
+}
+document.getElementById('q').addEventListener('input',function(e){ draw(e.target.value); });
+draw('');
+</script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
