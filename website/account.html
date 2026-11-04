@@ -70,6 +70,19 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
  .doc .type,.doc .amt{display:none}
  .top{padding:18px}
 }
+.lp-h{display:flex;align-items:stretch}
+.lp-h b{display:flex;align-items:center;font:16px 'Space Mono',monospace;font-weight:400;border:1px solid var(--ink);border-right:0;padding:0 2px 0 14px;background:var(--paper);color:var(--muted);white-space:nowrap}
+.lp-h input{border-left:0;padding-left:0}
+.lp-links{display:grid;gap:10px}
+.lp-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) 34px;gap:10px}
+.lp-row button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
+.lp-add{background:none;border:0;padding:6px 0;font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--ink);text-align:left}
+.lp-on{display:flex;gap:12px;align-items:flex-start;font-size:19px;line-height:1.5;cursor:pointer}
+.lp-on span{display:inline;font:19px/1.5 'Cormorant Garamond',Georgia,serif;margin:0;letter-spacing:0}
+.lp-on input{width:20px;height:20px;margin:4px 0 0;flex:none;accent-color:var(--ink)}
+.lp-live{font-size:20px;line-height:1.6;margin:22px 0 0}
+.lp-live a{color:var(--blue)}
+@media (max-width:700px){.lp-row{grid-template-columns:1fr 34px}.lp-row input:first-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -123,7 +136,7 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 
 <div class="profile" id="profile">
 <h2>Your profile.</h2>
-<p class="pl">only you see this for now. we use your name and what you do when you answer a question. your fees are never linked to it.</p>
+<p class="pl">only you see this, unless you switch on your link page below. we use your name and what you do when you answer a question. your fees are never linked to it.</p>
 <form class="card pf" id="pf">
 <label><span>your name</span><input id="p-name" maxlength="60" autocomplete="name" placeholder="first and last name"></label>
 <label><span>what you do</span><input id="p-role" maxlength="60" placeholder="e.g. stylist"></label>
@@ -133,6 +146,21 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 <label class="wide"><span>website or portfolio</span><input id="p-web" inputmode="url" maxlength="200" placeholder="https://"></label>
 <div class="wide row"><button class="btn">save my profile</button><span class="cap" id="p-msg" role="status"></span></div>
 </form>
+</div>
+
+<div class="profile" id="linkpage">
+<h2>Your link page.</h2>
+<p class="pl">a free page for your instagram bio. it shows your profile above, plus any links you add. nobody sees it until you switch it on, and your fees are never on it.</p>
+<form class="card pf" id="lp">
+<label class="wide"><span>your address</span><span class="lp-h"><b>feefee.co/@</b><input id="lp-handle" maxlength="30" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="yourname"></span></label>
+<label class="wide"><span>email for bookings (optional)</span><input id="lp-email" type="email" maxlength="120" placeholder="you@studio.com"></label>
+<div class="wide"><span class="mono" style="display:block;margin:0 0 6px;font-size:12px;letter-spacing:.02em;text-transform:none">more links (up to 6)</span>
+<div class="lp-links" id="lp-links"></div>
+<button type="button" class="lp-add" id="lp-add">+ add a link</button></div>
+<label class="wide lp-on"><input type="checkbox" id="lp-pub"><span>switch my page on. anyone with the address can see it.</span></label>
+<div class="wide row"><button class="btn">save my page</button><span class="cap" id="lp-msg" role="status"></span></div>
+</form>
+<p class="lp-live" id="lp-live" hidden></p>
 </div>
 </section>
 
@@ -192,7 +220,60 @@ function fillProfile(user){
    if(r.error){ msg.textContent='that did not work: '+r.error.message; return; }
    msg.textContent='saved.'; document.getElementById('p-ig').value=d.instagram; document.getElementById('p-web').value=d.website;
    var nm=(d.name||'').split(' ')[0]; document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
-   try{ localStorage.setItem('ff-name',d.name); localStorage.setItem('ff-role',d.role); }catch(e){} });
+   try{ localStorage.setItem('ff-name',d.name); localStorage.setItem('ff-role',d.role); }catch(e){}
+   if(page) D.sb.from('link_pages').update(prof()).eq('user_id',page.user_id).then(function(){}); });
+ };
+}
+var page=null;
+/* the profile as it stands in the form, cleaned, for the public link page */
+function prof(){
+ var g=function(id){ return document.getElementById(id).value.replace(/[<>]/g,'').trim(); };
+ var ig=g('p-ig').replace(/^(https?:\/\/)?(www\.)?instagram\.com\//i,'').replace(/^@+/,'').replace(/[\/?#].*$/,'');
+ var web=g('p-web'); if(web && !/^https?:\/\//.test(web)) web='https://'+web;
+ return { name:g('p-name')||null, role:g('p-role')||null, city:g('p-city')||null, bio:g('p-bio')||null, instagram:ig?'@'+ig:null, website:web||null };
+}
+function linkRow(l){
+ var box=document.getElementById('lp-links'); if(box.children.length>=6) return;
+ var r=el('div','lp-row'), a=el('input'), u=el('input'), x=el('button',null,'×');
+ a.maxLength=40; a.placeholder='e.g. book me'; a.value=(l&&l.label)||''; a.setAttribute('aria-label','link name');
+ u.maxLength=200; u.placeholder='https://'; u.inputMode='url'; u.value=(l&&l.url)||''; u.setAttribute('aria-label','link address');
+ x.type='button'; x.setAttribute('aria-label','remove this link'); x.onclick=function(){ r.remove(); addBtn(); };
+ r.appendChild(a); r.appendChild(u); r.appendChild(x); box.appendChild(r); addBtn();
+}
+function addBtn(){ document.getElementById('lp-add').hidden=document.getElementById('lp-links').children.length>=6; }
+function showLive(){
+ var p=document.getElementById('lp-live'); p.innerHTML='';
+ if(!page||!page.published){ p.hidden=true; return; }
+ var url='https://feefee.co/@'+page.handle, a=el('a',null,'feefee.co/@'+page.handle); a.href='/@'+page.handle; a.target='_blank';
+ p.appendChild(document.createTextNode('your page is on: ')); p.appendChild(a); p.appendChild(document.createTextNode(' '));
+ var c=el('button','lp-add','copy'); c.type='button'; c.onclick=function(){ try{ navigator.clipboard.writeText(url).then(function(){ c.textContent='copied'; }); }catch(e){} };
+ p.appendChild(c); p.hidden=false;
+}
+function fillPage(user){
+ var meta=user.user_metadata||{}, msg=document.getElementById('lp-msg');
+ document.getElementById('lp-add').onclick=function(){ linkRow(); };
+ D.sb.from('link_pages').select('*').eq('user_id',user.id).maybeSingle().then(function(r){
+  if(r.error){ msg.textContent='link pages are not switched on yet. try again soon.'; return; }
+  page=r.data;
+  var h=page?page.handle:(meta.name||user.email.split('@')[0]).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9._-]+/g,'').slice(0,30);
+  document.getElementById('lp-handle').value=h;
+  document.getElementById('lp-email').value=page?(page.email||''):'';
+  document.getElementById('lp-pub').checked=!!(page&&page.published);
+  (page&&page.links||[]).forEach(linkRow); if(!page) linkRow(); addBtn();
+  showLive();
+ });
+ document.getElementById('lp').onsubmit=function(e){ e.preventDefault();
+  var b=this.querySelector('button.btn'), handle=document.getElementById('lp-handle').value.trim().toLowerCase().replace(/^@+/,'');
+  if(!/^[a-z0-9][a-z0-9._-]{1,29}$/.test(handle)){ msg.textContent='your address can use letters, numbers, dots, dashes and underscores, 2 to 30 long.'; return; }
+  var links=[], bad=false;
+  document.querySelectorAll('#lp-links .lp-row').forEach(function(r){ var i=r.querySelectorAll('input'), l=i[0].value.replace(/[<>]/g,'').trim(), u=i[1].value.trim();
+   if(!l&&!u) return; if(u&&!/^https?:\/\//.test(u)) u='https://'+u; if(!l||!u){ bad=true; return; } links.push({label:l,url:u}); });
+  if(bad){ msg.textContent='every link needs a name and an address.'; return; }
+  var row=prof(); row.user_id=user.id; row.handle=handle; row.links=links; row.email=document.getElementById('lp-email').value.trim()||null; row.published=document.getElementById('lp-pub').checked;
+  b.disabled=true; msg.textContent='saving…';
+  D.sb.from('link_pages').upsert(row,{onConflict:'user_id'}).select('*').single().then(function(r){ b.disabled=false;
+   if(r.error){ msg.textContent=/duplicate|unique|taken/i.test(r.error.message)?'feefee.co/@'+handle+' is taken. try another one.':'that did not work: '+r.error.message; return; }
+   page=r.data; msg.textContent=page.published?'saved. your page is on.':'saved. your page is off, so only you know about it.'; showLive(); });
  };
 }
 function fillFees(user){
@@ -211,6 +292,7 @@ function start(user){
  var meta=user.user_metadata||{}; var nm=(meta.name||'').split(' ')[0];
  document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
  fillProfile(user);
+ fillPage(user);
  fillFees(user);
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });
  try{ var loc=localStorage.getItem('ff-quote-v2'); if(loc){ var n=document.getElementById('local'); n.hidden=false; n.innerHTML='you have a quote saved on this device. <a href="quote.html">open it</a> and press "save to my desk" to keep it here.'; } }catch(e){}
