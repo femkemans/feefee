@@ -94,6 +94,22 @@ input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;min-wi
 input::-webkit-date-and-time-value{text-align:left}
 .grid2>label>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grid2{align-items:end}
+/* how you join + index fields */
+.jn{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px}
+.jn label{display:block;background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3);padding:24px 26px;cursor:pointer;border:1px solid transparent}
+.jn label:has(input:checked){border-color:var(--ink)}
+.jn input{position:absolute;opacity:0;pointer-events:none}
+.jn b{display:block;font-style:italic;font-weight:500;font-size:28px;line-height:1.1;margin:0 0 8px}
+.jn small{display:block;font-size:18px;line-height:1.5;color:var(--muted)}
+.jn .dot{display:inline-block;width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);margin-right:10px;vertical-align:middle}
+.jn label:has(input:checked) .dot{background:var(--ink)}
+.jw{max-width:760px;margin-top:16px}
+.jw .card{max-width:none}
+.jstate{font-size:20px;line-height:1.6;margin:18px 0 0;max-width:36em}
+select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:0 14px;outline:none;-webkit-appearance:none;appearance:none}
+.pj-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.4fr) 34px;gap:10px}
+.pj-row button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
+@media (max-width:700px){.jn{grid-template-columns:1fr}.pj-row{grid-template-columns:1fr 34px}.pj-row input:first-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -161,16 +177,38 @@ input::-webkit-date-and-time-value{text-align:left}
 </form>
 </div>
 
+<div class="profile" id="join">
+<h2>How you join.</h2>
+<p class="pl">everyone on fee fee. has a real name. pick what fits you now. you can switch later.</p>
+<form id="jf">
+<div class="jn">
+<label><input type="radio" name="kind" value="professional"><b><span class="dot"></span>I work as a creative.</b><small>you get paid for your work. you show up in the index, answer questions and post jobs. femke looks at your work first.</small></label>
+<label><input type="radio" name="kind" value="learning"><b><span class="dot"></span>I'm learning.</b><small>you're starting out or still studying. read, ask and use every tool. you're not in the index yet.</small></label>
+</div>
+<div class="jw" id="jw" hidden><div class="card pf">
+<label class="wide"><span>where we can see your paid work</span><input id="j-work" inputmode="url" maxlength="200" placeholder="website or instagram"></label>
+<label class="wide"><span>anything femke should know (optional)</span><input id="j-note" maxlength="280" placeholder="e.g. mostly editorial, a few campaigns"></label>
+</div></div>
+<div class="row" style="margin-top:16px"><button class="btn">save</button><span class="cap" id="j-msg" role="status"></span></div>
+</form>
+<p class="jstate" id="j-state" hidden></p>
+</div>
+
 <div class="profile" id="linkpage">
 <h2>Your link page.</h2>
-<p class="pl">a free page for your instagram bio. it shows your profile above, plus any links you add. nobody sees it until you switch it on, and your fees are never on it.</p>
+<p class="pl">a free page for your instagram bio. it shows your profile above, up to three projects and any links you add. nobody sees it until you switch it on, and your fees are never on it.</p>
 <form class="card pf" id="lp">
 <label class="wide"><span>your address</span><span class="lp-h"><b>feefee.co/@</b><input id="lp-handle" maxlength="30" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="yourname"></span></label>
-<label class="wide"><span>email for bookings (optional)</span><input id="lp-email" type="email" maxlength="120" placeholder="you@studio.com"></label>
+<label><span>your level</span><select id="lp-level"><option value="">choose one</option><option value="starting">just starting</option><option value="working">working</option><option value="established">established</option></select></label>
+<label><span>email for bookings (optional)</span><input id="lp-email" type="email" maxlength="120" placeholder="you@studio.com"></label>
+<div class="wide"><span class="mono" style="display:block;margin:0 0 6px;font-size:12px;letter-spacing:.02em;text-transform:none">your work (up to 3 projects or publications)</span>
+<div class="lp-links" id="lp-proj"></div>
+<button type="button" class="lp-add" id="pj-add">+ add a project</button></div>
 <div class="wide"><span class="mono" style="display:block;margin:0 0 6px;font-size:12px;letter-spacing:.02em;text-transform:none">more links (up to 6)</span>
 <div class="lp-links" id="lp-links"></div>
 <button type="button" class="lp-add" id="lp-add">+ add a link</button></div>
 <label class="wide lp-on"><input type="checkbox" id="lp-pub"><span>switch my page on. anyone with the address can see it.</span></label>
+<label class="wide lp-on" id="lp-idx-l"><input type="checkbox" id="lp-idx"><span>show me in the index, once femke has said yes.</span></label>
 <div class="wide row"><button class="btn">save my page</button><span class="cap" id="lp-msg" role="status"></span></div>
 </form>
 <p class="lp-live" id="lp-live" hidden></p>
@@ -274,9 +312,48 @@ function showLive(){
  var c=el('button','lp-add','copy'); c.type='button'; c.onclick=function(){ try{ navigator.clipboard.writeText(url).then(function(){ c.textContent='copied'; }); }catch(e){} };
  p.appendChild(c); p.hidden=false;
 }
+function projRow(l){
+ var box=document.getElementById('lp-proj'); if(box.children.length>=3) return;
+ var r=el('div','pj-row'), a=el('input'), u=el('input'), x=el('button',null,'×');
+ a.maxLength=60; a.placeholder='e.g. spring campaign, 2026'; a.value=(l&&l.title)||''; a.setAttribute('aria-label','project name');
+ u.maxLength=200; u.placeholder='https://'; u.inputMode='url'; u.value=(l&&l.url)||''; u.setAttribute('aria-label','project link');
+ x.type='button'; x.setAttribute('aria-label','remove this project'); x.onclick=function(){ r.remove(); projBtn(); };
+ r.appendChild(a); r.appendChild(u); r.appendChild(x); box.appendChild(r); projBtn();
+}
+function projBtn(){ document.getElementById('pj-add').hidden=document.getElementById('lp-proj').children.length>=3; }
+var JOIN_TEXT={
+ 'professional:pending':'thanks. femke is looking at your work. you hear back by email, usually within a week.',
+ 'professional:approved':'you\'re in as a professional. switch on "show me in the index" on your link page to be listed.',
+ 'professional:declined':'not yet. femke couldn\'t see enough paid work. add new work and save again, or stay as learning for now.',
+ 'learning:approved':'you\'re in as learning. read, ask and use every tool. switch whenever you start getting paid work.'
+};
+function fillJoin(user){
+ var f=document.getElementById('jf'), msg=document.getElementById('j-msg'), st=document.getElementById('j-state'), cur=null;
+ function kind(){ var c=f.querySelector('input[name=kind]:checked'); return c?c.value:''; }
+ function show(){ document.getElementById('jw').hidden=kind()!=='professional'; }
+ function state(){ if(!cur){ st.hidden=true; return; } st.textContent=JOIN_TEXT[cur.kind+':'+cur.status]||''; st.hidden=!st.textContent; }
+ f.querySelectorAll('input[name=kind]').forEach(function(i){ i.onchange=show; });
+ D.sb.from('joins').select('*').eq('user_id',user.id).maybeSingle().then(function(r){
+  if(r.error){ document.getElementById('join').hidden=true; return; }
+  cur=r.data;
+  if(cur){ var i=f.querySelector('input[value='+cur.kind+']'); if(i) i.checked=true; document.getElementById('j-work').value=cur.work_link||''; document.getElementById('j-note').value=cur.note||''; }
+  show(); state();
+ });
+ f.onsubmit=function(e){ e.preventDefault(); var k=kind(), b=f.querySelector('button');
+  if(!k){ msg.textContent='pick one of the two.'; return; }
+  if(!document.getElementById('p-name').value.trim()){ msg.textContent='add your name in your profile above first. nobody is anonymous here.'; return; }
+  var w=document.getElementById('j-work').value.trim(); if(w && !/^https?:\/\//.test(w) && !/^@/.test(w)) w='https://'+w;
+  if(k==='professional' && !w){ msg.textContent='add a link to your paid work, so femke can look.'; return; }
+  b.disabled=true; msg.textContent='saving…';
+  D.sb.from('joins').upsert({user_id:user.id,kind:k,work_link:w||null,note:document.getElementById('j-note').value.replace(/[<>]/g,'').trim()||null},{onConflict:'user_id'}).select('*').single().then(function(r){ b.disabled=false;
+   if(r.error){ msg.textContent='that did not work: '+r.error.message; return; }
+   cur=r.data; msg.textContent='saved.'; state(); });
+ };
+}
 function fillPage(user){
  var meta=user.user_metadata||{}, msg=document.getElementById('lp-msg');
  document.getElementById('lp-add').onclick=function(){ linkRow(); };
+ document.getElementById('pj-add').onclick=function(){ projRow(); };
  D.sb.from('link_pages').select('*').eq('user_id',user.id).maybeSingle().then(function(r){
   if(r.error){ msg.textContent='link pages are not switched on yet. try again soon.'; return; }
   page=r.data;
@@ -285,6 +362,9 @@ function fillPage(user){
   document.getElementById('lp-email').value=page?(page.email||''):'';
   document.getElementById('lp-pub').checked=!!(page&&page.published);
   (page&&page.links||[]).forEach(linkRow); if(!page) linkRow(); addBtn();
+  (page&&page.projects||[]).forEach(projRow); if(!page||!(page.projects||[]).length) projRow(); projBtn();
+  document.getElementById('lp-level').value=(page&&page.level)||'';
+  document.getElementById('lp-idx').checked=!!(page&&page.in_index);
   showLive();
  });
  document.getElementById('lp').onsubmit=function(e){ e.preventDefault();
@@ -294,9 +374,17 @@ function fillPage(user){
   document.querySelectorAll('#lp-links .lp-row').forEach(function(r){ var i=r.querySelectorAll('input'), l=i[0].value.replace(/[<>]/g,'').trim(), u=i[1].value.trim();
    if(!l&&!u) return; if(u&&!/^https?:\/\//.test(u)) u='https://'+u; if(!l||!u){ bad=true; return; } links.push({label:l,url:u}); });
   if(bad){ msg.textContent='every link needs a name and an address.'; return; }
+  var projects=[];
+  document.querySelectorAll('#lp-proj .pj-row').forEach(function(r){ var i=r.querySelectorAll('input'), t=i[0].value.replace(/[<>]/g,'').trim(), u=i[1].value.trim();
+   if(!t&&!u) return; if(u&&!/^https?:\/\//.test(u)) u='https://'+u; if(!t||!u){ bad=true; return; } projects.push({title:t,url:u}); });
+  if(bad){ msg.textContent='every project needs a name and a link.'; return; }
   var row=prof(); row.user_id=user.id; row.handle=handle; row.links=links; row.email=document.getElementById('lp-email').value.trim()||null; row.published=document.getElementById('lp-pub').checked;
+  var extra={level:document.getElementById('lp-level').value||null, projects:projects.slice(0,3), in_index:document.getElementById('lp-idx').checked};
   b.disabled=true; msg.textContent='saving…';
-  D.sb.from('link_pages').upsert(row,{onConflict:'user_id'}).select('*').single().then(function(r){ b.disabled=false;
+  function save(withExtra){ var x={}; Object.keys(row).forEach(function(k){ x[k]=row[k]; }); if(withExtra) Object.keys(extra).forEach(function(k){ x[k]=extra[k]; });
+   return D.sb.from('link_pages').upsert(x,{onConflict:'user_id'}).select('*').single(); }
+  /* level and projects need index.sql; until it has run, save the rest */
+  save(true).then(function(r){ return (r.error && /column|schema/i.test(r.error.message)) ? save(false) : r; }).then(function(r){ b.disabled=false;
    if(r.error){ msg.textContent=/duplicate|unique|taken/i.test(r.error.message)?'feefee.co/@'+handle+' is taken. try another one.':'that did not work: '+r.error.message; return; }
    page=r.data; msg.textContent=page.published?'saved. your page is on.':'saved. your page is off, so only you know about it.'; showLive(); });
  };
@@ -319,6 +407,7 @@ function start(user){
  var meta=user.user_metadata||{}; var nm=(meta.name||'').split(' ')[0];
  document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
  fillProfile(user);
+ fillJoin(user);
  fillPage(user);
  fillFees(user);
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });

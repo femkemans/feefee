@@ -12,7 +12,7 @@
     ]],
     ['The brief', [
       ['set words', '/setwords.html'],
-      ['usage, decoded', ''],
+      ['usage, decoded', '/usage.html'],
       ['the small print', ''],
       ['ask first', ''],
       ['notes', ''],
@@ -22,7 +22,7 @@
     ]],
     ['The crew', [
       ['ask anything', '/questions.html'],
-      ['the crew list', '', 1],
+      ['the crew list', '/people.html'],
       ['coffee with femke', '/call.html', 1],
       ['after wrap', '']
     ]],

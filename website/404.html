@@ -23,6 +23,10 @@ main{max-width:480px;margin:0 auto;padding:88px 24px 36px;display:flex;flex-dire
 h1{font-style:italic;font-weight:500;font-size:clamp(44px,12vw,58px);line-height:.98;margin:0 0 16px;overflow-wrap:anywhere}
 .what{margin:0 0 20px;color:var(--muted)}
 .bio{font-size:21px;line-height:1.6;margin:0 0 44px;max-width:30em}
+ul.pj{border-top:0;margin:0 0 44px}
+ul.pj li a{font-style:italic;border-bottom:1px solid #E6E8E3}
+ul.pj li:first-child a{border-top:1px solid var(--ink)}
+.lvl{color:var(--muted);margin:-12px 0 22px}
 ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
 li a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:19px 2px;border-bottom:1px solid var(--ink);text-decoration:none;color:var(--ink);font-size:24px;line-height:1.2}
 li a .mono{font-size:10px;font-weight:400;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48%}
@@ -43,6 +47,7 @@ footer a:hover{color:var(--blue);border-color:var(--blue)}
  <h1 id="n"></h1>
  <p class="mono what" id="w" hidden></p>
  <p class="bio" id="b" hidden></p>
+ <ul class="pj" id="pj" hidden></ul>
  <ul id="links"></ul>
 </div>
 <div id="lost" class="lost" hidden>
@@ -64,13 +69,13 @@ footer a:hover{color:var(--blue);border-color:var(--blue)}
  var sb=window.supabase.createClient('https://eadxyfxlhwikesonpaer.supabase.co','sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri',{auth:{persistSession:false}});
  function safe(u){ try{ var x=new URL(u); return (x.protocol==='https:'||x.protocol==='http:')?x.href:null; }catch(e){ return null; } }
  function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
- function row(label,href,small){
+ function row(label,href,small,box){
   var li=document.createElement('li'), a=document.createElement('a'), s=document.createElement('span');
   a.href=href; a.rel='noopener'; if(!/^mailto:/.test(href)) a.target='_blank';
   a.appendChild(document.createTextNode(label)); s.className='mono'; s.textContent=small||''; a.appendChild(s);
-  li.appendChild(a); document.getElementById('links').appendChild(li);
+  li.appendChild(a); document.getElementById(box||'links').appendChild(li);
  }
- sb.from('link_pages').select('handle,name,role,city,bio,instagram,website,email,links').eq('handle',handle).eq('published',true).maybeSingle().then(function(r){
+ sb.from('link_pages').select('*').eq('handle',handle).eq('published',true).maybeSingle().then(function(r){
   var p=r.data;
   if(r.error||!p){ lost('there is no page at feefee.co/@'+handle+' (yet).'); return; }
   var name=p.name||('@'+p.handle);
@@ -79,6 +84,11 @@ footer a:hover{color:var(--blue);border-color:var(--blue)}
   var what=[p.role,p.city].filter(Boolean).join(' · ');
   if(what){ var w=document.getElementById('w'); w.textContent=what; w.hidden=false; }
   if(p.bio){ var b=document.getElementById('b'); b.textContent=p.bio; b.hidden=false; }
+  var LV={starting:'just starting',working:'working',established:'established'};
+  if(what && LV[p.level]){ document.getElementById('w').textContent=what+' · '+LV[p.level]; }
+  var pj=(p.projects||[]).slice(0,3).filter(function(x){ return x&&x.title&&safe(x.url); });
+  pj.forEach(function(x){ row(String(x.title).slice(0,60),safe(x.url),host(x.url),'pj'); });
+  if(pj.length) document.getElementById('pj').hidden=false;
   var web=p.website&&safe(p.website); if(web) row('portfolio',web,host(web));
   if(p.instagram){ var ig=p.instagram.replace(/^@+/,'').replace(/[^a-z0-9._]/gi,''); if(ig) row('instagram','https://instagram.com/'+ig,'@'+ig); }
   (p.links||[]).forEach(function(l){ var u=l&&safe(l.url); if(u&&l.label) row(String(l.label).slice(0,40),u,host(u)); });
