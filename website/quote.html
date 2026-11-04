@@ -35,13 +35,13 @@ a{color:var(--ink)}
 .top .logo{font-size:26px}
 .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:0;align-items:start}
 .side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:100vh}
-.side h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:14px 0 14px}
+.side h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:1;margin:14px 0 22px}
 .side .lead{font-size:20px;line-height:1.45;margin:0 0 32px;max-width:460px}
 fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 28px;padding:18px 0 0}
 legend{padding:0 10px 0 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
 label{display:block}
-label span{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 4px;color:var(--muted)}
+label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
 input,select,textarea{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
 input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
@@ -138,6 +138,16 @@ details.sys[open] summary::after{content:' –'}
  .doc.tcdoc{page:tcp;break-before:page;height:auto;width:auto;padding:0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 }
 @page tcp{size:A4;margin:16mm 17mm 14mm}
+
+/* calm, even form blocks */
+legend.mono{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:26px;font-weight:400;letter-spacing:0;text-transform:none}
+legend.mono::first-letter{text-transform:uppercase}
+
+input:not([type=checkbox]):not([type=radio]):not([type=range]),select{height:46px;line-height:1.2}
+input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;min-width:0;display:block}
+input::-webkit-date-and-time-value{text-align:left}
+.grid2>label>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid2{align-items:end}
 </style>
 </head>
 <body>
@@ -165,7 +175,7 @@ details.sys[open] summary::after{content:' –'}
 
 <fieldset><legend class="mono">you</legend>
 <div class="grid2">
-<label class="full"><span>your name</span><input name="me" placeholder="Femke Juffermans" autocomplete="name"></label>
+<label class="full"><span>your name</span><input name="me" placeholder="first and last name" autocomplete="name"></label>
 <label class="full"><span>what you do</span><input name="role" placeholder="photographer"></label>
 <label><span>email</span><input name="email" type="email" placeholder="you@studio.com" autocomplete="email"></label>
 <label><span>phone</span><input name="phone" placeholder="+31 6 ..." autocomplete="tel"></label>
