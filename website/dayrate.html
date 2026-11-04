@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>day rate maker – fee fee.</title>
+<meta name="description" content="Work out your minimum day rate as a freelance creative: what you need to live on, your costs, tax and the days you actually get paid.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:calc(100vh - var(--ffh-h,70px))}
+h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:0 0 18px}
+.lead{font-size:20px;line-height:1.55;margin:0 0 34px;max-width:30em}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 30px;padding:18px 0 0;min-width:0}
+legend{padding:0 10px 0 0;font-style:italic;font-size:26px}
+label{display:block;margin-bottom:14px}
+label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+label small{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}
+.in{display:flex;align-items:center;background:var(--paper);border:1px solid var(--ink)}
+.in:focus-within{box-shadow:0 0 0 2px var(--blue)}
+.in b{font:400 15px 'Space Mono',monospace;padding:0 0 0 12px;color:var(--muted)}
+.in i{font:400 12px 'Space Mono',monospace;font-style:normal;padding:0 12px 0 0;color:var(--muted);white-space:nowrap}
+input,select{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:transparent;border:0;border-radius:0;padding:10px 12px;outline:none}
+select{background:var(--paper);border:1px solid var(--ink)}
+select:focus{box-shadow:0 0 0 2px var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.main{padding:64px clamp(20px,5vw,80px) 80px;position:sticky;top:var(--ffh-h,70px)}
+.res{max-width:560px}
+.hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;margin:0 0 4px}
+.big{font-variant-numeric:lining-nums;font-feature-settings:"lnum";font-size:clamp(80px,10vw,140px);line-height:1;font-weight:500;margin:0;letter-spacing:-.01em}
+.per{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin:12px 0 34px}
+.lines{border-top:1px solid var(--ink)}
+.ln{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid #E6E8E3;font-size:20px}
+.ln span:last-child{font-variant-numeric:lining-nums;font-family:'Space Mono',monospace;font-size:14px;white-space:nowrap}
+.ln.tot{border-bottom:1px solid var(--ink);font-style:italic}
+.note{font-size:20px;line-height:1.6;margin:30px 0 0}
+.fine{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:var(--muted);margin:18px 0 0}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;text-decoration:none;border:0;cursor:pointer}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.mini{display:none}
+@media (max-width:980px){.wrap{grid-template-columns:1fr}.side{min-height:0;padding-bottom:40px}.main{position:static;padding:40px 18px 96px}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;text-decoration:none}.mini b{font:500 28px 'Cormorant Garamond',Georgia,serif;font-variant-numeric:lining-nums}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<div class="wrap">
+<form class="side" id="f" onsubmit="return false" autocomplete="off">
+<h1>Day rate maker.</h1>
+<p class="lead">most freelancers guess their day rate. start from what you need instead: your life, your costs, your tax, and the days someone actually pays you.</p>
+
+<label><span>currency</span><select name="cur"><option>€</option><option>$</option><option>£</option><option>CHF</option><option>kr</option></select></label>
+
+<fieldset><legend>Your life</legend>
+<label><span>what you need to live on, per month</span><div class="in"><b class="c"></b><input name="live" inputmode="decimal" placeholder="2500"></div>
+<small>rent, food, insurance, fun. after tax, like a salary.</small></label>
+<label><span>savings and pension, per month</span><div class="in"><b class="c"></b><input name="save" inputmode="decimal" placeholder="300"></div>
+<small>nobody pays this for you anymore.</small></label>
+</fieldset>
+
+<fieldset><legend>Your business</legend>
+<label><span>costs per month</span><div class="in"><b class="c"></b><input name="costs" inputmode="decimal" placeholder="600"></div>
+<small>gear, software, phone, studio, travel, accountant, business insurance.</small></label>
+<label><span>tax to put aside</span><div class="in"><input name="tax" inputmode="decimal" placeholder="35"><i>% of profit</i></div>
+<small>a guess is fine. check your country with an accountant.</small></label>
+</fieldset>
+
+<fieldset><legend>Your days</legend>
+<div class="grid2">
+<label><span>weeks off a year</span><div class="in"><input name="off" inputmode="decimal" placeholder="7"><i>weeks</i></div></label>
+<label><span>paid days a week</span><div class="in"><input name="days" inputmode="decimal" placeholder="2.5"><i>days</i></div></label>
+</div>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block">holidays, sick days and quiet weeks count as off. pitching, editing, admin and travel are work, but nobody pays a day rate for them.</small>
+</fieldset>
+<p class="fine">everything stays in this browser. nothing is sent to fee fee.</p>
+</form>
+
+<a class="mini" href="#res" id="mini"><span>your floor ↓</span><b id="mini-r">—</b></a>
+<main class="main" id="res"><div class="res" aria-live="polite">
+<p class="hand">your floor.</p>
+<p class="big" id="rate">—</p>
+<p class="per" id="per">minimum day rate, before usage</p>
+<div class="lines" id="lines"></div>
+<p class="note">this is the least you can ask without losing money. it is not your price. experience, the client, usage and how big the job is all come on top. what you charge is always your call.</p>
+<div class="acts">
+<a class="btn" href="quote.html">make a quote</a>
+<a class="btn soft" href="setwords.html">set words</a>
+</div>
+</div></main>
+</div>
+
+<script>
+(function(){
+var KEY='ff-dayrate', f=document.getElementById('f'), S={};
+try{ S=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){}
+var D={cur:'€',live:2500,save:300,costs:600,tax:35,off:7,days:2.5};
+function num(n){ var v=parseFloat(String(S[n]==null||S[n]===''?'':S[n]).replace(',','.')); return isNaN(v)?D[n]:v; }
+function money(x){ return S.cur_+' '+Math.round(x).toLocaleString('en-GB'); }
+Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){
+  if(S[i.name]!=null) i.value=S[i.name];
+  i.addEventListener('input',function(){ S[i.name]=i.value; try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} draw(); });
+});
+function draw(){
+  S.cur_=S.cur||D.cur;
+  Array.prototype.forEach.call(document.querySelectorAll('.c'),function(c){ c.textContent=S.cur_; });
+  var live=num('live')*12, save=num('save')*12, costs=num('costs')*12, tax=Math.min(Math.max(num('tax'),0),80)/100;
+  var off=Math.min(Math.max(num('off'),0),51), dpw=Math.min(Math.max(num('days'),0.5),7);
+  var profit=(live+save)/(1-tax), taxed=profit-(live+save), turnover=profit+costs;
+  var paid=Math.max(1,Math.round((52-off)*dpw));
+  var rate=Math.ceil(turnover/paid/10)*10;
+  document.getElementById('rate').textContent=document.getElementById('mini-r').textContent=S.cur_+' '+rate.toLocaleString('en-GB');
+  document.getElementById('per').textContent='minimum day rate, before usage · about '+S.cur_+' '+Math.ceil(rate/10).toLocaleString('en-GB')+' an hour on a 10 hour day';
+  var L=[['to live on',live],['savings and pension',save],['tax',taxed],['business costs',costs]];
+  document.getElementById('lines').innerHTML=L.map(function(l){ return '<div class="ln"><span>'+l[0]+'</span><span>'+money(l[1])+' a year</span></div>'; }).join('')
+   +'<div class="ln tot"><span>you need to bill</span><span>'+money(turnover)+' a year</span></div>'
+   +'<div class="ln"><span>paid days a year</span><span>'+paid+' days</span></div>';
+}
+draw();
+})();
+</script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
