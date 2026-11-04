@@ -75,6 +75,11 @@ drop policy if exists "members delete own answers" on public.answers;
 create policy "members delete own answers" on public.answers
   for delete using (user_id = auth.uid());
 
+-- table rights (this project does not grant them by default; row level security above still decides which rows)
+grant select on public.members to authenticated;
+grant select, insert on public.questions to anon, authenticated;
+grant select, insert, update, delete on public.answers to authenticated;
+
 -- answer counts are public (the teaser "3 answers"), the answers themselves are not
 create or replace function public.answer_counts()
 returns table (question_slug text, n bigint)
