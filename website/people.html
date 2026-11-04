@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/assets/preview.js"></script>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the index – fee fee.</title>
+<meta name="description" content="A calm, curated index of freelance creatives. Find a photographer, stylist or art director by role, city and level.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+main{max-width:1040px;margin:0 auto;padding:72px 32px 120px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:end;border-bottom:1px solid var(--ink);padding-bottom:28px}
+h1{font-style:italic;font-weight:500;font-size:clamp(56px,7vw,96px);line-height:.92;margin:0}
+.lead{font-size:21px;line-height:1.6;margin:0;max-width:30em}
+.filters{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:10px;padding:22px 0 8px}
+.filters input,.filters select{width:100%;height:46px;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:0 14px;outline:none;-webkit-appearance:none;appearance:none}
+.filters input:focus,.filters select:focus{box-shadow:0 0 0 2px var(--blue)}
+.count{font:12px 'Space Mono',monospace;color:var(--muted);margin:10px 0 0}
+.ex{background:var(--celadon);padding:14px 18px;font:12px/1.6 'Space Mono',monospace;margin:18px 0 0}
+.p{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:32px;padding:26px 0;border-bottom:1px solid #E6E8E3}
+.p h2{font-style:italic;font-weight:500;font-size:34px;line-height:1.05;margin:0 0 8px}
+.p h2 a{color:var(--ink);text-decoration:none}
+.p h2 a:hover{color:var(--blue)}
+.what{font:12px/1.6 'Space Mono',monospace;color:var(--muted);margin:0}
+.lv{display:inline-block;border:1px solid var(--ink);border-radius:99px;padding:2px 10px;font:10px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-top:12px}
+.bio{font-size:20px;line-height:1.6;margin:0 0 12px;max-width:32em}
+.work{list-style:none;margin:0;padding:0}
+.work li{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid #ECEEE9;font-size:19px;font-style:italic}
+.work a{color:var(--ink);text-decoration:none}
+.work a:hover{color:var(--blue)}
+.work .h{font:11px 'Space Mono',monospace;font-style:normal;color:var(--soft);white-space:nowrap}
+.reach{font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:12px;display:flex;gap:18px}
+.reach a{color:var(--ink)}
+.none{font-size:20px;margin:40px 0}
+.end{margin-top:72px;border-top:1px solid var(--ink);padding-top:24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.end p{margin:0;font-size:20px;line-height:1.6;max-width:30em}
+.btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;text-decoration:none}
+@media (max-width:760px){main{padding:40px 18px 80px}.top{grid-template-columns:1fr;gap:20px}.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}.p{grid-template-columns:1fr;gap:12px}.p h2{font-size:30px}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<main>
+<div class="top">
+<h1>The index.</h1>
+<p class="lead">freelance creatives, checked by hand. find the local photographer, stylist or art director you can't find on instagram, by what they do, where and how far along they are.</p>
+</div>
+<div class="filters">
+<input id="q" type="search" placeholder="search a name or a word" aria-label="search">
+<select id="f-role" aria-label="what they do"><option value="">every role</option></select>
+<select id="f-city" aria-label="city"><option value="">every city</option></select>
+<select id="f-level" aria-label="level"><option value="">every level</option><option value="starting">just starting</option><option value="working">working</option><option value="established">established</option></select>
+</div>
+<p class="ex" id="ex" hidden>these are made-up examples, to show how the index will look. real people appear here once femke has checked them.</p>
+<p class="count" id="count" role="status"></p>
+<div id="list"></div>
+<p class="none" id="none" hidden>nobody fits that yet. try another city or role.</p>
+
+<div class="end">
+<p>work as a freelance creative? make your free link page, add three projects, and ask to be listed.</p>
+<a class="btn" href="account.html#join">get listed</a>
+</div>
+</main>
+
+<script src="assets/supabase.js"></script>
+<script>
+(function(){
+var LV={starting:'just starting',working:'working',established:'established'};
+/* made-up people only: never real names, studios or clients */
+var EX=[
+ {handle:'example',name:'Mila Varga',role:'stylist',city:'Amsterdam',level:'working',bio:'fashion and still life styling, mostly editorial and lookbooks.',projects:[{title:'knitwear lookbook, spring',url:'#'},{title:'table setting story for a food magazine',url:'#'}]},
+ {handle:'example',name:'Jonah Okafor',role:'photographer',city:'Rotterdam',level:'established',bio:'portraits and campaigns with a lot of daylight.',projects:[{title:'campaign for a cycling brand',url:'#'},{title:'portrait series, harbour workers',url:'#'},{title:'cover story, independent magazine',url:'#'}]},
+ {handle:'example',name:'Isa de Wit',role:'art director',city:'Amsterdam',level:'working',bio:'ideas for small brands that want to look big.',projects:[{title:'launch film for a skincare brand',url:'#'}]},
+ {handle:'example',name:'Theo Lindqvist',role:'gaffer',city:'Los Angeles',level:'established',bio:'lighting for commercials and music videos.',projects:[{title:'music video, night exterior',url:'#'},{title:'car commercial, two shoot days',url:'#'}]},
+ {handle:'example',name:'Sanne Brouwer',role:'hair and makeup',city:'Utrecht',level:'starting',bio:'natural skin, clean hair, editorial and weddings.',projects:[{title:'beauty test shoot',url:'#'}]},
+ {handle:'example',name:'Rafa Moreno',role:'videographer',city:'San Francisco',level:'working',bio:'short documentary and brand films.',projects:[{title:'mini doc for a coffee roaster',url:'#'},{title:'event film, design week',url:'#'}]}
+];
+var all=[], demo=false;
+function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function safe(u){ try{ var x=new URL(u); return (x.protocol==='https:'||x.protocol==='http:')?x.href:null; }catch(e){ return null; } }
+function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
+function opts(id,key){ var s=document.getElementById(id), seen={};
+ all.forEach(function(p){ var v=(p[key]||'').trim(); if(v) seen[v.toLowerCase()]=v; });
+ Object.keys(seen).sort().forEach(function(k){ var o=el('option',null,seen[k]); o.value=k; s.appendChild(o); }); }
+function render(){
+ var q=document.getElementById('q').value.trim().toLowerCase(), r=document.getElementById('f-role').value, c=document.getElementById('f-city').value, l=document.getElementById('f-level').value;
+ var L=document.getElementById('list'); L.innerHTML='';
+ var show=all.filter(function(p){
+  if(r && (p.role||'').toLowerCase()!==r) return false;
+  if(c && (p.city||'').toLowerCase()!==c) return false;
+  if(l && p.level!==l) return false;
+  if(q && [p.name,p.role,p.city,p.bio].join(' ').toLowerCase().indexOf(q)<0) return false;
+  return true; });
+ document.getElementById('count').textContent=show.length+(show.length===1?' person':' people');
+ document.getElementById('none').hidden=!!show.length;
+ show.forEach(function(p){
+  var row=el('article','p'), a=el('div'), b=el('div');
+  var h=el('h2'), n=el('a',null,p.name); n.href=demo?'#':'/@'+p.handle; h.appendChild(n); a.appendChild(h);
+  a.appendChild(el('p','what',[p.role,p.city].filter(Boolean).join(' · ')));
+  if(LV[p.level]) a.appendChild(el('span','lv',LV[p.level]));
+  if(p.bio) b.appendChild(el('p','bio',p.bio));
+  var w=el('ul','work');
+  (p.projects||[]).slice(0,3).forEach(function(x){ var u=demo?'#':safe(x.url); if(!x||!x.title||!u) return;
+   var li=el('li'), t=el('a',null,x.title); t.href=u; if(!demo){ t.target='_blank'; t.rel='noopener'; }
+   li.appendChild(t); li.appendChild(el('span','h',demo?'':host(u))); w.appendChild(li); });
+  if(w.children.length) b.appendChild(w);
+  var re=el('div','reach');
+  if(!demo){ var lp=el('a',null,'see page'); lp.href='/@'+p.handle; re.appendChild(lp);
+   if(p.instagram){ var ig=p.instagram.replace(/^@+/,'').replace(/[^a-z0-9._]/gi,''); if(ig){ var ia=el('a',null,'instagram'); ia.href='https://instagram.com/'+ig; ia.target='_blank'; ia.rel='noopener'; re.appendChild(ia); } } }
+  if(re.children.length) b.appendChild(re);
+  row.appendChild(a); row.appendChild(b); L.appendChild(row);
+ });
+}
+function start(rows){
+ demo=!rows||!rows.length; all=demo?EX:rows;
+ document.getElementById('ex').hidden=!demo;
+ opts('f-role','role'); opts('f-city','city'); render();
+}
+['q','f-role','f-city','f-level'].forEach(function(id){ document.getElementById(id).addEventListener('input',render); });
+if(!window.supabase){ start(null); return; }
+var sb=window.supabase.createClient('https://eadxyfxlhwikesonpaer.supabase.co','sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri',{auth:{persistSession:false}});
+sb.rpc('index_people').then(function(r){ start(r.error?null:r.data); }, function(){ start(null); });
+})();
+</script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
