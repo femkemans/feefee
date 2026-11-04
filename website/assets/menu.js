@@ -11,7 +11,7 @@
       ['off the record', '']
     ]],
     ['The brief', [
-      ['set words', ''],
+      ['set words', '/setwords.html'],
       ['usage, decoded', ''],
       ['the small print', ''],
       ['ask first', ''],
