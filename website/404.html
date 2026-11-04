@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fee fee.</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- One file, two jobs. GitHub Pages serves this for every address it doesn't know.
+     feefee.co/@handle  → that member's link page (from public.link_pages, only when switched on)
+     anything else      → a calm "page not found". -->
+<style>
+:root{--paper:#FDFCF9;--ink:#1C1E1A;--muted:#4A4E46;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(/assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+main{max-width:480px;margin:0 auto;padding:88px 24px 36px;display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+h1{font-style:italic;font-weight:500;font-size:clamp(44px,12vw,58px);line-height:.98;margin:0 0 16px;overflow-wrap:anywhere}
+.what{margin:0 0 20px;color:var(--muted)}
+.bio{font-size:21px;line-height:1.6;margin:0 0 44px;max-width:30em}
+ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+li a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:19px 2px;border-bottom:1px solid var(--ink);text-decoration:none;color:var(--ink);font-size:24px;line-height:1.2}
+li a .mono{font-size:10px;font-weight:400;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48%}
+li a:hover,li a:focus-visible{color:var(--blue);outline:none}
+li a:hover .mono{color:var(--blue)}
+footer{margin-top:auto;padding-top:72px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+footer img{height:15px;width:auto;display:block}
+footer a{color:var(--ink);text-decoration:none}
+footer a.mono{border-bottom:1px solid var(--ink);padding-bottom:2px}
+footer a:hover{color:var(--blue);border-color:var(--blue)}
+.lost p{font-size:21px;line-height:1.6;margin:0 0 28px}
+.lost a.mono{color:var(--ink)}
+</style>
+</head>
+<body>
+<main>
+<div id="page" hidden>
+ <h1 id="n"></h1>
+ <p class="mono what" id="w" hidden></p>
+ <p class="bio" id="b" hidden></p>
+ <ul id="links"></ul>
+</div>
+<div id="lost" class="lost" hidden>
+ <h1>Nothing here.</h1>
+ <p id="lost-t">this page doesn't exist, or it moved.</p>
+ <a class="mono" href="/">back to fee fee.</a>
+</div>
+<footer><a href="/" aria-label="fee fee."><img src="/assets/logo-mark.svg" alt="fee fee." width="994" height="243"></a><a class="mono" href="/account.html#linkpage">get your own page</a></footer>
+</main>
+<script src="/assets/supabase.js"></script>
+<script>
+(function(){
+ var path=decodeURIComponent(location.pathname).replace(/\/+$/,'');
+ var m=/^\/@([a-z0-9][a-z0-9._-]{1,29})$/i.exec(path);
+ function lost(t){ if(t) document.getElementById('lost-t').textContent=t; document.getElementById('lost').hidden=false; }
+ if(!m || !window.supabase){ lost(); return; }
+ var handle=m[1].toLowerCase();
+ if('/@'+handle!==path){ history.replaceState(null,'','/@'+handle); }
+ var sb=window.supabase.createClient('https://eadxyfxlhwikesonpaer.supabase.co','sb_publishable_HzD6stLtpaG0-uJiq5S8eA_9bVi78ri',{auth:{persistSession:false}});
+ function safe(u){ try{ var x=new URL(u); return (x.protocol==='https:'||x.protocol==='http:')?x.href:null; }catch(e){ return null; } }
+ function host(u){ try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
+ function row(label,href,small){
+  var li=document.createElement('li'), a=document.createElement('a'), s=document.createElement('span');
+  a.href=href; a.rel='noopener'; if(!/^mailto:/.test(href)) a.target='_blank';
+  a.appendChild(document.createTextNode(label)); s.className='mono'; s.textContent=small||''; a.appendChild(s);
+  li.appendChild(a); document.getElementById('links').appendChild(li);
+ }
+ sb.from('link_pages').select('handle,name,role,city,bio,instagram,website,email,links').eq('handle',handle).eq('published',true).maybeSingle().then(function(r){
+  var p=r.data;
+  if(r.error||!p){ lost('there is no page at feefee.co/@'+handle+' (yet).'); return; }
+  var name=p.name||('@'+p.handle);
+  document.title=name+' · fee fee.';
+  document.getElementById('n').textContent=name;
+  var what=[p.role,p.city].filter(Boolean).join(' · ');
+  if(what){ var w=document.getElementById('w'); w.textContent=what; w.hidden=false; }
+  if(p.bio){ var b=document.getElementById('b'); b.textContent=p.bio; b.hidden=false; }
+  var web=p.website&&safe(p.website); if(web) row('portfolio',web,host(web));
+  if(p.instagram){ var ig=p.instagram.replace(/^@+/,'').replace(/[^a-z0-9._]/gi,''); if(ig) row('instagram','https://instagram.com/'+ig,'@'+ig); }
+  (p.links||[]).forEach(function(l){ var u=l&&safe(l.url); if(u&&l.label) row(String(l.label).slice(0,40),u,host(u)); });
+  if(p.email&&/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(p.email)) row('email me','mailto:'+p.email,'email');
+  var d=document.createElement('meta'); d.name='description'; d.content=[what,p.bio].filter(Boolean).join('. '); document.head.appendChild(d);
+  document.getElementById('page').hidden=false;
+ });
+})();
+</script>
+</body>
+</html>
