@@ -126,7 +126,7 @@ function nice(d){ try{ return new Date(d+'T12:00:00').toLocaleDateString('en-GB'
     var f=el('p','drop-fee',d.day); f.appendChild(el('small','','day rate')); c.appendChild(f);
     if(d.usage){ var u=el('p','drop-plus','+ '+d.usage); u.appendChild(el('small','','usage')); c.appendChild(u); }
     if(d.ask) c.appendChild(el('p','drop-ask',d.ask));
-    c.appendChild(el('p','drop-fine','the middle half of '+d.jobs+' jobs, rounded. shared anonymously by creatives.'));
+    c.appendChild(el('p','drop-fine','the middle half of '+d.jobs+' jobs, rounded. shared by members, shown without names.'));
     box.appendChild(c);
   });
 })();

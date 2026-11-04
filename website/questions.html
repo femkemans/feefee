@@ -204,7 +204,7 @@ footer a{color:var(--muted);text-decoration:none}
 <aside>
 <div class="card celadon" id="ask">
 <h2>Ask it here.</h2>
-<p>anonymous by default. we read every question before it goes up.</p>
+<p>everyone on fee fee. has a real name. we read every question before it goes up.</p>
 <form id="ask-form">
 <label class="label" for="a-title">your question</label>
 <input class="field" id="a-title" maxlength="200" required placeholder="e.g. how much do I charge for a lookbook?">
@@ -214,8 +214,8 @@ footer a{color:var(--muted);text-decoration:none}
 <select class="field" id="a-topic"></select>
 <label class="label" for="a-role">what you do</label>
 <input class="field" id="a-role" maxlength="60" placeholder="e.g. stylist">
-<label class="label" for="a-name">your name <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
-<input class="field" id="a-name" maxlength="60" autocomplete="name" placeholder="anonymous">
+<label class="label" for="a-name">your name</label>
+<input class="field" id="a-name" maxlength="60" autocomplete="name" required placeholder="first and last name">
 <input type="text" id="a-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <button class="btn" style="margin-top:8px;height:52px">send my question</button>
 <p class="cap msg" id="ask-msg" role="status"></p>
@@ -347,7 +347,7 @@ function members(slug, box){
  });
  var f=el('form','reply'), ta=el('textarea','field'); ta.required=true; ta.maxLength=4000; ta.placeholder='your answer. be honest, be kind, share numbers if you can.';
  var who=el('div'); who.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
- var nm=el('input','field'); nm.placeholder='your name (optional)'; nm.maxLength=60; nm.style.cssText='flex:1;min-width:160px';
+ var nm=el('input','field'); nm.placeholder='your name'; nm.required=true; nm.maxLength=60; nm.style.cssText='flex:1;min-width:160px';
  var rl=el('input','field'); rl.placeholder='what you do'; rl.maxLength=60; rl.style.cssText='flex:1;min-width:160px';
  var meta=(state.user&&state.user.user_metadata)||{}; try{ nm.value=meta.name||localStorage.getItem('ff-name')||''; rl.value=meta.role||localStorage.getItem('ff-role')||''; }catch(e){ nm.value=meta.name||''; rl.value=meta.role||''; }
  who.appendChild(nm); who.appendChild(rl);
@@ -355,6 +355,7 @@ function members(slug, box){
  f.appendChild(ta); f.appendChild(who); f.appendChild(btn); f.appendChild(m);
  f.onsubmit=function(e){ e.preventDefault(); btn.disabled=true; m.textContent='';
   try{ localStorage.setItem('ff-name',nm.value.trim()); localStorage.setItem('ff-role',rl.value.trim()); }catch(e){}
+  if(nm.value.trim().length<2){ nm.focus(); return; }
   sb.from('answers').insert({question_slug:slug, body:ta.value.trim(), display_name:nm.value.trim()||null, role:rl.value.trim()||null}).then(function(r){
    btn.disabled=false; if(r.error){ m.textContent='couldn’t post: '+r.error.message; return; }
    state.counts[slug]=(state.counts[slug]||0)+1; paintCounts(); box.innerHTML=''; box.appendChild(el('hr')); members(slug, box); });
