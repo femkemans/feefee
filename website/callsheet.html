@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>call sheet – fee fee.</title>
+<meta name="description" content="A free call sheet template for shoots: call times, location, crew, schedule and notes. Fill it in, save it as a pdf, send it to your crew.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:100vh}
+.side h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:0 0 18px}
+.lead{font-size:20px;line-height:1.55;margin:0 0 34px;max-width:30em}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 34px;padding:18px 0 0;min-width:0}
+legend{padding:0 10px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:26px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.full{grid-column:1/-1}
+label{display:block}
+label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+input,textarea{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
+input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
+textarea{min-height:110px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Georgia,serif}
+.rows .r{display:grid;gap:8px;align-items:center;margin-bottom:8px}
+.rows.crew .r{grid-template-columns:1fr 1fr 1fr 74px auto}
+.rows.plan .r{grid-template-columns:84px 1fr auto}
+.rows input{padding:8px 9px;font-size:13px}
+.ic{display:flex;gap:2px}
+.ic button{background:none;border:0;cursor:pointer;font:14px 'Space Mono',monospace;color:var(--muted);width:24px;height:30px;padding:0}
+.ic button:hover{color:var(--blue)}
+.add{background:none;border:0;padding:6px 0;cursor:pointer;font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.add:hover{color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;cursor:pointer;text-decoration:none}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.fine{font-family:'Space Mono',monospace;font-size:12px;line-height:1.65;color:var(--muted);margin:18px 0 0;max-width:36em}
+.main{padding:48px clamp(20px,4vw,64px) 80px;position:sticky;top:var(--ffh-h,70px)}
+/* the sheet */
+.sheet{background:#fff;box-shadow:0 30px 70px -30px rgba(28,30,26,.28);padding:48px 52px 40px;max-width:820px;margin:0 auto;font-size:16px;line-height:1.45}
+.sh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:1px solid var(--ink);padding-bottom:18px}
+.sh-top h2{font-style:italic;font-weight:500;font-size:46px;line-height:1;margin:0}
+.sh-top .t{font-size:22px;margin-top:8px}
+.sh-top .d{font-family:'Space Mono',monospace;font-size:12px;text-align:right;line-height:1.7;white-space:nowrap}
+.times{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--ink)}
+.times div{padding:14px 0 14px;border-right:1px solid var(--faint);padding-left:12px}
+.times div:first-child{padding-left:0}
+.times div:last-child{border-right:0}
+.times b{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.times span{font-family:'Space Mono',monospace;font-size:20px}
+.times .call span{color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:18px 0;border-bottom:1px solid var(--ink)}
+.blk h3{font-style:italic;font-weight:500;font-size:22px;margin:0 0 6px}
+.blk p{margin:0;white-space:pre-line}
+.blk .m{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin-top:6px}
+.sec{padding:18px 0;border-bottom:1px solid var(--ink)}
+.sec h3{font-style:italic;font-weight:500;font-size:22px;margin:0 0 8px}
+table{width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:12px}
+td{padding:7px 10px 7px 0;border-bottom:1px solid #ECEEE9;vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px}
+td.tm{width:70px}
+.notes{white-space:pre-line;margin:0}
+.foot{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--soft);padding-top:14px;letter-spacing:.06em}
+.ph{color:var(--faint)}
+@media screen and (max-width:980px){.wrap{grid-template-columns:1fr}.side{min-height:0}.main{position:static;padding:32px 12px 64px}.sheet{padding:28px 20px}.times{grid-template-columns:repeat(3,1fr)}.times div:nth-child(4){padding-left:0}.two{grid-template-columns:1fr}.rows.crew .r{grid-template-columns:1fr 1fr;}.rows.crew .r .ic{grid-column:2;justify-self:end}}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff}
+ .ffh,.side{display:none!important}
+ .wrap{display:block}.main{padding:0;position:static}
+ .sheet{box-shadow:none;padding:0;max-width:none;font-size:14px}
+ .sec,.two{padding:12px 0}.times div{padding-top:10px;padding-bottom:10px}td{padding:5px 10px 5px 0}
+ .ph{color:transparent}
+}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<div class="wrap">
+<form class="side" id="f" autocomplete="off" onsubmit="return false">
+<h1>Call sheet.</h1>
+<p class="lead">who, where, what time. fill it in, save it as a pdf and send it to your crew the day before.</p>
+
+<fieldset><legend>The job</legend><div class="grid2">
+<label class="full"><span>production</span><input name="title" placeholder="spring campaign"></label>
+<label><span>client</span><input name="client" placeholder="brand or magazine"></label>
+<label><span>date</span><input name="date" type="date"></label>
+<label><span>day</span><input name="day" placeholder="1 of 2"></label>
+<label><span>contact on the day</span><input name="contact" placeholder="name · phone"></label>
+</div></fieldset>
+
+<fieldset><legend>Times</legend><div class="grid2">
+<label><span>crew call</span><input name="call" type="time"></label>
+<label><span>talent call</span><input name="talent" type="time"></label>
+<label><span>first shot</span><input name="first" type="time"></label>
+<label><span>lunch</span><input name="lunch" type="time"></label>
+<label><span>wrap (estimate)</span><input name="wrap" type="time"></label>
+</div></fieldset>
+
+<fieldset><legend>Location</legend><div class="grid2">
+<label class="full"><span>name</span><input name="loc" placeholder="studio or location"></label>
+<label class="full"><span>address</span><input name="addr" placeholder="street, city"></label>
+<label class="full"><span>getting there</span><input name="travel" placeholder="parking, nearest station, doorbell"></label>
+<label class="full"><span>nearest hospital</span><input name="hosp" placeholder="name, address"></label>
+</div></fieldset>
+
+<fieldset><legend>Crew</legend>
+<div class="rows crew" id="crew"></div>
+<button type="button" class="add" id="add-crew">+ add a person</button>
+</fieldset>
+
+<fieldset><legend>Schedule</legend>
+<div class="rows plan" id="plan"></div>
+<button type="button" class="add" id="add-plan">+ add a moment</button>
+</fieldset>
+
+<fieldset><legend>Notes</legend>
+<textarea name="notes" placeholder="catering, dietary needs, what to wear, wifi, weather plan b."></textarea>
+</fieldset>
+
+<div class="acts">
+<button type="button" class="btn" id="print">save as pdf</button>
+<button type="button" class="btn soft" id="clear">start empty</button>
+</div>
+<p class="fine">saved in this browser only. nothing is sent to fee fee. phone numbers stay on your sheet.</p>
+</form>
+
+<main class="main"><article class="sheet" id="sheet" aria-label="call sheet preview"></article></main>
+</div>
+
+<script>
+(function(){
+var KEY='ff-callsheet', f=document.getElementById('f');
+var EX={title:'spring campaign',client:'studio north',date:'',day:'1 of 1',contact:'sam · +31 6 1234 5678',call:'08:00',talent:'08:30',first:'10:00',lunch:'13:00',wrap:'18:00',
+ loc:'daylight studio',addr:'houtmankade 12, amsterdam',travel:'parking on the street, 10 min from amsterdam centraal',hosp:'olvg west, jan tooropstraat 164',
+ notes:'lunch for 8, two vegetarian.\nwear soft shoes, white floor.',
+ crew:[['photographer','','','08:00'],['stylist','','',''],['hair and make-up','','','07:30'],['assistant','','','']],
+ plan:[['08:00','crew in, coffee'],['08:30','talent in, hair and make-up'],['10:00','look 1'],['13:00','lunch'],['14:00','look 2 and 3'],['18:00','wrap']]};
+var S; try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+if(!S) S=JSON.parse(JSON.stringify(EX));
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+/* simple fields */
+Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){
+  i.value=S[i.name]||'';
+  i.addEventListener('input',function(){ S[i.name]=i.value; save(); draw(); });
+});
+
+/* rows */
+function rows(id,key,cols,ph){
+  var box=document.getElementById(id); box.innerHTML='';
+  S[key].forEach(function(r,ix){
+    var d=document.createElement('div'); d.className='r';
+    cols.forEach(function(c,ci){ var i=document.createElement('input'); i.value=r[ci]||''; i.placeholder=ph[ci]; if(c==='time') i.type='time'; i.setAttribute('aria-label',ph[ci]);
+      i.addEventListener('input',function(){ S[key][ix][ci]=i.value; save(); draw(); }); d.appendChild(i); });
+    var ic=document.createElement('div'); ic.className='ic';
+    [['↑','move up',-1],['↓','move down',1],['×','remove',0]].forEach(function(b){ var x=document.createElement('button'); x.type='button'; x.textContent=b[0]; x.setAttribute('aria-label',b[1]);
+      x.addEventListener('click',function(){ var a=S[key];
+        if(b[2]===0) a.splice(ix,1); else { var j=ix+b[2]; if(j<0||j>=a.length) return; var t=a[ix]; a[ix]=a[j]; a[j]=t; }
+        save(); rows(id,key,cols,ph); draw(); }); ic.appendChild(x); });
+    d.appendChild(ic); box.appendChild(d);
+  });
+}
+function crew(){ rows('crew','crew',['text','text','text','time'],['role','name','phone','call']); }
+function plan(){ rows('plan','plan',['time','text'],['time','what happens']); }
+document.getElementById('add-crew').onclick=function(){ S.crew.push(['','','','']); save(); crew(); draw(); };
+document.getElementById('add-plan').onclick=function(){ S.plan.push(['','']); save(); plan(); draw(); };
+
+/* the sheet */
+function v(x,p){ return x ? esc(x) : '<span class="ph">'+esc(p||'—')+'</span>'; }
+function draw(){
+  var dt=S.date?new Date(S.date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
+  var h='<div class="sh-top"><div><h2>Call sheet.</h2><div class="t">'+v(S.title,'production')+(S.client?' · '+esc(S.client):'')+'</div></div>'
+   +'<div class="d">'+v(dt,'date')+'<br>'+(S.day?'day '+esc(S.day)+'<br>':'')+(S.contact?esc(S.contact):'')+'</div></div>';
+  h+='<div class="times">'+[['crew call',S.call,'call'],['talent',S.talent],['first shot',S.first],['lunch',S.lunch],['wrap',S.wrap]].map(function(t){
+     return '<div class="'+(t[2]||'')+'"><b>'+t[0]+'</b><span>'+v(t[1],'--:--')+'</span></div>'; }).join('')+'</div>';
+  h+='<div class="two"><div class="blk"><h3>'+v(S.loc,'location')+'</h3><p>'+v(S.addr,'address')+'</p>'+(S.travel?'<p class="m">'+esc(S.travel)+'</p>':'')+'</div>'
+   +'<div class="blk"><h3>Nearest hospital</h3><p>'+v(S.hosp,'name, address')+'</p><p class="m">emergency: 112</p></div></div>';
+  var cr=S.crew.filter(function(r){return r.join('').trim();});
+  if(cr.length) h+='<div class="sec"><h3>Crew</h3><table>'+cr.map(function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td class="tm">'+esc(r[3]||S.call||'')+'</td></tr>'; }).join('')+'</table></div>';
+  var pl=S.plan.filter(function(r){return r.join('').trim();});
+  if(pl.length) h+='<div class="sec"><h3>Schedule</h3><table>'+pl.map(function(r){ return '<tr><td class="tm">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td></tr>'; }).join('')+'</table></div>';
+  if(S.notes) h+='<div class="sec"><h3>Notes</h3><p class="notes">'+esc(S.notes)+'</p></div>';
+  h+='<div class="foot"><span>please be on time. tell the contact if you’re running late.</span><span>made with fee fee. · feefee.co</span></div>';
+  document.getElementById('sheet').innerHTML=h;
+}
+document.getElementById('print').onclick=function(){
+  var t=document.title; document.title=('call sheet '+(S.title||'')+' '+(S.date||'')).trim(); window.print(); document.title=t; };
+document.getElementById('clear').onclick=function(){
+  S={crew:[['','','',''],['','','','']],plan:[['','']]}; save();
+  Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){ i.value=''; }); crew(); plan(); draw(); };
+crew(); plan(); draw();
+})();
+</script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
