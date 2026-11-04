@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-gate-title="Log in to book a coffee." data-gate-text="the coffee calls are for people on the list.">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>coffee with femke – fee fee.</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<script>document.documentElement.classList.add('ffg')</script>
+<style>
+:root{--hand:'Nothing You Could Do',cursive;--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--blue:#1F3FD1;--butter:#F7EFC9}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+[hidden]{display:none!important}
+.cap{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
+main{max-width:1080px;margin:0 auto;padding:56px 24px 120px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:64px;align-items:start}
+h1{font-style:italic;font-weight:400;font-size:clamp(56px,7.5vw,112px);line-height:.9;letter-spacing:-.02em;margin:0}
+.lead{font-size:22px;line-height:1.6;margin:26px 0 0;max-width:30em}
+.hand{font-family:var(--hand);color:#2A45C9;font-size:20px;margin:18px 0 0;transform:rotate(-2deg);transform-origin:left}
+.what{list-style:none;margin:36px 0 0;padding:0;max-width:30em}
+.what li{font-size:20px;line-height:1.6;padding:14px 0;border-top:1px solid #E6E8E3}
+.what b{font-weight:500;font-style:italic}
+.book{background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3);position:sticky;top:calc(var(--ffh-h,70px) + 24px)}
+.book iframe{display:block;width:100%;height:680px;border:0}
+.soon{padding:44px 38px}
+.soon p{font-size:21px;line-height:1.6;margin:0 0 14px;max-width:26em}
+.soon p.cap{font-size:11px;margin:0}
+@media (max-width:860px){
+ main{grid-template-columns:1fr;gap:40px;padding:40px 18px 100px}
+ .book{position:static;min-height:0}
+}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+<main>
+<div>
+<h1>Coffee with femke.</h1>
+<p class="lead">twenty minutes on video, just the two of us. tell me how freelancing goes for you, bring a fee question, or tell me what fee fee. should be. no pitch, no prep.</p>
+<p class="hand">I’d love to hear yours.</p>
+<ul class="what">
+<li><b>twenty minutes,</b> on google meet. the link comes with your booking.</li>
+<li><b>a few times a week.</b> if nothing fits, new times open every monday.</li>
+<li><b>nothing is shared.</b> what you tell me stays between us, unless you say otherwise.</li>
+</ul>
+</div>
+<div class="book" id="book">
+<div class="soon" id="soon">
+<p>the first times open soon. I’ll email you when they do.</p>
+<p class="cap">questions before that? write to <a href="mailto:hello@feefee.co">hello@feefee.co</a></p>
+</div>
+</div>
+</main>
+<script>
+/* Paste the booking page link here (Google Calendar appointment schedule or Cal.com).
+   Empty = the "opens soon" note shows. */
+var BOOKING_URL = '';
+(function(){
+  if(!BOOKING_URL) return;
+  var f=document.createElement('iframe'); f.src=BOOKING_URL; f.title='book a time'; f.loading='lazy';
+  var b=document.getElementById('book'); b.innerHTML=''; b.appendChild(f);
+})();
+</script>
+<script src="assets/logo-word.js"></script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script src="assets/gate.js"></script>
+</body>
+</html>
