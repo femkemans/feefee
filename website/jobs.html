@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/assets/preview.js"></script>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jobs – fee fee.</title>
+<meta name="description" content="Jobs for freelance creatives, posted by working creatives. A role, a date, a style, a moodboard. Search outside your own bubble.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+a{color:var(--ink);text-decoration-color:var(--blue);text-underline-offset:3px}
+main{max-width:1040px;margin:0 auto;padding:72px 32px 120px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:end;border-bottom:1px solid var(--ink);padding-bottom:28px}
+h1{font-style:italic;font-weight:500;font-size:clamp(56px,7vw,96px);line-height:.92;margin:0}
+.lead{font-size:21px;line-height:1.6;margin:0;max-width:30em}
+.bar{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;padding:22px 0 8px;align-items:center}
+input,select,textarea{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:0 14px;outline:none;-webkit-appearance:none;appearance:none}
+input,select{height:46px}
+textarea{padding:12px 14px;min-height:96px;resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:0 22px;height:46px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.note{background:var(--celadon);padding:14px 18px;font:12px/1.6 'Space Mono',monospace;margin:18px 0 0}
+.note a{color:var(--ink)}
+.count{font:12px 'Space Mono',monospace;color:var(--muted);margin:12px 0 0}
+.j{display:grid;grid-template-columns:120px minmax(0,1fr);gap:28px;padding:30px 0;border-bottom:1px solid #E6E8E3}
+.when{font:12px/1.6 'Space Mono',monospace;color:var(--muted);padding-top:6px}
+.when b{display:block;font:500 30px/1 'Cormorant Garamond',Georgia,serif;color:var(--ink);margin-bottom:6px}
+.lab{font-style:italic;color:var(--blue);font-size:19px;margin:0 0 4px}
+.j h2{font-weight:500;font-size:clamp(28px,3.2vw,38px);line-height:1.12;margin:0 0 14px;max-width:22em}
+.ln{font-size:20px;line-height:1.6;margin:0 0 4px;max-width:34em}
+.ln i{font-family:'Space Mono',monospace;font-style:normal;font-size:12px;color:var(--soft);display:inline-block;width:64px}
+.by{font:12px 'Space Mono',monospace;color:var(--muted);margin:12px 0 0}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.reply{display:grid;gap:10px;margin-top:16px;max-width:560px}
+.cap{font:12px/1.6 'Space Mono',monospace;color:var(--muted)}
+.reps{margin-top:16px;max-width:620px;border-top:1px solid var(--ink)}
+.rep{padding:14px 0;border-bottom:1px solid #ECEEE9}
+.rep p{margin:4px 0 0;font-size:19px;line-height:1.55}
+.post{background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3);padding:30px;margin:22px 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.post h2{grid-column:1/-1;font-style:italic;font-weight:500;font-size:34px;margin:0}
+.post label span{display:block;font:700 12px 'Space Mono',monospace;margin:0 0 6px}
+.post .wide{grid-column:1/-1}
+.none{font-size:20px;margin:40px 0}
+@media (max-width:760px){main{padding:40px 18px 80px}.top{grid-template-columns:1fr;gap:20px}.bar{grid-template-columns:1fr 1fr}.bar input{grid-column:1/-1}.bar .btn{grid-column:1/-1}.j{grid-template-columns:1fr;gap:8px}.when b{display:inline;margin-right:8px;font-size:24px}.post{grid-template-columns:1fr;padding:22px}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<main>
+<div class="top">
+<h1>Jobs.</h1>
+<p class="lead">a role, a date, a style, a moodboard. posted by working creatives, for working creatives. keep instagram for your work, and find your crew outside your own bubble here.</p>
+</div>
+<div class="bar">
+<input id="q" type="search" placeholder="search a style or a word" aria-label="search">
+<select id="f-role" aria-label="role"><option value="">every role</option></select>
+<select id="f-city" aria-label="city"><option value="">every city</option></select>
+<button class="btn" id="post-open" type="button" hidden>+ post a job</button>
+</div>
+<p class="note" id="note" hidden></p>
+
+<form class="post" id="post" hidden>
+<h2>Post a job.</h2>
+<label><span>who you need</span><input id="p-role" maxlength="60" required placeholder="e.g. stylist"></label>
+<label><span>city</span><input id="p-city" maxlength="60" required placeholder="city, country"></label>
+<label class="wide"><span>the job in one line</span><input id="p-title" maxlength="120" required placeholder="e.g. knitwear lookbook, two looks a day"></label>
+<label><span>from</span><input id="p-from" type="date" required></label>
+<label><span>to (optional)</span><input id="p-to" type="date"></label>
+<label class="wide"><span>style</span><textarea id="p-style" maxlength="600" placeholder="a few words about the look and feel"></textarea></label>
+<label><span>moodboard link (optional)</span><input id="p-mood" inputmode="url" maxlength="300" placeholder="https://"></label>
+<label><span>fee</span><input id="p-fee" maxlength="80" placeholder="e.g. €550 a day, or open to quotes"></label>
+<div class="wide acts"><button class="btn">post it</button><button class="btn soft" type="button" id="post-x">cancel</button><span class="cap" id="p-msg" role="status"></span></div>
+</form>
+
+<p class="count" id="count" role="status"></p>
+<div id="list"></div>
+<p class="none" id="none" hidden>nothing for that yet. try another city or role.</p>
+</main>
+
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script>
+(function(){
+/* made-up jobs only: never real names, studios or clients */
+function inDays(n){ var d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+var EX=[
+ {id:'x1',role_needed:'stylist',title:'knitwear lookbook, two looks a day',city:'Amsterdam',date_from:inDays(9),date_to:inDays(10),style:'soft daylight, muted colours, a lot of texture.',moodboard_url:'#',fee_text:'€550 a day',poster_name:'Mila Varga',poster_role:'photographer'},
+ {id:'x2',role_needed:'gaffer',title:'night exterior for a music video',city:'Los Angeles',date_from:inDays(14),style:'sodium street light, one hard key, lots of haze.',moodboard_url:'#',fee_text:'open to quotes',poster_name:'Rafa Moreno',poster_role:'director'},
+ {id:'x3',role_needed:'hair and makeup',title:'beauty portraits for a small skincare brand',city:'Rotterdam',date_from:inDays(21),style:'bare skin, glossy lids, clean hair.',fee_text:'€450 a day',poster_name:'Jonah Okafor',poster_role:'photographer'}
+];
+var D=window.ffDesk, sb=D&&D.sb, user=null, pro=null, me={}, all=[], demo=false;
+function $(id){ return document.getElementById(id); }
+function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function safe(u){ try{ var x=new URL(u); return (x.protocol==='https:'||x.protocol==='http:')?x.href:null; }catch(e){ return null; } }
+function day(s){ var d=new Date(s+'T12:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
+function wk(s){ return new Date(s+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long'}).toLowerCase(); }
+function note(html){ var n=$('note'); n.innerHTML=html; n.hidden=!html; }
+function opts(id,key){ var s=$(id), seen={}; while(s.options.length>1) s.remove(1);
+ all.forEach(function(p){ var v=(p[key]||'').trim(); if(v) seen[v.toLowerCase()]=v; });
+ Object.keys(seen).sort().forEach(function(k){ var o=el('option',null,seen[k]); o.value=k; s.appendChild(o); }); }
+
+function render(){
+ var q=$('q').value.trim().toLowerCase(), r=$('f-role').value, c=$('f-city').value, L=$('list'); L.innerHTML='';
+ var show=all.filter(function(j){
+  if(r && (j.role_needed||'').toLowerCase()!==r) return false;
+  if(c && (j.city||'').toLowerCase()!==c) return false;
+  if(q && [j.role_needed,j.title,j.city,j.style,j.poster_role].join(' ').toLowerCase().indexOf(q)<0) return false;
+  return true; });
+ $('count').textContent=show.length+(show.length===1?' job':' jobs');
+ $('none').hidden=!!show.length;
+ show.forEach(function(j){ L.appendChild(card(j)); });
+}
+function card(j){
+ var a=el('article','j'), w=el('div','when'), b=el('div');
+ var big=el('b',null,day(j.date_from)); w.appendChild(big);
+ w.appendChild(document.createTextNode(j.date_to&&j.date_to!==j.date_from?'to '+day(j.date_to):wk(j.date_from)));
+ b.appendChild(el('p','lab',j.role_needed+' wanted'));
+ b.appendChild(el('h2',null,j.title));
+ function line(k,v,href){ if(!v) return; var p=el('p','ln'); p.appendChild(el('i',null,k)); if(href){ var x=el('a',null,v); x.href=href; if(href!=='#'){ x.target='_blank'; x.rel='noopener'; } p.appendChild(x); } else p.appendChild(document.createTextNode(v)); b.appendChild(p); }
+ line('where:',j.city); line('style:',j.style);
+ var mb=demo?'#':(j.moodboard_url&&safe(j.moodboard_url)); if(mb) line('mood:','see the moodboard',mb);
+ line('fee:',j.fee_text);
+ var by=[j.poster_name,j.poster_role].filter(Boolean).join(' · ');
+ if(by){ var bp=el('p','by','posted by '+by); if(j.poster_handle&&!demo){ bp.appendChild(document.createTextNode(' · ')); var h=el('a',null,'@'+j.poster_handle); h.href='/@'+j.poster_handle; bp.appendChild(h); } b.appendChild(bp); }
+ var acts=el('div','acts'); b.appendChild(acts);
+ if(demo){ }
+ else if(user && j.user_id===user.id){
+  var see=el('button','btn soft','see replies'); see.type='button'; acts.appendChild(see);
+  var cl=el('button','btn soft',j.status==='closed'?'reopen':'close it'); cl.type='button'; acts.appendChild(cl);
+  see.onclick=function(){ see.disabled=true; replies(j,b); };
+  cl.onclick=function(){ var ns=j.status==='closed'?'open':'closed'; cl.disabled=true; sb.from('jobs').update({status:ns}).eq('id',j.id).then(function(r){ cl.disabled=false; if(r.error) return alert(r.error.message); j.status=ns; cl.textContent=ns==='closed'?'reopen':'close it'; }); };
+ } else if(user && pro!==false){
+  var rb=el('button','btn','I\'m in'); rb.type='button'; acts.appendChild(rb);
+  rb.onclick=function(){ acts.hidden=true; replyForm(j,b); };
+ }
+ a.appendChild(w); a.appendChild(b); return a;
+}
+function replyForm(j,box){
+ var f=el('form','reply'), ta=el('textarea'); ta.maxLength=1000; ta.required=true; ta.placeholder='a short hello. why you, and are you free on those dates?';
+ var row=el('div','acts'), go=el('button','btn','send'), m=el('span','cap'); m.setAttribute('role','status');
+ row.appendChild(go); row.appendChild(m); f.appendChild(ta);
+ f.appendChild(el('p','cap','your name, what you do, your link page and email go with it, so they can reach you.')); f.appendChild(row); box.appendChild(f); ta.focus();
+ f.onsubmit=function(e){ e.preventDefault(); if(ta.value.trim().length<2) return; go.disabled=true; m.textContent='sending…';
+  sb.from('job_replies').insert({job_id:j.id, message:ta.value.replace(/[<>]/g,'').trim(), name:me.name||null, role:me.role||null, handle:me.handle||null, email:user.email||null}).then(function(r){
+   go.disabled=false;
+   if(r.error){ m.textContent=/duplicate|unique/i.test(r.error.message)?'you already replied to this one.':(/row-level|policy/i.test(r.error.message)?'only approved professionals can reply.':'that did not work: '+r.error.message); return; }
+   f.innerHTML=''; f.appendChild(el('p','cap','sent. they see your reply on this page.')); });
+ };
+}
+function replies(j,box){
+ var R=el('div','reps'); box.appendChild(R); R.appendChild(el('p','cap','loading…'));
+ sb.from('job_replies').select('*').eq('job_id',j.id).order('created_at',{ascending:true}).then(function(r){
+  R.innerHTML='';
+  if(r.error){ R.appendChild(el('p','cap','could not load the replies.')); return; }
+  if(!r.data.length){ R.appendChild(el('p','cap','no replies yet.')); return; }
+  r.data.forEach(function(x){ var d=el('div','rep'), top=el('div','cap',[x.name,x.role].filter(Boolean).join(' · '));
+   if(x.handle){ top.appendChild(document.createTextNode(' · ')); var h=el('a',null,'@'+x.handle); h.href='/@'+x.handle; h.target='_blank'; top.appendChild(h); }
+   if(x.email&&/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(x.email)){ top.appendChild(document.createTextNode(' · ')); var em=el('a',null,'email'); em.href='mailto:'+x.email; top.appendChild(em); }
+   d.appendChild(top); d.appendChild(el('p',null,x.message)); R.appendChild(d); });
+ });
+}
+function start(rows){
+ demo=!rows||!rows.length; all=demo?EX:rows;
+ opts('f-role','role_needed'); opts('f-city','city'); render();
+}
+['q','f-role','f-city'].forEach(function(id){ $(id).addEventListener('input',render); });
+
+/* post a job */
+$('post-open').onclick=function(){ $('post').hidden=false; $('post-open').hidden=true; $('p-role').focus(); };
+$('post-x').onclick=function(){ $('post').hidden=true; $('post-open').hidden=false; };
+$('post').onsubmit=function(e){ e.preventDefault(); var m=$('p-msg'), b=this.querySelector('button.btn');
+ var g=function(id){ return $(id).value.replace(/[<>]/g,'').trim(); };
+ var mood=g('p-mood'); if(mood && !/^https?:\/\//.test(mood)) mood='https://'+mood;
+ var row={role_needed:g('p-role').toLowerCase(), title:g('p-title'), city:g('p-city'), date_from:$('p-from').value, date_to:$('p-to').value||null, style:g('p-style')||null, moodboard_url:mood||null, fee_text:g('p-fee')||null, poster_name:me.name||null, poster_role:me.role||null, poster_handle:me.handle||null};
+ if(row.date_to && row.date_to<row.date_from){ m.textContent='the end date is before the start.'; return; }
+ b.disabled=true; m.textContent='posting…';
+ sb.from('jobs').insert(row).select('*').single().then(function(r){ b.disabled=false;
+  if(r.error){ m.textContent=/row-level|policy/i.test(r.error.message)?'only approved professionals can post jobs.':'that did not work: '+r.error.message; return; }
+  $('post').reset(); $('post').hidden=true; $('post-open').hidden=false; m.textContent='';
+  if(demo){ all=[]; demo=false; } all.unshift(r.data); opts('f-role','role_needed'); opts('f-city','city'); note(''); render(); });
+};
+
+if(!D){ note('these are made-up examples, to show how jobs will look.'); start(null); return; }
+D.user().then(function(u){
+ user=u;
+ if(!u){ note('these are made-up examples. <a href="account.html">log in</a> to see real jobs from working creatives.'); start(null); return; }
+ var m=u.user_metadata||{}; me={name:m.name||'', role:m.role||''};
+ return Promise.all([
+  sb.rpc('is_pro').then(function(r){ pro=r.error?null:!!r.data; }, function(){ pro=null; }),
+  sb.from('link_pages').select('handle,published').eq('user_id',u.id).maybeSingle().then(function(r){ if(r.data&&r.data.published) me.handle=r.data.handle; }, function(){}),
+  sb.from('jobs').select('*').gte('date_from',new Date(Date.now()-864e5).toISOString().slice(0,10)).order('date_from',{ascending:true}).limit(300).then(function(r){ return r; }, function(){ return {error:true}; })
+ ]).then(function(res){
+  var r=res[2];
+  if(pro){ $('post-open').hidden=false; }
+  var empty=r.error||!r.data||!r.data.length;
+  if(empty) note(pro?'no jobs yet, so these are made-up examples. post the first real one.':(pro===false?'these are made-up examples. only working professionals post and reply. <a href="account.html#join">ask to join as a professional</a>.':'these are made-up examples, to show how jobs will look.'));
+  else if(pro===false) note('only working professionals post and reply. <a href="account.html#join">ask to join as a professional</a>.');
+  start(r.error?null:r.data);
+ });
+});
+})();
+</script>
+<script src="assets/nav.js"></script>
+</body>
+</html>

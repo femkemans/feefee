@@ -260,7 +260,7 @@ footer a{color:var(--muted);text-decoration:none}
 (function(){
 var D=window.ffDesk, sb=D&&D.sb;
 var TOPICS=['rates','usage','quotes & invoices','contracts','getting paid','clients','starting out'];
-var state={topic:'',role:'',q:'',user:null,member:false,counts:{}};
+var state={topic:'',role:'',q:'',user:null,member:false,pro:null,counts:{}};
 var $=function(id){return document.getElementById(id)};
 function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
 function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
@@ -353,13 +353,15 @@ function members(slug, box){
  who.appendChild(nm); who.appendChild(rl);
  var btn=el('button','btn','post my answer'), m=el('p','cap msg'); btn.style.alignSelf='flex-start';
  f.appendChild(ta); f.appendChild(who); f.appendChild(btn); f.appendChild(m);
- f.onsubmit=function(e){ e.preventDefault(); btn.disabled=true; m.textContent='';
-  try{ localStorage.setItem('ff-name',nm.value.trim()); localStorage.setItem('ff-role',rl.value.trim()); }catch(e){}
+ f.onsubmit=function(e){ e.preventDefault(); m.textContent='';
   if(nm.value.trim().length<2){ nm.focus(); return; }
+  btn.disabled=true;
+  try{ localStorage.setItem('ff-name',nm.value.trim()); localStorage.setItem('ff-role',rl.value.trim()); }catch(e){}
   sb.from('answers').insert({question_slug:slug, body:ta.value.trim(), display_name:nm.value.trim()||null, role:rl.value.trim()||null}).then(function(r){
    btn.disabled=false; if(r.error){ m.textContent='couldn’t post: '+r.error.message; return; }
    state.counts[slug]=(state.counts[slug]||0)+1; paintCounts(); box.innerHTML=''; box.appendChild(el('hr')); members(slug, box); });
  };
+ if(state.pro===false){ var np=el('p','cap'); np.innerHTML='answers come from working professionals. learning? you can read everything. <a href="account.html#join">work as a creative? ask to join as a professional</a>.'; box.appendChild(np); return; }
  box.appendChild(f);
 }
 
@@ -387,7 +389,9 @@ function loginTop(){ var c=cards().filter(function(x){return !x.hidden;})[0]; if
 function load(){
  if(!sb) return Promise.resolve();
  var p1=D.user().then(function(u){ state.user=u; if(!u){ if(window.ffNav) ffNav.set(false); return; } if(window.ffNav) ffNav.set(true);
-   state.member=true; });
+   state.member=true;
+   /* only approved professionals answer. if the check isn't set up yet, leave the form open */
+   return sb.rpc('is_pro').then(function(r){ state.pro=r.error?null:!!r.data; }, function(){ state.pro=null; }); });
  var p2=sb.from('questions').select('slug,title,body,topic,role,display_name,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(r){
    if(r.error||!r.data) return; var L=$('list'), first=L.firstElementChild;
    r.data.forEach(function(q){ if(!document.getElementById('q-'+q.slug)) L.insertBefore(card(q), first); }); });

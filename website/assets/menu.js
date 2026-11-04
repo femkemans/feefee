@@ -15,6 +15,7 @@
       ['usage, decoded', '/usage.html'],
       ['the small print', ''],
       ['ask first', ''],
+      ['when a shoot grows', '/shootgrows.html'],
       ['notes', ''],
       ['call sheet', '/callsheet.html'],
       ['quote and invoice', '/quote.html', 1],
@@ -23,6 +24,7 @@
     ['The crew', [
       ['ask anything', '/questions.html'],
       ['the crew list', '/people.html'],
+      ['jobs', '/jobs.html'],
       ['coffee with femke', '/call.html', 1],
       ['after wrap', '']
     ]],
