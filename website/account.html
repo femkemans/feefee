@@ -176,7 +176,19 @@ document.getElementById('lf').onsubmit=function(e){ e.preventDefault(); D.sendLi
 document.getElementById('out').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
 function fillProfile(user){
  var m=user.user_metadata||{}, F={name:'p-name',role:'p-role',city:'p-city',instagram:'p-ig',bio:'p-bio',website:'p-web'};
- Object.keys(F).forEach(function(k){ document.getElementById(F[k]).value=m[k]||''; });
+ /* prefill empty fields with what they already told us: the waitlist sign-up on this device, and their quote/invoice details */
+ var g={}, ds=m.desk||{}, lc={};
+ try{ g=JSON.parse(localStorage.getItem('ff-signup')||'{}')||{}; }catch(e){}
+ try{ lc=JSON.parse(localStorage.getItem('ff-me')||'{}')||{}; }catch(e){}
+ if(g.email && user.email && g.email.toLowerCase()!==user.email.toLowerCase()) g={};
+ function pick(){ for(var i=0;i<arguments.length;i++){ var v=arguments[i]; if(v && String(v).trim()) return String(v).trim(); } return ''; }
+ var ls=function(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } };
+ var fb={ name:pick(g.name, ds.me, lc.me, ls('ff-name')), role:pick(g.role, ds.role, lc.role, ls('ff-role')), city:pick(g.city),
+          instagram:pick(ds.ig, lc.ig), bio:'', website:'' };
+ var used=false;
+ Object.keys(F).forEach(function(k){ var v=m[k]||''; if(!v && fb[k]){ v=fb[k]; used=true; } document.getElementById(F[k]).value=v; });
+ if(used && !m.name){ document.getElementById('p-msg').textContent='filled in from your sign-up. change anything, then save.';
+  var nm0=(fb.name||'').split(' ')[0]; if(nm0) document.getElementById('hi').textContent='Hi '+nm0+'.'; }
  document.getElementById('pf').onsubmit=function(e){ e.preventDefault(); var b=this.querySelector('button'), msg=document.getElementById('p-msg'), d={};
   Object.keys(F).forEach(function(k){ d[k]=document.getElementById(F[k]).value.replace(/[<>]/g,'').trim(); });
   if(d.instagram) d.instagram='@'+d.instagram.replace(/^(https?:\/\/)?(www\.)?instagram\.com\//i,'').replace(/^@+/,'').replace(/[\/?#].*$/,'');

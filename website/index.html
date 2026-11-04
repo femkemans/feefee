@@ -628,6 +628,7 @@ function freeCode(done, tries){
 function send(f, btn){
     var data = new FormData(f);
     if (f.id==='waitlist') { data.delete('roles'); data.append('roles', picked().join(', ')); }
+    if (f.id==='waitlist') { try{ storeSet('ff-signup', JSON.stringify({name:(data.get('name')||'').trim(), role:picked().join(', '), city:(data.get('city')||'').trim(), email:(data.get('email')||'').trim()})); }catch(e){} }
     data.append('language', lang);
     data.append('form', f.id==='waitlist' ? 'page' : 'hero');
     data.append('code', myCode());
