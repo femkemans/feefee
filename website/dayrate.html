@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<script src="assets/me.js"></script>
 <link rel="stylesheet" href="assets/nav.css">
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
@@ -108,6 +109,7 @@ select:focus{box-shadow:0 0 0 2px var(--blue)}
 var KEY='ff-dayrate', f=document.getElementById('f'), S={};
 try{ S=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){}
 var D={cur:'€',live:2500,save:300,costs:600,tax:35,off:7,days:2.5};
+var P=(window.ffMe&&ffMe())||{}; if(!S.cur && P.cur && ['€','$','£','CHF','kr'].indexOf(P.cur)>-1){ S.cur=P.cur; }
 function num(n){ var v=parseFloat(String(S[n]==null||S[n]===''?'':S[n]).replace(',','.')); return isNaN(v)?D[n]:v; }
 function money(x){ return S.cur_+' '+Math.round(x).toLocaleString('en-GB'); }
 Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){
