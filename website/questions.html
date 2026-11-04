@@ -35,13 +35,11 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 header .logo{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;font-size:26px;text-decoration:none}
 header nav{display:flex;align-items:center;gap:18px}
 header nav a,header nav button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:none;border:0;cursor:pointer;color:var(--ink);padding:4px 0}
-header nav .acct{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
-header nav .acct .cap{font-size:10px;line-height:1.4;margin-top:2px}
 header nav .join{background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 18px}
 
 .hero{max-width:1180px;margin:0 auto;padding:56px 34px 30px}
 .hero h1{font-style:italic;font-weight:400;font-size:clamp(60px,8vw,128px);line-height:.88;letter-spacing:-.02em;margin:18px 0 0}
-.hero .lead{font-size:23px;line-height:1.45;margin:26px 0 0;max-width:600px}
+.hero .lead{font-size:23px;line-height:1.6;margin:26px 0 0;max-width:600px}
 .hero .hand{font-family:var(--hand);color:#2A45C9;font-size:21px;line-height:1.3;margin:18px 0 0;transform:rotate(-2deg);transform-origin:left}
 
 .tools{position:sticky;top:0;z-index:10;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;border-bottom:1px solid #E6E8E3}
@@ -63,14 +61,14 @@ select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-i
 .toolrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .toolrow select.field{width:auto;min-width:200px;height:38px;font-size:12px;padding-right:44px;background-position:calc(100% - 24px) 16px,calc(100% - 18px) 16px}
 
-.layout{max-width:1180px;margin:0 auto;padding:34px 34px 100px;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:56px;align-items:start}
+.layout{max-width:1180px;margin:0 auto;padding:34px 34px 100px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:56px;align-items:start}
 .list{display:flex;flex-direction:column;gap:18px}
 .q{background:var(--paper);border-radius:12px;box-shadow:0 1px 0 rgba(28,30,26,.04),0 18px 40px rgba(28,30,26,.07);scroll-margin-top:170px}
 .q-head{display:block;width:100%;text-align:left;background:none;border:0;padding:26px 30px 22px;cursor:pointer;color:inherit;font:inherit}
 .q-head:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:12px}
 .q-who{margin:0 0 8px}
-.q-title{margin:0;font-style:italic;font-weight:500;font-size:clamp(24px,2.4vw,31px);line-height:1.15}
-.q-body{margin:10px 0 0;font-size:19px;line-height:1.45;color:var(--muted)}
+.q-title{margin:0;font-style:italic;font-weight:500;font-size:clamp(24px,2.4vw,31px);line-height:1.2;max-width:30ch}
+.q-body{margin:12px 0 0;font-size:20px;line-height:1.6;color:var(--muted);max-width:58ch}
 .q-foot{display:flex;align-items:center;gap:14px;margin-top:16px}
 .q-foot .n{display:inline-flex;align-items:center;gap:8px}
 .q-foot .n::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue)}
@@ -89,7 +87,7 @@ select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-i
 
 .ans{display:flex;gap:14px;margin:0 0 20px}
 .av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:lowercase}
-.ans p{margin:4px 0 0;font-family:var(--hand);color:#2A45C9;font-size:18px;line-height:1.5;white-space:pre-line}
+.ans p{margin:4px 0 0;font-size:20px;line-height:1.6;color:var(--ink);max-width:58ch;white-space:pre-line}
 .reply{display:flex;flex-direction:column;gap:10px;margin-top:8px}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 24px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;cursor:pointer;text-decoration:none;transition:opacity .2s;white-space:nowrap}
@@ -98,13 +96,13 @@ select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-i
 .btn.soft{background:var(--celadon);color:var(--ink)}
 .empty{padding:40px 0;font-size:22px;font-style:italic;color:var(--muted)}
 
-aside{position:sticky;top:180px;display:flex;flex-direction:column;gap:18px}
+aside{order:-1;position:sticky;top:180px;display:flex;flex-direction:column;gap:18px}
 .card{border-radius:12px;padding:28px 28px 26px}
 .card h2{margin:6px 0 10px;font-style:italic;font-weight:500;font-size:34px;line-height:1}
-.card p{margin:0 0 14px;font-size:19px;line-height:1.45}
+.card p{margin:0 0 14px;font-size:20px;line-height:1.6}
 .card form{display:flex;flex-direction:column;gap:10px}
 .card .field{background:var(--paper)}
-.label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:6px 0 -2px}
+.label{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink);margin:10px 0 0}
 .sticky{background:var(--butter);padding:20px 22px;transform:rotate(-1.2deg);box-shadow:0 18px 30px -18px rgba(28,30,26,.35)}
 .sticky p{margin:0;font-family:var(--hand);font-size:19px;line-height:1.5;color:#2A45C9}
 .msg{margin:2px 0 0;min-height:1.4em}
@@ -114,7 +112,7 @@ footer a{color:var(--muted);text-decoration:none}
 
 @media (max-width:900px){
  .layout{grid-template-columns:1fr;gap:40px}
- aside{position:static}
+ aside{position:static;order:0}
 }
 @media (max-width:600px){
  header{padding:18px 16px}
@@ -137,7 +135,7 @@ footer a{color:var(--muted);text-decoration:none}
 <nav>
 <a class="hide-sm" href="index.html#solution">about</a>
 <button type="button" id="login-top">log in</button>
-<span class="acct" id="acct" hidden><button type="button" id="logout">log out</button><span class="cap" id="who"></span></span>
+<a id="desk-top" href="account.html" hidden>your desk</a>
 <a class="join" id="join-top" href="index.html#join">join</a>
 </nav>
 </header>
@@ -204,13 +202,13 @@ footer a{color:var(--muted);text-decoration:none}
 <form id="ask-form">
 <label class="label" for="a-title">your question</label>
 <input class="field" id="a-title" maxlength="200" required placeholder="e.g. how much do I charge for a lookbook?">
-<label class="label" for="a-body">a bit more context <span style="font-weight:400;letter-spacing:.08em">(optional)</span></label>
+<label class="label" for="a-body">a bit more context <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
 <textarea class="field" id="a-body" maxlength="2000" placeholder="the job, the client, what they offered"></textarea>
 <label class="label" for="a-topic">topic</label>
 <select class="field" id="a-topic"></select>
 <label class="label" for="a-role">what you do</label>
 <input class="field" id="a-role" maxlength="60" placeholder="e.g. stylist">
-<label class="label" for="a-name">your name <span style="font-weight:400;letter-spacing:.08em">(optional, leave empty to stay anonymous)</span></label>
+<label class="label" for="a-name">your name <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
 <input class="field" id="a-name" maxlength="60" autocomplete="name" placeholder="anonymous">
 <input type="text" id="a-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <button class="btn" style="margin-top:8px;height:52px">send my question</button>
@@ -378,11 +376,10 @@ $('ask-form').onsubmit=function(e){
 
 /* ---------- account ---------- */
 $('login-top').onclick=function(){ var c=cards().filter(function(x){return !x.hidden;})[0]; if(c){ if(!c.classList.contains('on')) open(c,true); var b=c.querySelector('.js-login'); if(b) b.click(); else c.scrollIntoView({behavior:'smooth'}); } };
-$('logout').onclick=function(){ D.logout().then(function(){ location.reload(); }); };
 
 function load(){
  if(!sb) return Promise.resolve();
- var p1=D.user().then(function(u){ state.user=u; if(!u) return; $('who').textContent=u.email; $('acct').hidden=false; $('login-top').hidden=true; $('join-top').hidden=true;
+ var p1=D.user().then(function(u){ state.user=u; if(!u) return; $('desk-top').hidden=false; $('login-top').hidden=true; $('join-top').hidden=true;
    state.member=true; });
  var p2=sb.from('questions').select('slug,title,body,topic,role,display_name,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(r){
    if(r.error||!r.data) return; var L=$('list'), first=L.firstElementChild;
