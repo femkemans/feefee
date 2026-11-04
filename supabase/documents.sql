@@ -38,11 +38,12 @@ drop policy if exists "own documents: read"   on public.documents;
 drop policy if exists "own documents: add"    on public.documents;
 drop policy if exists "own documents: change" on public.documents;
 drop policy if exists "own documents: delete" on public.documents;
+drop policy if exists "own documents: remove" on public.documents;
 
 create policy "own documents: read"   on public.documents for select to authenticated using (user_id = auth.uid());
 create policy "own documents: add"    on public.documents for insert to authenticated with check (user_id = auth.uid());
 create policy "own documents: change" on public.documents for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
-create policy "own documents: delete" on public.documents for delete to authenticated using (user_id = auth.uid());
+create policy "own documents: remove" on public.documents for delete to authenticated using (user_id = auth.uid());
 
 -- table rights (this project does not grant them by default; the policies above still decide which rows)
 revoke all on public.documents from anon;
