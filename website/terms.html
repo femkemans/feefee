@@ -79,6 +79,16 @@ textarea{min-height:120px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Ge
  .stage{position:static;height:auto;overflow:visible;padding:0}
  .paper{box-shadow:none;max-width:none;padding:0}
 }
+
+/* calm, even form blocks */
+legend.mono{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:26px;font-weight:400;letter-spacing:0;text-transform:none}
+legend.mono::first-letter{text-transform:uppercase}
+
+input:not([type=checkbox]):not([type=radio]):not([type=range]),select{height:46px;line-height:1.2}
+input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;min-width:0;display:block}
+input::-webkit-date-and-time-value{text-align:left}
+.grid2>label>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid2{align-items:end}
 </style>
 </head>
 <body>
@@ -96,7 +106,7 @@ textarea{min-height:120px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Ge
 
 <fieldset><legend class="mono">you</legend>
 <div class="grid2">
-<label><span>your name</span><input name="name" autocomplete="name" placeholder="Femke Juffermans"></label>
+<label><span>your name</span><input name="name" autocomplete="name" placeholder="first and last name"></label>
 <label><span>what you do</span><input name="role" placeholder="photographer"></label>
 <label class="full"><span>business name, if you have one</span><input name="biz" autocomplete="organization" placeholder="optional"></label>
 <label><span>email</span><input name="email" type="email" autocomplete="email" placeholder="you@studio.com"></label>

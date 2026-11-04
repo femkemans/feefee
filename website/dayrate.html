@@ -21,16 +21,16 @@ h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:
 fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 30px;padding:18px 0 0;min-width:0}
 legend{padding:0 10px 0 0;font-style:italic;font-size:26px}
 label{display:block;margin-bottom:14px}
-label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+label span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
 label small{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}
 .in{display:flex;align-items:center;background:var(--paper);border:1px solid var(--ink)}
 .in:focus-within{box-shadow:0 0 0 2px var(--blue)}
 .in b{font:400 15px 'Space Mono',monospace;padding:0 0 0 12px;color:var(--muted)}
 .in i{font:400 12px 'Space Mono',monospace;font-style:normal;padding:0 12px 0 0;color:var(--muted);white-space:nowrap}
-input,select{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:transparent;border:0;border-radius:0;padding:10px 12px;outline:none}
-select{background:var(--paper);border:1px solid var(--ink)}
+input,select{height:44px;width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:transparent;border:0;border-radius:0;padding:10px 12px;outline:none}
+select{height:46px;background:var(--paper);border:1px solid var(--ink)}
 select:focus{box-shadow:0 0 0 2px var(--blue)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:end}
 .main{padding:64px clamp(20px,5vw,80px) 80px;position:sticky;top:var(--ffh-h,70px)}
 .res{max-width:560px}
 .hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;margin:0 0 4px}
