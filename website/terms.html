@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" data-gate-title="Log in to make your terms." data-gate-text="terms and conditions are for members.">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>your terms – fee fee.</title>
+<meta name="description" content="Terms and conditions for freelance creatives: payment, usage, cancellation, feedback rounds, kill fee. In your own words, as a pdf or a link.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/terms.css">
+<script>document.documentElement.classList.add('ffg')</script>
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+[hidden]{display:none!important}
+.mono{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:100vh}
+.side h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:14px 0 18px}
+.lead{font-size:20px;line-height:1.55;margin:0 0 18px;max-width:30em}
+.legal{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 34px;max-width:36em}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 34px;padding:18px 0 0;min-width:0}
+legend{padding:0 10px 0 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.full{grid-column:1/-1}
+label{display:block}
+label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+input,select,textarea{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
+textarea{min-height:120px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Georgia,serif}
+.hint{font-family:'Space Mono',monospace;font-size:12px;line-height:1.65;color:var(--muted);margin:10px 0 0}
+.cl{border-bottom:1px solid rgba(28,30,26,.18);padding:14px 0}
+.cl:first-of-type{padding-top:4px}
+.cl-top{display:flex;align-items:center;gap:12px}
+.cl-top label{display:flex;align-items:center;gap:12px;cursor:pointer;flex:1;min-width:0}
+.cl-top input{width:18px;height:18px;margin:0;accent-color:var(--ink);flex:none}
+.cl-top label .cl-h{display:block;margin:0;font:italic 500 21px/1.2 'Cormorant Garamond',Georgia,serif;color:var(--ink)}
+.cl.off .cl-h{color:var(--soft);text-decoration:line-through;text-decoration-thickness:1px}
+.cl.off .cl-body{display:none}
+.cl-body{padding:10px 0 0 30px}
+.cl-body .grid2{margin-bottom:8px;align-items:end}
+.cl-body input{padding:8px 10px}
+.link{background:none;border:0;padding:0;font:12px 'Space Mono',monospace;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.link + .link{margin-left:16px}
+.own{background:var(--paper);padding:16px;margin:0 0 12px}
+.own input{margin-bottom:8px;font:italic 19px 'Cormorant Garamond',Georgia,serif}
+.own textarea{min-height:90px}
+.add{background:none;border:1px dashed var(--ink);font:12px 'Space Mono',monospace;padding:11px 14px;cursor:pointer;width:100%;color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:var(--paper);border:0;font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:18px 26px;cursor:pointer;width:100%;text-decoration:none}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-top:10px}
+.share{display:flex;gap:12px;align-items:flex-start;margin:22px 0 0;cursor:pointer}
+.share input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--ink);flex:none}
+.share span{margin:0;color:var(--ink)}
+.share b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.2}
+.share small{display:block;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;color:var(--muted);margin-top:4px}
+.url{display:flex;gap:8px;margin-top:12px}
+.url input{flex:1;font-size:13px;background:#fff}
+.url button{flex:none;width:auto;padding:0 18px;margin:0}
+.stage{position:sticky;top:var(--ffh-h,70px);height:calc(100vh - var(--ffh-h,70px));overflow:auto;padding:48px clamp(20px,4vw,64px) 80px}
+.paper{background:#fff;max-width:760px;margin:0 auto;box-shadow:0 30px 60px -30px rgba(28,30,26,.35),0 2px 6px rgba(28,30,26,.06);padding:56px 60px 34px}
+@media (max-width:900px){
+ .wrap{grid-template-columns:1fr}
+ .side{min-height:0}
+ .stage{position:static;height:auto;overflow:visible;padding:32px 12px 60px}
+ .paper{padding:30px 24px 24px}
+}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}.cl-body .grid2{grid-template-columns:1fr 1fr}.cl-body{padding-left:0}}
+@page{size:A4;margin:16mm 17mm 14mm}
+@media print{
+ body{background:#fff}
+ .side,.ffh{display:none!important}
+ .wrap{display:block}
+ .stage{position:static;height:auto;overflow:visible;padding:0}
+ .paper{box-shadow:none;max-width:none;padding:0}
+}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<div class="wrap">
+<form class="side" id="f" autocomplete="on" onsubmit="return false">
+<h1>Your terms.</h1>
+<p class="lead">the small print, in your own words. fill in your numbers, switch off what you don’t need and add your own. then send it as a pdf, as a link, or with your quote or invoice.</p>
+<p class="legal">a template made with creatives, not legal advice. for a big job or a tricky client, ask a lawyer to check it.</p>
+
+<fieldset><legend class="mono">you</legend>
+<div class="grid2">
+<label><span>your name</span><input name="name" autocomplete="name" placeholder="Femke Juffermans"></label>
+<label><span>what you do</span><input name="role" placeholder="photographer"></label>
+<label class="full"><span>business name, if you have one</span><input name="biz" autocomplete="organization" placeholder="optional"></label>
+<label><span>email</span><input name="email" type="email" autocomplete="email" placeholder="you@studio.com"></label>
+<label><span>website</span><input name="web" placeholder="yourname.com"></label>
+<label class="full"><span>address</span><input name="addr" placeholder="street 1, 1000 AA Amsterdam"></label>
+<label><span>chamber of commerce</span><input name="coc" placeholder="optional"></label>
+<label><span>vat number</span><input name="vat" placeholder="optional"></label>
+<label><span>instagram, for your credit</span><input name="ig" placeholder="@yourname"></label>
+<label><span>currency</span><select name="cur"><option value="€">€ euro</option><option value="$">$ dollar</option><option value="£">£ pound</option></select></label>
+<label><span>the law of</span><input name="country" placeholder="the Netherlands"></label>
+<label><span>court near</span><input name="city" placeholder="Amsterdam"></label>
+</div>
+<p class="hint" id="fromdesk">filled in from your desk. changes here only change your terms.</p>
+</fieldset>
+
+<fieldset><legend class="mono">the clauses</legend>
+<p class="hint" style="margin:0 0 6px">untick what you don’t need. you can change the wording of any clause.</p>
+<div id="clauses"></div>
+</fieldset>
+
+<fieldset><legend class="mono">your own</legend>
+<div id="own"></div>
+<button type="button" class="add" id="addown">+ add a clause</button>
+<p class="hint">for example: hair and make-up, models, catering, studio hire, or how you work with second shooters.</p>
+</fieldset>
+
+<fieldset><legend class="mono">send it</legend>
+<button type="button" class="btn" id="dl">download pdf</button>
+<a class="btn soft" href="quote.html">add them to a quote or invoice</a>
+<label class="share"><input type="checkbox" id="pub"><span><b>Share as a link.</b><small>anyone with the link can read your terms. good for an email, or your email signature.</small></span></label>
+<div id="linkbox" hidden>
+<div class="url"><input id="url" readonly aria-label="your link"><button type="button" class="btn" id="copy">copy</button></div>
+</div>
+<p class="hint" id="savemsg" role="status"></p>
+</fieldset>
+</form>
+
+<div class="stage">
+<article class="paper tc" id="doc"></article>
+</div>
+</div>
+
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script src="assets/vat.js"></script>
+<script src="assets/terms.js"></script>
+<script>
+(function(){
+var T=window.ffTerms, D=window.ffDesk, f=document.getElementById('f'), S=T.blank(), META={}, CLOUD=false, timer=null, ready=false;
+var ME=['name','role','biz','email','web','addr','coc','vat','ig','cur','country','city'];
+function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function msg(t){ document.getElementById('savemsg').textContent=t; }
+
+/* the clause list on the left: tick, title, its numbers, change the wording */
+function drawClauses(){
+ var box=document.getElementById('clauses'); box.innerHTML='';
+ T.CLAUSES.forEach(function(c){
+  var w=el('div','cl'+(S.off[c.id]?' off':'')), top=el('div','cl-top'), lb=el('label'), cb=el('input');
+  cb.type='checkbox'; cb.checked=!S.off[c.id];
+  cb.onchange=function(){ if(cb.checked) delete S.off[c.id]; else S.off[c.id]=1; w.classList.toggle('off',!cb.checked); changed(); };
+  lb.appendChild(cb); lb.appendChild(el('span','cl-h',c.h)); top.appendChild(lb); w.appendChild(top);
+  var body=el('div','cl-body');
+  if(c.f.length){
+   var g=el('div','grid2');
+   c.f.forEach(function(k){ var l=el('label'), i=el('input'); l.appendChild(el('span',null,T.VARS[k][0]));
+    i.type='number'; i.min='0'; i.inputMode='decimal'; i.value=S.v[k]!=null?S.v[k]:T.VARS[k][1];
+    i.oninput=function(){ S.v[k]=i.value===''?'':+i.value; changed(); }; l.appendChild(i); g.appendChild(l); });
+   body.appendChild(g);
+  }
+  var ta=el('textarea'); ta.setAttribute('aria-label','wording: '+c.h);
+  var edit=el('button','link',S.txt[c.id]?'hide the wording':'change the wording'); edit.type='button';
+  var back=el('button','link','back to the template'); back.type='button'; back.hidden=!S.txt[c.id];
+  ta.hidden=!S.txt[c.id]; ta.value=S.txt[c.id]||'';
+  edit.onclick=function(){ var open=ta.hidden; ta.hidden=!open; edit.textContent=open?'hide the wording':'change the wording';
+   if(open){ if(!ta.value) ta.value=c.t(S.v,S.me); ta.focus(); } };
+  ta.oninput=function(){ S.txt[c.id]=ta.value; back.hidden=false; nums(); changed(); };
+  back.onclick=function(){ delete S.txt[c.id]; ta.value=c.t(S.v,S.me); back.hidden=true; nums(); changed(); };
+  body.appendChild(edit); body.appendChild(back); body.appendChild(ta);
+  var g2=body.querySelector('.grid2'); function nums(){ if(g2) g2.hidden=!!S.txt[c.id]; } nums();
+  w.appendChild(body); box.appendChild(w);
+ });
+}
+function drawOwn(){
+ var box=document.getElementById('own'); box.innerHTML='';
+ S.own.forEach(function(o,ix){
+  var w=el('div','own'), h=el('input'), b=el('textarea'), x=el('button','link','remove');
+  h.placeholder='title, e.g. hair and make-up'; h.value=o.h||''; h.setAttribute('aria-label','title of your clause');
+  b.placeholder='what you want to say, in your own words'; b.value=o.b||''; b.setAttribute('aria-label','your clause');
+  h.oninput=function(){ o.h=h.value; changed(); }; b.oninput=function(){ o.b=b.value; changed(); };
+  x.type='button'; x.onclick=function(){ if((o.h||o.b) && !confirm('remove this clause?')) return; S.own.splice(ix,1); drawOwn(); changed(); };
+  w.appendChild(h); w.appendChild(b); w.appendChild(x); box.appendChild(w);
+ });
+}
+document.getElementById('addown').onclick=function(){ S.own.push({id:'own'+Date.now(),h:'',b:''}); drawOwn(); changed(); var i=document.querySelectorAll('#own .own input'); i[i.length-1].focus(); };
+
+function readMe(){ ME.forEach(function(k){ S.me[k]=(f.elements[k].value||'').trim(); }); }
+function draw(){ T.render(document.getElementById('doc'), S); }
+function changed(){ if(!ready) return; readMe(); draw(); clearTimeout(timer); msg('saving…'); timer=setTimeout(store,1200); }
+f.addEventListener('input',function(e){ if(ME.indexOf(e.target.name)>=0) changed(); });
+f.addEventListener('change',function(e){ if(ME.indexOf(e.target.name)>=0) changed(); });
+
+function showLink(){
+ var on=!!META.published && !!META.slug;
+ document.getElementById('pub').checked=on; document.getElementById('linkbox').hidden=!on;
+ if(META.slug) document.getElementById('url').value='https://'+T.link(META.slug);
+}
+function store(){
+ return T.save(S,META).then(function(r){
+  if(!r.cloud){ CLOUD=false; msg('saved on this device. it moves to your desk once terms are switched on there.'); document.getElementById('pub').disabled=true; return; }
+  CLOUD=true; META.slug=r.slug; META.published=r.published; showLink(); msg('saved on your desk ✓');
+ });
+}
+document.getElementById('pub').onchange=function(){ META.published=this.checked; msg('saving…'); store(); };
+document.getElementById('copy').onclick=function(){ var u=document.getElementById('url'), b=this;
+ (navigator.clipboard?navigator.clipboard.writeText(u.value):Promise.reject()).catch(function(){ u.select(); document.execCommand('copy'); }).then(function(){ b.textContent='copied'; setTimeout(function(){ b.textContent='copy'; },1600); }); };
+document.getElementById('dl').onclick=function(){ var t=document.title; document.title=('terms and conditions '+(S.me.biz||S.me.name||'')).trim(); window.print(); setTimeout(function(){ document.title=t; },500); };
+
+/* "the Netherlands", not "Netherlands" */
+var THE={NL:1,GB:1,US:1,CZ:0};
+function countryName(code){ var x=window.ffVat&&ffVat.country(code); if(!x||code==='OT') return ''; return (THE[code]?'the ':'')+x[0]; }
+function defaults(user){
+ var m=(user&&user.user_metadata)||{}, d=m.desk||{}, lc={}; try{ lc=JSON.parse(localStorage.getItem('ff-me')||'{}')||{}; }catch(e){}
+ function pick(){ for(var i=0;i<arguments.length;i++){ var v=arguments[i]; if(v&&String(v).trim()) return String(v).trim(); } return ''; }
+ return { name:pick(m.name,d.me,lc.me), role:pick(m.role,d.role,lc.role), biz:'', email:pick(d.email,lc.email,user&&user.email),
+  web:pick(m.website,'').replace(/^https?:\/\//,'').replace(/\/$/,''), addr:pick(d.addr,lc.addr), coc:pick(d.coc,lc.coc), vat:pick(d.vat,lc.vat),
+  ig:pick(m.instagram,d.ig,lc.ig), cur:pick(d.cur,lc.cur,'€'), country:countryName(pick(d.mycountry,lc.mycountry)), city:pick(m.city,'').split(',')[0].trim() };
+}
+var started=false;
+function start(user){
+ if(started) return; started=true;
+ T.load().then(function(r){
+  if(r.state){ var b=T.blank(); S=r.state; ['v','me','off','txt'].forEach(function(k){ S[k]=Object.assign({},b[k],S[k]||{}); }); S.own=S.own||[]; }
+  CLOUD=r.cloud; META={slug:r.slug,published:r.published};
+  var df=defaults(user), filled=false;
+  ME.forEach(function(k){ var v=S.me[k]; if(v==null||v===''){ v=df[k]||''; if(v) filled=true; } f.elements[k].value=v; });
+  document.getElementById('fromdesk').hidden=!filled;
+  readMe(); drawClauses(); drawOwn(); draw(); showLink();
+  if(!CLOUD){ document.getElementById('pub').disabled=true; msg('saved on this device only for now.'); }
+  ready=true;
+ });
+}
+if(D){ D.user().then(function(u){ if(u) start(u); }); D.sb.auth.onAuthStateChange(function(ev,s){ if(ev==='SIGNED_IN'&&s&&!ready) start(s.user); }); }
+else { readMe(); drawClauses(); drawOwn(); draw(); ready=true; }
+})();
+</script>
+<script src="assets/nav.js"></script>
+<script src="assets/gate.js"></script>
+</body>
+</html>

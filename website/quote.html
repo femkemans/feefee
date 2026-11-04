@@ -19,6 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/nav.css">
+<link rel="stylesheet" href="assets/terms.css">
 <script>document.documentElement.classList.add('ffg')</script>
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1}
@@ -73,7 +74,9 @@ details.sys[open] summary::after{content:' –'}
 .ask p{margin:0 0 8px;font-size:17px;line-height:1.4}
 .ask p:last-child{margin:0}
 
-.stage{position:sticky;top:var(--ffh-h,70px);padding:48px clamp(20px,4vw,64px) 80px;display:flex;justify-content:center}
+.stage{position:sticky;top:var(--ffh-h,70px);padding:48px clamp(20px,4vw,64px) 80px;display:flex;flex-direction:column;align-items:center;gap:28px}
+.stage.long{position:static}
+.doc.tcdoc{display:block;aspect-ratio:auto;overflow:visible;font-size:inherit;padding:56px 60px 34px}
 .doc{background:#fff;width:100%;max-width:720px;aspect-ratio:210/297;box-shadow:0 30px 60px -30px rgba(28,30,26,.35),0 2px 6px rgba(28,30,26,.06);padding:56px 56px 40px;display:flex;flex-direction:column;font-size:15px;overflow:hidden}
 .doc .d-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
 .doc .who{font-style:italic;font-weight:500;font-size:34px;line-height:1}
@@ -121,6 +124,7 @@ details.sys[open] summary::after{content:' –'}
  .doc .who{font-size:26px}
  .doc .total .v{font-size:30px}
  .doc .parties{grid-template-columns:1fr;gap:14px}
+ .doc.tcdoc{padding:30px 24px 24px}
 }
 @page{size:A4;margin:0}
 @media print{
@@ -131,7 +135,9 @@ details.sys[open] summary::after{content:' –'}
  .stage{position:static;padding:0;display:block}
  .doc{box-shadow:none;max-width:none;width:210mm;height:297mm;aspect-ratio:auto;padding:18mm 17mm 12mm;font-size:12pt}
  .doc .parties{grid-template-columns:1fr 1fr}
+ .doc.tcdoc{page:tcp;break-before:page;height:auto;width:auto;padding:0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 }
+@page tcp{size:A4;margin:16mm 17mm 14mm}
 </style>
 </head>
 <body>
@@ -230,6 +236,8 @@ details.sys[open] summary::after{content:' –'}
 <fieldset><legend class="mono">terms</legend>
 <label><span>edit them so they fit your job</span><textarea name="terms"></textarea></label>
 <button type="button" class="mini" id="termsdef">use these terms as my default</button> <span class="hint" id="termsmsg"></span>
+<label style="margin-top:18px"><span>your terms and conditions</span><select name="tc"><option value="">not added</option><option value="link">a link, under the terms</option><option value="pages">a link, and the full text as extra pages</option></select></label>
+<p class="hint" id="tchint"></p>
 </fieldset>
 
 <fieldset><details class="sys"><summary class="mono">your system</summary>
@@ -273,12 +281,14 @@ details.sys[open] summary::after{content:' –'}
 <div class="sign" id="p-signrow"><div>for the client · name, date, signature</div><div>for <span id="p-sign"></span></div></div>
 <div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
 </article>
+<article class="doc tcdoc tc" id="doc2" hidden></article>
 </div>
 </div>
 
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
 <script src="assets/vat.js"></script>
+<script src="assets/terms.js"></script>
 <script>
 (function(){
 var f=document.getElementById('f'), KEY='ff-quote-v2';
@@ -377,7 +387,8 @@ function render(){
  SUB=sub; GRAND=sub+vat;
  var pay=document.getElementById('p-pay'); pay.hidden=!inv;
  if(inv) pay.textContent='please transfer '+money(sub+vat,c)+' before '+fmtDate(until)+(val('iban')?' to '+val('iban'):'')+(val('me')?' in the name of '+val('me'):'')+', stating invoice number '+(val('qno')||'')+'. thank you!';
- document.getElementById('p-terms').textContent=val('terms');
+ document.getElementById('p-terms').textContent=val('terms')+tcLine();
+ tcDraw();
  var n=parseInt(val('imgs'))||0, rd=parseInt(val('rounds')), ex=parseFloat(val('extra'))||0, D=[];
  if(n) D.push(n+' final images, selected by '+val('sel')+'.');
  D.push('delivered as '+val('fmt')+', within '+(parseInt(val('deliv'))||10)+' working days after the final selection.');
@@ -387,6 +398,22 @@ function render(){
  var dv=document.getElementById('p-deliv'); dv.innerHTML='<div class="k">what you get</div>'; var t=document.createElement('div'); t.textContent=D.join(' '); dv.appendChild(t);
  set('p-sign',val('me'),'you');
  save();
+}
+/* your terms and conditions (terms.html): a link under the terms, or the full text as extra pages */
+var TC=null;
+function tcLink(){ return TC&&TC.slug&&TC.published ? ffTerms.link(TC.slug) : ''; }
+function tcLine(){ var m=val('tc'); if(!m||!TC||!TC.state) return ''; var l=tcLink();
+ if(l) return (val('terms')?'\n':'')+'my terms and conditions apply: '+l+(m==='pages'?' (also attached)':'');
+ return m==='pages'?(val('terms')?'\n':'')+'my terms and conditions apply (attached).':''; }
+function tcDraw(){
+ var m=val('tc'), d2=document.getElementById('doc2'), h=document.getElementById('tchint'), show=m==='pages'&&TC&&TC.state;
+ d2.hidden=!show; document.querySelector('.stage').classList.toggle('long',!!show);
+ if(show) ffTerms.render(d2, TC.state, {date:TC.updated?new Date(TC.updated):new Date()});
+ if(!m){ h.innerHTML='<a href="terms.html">make or edit your terms</a>'; return; }
+ if(!TC){ h.textContent='loading your terms…'; return; }
+ if(!TC.state){ h.innerHTML='you have no terms yet. <a href="terms.html">make them first</a>, it takes a few minutes.'; return; }
+ if(!tcLink()) h.innerHTML='to add a link, turn on “share as a link” on <a href="terms.html">your terms</a>.'+(m==='pages'?' the full text is added as extra pages.':'');
+ else h.innerHTML='<a href="terms.html">edit your terms</a>';
 }
 var SUB=0, GRAND=0, DOC_ID=null, USER=null, dirty=false, timer=null, LOADING=false;
 function collect(){
@@ -492,6 +519,7 @@ if(wantNew) fresh(wantNew==='invoice'?'invoice':'quote'); else load();
 if(window.ffDesk){
  window.ffDesk.user().then(function(u){
   USER=u; var bar=document.getElementById('deskbar');
+  if(u && window.ffTerms) ffTerms.load().then(function(r){ TC=r||{}; render(); });
   if(!u){ bar.innerHTML='<a href="account.html">log in</a> to keep all your quotes and invoices on your desk.'; return; }
   bar.innerHTML='on your desk · <a href="account.html">see all</a>';
   window.ffDesk.settings().then(function(st){
