@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<script src="assets/me.js"></script>
 <link rel="stylesheet" href="assets/nav.css">
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
@@ -207,7 +208,11 @@ var COLS={
  plan:[['time','time','time'],['what','what happens'],['where','where']],
  gear:[['what','what'],['who','who brings it']]};
 var S; try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
-if(!S) S=JSON.parse(JSON.stringify(EX));
+if(!S){ S=JSON.parse(JSON.stringify(EX));
+  /* first time: put you in from your profile */
+  var P=(window.ffMe&&ffMe())||{};
+  if(P.name||P.role){ S.crew[0]=[P.role||'photographer',P.name||'your name',P.phone||'',S.crew[0][3]]; }
+}
 Object.keys(COLS).forEach(function(k){ if(!Array.isArray(S[k])) S[k]=[]; });
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }

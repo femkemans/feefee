@@ -20,6 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<script src="assets/me.js"></script>
 <link rel="stylesheet" href="assets/nav.css">
 <link rel="stylesheet" href="assets/terms.css">
 <script>document.documentElement.classList.add('ffg')</script>
@@ -503,12 +504,18 @@ document.getElementById('termsdef').onclick=function(){
  var k=val('kind')==='invoice'?'iterms':'qterms'; MINE[k]=val('terms'); if(k==='qterms') QTERMS=MINE.qterms; else ITERMS=MINE.iterms;
  syncSettings(); document.getElementById('termsmsg').textContent='saved as your default for '+(k==='iterms'?'invoices':'quotes')+'.';
 };
+/* fill your own details from your profile, only where a field is still empty */
+function fromProfile(data){
+ var P=(window.ffMe&&ffMe())||{};
+ [['me','name'],['role','role'],['email','email'],['phone','phone'],['addr','addr'],['ig','instagram']].forEach(function(x){ var e=f.elements[x[0]]; if(e && !e.value && P[x[1]] && (!data || data[x[0]]==null || data[x[0]]==='')) e.value=P[x[1]]; });
+}
 function load(given){
  var raw=store(KEY), data=null; try{ data=given!==undefined?given:(raw?JSON.parse(raw):null); }catch(e){}
  ['work','usage','exp'].forEach(function(g){ document.getElementById('g-'+g).innerHTML=''; ((data&&data._lines&&data._lines[g])||DEF[g]).forEach(function(x){line(g,x[0],x[1],x[2],x[3]);}); });
  [].forEach.call(f.elements,function(e){ if(e.name && data && data[e.name]!=null){ if(e.type==='checkbox') e.checked=!!data[e.name]; else e.value=data[e.name]; } });
  try{ var me=JSON.parse(store('ff-me')||'null'); if(me){ MINE=me; if(me.qterms) QTERMS=me.qterms; if(me.iterms) ITERMS=me.iterms;
   ME.forEach(function(k){ if(me[k]!=null && f.elements[k] && (!data || data[k]==null)) f.elements[k].value=me[k]; }); } }catch(e){}
+ fromProfile(data);
  LASTME=val('mycountry'); refreshRates();
  if(!data || data.vatmode==null) autoVat();
  if(!val('kind')) f.elements.kind.value='quote';
@@ -535,9 +542,10 @@ if(window.ffDesk){
   if(!u){ bar.innerHTML='<a href="account.html">log in</a> to keep all your quotes and invoices on your desk.'; return; }
   bar.innerHTML='on your desk · <a href="account.html">see all</a>';
   window.ffDesk.settings().then(function(st){
-   if(!st){ syncSettings(); return; }
+   if(!st){ if(!DOC_ID && !docId && !copyId){ LOADING=true; fromProfile(); LOADING=false; render(); } syncSettings(); return; }
    SYNCED=JSON.stringify(st); store('ff-me',SYNCED); MINE=st; if(st.qterms) QTERMS=st.qterms; if(st.iterms) ITERMS=st.iterms;
    if(!DOC_ID && !docId && !copyId){ LOADING=true; ME.forEach(function(k){ if(st[k]!=null && f.elements[k] && !f.elements[k].value) f.elements[k].value=st[k]; }); LOADING=false; countryChanged(); autoVat(); }
+   if(!DOC_ID && !docId && !copyId){ LOADING=true; fromProfile(); LOADING=false; }
    if(val('qno')===AUTO){ f.elements.qno.value=''; assign(val('kind')); }
    render();
   });
