@@ -60,21 +60,21 @@ select.field{appearance:none;-webkit-appearance:none;cursor:pointer;background-i
 .layout{max-width:1180px;margin:0 auto;padding:34px 34px 100px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:56px;align-items:start}
 .list{display:flex;flex-direction:column;counter-reset:q;border-top:1px solid var(--ink)}
 .q{counter-increment:q;border-bottom:1px solid #DCE0D9;scroll-margin-top:170px;position:relative}
-.q-head{display:grid;grid-template-columns:52px minmax(0,1fr);column-gap:18px;width:100%;text-align:left;background:none;border:0;padding:30px 0 28px;cursor:pointer;color:inherit;font:inherit}
+.q-head{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:14px;width:100%;text-align:left;background:none;border:0;padding:30px 0 28px;cursor:pointer;color:inherit;font:inherit}
 .q-head::before{content:counter(q,decimal-leading-zero);grid-row:1/span 4;font-family:'Space Mono',monospace;font-size:12px;color:var(--soft);padding-top:5px}
 .q-head>*{grid-column:2}
 .q-head:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 .q-topic{margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:19px;line-height:1.2;color:var(--blue)}
-.q-title{margin:0;font-style:normal;font-weight:500;font-size:clamp(25px,2.4vw,32px);line-height:1.25;max-width:28ch;letter-spacing:-.005em;transition:color .25s}
+.q-title{margin:0;font-style:normal;font-weight:500;font-size:clamp(24px,2.2vw,30px);line-height:1.28;max-width:42ch;letter-spacing:-.005em;transition:color .25s}
 .q-head:hover .q-title{color:#000}
-.q-body{margin:12px 0 0;font-size:20px;line-height:1.6;color:var(--muted);max-width:52ch}
+.q-body{margin:10px 0 0;font-size:19px;line-height:1.6;color:var(--muted);max-width:62ch}
 .q-foot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;margin-top:16px}
 .q-by{color:var(--muted)}
 .q-foot .n{display:inline-flex;align-items:center;gap:8px}
 .q-foot .n::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue)}
 .q-foot .open{margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);transition:transform .3s var(--ease)}
 .q.on .q-foot .open{transform:rotate(180deg)}
-.q-ans{padding:0 0 30px 70px;animation:in .5s var(--ease) both}
+.q-ans{padding:0 0 30px 54px;animation:in .5s var(--ease) both}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .q-ans hr{border:0;border-top:1px solid #E6E8E3;margin:0 0 22px}
 
