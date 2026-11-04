@@ -45,11 +45,17 @@ input,select,textarea{width:100%;font:16px 'Space Mono',monospace;color:var(--in
 input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 .full{grid-column:1/-1}
-.line{display:grid;grid-template-columns:minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:8px;align-items:center}
+.line{display:grid;grid-template-columns:18px minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:8px;align-items:center}
 .line input{padding:9px 8px;font-size:13px}
 .line .x{background:none;border:0;font:18px 'Space Mono',monospace;cursor:pointer;color:var(--soft)}
 .line .x:hover{color:var(--ink)}
-.line-head{display:grid;grid-template-columns:minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:6px}
+.line .grip{width:18px;height:38px;padding:0;border:0;background:none;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;opacity:.35;transition:opacity .2s}
+.line .grip::before{content:'';width:6px;height:14px;background:radial-gradient(circle,var(--ink) 1px,transparent 1.4px) 0 0/3px 3.5px}
+.line:hover .grip,.line .grip:focus-visible{opacity:.8}
+.line .grip:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+.line.drag{position:relative;z-index:2;background:var(--paper);box-shadow:0 10px 24px -12px rgba(28,30,26,.35)}
+.line.drag .grip{cursor:grabbing;opacity:1}
+.line-head{display:grid;grid-template-columns:18px minmax(0,1fr) 58px 96px 28px;gap:6px;margin-bottom:6px}
 .line-head span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .group-cap{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:16px 0 8px}
 .add{background:none;border:1px dashed var(--ink);font:12px 'Space Mono',monospace;padding:9px 14px;cursor:pointer;width:100%}
@@ -172,7 +178,7 @@ textarea{min-height:120px;resize:vertical;font-size:13px;line-height:1.55}
 </div></fieldset>
 
 <fieldset><legend class="mono">the fee</legend>
-<div class="line-head"><span>what</span><span>qty</span><span>rate</span><span></span></div>
+<div class="line-head"><span></span><span>what</span><span>qty</span><span>rate</span><span></span></div>
 <p class="group-cap">days &amp; work</p>
 <div id="g-work"></div>
 <button type="button" class="add" data-add="work">+ add a line</button>
@@ -264,9 +270,17 @@ var TERMS=['this quote is accepted when signed or confirmed by email. valid for 
 function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v);}catch(e){return null;}}
 function line(group,d,q,r){
  var w=document.createElement('div'); w.className='line';
- w.innerHTML='<input aria-label="what" class="d"><input aria-label="qty" class="q" type="number" min="0" step="0.5" inputmode="decimal"><input aria-label="rate" class="r" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><button type="button" class="x" aria-label="remove line">×</button>';
+ w.innerHTML='<button type="button" class="grip" aria-label="move line (drag, or use the arrow keys)" title="drag to move"></button><input aria-label="what" class="d"><input aria-label="qty" class="q" type="number" min="0" step="0.5" inputmode="decimal"><input aria-label="rate" class="r" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><button type="button" class="x" aria-label="remove line">×</button>';
  w.querySelector('.d').value=d||''; w.querySelector('.q').value=q==null?1:q; w.querySelector('.r').value=r?r:'';
  w.querySelector('.x').onclick=function(){w.remove();render();};
+ var g=w.querySelector('.grip');
+ g.onkeydown=function(e){ var t=e.key==='ArrowUp'?w.previousElementSibling:e.key==='ArrowDown'?w.nextElementSibling:null; if(!t) return; e.preventDefault();
+  w.parentNode.insertBefore(w, e.key==='ArrowUp'?t:t.nextSibling); g.focus(); render(); };
+ g.onpointerdown=function(e){ e.preventDefault(); g.setPointerCapture(e.pointerId); w.classList.add('drag');
+  g.onpointermove=function(ev){ var box=w.parentNode, prev=w.previousElementSibling, next=w.nextElementSibling;
+   if(prev && ev.clientY < prev.getBoundingClientRect().top+prev.offsetHeight/2) box.insertBefore(w,prev);
+   else if(next && ev.clientY > next.getBoundingClientRect().top+next.offsetHeight/2) box.insertBefore(next,w); };
+  g.onpointerup=g.onpointercancel=function(){ g.onpointermove=g.onpointerup=g.onpointercancel=null; w.classList.remove('drag'); render(); }; };
  document.getElementById('g-'+group).appendChild(w);
 }
 function lines(group){return [].map.call(document.querySelectorAll('#g-'+group+' .line'),function(w){return [w.querySelector('.d').value.trim(),parseFloat(w.querySelector('.q').value)||0,parseFloat(w.querySelector('.r').value)||0];});}

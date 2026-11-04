@@ -264,6 +264,8 @@ main>section:not(#top) .h{margin-top:0!important}
 .ins figcaption b{color:var(--ink);font-weight:600}
 @media (max-width:860px){.inside{grid-template-columns:1fr;row-gap:56px}.ins:nth-child(n){margin-top:0}.ins:nth-child(2){padding-left:18px}.ins-card{min-height:0}}
 /* celadon, the world colour: two calm full-bleed bands with grain, paper cards on top */
+html.ff-in #hero-cta,html.ff-in #hero-join,html.ff-in #hero-note,html.ff-in #join,html.ff-in #bar,html.ff-in #ov-join,html.ff-in [data-t=manAsk]{display:none!important}
+html.ff-in .hero-desk{display:inline-flex!important}
 main>section#join{position:relative;isolation:isolate;padding-top:calc(var(--gap)*.8)!important;padding-bottom:calc(var(--gap)*.8)!important;margin-bottom:var(--gap)}
 #join::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);z-index:-1;background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
 #join .card{box-shadow:0 1px 2px rgba(28,30,26,.05),0 18px 40px rgba(28,30,26,.08)}
@@ -336,6 +338,7 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="mono load3" style="margin:56px 0 0" data-t="tagline">for freelance creatives worldwide</p>
 <p class="b load3" style="margin:14px auto 0;max-width:560px;text-wrap:balance" data-t="heroWhat">freelancing is hard to figure out alone. fees, usage, contracts, invoices: let's figure it out together.</p>
 <a href="#join" class="btn load3 hero-cta" id="hero-cta" style="margin-top:36px" data-t="heroBtn">join the waitlist</a>
+<a href="account.html" class="btn load3 hero-desk" style="margin-top:36px;display:none">your desk</a>
 <form class="hero-form js-join load3" id="hero-join">
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <label class="sr" for="h-email" data-t="email">email</label>

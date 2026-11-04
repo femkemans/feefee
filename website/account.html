@@ -56,6 +56,12 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 .menu{position:absolute;right:0;top:100%;background:#fff;box-shadow:0 12px 30px rgba(28,30,26,.18);z-index:5;min-width:190px}
 .menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 16px;font:12px 'Space Mono',monospace;cursor:pointer}
 .menu button:hover{background:var(--celadon)}
+.fe{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:14px;align-items:baseline;padding:16px 0;border-bottom:1px solid #E6E8E3;font-family:'Space Mono',monospace;font-size:12px}
+.fe .t{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-style:italic;line-height:1.2}
+.fe .s{color:var(--soft);font-size:11px;margin-top:3px}
+.fe .amt{text-align:right;font-size:13px}
+#fl .empty{padding:10px 0 0}
+@media (max-width:700px){.fe{grid-template-columns:minmax(0,1fr) auto}.fe .d{display:none}}
 .empty{padding:40px 0;font-size:20px;color:var(--muted)}
 .note{background:var(--butter);padding:14px 18px;font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;margin:0 0 20px}
 @media (max-width:700px){
@@ -101,6 +107,13 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 <div class="tabs"><button data-f="all" aria-pressed="true">all</button><button data-f="quote" aria-pressed="false">quotes</button><button data-f="invoice" aria-pressed="false">invoices</button></div>
 <div id="list"></div>
 <p class="cap" style="margin-top:40px">amounts excl. vat. click the status to change it.</p>
+
+<div class="profile" id="fees">
+<h2>Your fees.</h2>
+<p class="pl">the jobs you shared, only for you. on the site they stay anonymous and only ever show as a range.</p>
+<div id="fl"></div>
+<a class="btn soft" href="fee.html" style="margin-top:22px">+ share a fee</a>
+</div>
 
 <div class="profile" id="profile">
 <h2>Your profile.</h2>
@@ -176,6 +189,15 @@ function fillProfile(user){
    try{ localStorage.setItem('ff-name',d.name); localStorage.setItem('ff-role',d.role); }catch(e){} });
  };
 }
+function fillFees(user){
+ var L=document.getElementById('fl'), f=(user.user_metadata||{}).fees||[]; L.innerHTML='';
+ if(!f.length){ L.appendChild(el('p','empty','nothing shared yet. fees you share while logged in show up here.')); return; }
+ f.forEach(function(x){ var r=el('div','fe');
+  r.appendChild(el('span','d',new Date(x.at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})));
+  var m=el('div'); m.appendChild(el('div','t',[x.role||x.discipline,x.job_type].filter(Boolean).join(' · ')));
+  m.appendChild(el('div','s',[x.client_type,x.country,x.days?(x.days+(x.days==1?' day':' days')):'',x.stage==='done'?'paid':(x.stage||'')].filter(Boolean).join(' · ')));
+  r.appendChild(m); r.appendChild(el('span','amt',(x.currency||'')+' '+Number(x.fee||0).toLocaleString('en-GB'))); L.appendChild(r); });
+}
 function start(user){
  if(!user){ document.getElementById('login').hidden=false; return; }
  document.getElementById('desk').hidden=false; document.getElementById('out').hidden=false;
@@ -183,6 +205,7 @@ function start(user){
  var meta=user.user_metadata||{}; var nm=(meta.name||'').split(' ')[0];
  document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
  fillProfile(user);
+ fillFees(user);
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });
  try{ var loc=localStorage.getItem('ff-quote-v2'); if(loc){ var n=document.getElementById('local'); n.hidden=false; n.innerHTML='you have a quote saved on this device. <a href="quote.html">open it</a> and press "save to my desk" to keep it here.'; } }catch(e){}
 }

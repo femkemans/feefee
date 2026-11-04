@@ -4,8 +4,10 @@
   var on=false;
   try{ on=!!localStorage.getItem('sb-eadxyfxlhwikesonpaer-auth-token'); }catch(e){}
   function apply(){
-    document.querySelectorAll('.ffh [data-auth]').forEach(function(el){ el.hidden = el.getAttribute('data-auth') === (on ? 'out' : 'in'); });
+    document.documentElement.classList.toggle('ff-in', on);
+    document.querySelectorAll('[data-auth]').forEach(function(el){ el.hidden = el.getAttribute('data-auth') === (on ? 'out' : 'in'); });
   }
+  document.documentElement.classList.toggle('ff-in', on);
   window.ffNav = { set: function(v){ on = !!v; apply(); } };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
 })();
