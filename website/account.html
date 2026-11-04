@@ -8,7 +8,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/nav.css">
 <style>
 :root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1;--butter:#F7EFC9}
@@ -24,6 +24,9 @@ a{color:var(--ink)}
 .who{margin:-6px 0 28px}
 .profile{margin-top:80px;max-width:760px}
 .profile h2{font-style:italic;font-weight:500;font-size:44px;line-height:1;margin:0 0 12px}
+.mark{margin:-8px 0 26px;padding:18px 22px;border-left:2px solid #2A45C9;max-width:36em}
+.mark p{margin:0}
+.mark .hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;line-height:1.2;margin-bottom:4px}
 .profile .pl{font-size:20px;line-height:1.6;max-width:36em;margin:0 0 24px}
 .card.pf{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
 .pf .wide{grid-column:1/-1}
@@ -124,7 +127,8 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 
 <div class="profile" id="fees">
 <h2>Your fees.</h2>
-<p class="pl">the jobs you shared, only for you. on the site they stay anonymous and only ever show as a range.</p>
+<p class="pl">the jobs you shared, only for you. on the site the numbers only ever show as a range.</p>
+<div class="mark" id="mark" hidden><p class="hand" id="mark-h"></p><p class="cap" id="mark-t"></p></div>
 <div id="fl"></div>
 <a class="btn soft" href="fee.html" style="margin-top:22px">+ share a fee</a>
 </div>
@@ -279,11 +283,13 @@ function fillPage(user){
 }
 function fillFees(user){
  var L=document.getElementById('fl'), f=(user.user_metadata||{}).fees||[]; L.innerHTML='';
+ var n=f.filter(function(x){return x.named;}).length, mk=document.getElementById('mark'); mk.hidden=!n;
+ if(n){ document.getElementById('mark-h').textContent='said the number'+(n>1?' ×'+n:'')+'.'; document.getElementById('mark-t').textContent=n===1?'you shared a fee with your name on it. thank you.':'you shared '+n+' fees with your name on them. thank you.'; }
  if(!f.length){ L.appendChild(el('p','empty','nothing shared yet. fees you share while logged in show up here.')); return; }
  f.forEach(function(x){ var r=el('div','fe');
   r.appendChild(el('span','d',new Date(x.at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})));
   var m=el('div'); m.appendChild(el('div','t',[x.role||x.discipline,x.job_type].filter(Boolean).join(' · ')));
-  m.appendChild(el('div','s',[x.client_type,x.country,x.days?(x.days+(x.days==1?' day':' days')):'',x.stage==='done'?'paid':(x.stage||'')].filter(Boolean).join(' · ')));
+  m.appendChild(el('div','s',[x.client_type,x.country,x.days?(x.days+(x.days==1?' day':' days')):'',x.stage==='done'?'paid':(x.stage||''),x.named?'with your name':''].filter(Boolean).join(' · ')));
   r.appendChild(m); r.appendChild(el('span','amt',(x.currency||'')+' '+Number(x.fee||0).toLocaleString('en-GB'))); L.appendChild(r); });
 }
 function start(user){
