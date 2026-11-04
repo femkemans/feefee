@@ -282,30 +282,20 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 .foot>span:last-child{justify-self:end;text-align:right}
 @media (max-width:700px){.foot{grid-template-columns:1fr!important;justify-items:center;text-align:center}.foot>span:last-child{justify-self:center;text-align:center}.foot>.logo-word{order:-1}}
 .card{border-radius:0}
-/* hero: two example fees pinned beside the logo, a link to the fee form, and an optional b&w portrait */
+/* hero: a link to the fee form and an optional b&w portrait */
 #top{position:relative}
 .hero-link{margin:18px 0 0;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
 .hero-link a{color:var(--blue);text-decoration:none;white-space:nowrap}
 .hero-link a:hover,.hero-link a:focus-visible{text-decoration:underline;text-underline-offset:3px;color:var(--blue)}
 .hero-fees{display:flex;justify-content:center;align-items:flex-start;gap:clamp(16px,4vw,40px);margin-top:56px;width:min(560px,100%)}
-.hfee{position:relative;width:min(220px,46%);margin:0;text-align:left;background:url(assets/grain.png) repeat,#FFFEFA;background-size:120px 120px,auto;padding:18px 18px 16px;display:flex;flex-direction:column;gap:6px;transform:rotate(-2deg)}
-.hfee+.hfee{transform:rotate(1.8deg) translateY(14px)}
-.hfee .cap{font-size:9px}
-.hfee-num{margin:4px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(40px,4.4vw,56px);line-height:.9;color:var(--blue)}
-.hfee-note{margin:2px 0 0;font-family:var(--hand);color:var(--blue);font-size:19px;line-height:1.15}
-.hfee-ex{margin:6px 0 0;opacity:.7}
 .hero-portrait{display:none;margin:0}
 .hero-portrait img{display:block;width:100%;height:auto;filter:grayscale(1) contrast(1.05)}
 .hero-portrait.on{display:block;position:relative;width:min(220px,46%);background:#FFFEFA;padding:10px 10px 30px;transform:rotate(2.4deg)}
 @media (min-width:1240px){
  .hero-fees{position:absolute;inset:0;width:auto;margin:0;pointer-events:none;display:block}
- .hfee,.hero-portrait.on{position:absolute;width:210px;pointer-events:auto}
- .hfee{left:calc(50% - 600px);top:clamp(150px,21vh,240px)}
- .hfee+.hfee{left:auto;right:calc(50% - 600px);top:clamp(250px,32vh,360px)}
- .hero-portrait.on{width:180px;right:calc(50% - 640px);top:clamp(60px,8vh,100px);z-index:0}
- .hero-portrait.on~.hfee{z-index:1}
+ .hero-portrait.on{position:absolute;pointer-events:auto;width:180px;right:calc(50% - 640px);top:clamp(60px,8vh,100px);z-index:0}
 }
-@media (max-width:700px){.hero-fees{margin-top:44px}.hfee{padding:14px 14px 12px}.hfee-note{font-size:17px}}
+@media (max-width:700px){.hero-fees{margin-top:44px}}
 @media (prefers-reduced-motion: no-preference){.hero-fees{animation:fade 1.6s 1.1s ease both}}
 </style>
 </head>
@@ -348,21 +338,9 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <p class="hero-note load3" id="hero-note" style="display:none!important"><span data-t="heroNote">free · no spam</span><span class="js-count-wrap" hidden> · <span class="js-count"></span> <span data-t="heroIn">creatives in</span></span></p>
 <p class="hero-in" id="hero-in" hidden style="display:none!important" data-t="heroDone">you’re in. ✓</p>
 <p class="hero-link load3">already freelancing? <a href="fee.html">share a fee you were paid →</a></p>
-<div class="hero-fees" aria-label="two example fees">
+<div class="hero-fees">
 <!-- optional b&w portrait: drop a file at assets/hero-portrait.jpg and it shows up here; until then nothing is shown -->
 <figure class="hero-portrait" id="hero-portrait"><img src="assets/hero-portrait.jpg" alt="" width="600" height="750" onload="this.parentNode.classList.add('on')" onerror="this.parentNode.remove()"></figure>
-<article class="paper hfee">
-<span class="cap">stylist · editorial</span>
-<p class="hfee-num">€650</p>
-<p class="hfee-note">day rate. prep day paid too.</p>
-<span class="cap hfee-ex">example fee</span>
-</article>
-<article class="paper hfee">
-<span class="cap">photographer · campaign</span>
-<p class="hfee-num">€1,100</p>
-<p class="hfee-note">day rate. usage priced on top.</p>
-<span class="cap hfee-ex">example fee</span>
-</article>
 </div>
 </section>
 
