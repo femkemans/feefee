@@ -13,7 +13,8 @@
       ['fee notes', ''],
       ['usage and buy-outs', ''],
       ['contract decoder', ''],
-      ['templates', ''],
+      ['call sheet', '/callsheet.html'],
+      ['more templates', ''],
       ['quote and invoice', '/quote.html', 1],
       ['question lists', '']
     ]],
