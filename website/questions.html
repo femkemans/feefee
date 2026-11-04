@@ -19,6 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Reenie+Beanie&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
 <style>
 :root{--hand:'Nothing You Could Do','Reenie Beanie',cursive;--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--field:#EEF3EF;--blue:#1F3FD1;--butter:#F7EFC9;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
@@ -31,18 +32,13 @@ a{color:var(--ink)}
 .logo-word{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;text-transform:none}
 .celadon{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
 
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 34px}
-header .logo{font-family:'DM Sans',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.034em;font-size:26px;text-decoration:none}
-header nav{display:flex;align-items:center;gap:18px}
-header nav a,header nav button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:none;border:0;cursor:pointer;color:var(--ink);padding:4px 0}
-header nav .join{background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 18px}
 
 .hero{max-width:1180px;margin:0 auto;padding:56px 34px 30px}
 .hero h1{font-style:italic;font-weight:400;font-size:clamp(60px,8vw,128px);line-height:.88;letter-spacing:-.02em;margin:18px 0 0}
 .hero .lead{font-size:23px;line-height:1.6;margin:26px 0 0;max-width:600px}
 .hero .hand{font-family:var(--hand);color:#2A45C9;font-size:21px;line-height:1.3;margin:18px 0 0;transform:rotate(-2deg);transform-origin:left}
 
-.tools{position:sticky;top:0;z-index:10;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;border-bottom:1px solid #E6E8E3}
+.tools{position:sticky;top:var(--ffh-h,70px);z-index:10;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;border-bottom:1px solid #E6E8E3}
 .tools-in{max-width:1180px;margin:0 auto;padding:16px 34px;display:flex;flex-direction:column;gap:12px}
 .field{height:50px;padding:0 22px;border:0;border-radius:999px;background:var(--field);font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);width:100%}
 textarea.field{height:auto;min-height:110px;border-radius:18px;padding:16px 22px;line-height:1.5;resize:vertical}
@@ -115,8 +111,6 @@ footer a{color:var(--muted);text-decoration:none}
  aside{position:static;order:0}
 }
 @media (max-width:600px){
- header{padding:18px 16px}
- header nav .hide-sm{display:none}
  .hero{padding:30px 16px 22px}
  .hero .lead{font-size:20px}
  .tools-in{padding:12px 16px}
@@ -130,15 +124,11 @@ footer a{color:var(--muted);text-decoration:none}
 </head>
 <body>
 
-<header>
-<a class="logo" href="/">fee fee.</a>
-<nav>
-<a class="hide-sm" href="index.html#solution">about</a>
-<button type="button" id="login-top">log in</button>
-<a id="desk-top" href="account.html" hidden>your desk</a>
-<a class="join" id="join-top" href="index.html#join">join</a>
-</nav>
-</header>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
 
 <section class="hero">
 <p class="mono" style="margin:0">community</p>
@@ -375,11 +365,12 @@ $('ask-form').onsubmit=function(e){
 };
 
 /* ---------- account ---------- */
-$('login-top').onclick=function(){ var c=cards().filter(function(x){return !x.hidden;})[0]; if(c){ if(!c.classList.contains('on')) open(c,true); var b=c.querySelector('.js-login'); if(b) b.click(); else c.scrollIntoView({behavior:'smooth'}); } };
+document.querySelectorAll('.ffh-login').forEach(function(a){ a.onclick=function(e){ e.preventDefault(); loginTop(); }; });
+function loginTop(){ var c=cards().filter(function(x){return !x.hidden;})[0]; if(c){ if(!c.classList.contains('on')) open(c,true); var b=c.querySelector('.js-login'); if(b) b.click(); else c.scrollIntoView({behavior:'smooth'}); } };
 
 function load(){
  if(!sb) return Promise.resolve();
- var p1=D.user().then(function(u){ state.user=u; if(!u) return; $('desk-top').hidden=false; $('login-top').hidden=true; $('join-top').hidden=true;
+ var p1=D.user().then(function(u){ state.user=u; if(!u){ if(window.ffNav) ffNav.set(false); return; } if(window.ffNav) ffNav.set(true);
    state.member=true; });
  var p2=sb.from('questions').select('slug,title,body,topic,role,display_name,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(r){
    if(r.error||!r.data) return; var L=$('list'), first=L.firstElementChild;
@@ -397,5 +388,6 @@ load().then(function(){ roles(); filter(); paintCounts();
 </script>
 <script src="assets/logo-word.js"></script>
 <script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
 </body>
 </html>
