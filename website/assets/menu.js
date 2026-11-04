@@ -1,5 +1,5 @@
 /* fee fee. menu: the whole site in five doors, behind a small hamburger.
-   Hidden for now. Turn it on in your own browser with ?menu=1, off with ?menu=0.
+   Shows only in preview mode: ?preview=finetune turns it on in your browser, ?preview=off turns it off (see preview.js).
    Pages that are not built yet show in grey with "soon". A blue dot = members only. */
 (function(){
   var D = [
