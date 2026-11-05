@@ -9,7 +9,7 @@
 
   var css = ''
   + '[data-ideas]{width:100%;max-width:640px}'
-  + '.ffi{margin:0 auto;padding:40px 0 8px;border-top:1px solid #1C1E1A;text-align:left;color:#1C1E1A}'
+  + '.ffi{margin:0 auto;padding:0 0 8px;text-align:left;color:#1C1E1A}'
   + '.ffi h2{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(36px,4vw,52px);line-height:1;margin:0 0 14px;letter-spacing:-.01em}'
   + '.ffi p.l{font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;line-height:1.6;margin:0 0 24px;max-width:32em}'
   + '.ffi label{display:block;margin:0 0 14px}'
@@ -25,7 +25,7 @@
   + '.ffi .m{font:12px/1.6 "Space Mono",monospace;color:#4A4E46}'
   + '.ffi .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}'
   + '.ffi .done{font-family:"Nothing You Could Do","Reenie Beanie",cursive;color:#2A45C9;font-size:28px;margin:8px 0 0}'
-  + '@media (max-width:640px){.ffi .g{grid-template-columns:1fr}.ffi{padding-top:32px}}';
+  + '@media (max-width:640px){.ffi .g{grid-template-columns:1fr}}';
 
   function el(t, c, txt){ var e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; }
   function field(label, node){ var l = el('label'); l.appendChild(el('span', null, label)); l.appendChild(node); return l; }
