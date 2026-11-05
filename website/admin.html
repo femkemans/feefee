@@ -71,7 +71,7 @@ h1{font-style:italic;font-weight:500;font-size:clamp(52px,6.4vw,88px);line-heigh
 </div>
 <p class="show"><label><input type="checkbox" id="all"> show done too</label></p>
 <div id="list"></div>
-<p class="note">professionals you say yes to can answer questions and post jobs straight away. "not yet" keeps them as they are and shows them a kind note on their desk. nothing here is sent by email yet.</p>
+<p class="note">professionals you say yes to can answer questions and post jobs straight away. "almost there" lets them use everything, keeps them out of the index for now, and shows a warm note on their desk. nothing here is sent by email yet.</p>
 </div>
 </main>
 
@@ -141,9 +141,9 @@ function item(x){
   if(x.vouch) l.appendChild(el('p',null,'vouched for by '+x.vouch));
   if(x.intro_call) l.appendChild(el('p',null,'would like a 15 minute intro call first.'));
   if(x.note) l.appendChild(el('p',null,x.note));
-  if(x.status!=='pending') a.appendChild(el('span','state',x.status==='approved'?'in ✓':'not yet'));
+  if(x.status!=='pending') a.appendChild(el('span','state',x.status==='approved'?'in ✓':'almost there'));
   a.appendChild(act('yes',false,function(){ sb.from('joins').update({status:'approved'}).eq('user_id',x.user_id).then(function(r){ done(r,function(){ x.status='approved'; }); }); }));
-  a.appendChild(act('not yet',true,function(){ sb.from('joins').update({status:'declined'}).eq('user_id',x.user_id).then(function(r){ done(r,function(){ x.status='declined'; }); }); }));
+  a.appendChild(act('almost there',true,function(){ sb.from('joins').update({status:'declined'}).eq('user_id',x.user_id).then(function(r){ done(r,function(){ x.status='declined'; }); }); }));
  }
  if(T==='questions'){
   l.appendChild(el('h2',null,x.title));
