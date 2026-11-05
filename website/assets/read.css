@@ -5,7 +5,7 @@
    3. one marked phrase per block at most: <mark> is a butter highlighter, like on paper.
    4. guides start with "the short version": built by assets/read.js from the section titles.
    Load after the page's own <style>. */
-:root{--read:'DM Sans',system-ui,-apple-system,sans-serif;--hl:#F3E29C}
+:root{--read:'DM Sans',system-ui,-apple-system,sans-serif;--hl:#F7EFC9}
 
 /* body text in sans: calmer for tired eyes and dyslexic readers, still high end */
 .lead,.s p:not(.lab),.s li,.end p,.q-body,.faq details p,.read-p{font-family:var(--read)!important;font-weight:400;letter-spacing:0}
@@ -18,7 +18,7 @@
 @media (max-width:760px){.lead{font-size:17px!important}.s p:not(.lab),.s li,.end p,.read-p{font-size:16px!important}}
 
 /* the highlighter */
-mark{color:inherit;background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 94%,transparent 94%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+mark{color:inherit;background:linear-gradient(transparent 50%,var(--hl) 50%,var(--hl) 96%,transparent 96%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 
 /* the short version: reel-script rows, number left, one big line each */
 .glance{margin:44px 0 8px;padding:0}
