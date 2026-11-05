@@ -10,12 +10,6 @@
       ['day rate maker', '/dayrate.html'],
       ['other cities', '/cities.html']
     ]],
-    ['Know-how', [
-      ['set words', '/setwords.html'],
-      ['usage, decoded', '/usage.html'],
-      ['ask first', '/askfirst.html'],
-      ['when a shoot grows', '/shootgrows.html']
-    ]],
     ['Forms', [
       ['call sheet', '/callsheet.html'],
       ['quote and invoice', '/quote.html', 1]
@@ -26,8 +20,13 @@
       ['jobs', '/jobs.html'],
       ['coffee with femke', '/call.html', 1]
     ]],
+    ['Know-how', [
+      ['set words', '/setwords.html'],
+      ['usage, decoded', '/usage.html'],
+      ['ask first', '/askfirst.html'],
+      ['when a shoot grows', '/shootgrows.html']
+    ]],
     ['Your desk', [
-      ['join the waitlist', '/index.html#join', 0, 'out'],
       ['your desk', '/account.html', 1],
       ['your terms', '/terms.html', 1],
       ['your link page', '/account.html', 1]
