@@ -8,13 +8,14 @@
       ['the fee drop', '/drops.html'],
       ['say your number', '/fee.html'],
       ['day rate maker', '/dayrate.html'],
+      ['other cities', '/cities.html'],
       ['off the record', '']
     ]],
     ['The brief', [
       ['set words', '/setwords.html'],
       ['usage, decoded', '/usage.html'],
       ['the small print', ''],
-      ['ask first', ''],
+      ['ask first', '/askfirst.html'],
       ['when a shoot grows', '/shootgrows.html'],
       ['notes', ''],
       ['call sheet', '/callsheet.html'],

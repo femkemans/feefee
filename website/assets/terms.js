@@ -20,7 +20,10 @@
     depOver: ['deposit for jobs over (amount)', 2500],
     markup:  ['handling on expenses (%)', 0],
     deliv:   ['deliver within (working days)', 10],
-    archive: ['keep files for (months)', 12]
+    archive: ['keep files for (months)', 12],
+    shopDays:['shopping money paid (working days before)', 3],
+    ret:     ['returns done within (working days)', 3],
+    own:     ['my pieces, per job (% of their value)', 10]
   };
   function n(v,k){ var x = v[k]; return (x === '' || x == null || isNaN(+x)) ? VARS[k][1] : +x; }
   function plural(x, one, more){ return x + ' ' + (x === 1 ? one : (more || one + 's')); }
@@ -51,6 +54,11 @@
     { id:'expenses', h:'Expenses', f:['markup'], t:function(v){
       var m = n(v,'markup');
       return 'Expenses such as travel, kit hire, assistants and props are paid by you, unless the quote says otherwise. Estimates are confirmed before I book anything.' + (m ? ' I add ' + m + '% handling to expenses I pay in advance.' : ''); } },
+    { id:'shopping', h:'Shopping budget and returns', f:['shopDays','ret'], opt:true, who:'for stylists and set designers', t:function(v){
+      return 'The shopping budget is agreed before I buy anything, and paid ' + plural(n(v,'shopDays'),'working day') + ' before I start shopping. I don’t pay for your shoot from my own pocket. I return what isn’t used within ' + plural(n(v,'ret'),'working day') + ' after the shoot, and the return days are paid. Pieces that can’t go back, because they were worn, marked, damaged or bought final sale, are yours and are invoiced at cost. You get the receipts.'; } },
+    { id:'mine', h:'My own archive and props', f:['own'], opt:true, who:'for stylists and set designers', t:function(v){
+      var p = n(v,'own');
+      return 'Pieces from my own archive or prop collection are not part of my fee. ' + (p ? 'They are hired out at ' + p + '% of their value per job, ' : 'Their hire is agreed per piece, ') + 'and listed on the quote. If a piece is lost or damaged on your shoot, you pay the replacement value.'; } },
     { id:'usage', h:'Usage and copyright', f:[], t:function(){
       return 'Copyright stays with me. You may use the work only as written in the quote: where, for how long and in which countries. Usage starts once the invoice is paid in full. Any other use, a longer period or a new country needs a new agreement and fee.'; } },
     { id:'ai', h:'AI and changes', f:[], t:function(){
@@ -75,14 +83,23 @@
       return 'The law of ' + c + ' applies to these terms and to our jobs. If we can’t work something out together, ' + (me.city ? 'the court nearest to ' + me.city : 'the competent court in ' + c) + ' decides.'; } }
   ];
 
-  function blank(){ var v = {}; Object.keys(VARS).forEach(function(k){ v[k] = VARS[k][1]; }); return { v:v, me:{}, off:{}, txt:{}, own:[] }; }
+  function blank(){ var v = {}; Object.keys(VARS).forEach(function(k){ v[k] = VARS[k][1]; }); return { v:v, me:{}, off:{}, on:{}, txt:{}, own:[] }; }
+
+  /* most clauses are in unless you untick them. clauses marked opt (for one kind of work only)
+     are out unless you tick them, so older saved terms don't suddenly grow. */
+  function isOn(s, c){ return c.opt ? !!(s.on && s.on[c.id]) : !(s.off && s.off[c.id]); }
+  function setOn(s, c, on){
+    s.on = s.on || {}; s.off = s.off || {};
+    if (c.opt){ if (on) s.on[c.id] = 1; else delete s.on[c.id]; }
+    else { if (on) delete s.off[c.id]; else s.off[c.id] = 1; }
+  }
 
   /* the clauses as they end up on paper: base (with your numbers and your wording),
      then your own clauses, then which law applies */
   function list(s){
     var out = [], v = s.v || {}, me = s.me || {}, last = [];
     CLAUSES.forEach(function(c){
-      if (s.off && s.off[c.id]) return;
+      if (!isOn(s, c)) return;
       var x = { id:c.id, h:c.h, b:(s.txt && s.txt[c.id]) || c.t(v, me) };
       (c.last ? last : out).push(x);
     });
@@ -158,5 +175,5 @@
   }
   function link(s){ return 'feefee.co/t.html?id=' + s; }
 
-  window.ffTerms = { VARS:VARS, CLAUSES:CLAUSES, blank:blank, list:list, render:render, load:load, save:save, bySlug:bySlug, link:link };
+  window.ffTerms = { VARS:VARS, CLAUSES:CLAUSES, blank:blank, isOn:isOn, setOn:setOn, list:list, render:render, load:load, save:save, bySlug:bySlug, link:link };
 })();
