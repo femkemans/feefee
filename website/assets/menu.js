@@ -1,4 +1,4 @@
-/* fee fee. menu: the whole site in five doors, behind a small hamburger.
+/* fee fee. menu: the whole site in six doors, behind a small hamburger.
    Shows only in preview mode: ?preview=finetune turns it on in your browser, ?preview=off turns it off (see preview.js).
    Pages that are not built yet show in grey with "soon". A blue dot = members only. */
 (function(){
@@ -10,11 +10,13 @@
       ['day rate maker', '/dayrate.html'],
       ['other cities', '/cities.html']
     ]],
-    ['The brief', [
+    ['The know-how', [
       ['set words', '/setwords.html'],
       ['usage, decoded', '/usage.html'],
       ['ask first', '/askfirst.html'],
-      ['when a shoot grows', '/shootgrows.html'],
+      ['when a shoot grows', '/shootgrows.html']
+    ]],
+    ['The kit', [
       ['call sheet', '/callsheet.html'],
       ['quote and invoice', '/quote.html', 1]
     ]],
@@ -24,7 +26,7 @@
       ['jobs', '/jobs.html'],
       ['coffee with femke', '/call.html', 1]
     ]],
-    ['Why', [
+    ['About', [
       ['manifesto', '/manifesto.html'],
       ['faq', '/index.html#faq'],
       ['house rules', '/rules.html'],
@@ -49,8 +51,8 @@
   + '.ffm-x{justify-self:start;font-family:"Space Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:0;padding:8px 0;cursor:pointer;color:#1C1E1A}'
   + '.ffm-x:hover{color:#1F3FD1}.ffm-x:focus:not(:focus-visible){outline:none}'
   + '.ffm-top img{display:block;height:24px;width:auto}'
-  + '.ffm-grid{max-width:1240px;margin:0 auto;padding:72px 32px 40px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px}'
-  + '.ffm h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(30px,2.6vw,40px);white-space:nowrap;line-height:1;margin:0 0 22px;letter-spacing:-.01em}'
+  + '.ffm-grid{max-width:1360px;margin:0 auto;padding:72px 32px 40px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:32px}'
+  + '.ffm h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(28px,2.2vw,36px);white-space:nowrap;line-height:1;margin:0 0 22px;letter-spacing:-.01em}'
   + '.ffm ul{list-style:none;margin:0;padding:0}'
   + '.ffm li{font-family:"Cormorant Garamond",Georgia,serif;font-size:21px;line-height:1.6}'
   + '.ffm li a{color:#1C1E1A;text-decoration:none;border-bottom:1px solid transparent}'
@@ -58,10 +60,11 @@
   + '.ffm li span.s{color:#9A9E96}'
   + '.ffm li small{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#9A9E96;margin-left:8px;vertical-align:2px}'
   + '.ffm .d{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1F3FD1;margin-left:7px;vertical-align:4px}'
-  + '.ffm-foot{max-width:1240px;margin:0 auto;padding:24px 32px 56px;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.04em;color:#6E726A}'
+  + '.ffm-foot{max-width:1360px;margin:0 auto;padding:24px 32px 56px;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.04em;color:#6E726A}'
   + '.ffm-foot .d{margin:0 8px 0 0;vertical-align:1px}'
   + 'html.ffm-open{overflow:hidden}'
   + 'html.ff-in .ffm [data-a=out]{display:none}'
+  + '@media (max-width:1200px){.ffm-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:56px 40px}}'
   + '@media (max-width:980px){.ffm-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 32px;padding-top:48px}}'
   + '@media (max-width:700px){.ffm-top{padding:14px 18px}.ffm-grid{grid-template-columns:1fr;gap:36px;padding:36px 18px 24px}.ffm h2{font-size:34px;margin-bottom:12px}.ffm-foot{padding:16px 18px 48px}'
   + '.nav .ffm-btn{position:absolute;left:12px;top:50%;transform:translateY(-50%)}}';
