@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/assets/preview.js"></script>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ask first – fee fee.</title>
+<meta name="description" content="A new client writes. Before you say a number, ask the right questions. Pick your role, tick what you need to know and copy the reply.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<script src="assets/me.js"></script>
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--butter:#F7EFC9;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:calc(100vh - var(--ffh-h,70px))}
+h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:0 0 18px}
+.lead{font-size:20px;line-height:1.55;margin:0 0 34px;max-width:30em}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 30px;padding:18px 0 0;min-width:0}
+legend{padding:0 10px 0 0;font-style:italic;font-size:26px}
+label{display:block;margin-bottom:14px}
+label>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+input,select{height:46px;width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
+input:focus,select:focus{box-shadow:0 0 0 2px var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:end}
+.roles{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.role{position:relative}
+.role input{position:absolute;opacity:0;inset:0;margin:0;height:auto;cursor:pointer}
+.role span{display:inline-flex;align-items:center;height:38px;padding:0 14px;border:1px solid var(--ink);background:var(--paper);font:13px 'Space Mono',monospace;cursor:pointer}
+.role input:checked+span{box-shadow:inset 0 0 0 1px var(--ink)}
+.role input:checked+span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ink);margin-right:9px}
+.role input:focus-visible+span{box-shadow:0 0 0 2px var(--blue)}
+.qs{margin:0;padding:0;list-style:none}
+.qs li{border-bottom:1px solid rgba(28,30,26,.14)}
+.qs label{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;margin:0;padding:10px 0;cursor:pointer;font-size:19px;line-height:1.45}
+.qs input{width:16px;height:16px;margin:5px 0 0;accent-color:var(--ink)}
+.qs label>span,.ways label>span{white-space:normal;overflow:visible;font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;line-height:1.45;color:var(--ink);margin:0}
+.qs .tag{display:block;font:11px 'Space Mono',monospace;color:var(--muted);margin-top:2px}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ways label{margin:0;position:relative}
+.ways input{position:absolute;opacity:0;inset:0;height:auto;margin:0;cursor:pointer}
+.ways span{display:block;background:var(--paper);border:1px solid transparent;padding:12px 14px;font-size:18px;line-height:1.3;cursor:pointer}
+.ways small{display:block;font:11px 'Space Mono',monospace;color:var(--muted);margin-top:4px}
+.ways input:checked+span{border-color:var(--ink)}
+.ways input:focus-visible+span{box-shadow:0 0 0 2px var(--blue)}
+.fine{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:var(--muted);margin:18px 0 0}
+.main{padding:64px clamp(20px,5vw,80px) 80px;position:sticky;top:var(--ffh-h,70px)}
+.res{max-width:620px}
+.hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;margin:0 0 10px}
+.mail{background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3)}
+.subj{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;border-bottom:1px solid #ECEEE9;padding:14px 22px}
+.subj b{font:400 12px 'Space Mono',monospace;color:var(--soft)}
+.subj input{border:0;height:auto;padding:0;font:15px 'Space Mono',monospace;background:transparent}
+.subj input:focus{box-shadow:none}
+textarea{display:block;width:100%;min-height:540px;border:0;resize:vertical;padding:20px 22px 26px;font:14px/1.75 'Space Mono',monospace;color:var(--ink);background:transparent;outline:none}
+.edited{font:12px 'Space Mono',monospace;color:var(--muted);margin:12px 0 0}
+.edited button{background:none;border:0;padding:0;font:inherit;color:var(--ink);text-decoration:underline;text-decoration-color:var(--blue);text-underline-offset:3px;cursor:pointer}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center}
+.btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;text-decoration:none;border:0;cursor:pointer}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.why{margin-top:44px;border-top:1px solid var(--ink);padding-top:22px}
+.why h2{font-style:italic;font-weight:500;font-size:32px;line-height:1.1;margin:0 0 12px}
+.why p{font-size:20px;line-height:1.6;margin:0 0 12px;max-width:32em}
+.why a{color:var(--ink);text-decoration-color:var(--blue);text-underline-offset:3px}
+@media (max-width:980px){.wrap{grid-template-columns:1fr}.side{min-height:0;padding-bottom:40px}.main{position:static;padding:40px 18px 80px}}
+@media (max-width:520px){.ways{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<div class="wrap">
+<form class="side" id="f" onsubmit="return false" autocomplete="off">
+<h1>Ask first.</h1>
+<p class="lead">a new client writes. before you say a number, ask what the job really is. pick what you do, tick what you need to know, and copy the reply.</p>
+
+<fieldset><legend>What you do</legend>
+<div class="roles" id="roles"></div>
+</fieldset>
+
+<fieldset><legend>The client</legend>
+<div class="grid2">
+<label><span>their first name</span><input name="client" maxlength="40" placeholder="Sam"></label>
+<label><span>the job, in a few words</span><input name="job" maxlength="60" placeholder="the spring campaign"></label>
+</div>
+<label><span>you send a quote</span><select name="when"><option value="today">today</option><option value="within a day" selected>within a day</option><option value="within two working days">within two working days</option></select></label>
+</fieldset>
+
+<fieldset><legend>Your questions</legend>
+<ul class="qs" id="qs"></ul>
+</fieldset>
+
+<fieldset><legend>How long</legend>
+<div class="ways">
+<label><input type="radio" name="len" value="full" checked><span>the full email<small>at your desk</small></span></label>
+<label><input type="radio" name="len" value="short"><span>the short one<small>on set, from your phone</small></span></label>
+</div>
+</fieldset>
+
+<fieldset><legend>Signed by</legend>
+<div class="grid2">
+<label><span>your name</span><input name="name" maxlength="60" placeholder="your name"></label>
+<label><span>what you do</span><input name="me_role" maxlength="60" placeholder="stylist"></label>
+</div>
+<label><span>website or instagram (optional)</span><input name="web" maxlength="80" placeholder="yourwebsite.com"></label>
+</fieldset>
+<p class="fine">everything stays in this browser. nothing is sent to fee fee.</p>
+</form>
+
+<main class="main"><div class="res">
+<p class="hand">your reply.</p>
+<div class="mail">
+<div class="subj"><b>subject</b><input id="subj" aria-label="subject"></div>
+<textarea id="out" aria-label="your reply" spellcheck="true"></textarea>
+</div>
+<p class="edited" id="edited" hidden>you changed the text, so it no longer follows the form. <button type="button" id="reset">start again from the form</button></p>
+<div class="acts">
+<button type="button" class="btn" id="copy">copy</button>
+<a class="btn soft" id="mailto" href="#">open in mail</a>
+</div>
+
+<div class="why" id="why"></div>
+<div data-ideas data-title="Missing a question?" data-lead="tell us what you always end up asking clients. we add the good ones for everyone." style="margin-top:56px"></div>
+</div></main>
+</div>
+
+<script>
+(function(){
+/* every question: [id, the question in the email, short words for the on-set version, small note in the form] */
+var Q={
+ dates:['Which date or dates is the shoot, and is there a back-up date?','dates'],
+ type:['Is it editorial or commercial, and for which brand or title?','brand, editorial or commercial'],
+ usage:['Where will the work be used, for how long, and in which countries?','usage','usage changes the fee'],
+ budget:['Is there a budget for my fee? A range is fine.','budget'],
+ location:['Where is the shoot: studio or location, and in which city?','location'],
+ team:['Who else is on the team: photographer, hair and make-up, producer?','team'],
+ mood:['Is there a moodboard, treatment or references you can share?','moodboard'],
+ deadline:['When do you need the final work?','deadline'],
+ call:['What are the call time and the expected wrap time?','call time'],
+ /* stylist */
+ looks:['How many looks, and for how many talent?','number of looks and talent'],
+ sdays:['How many days do you expect for prep, fittings, the shoot and returns?','prep and return days','prep and returns are paid days'],
+ sizes:['What are the talent’s sizes, and is there a fitting?','sizes'],
+ shop:['Is there a shopping budget, and can it be paid before I start shopping?','shopping budget','so you never pay from your own pocket'],
+ archive:['Would you like pieces from my own archive or props? These are hired out on top of my fee.','archive pieces','your archive is not free'],
+ returns:['Who covers pieces that can’t go back to the shop?','returns'],
+ srounds:['How many rounds of feedback on the looks do you expect before the shoot?','feedback rounds','agree the rounds now'],
+ /* photographer */
+ shots:['How many final images or set-ups do you need?','number of images'],
+ retouch:['How many images need retouching, and at which level?','retouching'],
+ crew:['Should I bring an assistant or a digital tech?','crew'],
+ studio:['Is the studio and gear hire booked, or should I add it to the quote?','studio and gear'],
+ prounds:['How many rounds of feedback on the selection and the retouching?','feedback rounds','agree the rounds now'],
+ /* hair and make-up */
+ talent:['How many talent, and how many looks or changes?','talent and changes'],
+ split:['Do you need hair and make-up from one person, or separate artists?','hair and make-up together or apart','this differs per city'],
+ special:['Anything special: body make-up, wigs, nails, special effects?','special requests'],
+ ot:['How is overtime handled if the day runs long?','overtime'],
+ /* set design */
+ build:['What needs to be built or sourced, and how big is the set?','what to build'],
+ props:['Is there a separate budget for props and the build?','props budget'],
+ bdays:['Are there build and strike days, and is the studio booked for them?','build and strike days','build days are paid days'],
+ /* video */
+ deliver:['What do you need delivered: lengths, formats, cut-downs?','deliverables'],
+ edit:['How many rounds of edits do you expect?','edit rounds','agree the rounds now'],
+ music:['Is music licensed already, or should I include it?','music'],
+ /* assistant */
+ who:['Who would I be assisting, and on what kind of job?','who I assist'],
+ kit:['Should I bring kit or a car, and is that paid?','kit and car']
+};
+/* per role: [name in the form, questions ticked at the start, questions shown but not ticked] */
+var R={
+ stylist:['stylist',['dates','type','looks','sdays','mood','shop','archive','srounds','usage','budget'],['sizes','returns','location','team','deadline']],
+ photo:['photographer',['dates','type','shots','mood','usage','retouch','prounds','budget'],['crew','studio','location','team','deadline','call']],
+ hmua:['hair and make-up',['dates','type','talent','split','mood','call','budget'],['special','ot','location','team','usage']],
+ set:['set designer',['dates','type','build','mood','props','bdays','budget'],['location','team','usage','deadline','call']],
+ video:['video',['dates','type','deliver','mood','usage','edit','budget'],['crew','music','location','team','deadline']],
+ assist:['assistant',['dates','who','call','kit','budget'],['location','ot']]
+};
+var WHY={
+ stylist:['Prep days are paid days.','a styling job is never one day. there is prep, shopping, fittings, the shoot and the returns. on commercial jobs, ask for all of them on the quote. on editorial, the fee is often small, so at least agree the days and the shopping budget before you start.','your archive and your props are part of what you bring, and they are not free. put them on the quote as a hire. see the <a href="terms.html">shopping and archive clauses</a> in your terms.'],
+ photo:['The rounds are part of the price.','retouching and feedback rounds are where a fair job turns into a long one. agree how many rounds, and how many images get retouched, before you quote.','usage changes the fee. if the answer is "everywhere, forever", read <a href="usage.html">usage, decoded</a> first.'],
+ hmua:['Every city builds its team differently.','in some cities one person does hair and make-up, in others they are two artists with two fees. ask before you quote, so you know which job you are pricing.','talent and changes decide the day more than the hours do. ask early.'],
+ set:['Build days are paid days.','a set is built before the shoot and taken down after. ask about build and strike days, and keep the props budget apart from your fee.','what you source and keep afterwards is worth agreeing in writing too.'],
+ video:['Edits are where time goes.','agree the number of edit rounds and the deliverables before you quote. every extra cut-down is extra work.','usage and music both change the price. ask now, not after the edit.'],
+ assist:['Ask what the day really is.','who you assist, the call time and whether your kit or car comes along all change what a fair day rate is.','if overtime is likely, agree how it is paid before the day.']
+};
+var KEY='ff-askfirst', f=document.getElementById('f'), out=document.getElementById('out'), subj=document.getElementById('subj');
+var S={role:'stylist',on:{},len:'full',when:'within a day'}, edited=false;
+try{ var saved=JSON.parse(localStorage.getItem(KEY)||'null'); if(saved) S=Object.assign(S,saved); }catch(e){}
+var me=(window.ffMe&&ffMe())||{};
+if(!S.name && me.name) S.name=me.name;
+if(!S.me_role && me.role) S.me_role=me.role;
+if(!S.web && (me.website||me.instagram)) S.web=(me.website||'').replace(/^https?:\/\//,'').replace(/\/$/,'')||me.instagram;
+if(!S.picked && me.role){ var r=me.role.toLowerCase();
+ S.role=/styl/.test(r)&&!/hair/.test(r)?'stylist':/photo/.test(r)&&!/assist/.test(r)?'photo':/hair|make|mua/.test(r)?'hmua':/set|prop/.test(r)?'set':/video|film|dop|direct/.test(r)?'video':/assist/.test(r)?'assist':S.role; }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+function el(t,c,txt){ var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e; }
+
+/* role chips */
+var rb=document.getElementById('roles');
+Object.keys(R).forEach(function(k){ var l=el('label','role'), i=el('input'); i.type='radio'; i.name='role'; i.value=k; i.checked=S.role===k;
+ i.onchange=function(){ S.role=k; S.picked=1; S.on={}; drawQs(); draw(); save(); };
+ l.appendChild(i); l.appendChild(el('span',null,R[k][0])); rb.appendChild(l); });
+
+/* the question list for this role */
+function ticked(id){ var r=R[S.role], o=S.on[S.role]; return o&&id in o ? !!o[id] : r[1].indexOf(id)>-1; }
+function drawQs(){
+ var ul=document.getElementById('qs'); ul.innerHTML='';
+ var r=R[S.role]; r[1].concat(r[2]).forEach(function(id){
+  var li=el('li'), l=el('label'), i=el('input'), t=el('span',null,Q[id][0]);
+  i.type='checkbox'; i.checked=ticked(id);
+  i.onchange=function(){ S.on[S.role]=S.on[S.role]||{}; S.on[S.role][id]=i.checked?1:0; draw(); save(); };
+  if(Q[id][2]) t.appendChild(el('span','tag',Q[id][2]));
+  l.appendChild(i); l.appendChild(t); li.appendChild(l); ul.appendChild(li);
+ });
+ var w=WHY[S.role], box=document.getElementById('why');
+ box.innerHTML='<h2>'+w[0]+'</h2><p>'+w[1]+'</p><p>'+w[2]+'</p>';
+}
+
+/* fields */
+['client','job','when','name','me_role','web'].forEach(function(n){ var i=f.elements[n]; if(S[n]!=null) i.value=S[n];
+ i.addEventListener('input',function(){ S[n]=i.value; draw(); save(); }); i.addEventListener('change',function(){ S[n]=i.value; draw(); save(); }); });
+Array.prototype.forEach.call(f.querySelectorAll('input[name=len]'),function(i){ i.checked=i.value===S.len; i.onchange=function(){ S.len=i.value; draw(); save(); }; });
+
+function list(){ var r=R[S.role]; return r[1].concat(r[2]).filter(ticked); }
+function text(){
+ var c=(S.client||'').trim(), job=(S.job||'').trim(), name=(S.name||'').trim(), ids=list();
+ var hi='Hi'+(c?' '+c:'')+',';
+ if(S.len==='short'){
+  var words=ids.map(function(id){ return Q[id][1]; });
+  var ask=words.length? (words.length>1? words.slice(0,-1).join(', ')+' and '+words[words.length-1] : words[0]) : '';
+  return hi+'\n\nThank you, sounds great! I’m on set today, so a quick one for now. I’ll come back to you properly '+(S.when==='today'?'later today':'tonight')+'.'
+   +(ask?'\n\nSo I can quote, could you send me the '+ask+'?':'')
+   +'\n\nThanks,\n'+(name.split(' ')[0]||'');
+ }
+ var lines=ids.map(function(id,i){ return (i+1)+'. '+Q[id][0]; }).join('\n');
+ var sign=[name,[S.me_role,S.web].map(function(x){return (x||'').trim();}).filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+ return hi+'\n\nThank you for thinking of me'+(job?' for '+job:'')+'. I’d love to hear more.'
+  +(lines?' So I can send you a clear quote, could you let me know:\n\n'+lines:'')
+  +'\n\nOnce I have these, I’ll send you a quote '+(S.when||'within a day')+'.'
+  +'\n\nBest,\n'+sign;
+}
+function subject(){ var job=(S.job||'').trim(); return (job? job.charAt(0).toUpperCase()+job.slice(1) : 'Your shoot')+': a few questions before I quote'; }
+function draw(){
+ if(!edited){ out.value=text(); subj.value=subject(); }
+ document.getElementById('mailto').href='mailto:?subject='+encodeURIComponent(subj.value)+'&body='+encodeURIComponent(out.value);
+}
+out.addEventListener('input',function(){ edited=true; document.getElementById('edited').hidden=false; draw(); });
+subj.addEventListener('input',function(){ edited=true; document.getElementById('edited').hidden=false; draw(); });
+document.getElementById('reset').onclick=function(){ edited=false; document.getElementById('edited').hidden=true; draw(); };
+document.getElementById('copy').onclick=function(){ var b=this, t=out.value;
+ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(function(){ out.select(); document.execCommand('copy'); }).then(function(){ b.textContent='copied'; setTimeout(function(){ b.textContent='copy'; },1600); }); };
+
+drawQs(); draw();
+})();
+</script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+<script src="assets/ideas.js" defer></script>
+</body>
+</html>

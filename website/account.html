@@ -182,12 +182,14 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <p class="pl">everyone on fee fee. has a real name. pick what fits you now. you can switch later.</p>
 <form id="jf">
 <div class="jn">
-<label><input type="radio" name="kind" value="professional"><b><span class="dot"></span>I work as a creative.</b><small>you get paid for your work. you show up in the index, answer questions and post jobs. femke looks at your work first.</small></label>
+<label><input type="radio" name="kind" value="professional"><b><span class="dot"></span>I work as a creative.</b><small>you get paid for your work. you show up in the index, answer questions and post jobs. femke looks at your work first: no follower counts, just paid work.</small></label>
 <label><input type="radio" name="kind" value="learning"><b><span class="dot"></span>I'm learning.</b><small>you're starting out or still studying. read, ask and use every tool. you're not in the index yet.</small></label>
 </div>
 <div class="jw" id="jw" hidden><div class="card pf">
 <label class="wide"><span>where we can see your paid work</span><input id="j-work" inputmode="url" maxlength="200" placeholder="website or instagram"></label>
-<label class="wide"><span>anything femke should know (optional)</span><input id="j-note" maxlength="280" placeholder="e.g. mostly editorial, a few campaigns"></label>
+<label class="wide"><span>no website yet? someone on fee fee. who knows your work</span><input id="j-vouch" maxlength="160" placeholder="their name or email"></label>
+<label class="wide lp-on"><input type="checkbox" id="j-call"><span>or I'd rather do a 15 minute intro call with femke.</span></label>
+<label class="wide"><span>a short intro: what you do, and for whom (optional)</span><input id="j-note" maxlength="280" placeholder="e.g. stylist, mostly editorial, a few campaigns"></label>
 </div></div>
 <div class="row" style="margin-top:16px"><button class="btn">save</button><span class="cap" id="j-msg" role="status"></span></div>
 </form>
@@ -323,6 +325,7 @@ function projRow(l){
 function projBtn(){ document.getElementById('pj-add').hidden=document.getElementById('lp-proj').children.length>=3; }
 var JOIN_TEXT={
  'professional:pending':'thanks. femke is looking at your work. you hear back by email, usually within a week.',
+ 'professional:call':'thanks. book your intro call with femke here: feefee.co/call.html. you\'re in as soon as you\'ve talked.',
  'professional:approved':'you\'re in as a professional. switch on "show me in the index" on your link page to be listed.',
  'professional:declined':'not yet. femke couldn\'t see enough paid work. add new work and save again, or stay as learning for now.',
  'learning:approved':'you\'re in as learning. read, ask and use every tool. switch whenever you start getting paid work.'
@@ -331,21 +334,32 @@ function fillJoin(user){
  var f=document.getElementById('jf'), msg=document.getElementById('j-msg'), st=document.getElementById('j-state'), cur=null;
  function kind(){ var c=f.querySelector('input[name=kind]:checked'); return c?c.value:''; }
  function show(){ document.getElementById('jw').hidden=kind()!=='professional'; }
- function state(){ if(!cur){ st.hidden=true; return; } st.textContent=JOIN_TEXT[cur.kind+':'+cur.status]||''; st.hidden=!st.textContent; }
+ function state(){ if(!cur){ st.hidden=true; return; } var k=cur.kind+':'+cur.status; if(k==='professional:pending'&&(cur.intro_call||/intro call/.test(cur.note||''))) k='professional:call'; st.textContent=JOIN_TEXT[k]||''; st.hidden=!st.textContent; }
  f.querySelectorAll('input[name=kind]').forEach(function(i){ i.onchange=show; });
  D.sb.from('joins').select('*').eq('user_id',user.id).maybeSingle().then(function(r){
   if(r.error){ document.getElementById('join').hidden=true; return; }
   cur=r.data;
-  if(cur){ var i=f.querySelector('input[value='+cur.kind+']'); if(i) i.checked=true; document.getElementById('j-work').value=cur.work_link||''; document.getElementById('j-note').value=cur.note||''; }
+  if(cur){ var i=f.querySelector('input[value='+cur.kind+']'); if(i) i.checked=true; document.getElementById('j-work').value=cur.work_link||''; document.getElementById('j-note').value=cur.note||''; document.getElementById('j-vouch').value=cur.vouch||''; document.getElementById('j-call').checked=!!cur.intro_call; }
   show(); state();
  });
  f.onsubmit=function(e){ e.preventDefault(); var k=kind(), b=f.querySelector('button');
   if(!k){ msg.textContent='pick one of the two.'; return; }
   if(!document.getElementById('p-name').value.trim()){ msg.textContent='add your name in your profile above first. nobody is anonymous here.'; return; }
   var w=document.getElementById('j-work').value.trim(); if(w && !/^https?:\/\//.test(w) && !/^@/.test(w)) w='https://'+w;
-  if(k==='professional' && !w){ msg.textContent='add a link to your paid work, so femke can look.'; return; }
+  var v=document.getElementById('j-vouch').value.replace(/[<>]/g,'').trim(), call=document.getElementById('j-call').checked;
+  if(k==='professional' && !w && !v && !call){ msg.textContent='add a link to your paid work, someone who knows your work, or tick the intro call.'; return; }
   b.disabled=true; msg.textContent='saving…';
-  D.sb.from('joins').upsert({user_id:user.id,kind:k,work_link:w||null,note:document.getElementById('j-note').value.replace(/[<>]/g,'').trim()||null},{onConflict:'user_id'}).select('*').single().then(function(r){ b.disabled=false;
+  var note=document.getElementById('j-note').value.replace(/[<>]/g,'').trim();
+  var row={user_id:user.id,kind:k,work_link:w||null,note:note||null,vouch:v||null,intro_call:call};
+  function send(rw){ return D.sb.from('joins').upsert(rw,{onConflict:'user_id'}).select('*').single(); }
+  send(row).then(function(r){
+   /* before supabase/ideas.sql has run, vouch and intro call ride along in the note */
+   if(r.error && /vouch|intro_call/.test(r.error.message||'')){
+    var extra=[v&&('vouch: '+v),call&&'wants an intro call'].filter(Boolean).join(' · ');
+    return send({user_id:user.id,kind:k,work_link:w||null,note:([note,extra].filter(Boolean).join(' · ').slice(0,280))||null});
+   }
+   return r;
+  }).then(function(r){ b.disabled=false;
    if(r.error){ msg.textContent='that did not work: '+r.error.message; return; }
    cur=r.data; msg.textContent='saved.'; state(); });
  };

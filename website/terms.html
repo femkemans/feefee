@@ -44,6 +44,7 @@ textarea{min-height:120px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Ge
 .cl-top label .cl-h{display:block;margin:0;font:italic 500 21px/1.2 'Cormorant Garamond',Georgia,serif;color:var(--ink)}
 .cl.off .cl-h{color:var(--soft);text-decoration:line-through;text-decoration-thickness:1px}
 .cl.off .cl-body{display:none}
+.cl-who{font:11px 'Space Mono',monospace;color:var(--soft);margin-left:10px;white-space:nowrap}
 .cl-body{padding:10px 0 0 30px}
 .cl-body .grid2{margin-bottom:8px;align-items:end}
 .cl-body input{padding:8px 10px}
@@ -165,10 +166,10 @@ function msg(t){ document.getElementById('savemsg').textContent=t; }
 function drawClauses(){
  var box=document.getElementById('clauses'); box.innerHTML='';
  T.CLAUSES.forEach(function(c){
-  var w=el('div','cl'+(S.off[c.id]?' off':'')), top=el('div','cl-top'), lb=el('label'), cb=el('input');
-  cb.type='checkbox'; cb.checked=!S.off[c.id];
-  cb.onchange=function(){ if(cb.checked) delete S.off[c.id]; else S.off[c.id]=1; w.classList.toggle('off',!cb.checked); changed(); };
-  lb.appendChild(cb); lb.appendChild(el('span','cl-h',c.h)); top.appendChild(lb); w.appendChild(top);
+  var on=T.isOn(S,c), w=el('div','cl'+(on?'':' off')), top=el('div','cl-top'), lb=el('label'), cb=el('input');
+  cb.type='checkbox'; cb.checked=on;
+  cb.onchange=function(){ T.setOn(S,c,cb.checked); w.classList.toggle('off',!cb.checked); changed(); };
+  lb.appendChild(cb); lb.appendChild(el('span','cl-h',c.h)); if(c.who) lb.appendChild(el('span','cl-who',c.who)); top.appendChild(lb); w.appendChild(top);
   var body=el('div','cl-body');
   if(c.f.length){
    var g=el('div','grid2');
@@ -239,7 +240,7 @@ var started=false;
 function start(user){
  if(started) return; started=true;
  T.load().then(function(r){
-  if(r.state){ var b=T.blank(); S=r.state; ['v','me','off','txt'].forEach(function(k){ S[k]=Object.assign({},b[k],S[k]||{}); }); S.own=S.own||[]; }
+  if(r.state){ var b=T.blank(); S=r.state; ['v','me','off','on','txt'].forEach(function(k){ S[k]=Object.assign({},b[k],S[k]||{}); }); S.own=S.own||[]; }
   CLOUD=r.cloud; META={slug:r.slug,published:r.published};
   var df=defaults(user), filled=false;
   ME.forEach(function(k){ var v=S.me[k]; if(v==null||v===''){ v=df[k]||''; if(v) filled=true; } f.elements[k].value=v; });
