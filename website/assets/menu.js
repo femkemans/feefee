@@ -1,37 +1,30 @@
-/* fee fee. menu: the whole site in six doors, behind a small hamburger.
+/* fee fee. menu: the whole site in five doors, with the about pages in the footer, behind a small hamburger.
    Shows only in preview mode: ?preview=finetune turns it on in your browser, ?preview=off turns it off (see preview.js).
    Pages that are not built yet show in grey with "soon". A blue dot = members only. */
 (function(){
   var D = [
-    ['The numbers', [
+    ['Numbers', [
       ['the range', '', 1],
       ['the fee drop', '/drops.html'],
       ['say your number', '/fee.html'],
       ['day rate maker', '/dayrate.html'],
       ['other cities', '/cities.html']
     ]],
-    ['The know-how', [
+    ['Know-how', [
       ['set words', '/setwords.html'],
       ['usage, decoded', '/usage.html'],
       ['ask first', '/askfirst.html'],
       ['when a shoot grows', '/shootgrows.html']
     ]],
-    ['The kit', [
+    ['Forms', [
       ['call sheet', '/callsheet.html'],
       ['quote and invoice', '/quote.html', 1]
     ]],
-    ['The crew', [
+    ['Crew', [
       ['ask anything', '/questions.html'],
       ['the crew list', '/people.html'],
       ['jobs', '/jobs.html'],
       ['coffee with femke', '/call.html', 1]
-    ]],
-    ['About', [
-      ['manifesto', '/manifesto.html'],
-      ['faq', '/index.html#faq'],
-      ['house rules', '/rules.html'],
-      ['terms of use', '/use.html'],
-      ['privacy', '/privacy.html']
     ]],
     ['Your desk', [
       ['join the waitlist', '/index.html#join', 0, 'out'],
@@ -39,6 +32,14 @@
       ['your terms', '/terms.html', 1],
       ['your link page', '/account.html', 1]
     ]]
+  ];
+
+  var F = [
+    ['manifesto', '/manifesto.html'],
+    ['faq', '/index.html#faq'],
+    ['house rules', '/rules.html'],
+    ['terms of use', '/use.html'],
+    ['privacy', '/privacy.html']
   ];
 
   var css = ''
@@ -51,7 +52,7 @@
   + '.ffm-x{justify-self:start;font-family:"Space Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:none;border:0;padding:8px 0;cursor:pointer;color:#1C1E1A}'
   + '.ffm-x:hover{color:#1F3FD1}.ffm-x:focus:not(:focus-visible){outline:none}'
   + '.ffm-top img{display:block;height:24px;width:auto}'
-  + '.ffm-grid{max-width:1360px;margin:0 auto;padding:72px 32px 40px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:32px}'
+  + '.ffm-grid{max-width:1360px;margin:0 auto;padding:72px 32px 40px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px}'
   + '.ffm h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(28px,2.2vw,36px);white-space:nowrap;line-height:1;margin:0 0 22px;letter-spacing:-.01em}'
   + '.ffm ul{list-style:none;margin:0;padding:0}'
   + '.ffm li{font-family:"Cormorant Garamond",Georgia,serif;font-size:21px;line-height:1.6}'
@@ -62,6 +63,10 @@
   + '.ffm .d{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1F3FD1;margin-left:7px;vertical-align:4px}'
   + '.ffm-foot{max-width:1360px;margin:0 auto;padding:24px 32px 56px;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.04em;color:#6E726A}'
   + '.ffm-foot .d{margin:0 8px 0 0;vertical-align:1px}'
+  + '.ffm-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 32px;padding-top:28px}'
+  + '.ffm-about{display:flex;flex-wrap:wrap;gap:6px 22px}'
+  + '.ffm-about a{color:#1C1E1A;text-decoration:none;font-size:12px;letter-spacing:.06em}'
+  + '.ffm-about a:hover{color:#1F3FD1}'
   + 'html.ffm-open{overflow:hidden}'
   + 'html.ff-in .ffm [data-a=out]{display:none}'
   + '@media (max-width:1200px){.ffm-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:56px 40px}}'
@@ -102,7 +107,10 @@
       c.appendChild(ul); g.appendChild(c);
     });
     m.appendChild(g);
-    m.appendChild(el('p', 'ffm-foot', '<span class="d"></span>members only. everything else is open to everyone.'));
+    var ft = el('div', 'ffm-foot');
+    ft.appendChild(el('nav', 'ffm-about', F.map(function(it){ return '<a href="' + it[1] + '">' + it[0] + '</a>'; }).join('')));
+    ft.appendChild(el('p', '', '<span class="d"></span>members only. everything else is open to everyone.')).style.margin = '0';
+    m.appendChild(ft);
     document.body.appendChild(m);
 
     function set(on){
