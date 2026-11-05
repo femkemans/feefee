@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap');
+/* fee fee. reading system (5 Nov 2026)
+   1. serif for what you look at (titles, big lines, quotes), sans for what you read (body text).
+   2. every block opens with one big line. the rest is depth, for whoever wants it.
+   3. one marked phrase per block at most: <mark> is a butter highlighter, like on paper.
+   4. guides start with "the short version": built by assets/read.js from the section titles.
+   Load after the page's own <style>. */
+:root{--read:'DM Sans',system-ui,-apple-system,sans-serif;--hl:#F3E29C}
+
+/* body text in sans: calmer for tired eyes and dyslexic readers, still high end */
+.lead,.s p:not(.lab),.s li,.end p,.q-body,.faq details p,.read-p{font-family:var(--read)!important;font-weight:400;letter-spacing:0}
+.lead{font-size:18px!important;line-height:1.65!important;max-width:34em}
+.s p:not(.lab),.s li,.end p,.read-p{font-size:17px!important;line-height:1.7!important;color:#2B2E28}
+.s p:not(.lab),.read-p{max-width:36em}
+.s li b{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-style:italic;font-size:1.22em;letter-spacing:0}
+.q-body{font-size:16px!important;line-height:1.65!important}
+.faq details p{font-size:17px!important;line-height:1.65!important;color:var(--muted,#4A4E46)}
+@media (max-width:760px){.lead{font-size:17px!important}.s p:not(.lab),.s li,.end p,.read-p{font-size:16px!important}}
+
+/* the highlighter */
+mark{color:inherit;background:linear-gradient(transparent 56%,var(--hl) 56%,var(--hl) 94%,transparent 94%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* the short version: reel-script rows, number left, one big line each */
+.glance{margin:44px 0 8px;padding:0}
+.glance-k{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--blue,#1F3FD1);font-size:19px;margin:0 0 10px}
+.glance ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
+.glance li{border-top:1px solid #E6E8E3}
+.glance a{display:grid;grid-template-columns:42px minmax(0,1fr) 18px;gap:12px;align-items:baseline;padding:14px 0;text-decoration:none;color:var(--ink,#1C1E1A)}
+.glance .gn{font:12px 'Space Mono',monospace;color:var(--soft,#8A8E86)}
+.glance .gt{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:22px;line-height:1.25}
+.glance .ga{font:12px 'Space Mono',monospace;color:var(--soft,#8A8E86);transition:transform .25s}
+.glance a:hover .gt{color:#000}.glance a:hover .ga{transform:translateY(3px);color:var(--blue,#1F3FD1)}
+.s{scroll-margin-top:90px}
+@media (max-width:760px){.glance{margin-top:30px}.glance ol{grid-template-columns:1fr}.glance .gt{font-size:20px}}
