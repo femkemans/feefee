@@ -27,7 +27,6 @@
       ['when a shoot grows', '/shootgrows.html']
     ]],
     ['Your desk', [
-      ['join the waitlist', '/index.html#join', 0, 'out'],
       ['your desk', '/account.html', 1],
       ['your terms', '/terms.html', 1],
       ['your link page', '/account.html', 1]
