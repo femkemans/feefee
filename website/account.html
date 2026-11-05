@@ -422,6 +422,7 @@ function start(user){
  document.getElementById('hi').textContent= nm ? 'Hi '+nm+'.' : 'Your desk.';
  fillProfile(user);
  fillJoin(user);
+ D.sb.rpc('is_admin').then(function(r){ if(!r.error&&r.data){ var w=document.getElementById('who'), x=document.createElement('a'); x.href='admin.html'; x.textContent='the back office →'; x.style.marginLeft='14px'; w.appendChild(x); } });
  fillPage(user);
  fillFees(user);
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });

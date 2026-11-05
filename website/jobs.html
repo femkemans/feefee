@@ -83,7 +83,8 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 <label><span>to (optional)</span><input id="p-to" type="date"></label>
 <label class="wide"><span>style</span><textarea id="p-style" maxlength="600" placeholder="a few words about the look and feel"></textarea></label>
 <label><span>moodboard link (optional)</span><input id="p-mood" inputmode="url" maxlength="300" placeholder="https://"></label>
-<label><span>fee</span><input id="p-fee" maxlength="80" placeholder="e.g. €550 a day, or open to quotes"></label>
+<label><span>fee</span><input id="p-fee" maxlength="80" required placeholder="e.g. €550 a day, or open to quotes"></label>
+<p class="wide cap" style="margin:0">a real job with a real date and a fee (or "open to quotes"). see the <a href="rules.html">house rules</a>.</p>
 <div class="wide acts"><button class="btn">post it</button><button class="btn soft" type="button" id="post-x">cancel</button><span class="cap" id="p-msg" role="status"></span></div>
 </form>
 
@@ -94,6 +95,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
+<script src="assets/report.js"></script>
 <script>
 (function(){
 /* made-up jobs only: never real names, studios or clients */
@@ -148,6 +150,7 @@ function card(j){
   var rb=el('button','btn','I\'m in'); rb.type='button'; acts.appendChild(rb);
   rb.onclick=function(){ acts.hidden=true; replyForm(j,b); };
  }
+ if(!demo && user && j.user_id!==user.id && window.ffReport) b.appendChild(ffReport.link('job',j.id));
  a.appendChild(w); a.appendChild(b); return a;
 }
 function replyForm(j,box){

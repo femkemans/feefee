@@ -251,6 +251,7 @@ footer a{color:var(--muted);text-decoration:none}
 
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
+<script src="assets/report.js"></script>
 <script>
 /* fee fee. questions — public list + search; answers are members only.
    Data lives in Supabase (see supabase/questions.sql): questions are public once
@@ -338,12 +339,12 @@ function gate(slug, box){
 }
 function members(slug, box){
  var list=el('div'); box.appendChild(list); list.appendChild(el('p','cap','loading answers…'));
- sb.from('answers').select('id,display_name,role,body,created_at').eq('question_slug',slug).order('created_at',{ascending:true}).then(function(r){
+ sb.from('answers').select('id,user_id,display_name,role,body,created_at').eq('question_slug',slug).order('created_at',{ascending:true}).then(function(r){
   list.innerHTML='';
   if(r.error){ list.appendChild(el('p','cap','couldn’t load the answers. try again in a bit.')); return; }
   if(!r.data.length) list.appendChild(el('p','cap','no answers yet. you’ve been there? help them out.'));
   r.data.forEach(function(a){ var row=el('div','ans'); row.appendChild(el('span','av',initials(a.display_name||a.role)));
-   var t=el('div'); t.appendChild(el('span','cap',(a.display_name||(a.role?article(a.role):'a member'))+' replied'+(a.display_name&&a.role?' · '+a.role:''))); t.appendChild(el('p',null,a.body)); row.appendChild(t); list.appendChild(row); });
+   var t=el('div'); t.appendChild(el('span','cap',(a.display_name||(a.role?article(a.role):'a member'))+' replied'+(a.display_name&&a.role?' · '+a.role:''))); t.appendChild(el('p',null,a.body)); if(window.ffReport && !(state.user&&a.user_id===state.user.id)) t.appendChild(ffReport.link('answer',a.id)); row.appendChild(t); list.appendChild(row); });
  });
  var f=el('form','reply'), ta=el('textarea','field'); ta.required=true; ta.maxLength=4000; ta.placeholder='your answer. be honest, be kind, share numbers if you can.';
  var who=el('div'); who.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
@@ -352,7 +353,7 @@ function members(slug, box){
  var meta=(state.user&&state.user.user_metadata)||{}; try{ nm.value=meta.name||localStorage.getItem('ff-name')||''; rl.value=meta.role||localStorage.getItem('ff-role')||''; }catch(e){ nm.value=meta.name||''; rl.value=meta.role||''; }
  who.appendChild(nm); who.appendChild(rl);
  var btn=el('button','btn','post my answer'), m=el('p','cap msg'); btn.style.alignSelf='flex-start';
- f.appendChild(ta); f.appendChild(who); f.appendChild(btn); f.appendChild(m);
+ f.appendChild(ta); f.appendChild(who); var hr=el('p','cap'); hr.innerHTML='real names, real numbers, no naming and shaming. see the <a href="rules.html">house rules</a>.'; f.appendChild(hr); f.appendChild(btn); f.appendChild(m);
  f.onsubmit=function(e){ e.preventDefault(); m.textContent='';
   if(nm.value.trim().length<2){ nm.focus(); return; }
   btn.disabled=true;

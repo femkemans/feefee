@@ -8,39 +8,34 @@
       ['the fee drop', '/drops.html'],
       ['say your number', '/fee.html'],
       ['day rate maker', '/dayrate.html'],
-      ['other cities', '/cities.html'],
-      ['off the record', '']
+      ['other cities', '/cities.html']
     ]],
     ['The brief', [
       ['set words', '/setwords.html'],
       ['usage, decoded', '/usage.html'],
-      ['the small print', ''],
       ['ask first', '/askfirst.html'],
       ['when a shoot grows', '/shootgrows.html'],
-      ['notes', ''],
       ['call sheet', '/callsheet.html'],
-      ['quote and invoice', '/quote.html', 1],
-      ['more in the kit', '']
+      ['quote and invoice', '/quote.html', 1]
     ]],
     ['The crew', [
       ['ask anything', '/questions.html'],
       ['the crew list', '/people.html'],
       ['jobs', '/jobs.html'],
-      ['coffee with femke', '/call.html', 1],
-      ['after wrap', '']
+      ['coffee with femke', '/call.html', 1]
     ]],
     ['Why', [
       ['manifesto', '/manifesto.html'],
-      ['a letter from femke', ''],
       ['faq', '/index.html#faq'],
+      ['house rules', '/rules.html'],
+      ['terms of use', '/use.html'],
       ['privacy', '/privacy.html']
     ]],
     ['Your desk', [
       ['join the waitlist', '/index.html#join', 0, 'out'],
       ['your desk', '/account.html', 1],
       ['your terms', '/terms.html', 1],
-      ['your link page', '/account.html', 1],
-      ['bring your people', '', 1]
+      ['your link page', '/account.html', 1]
     ]]
   ];
 
