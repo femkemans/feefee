@@ -22,6 +22,7 @@ body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;ba
 main{max-width:480px;margin:0 auto;padding:88px 24px 36px;display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
 h1{font-style:italic;font-weight:500;font-size:clamp(44px,12vw,58px);line-height:.98;margin:0 0 16px;overflow-wrap:anywhere}
 .what{margin:0 0 20px;color:var(--muted)}
+.fm{margin:-8px 0 20px;font-size:10px;font-weight:400;color:#2A45C9}
 .bio{font-size:21px;line-height:1.6;margin:0 0 44px;max-width:30em}
 ul.pj{border-top:0;margin:0 0 44px}
 ul.pj li a{font-style:italic;border-bottom:1px solid #E6E8E3}
@@ -95,6 +96,10 @@ footer a:hover{color:var(--blue);border-color:var(--blue)}
   if(p.email&&/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(p.email)) row('email me','mailto:'+p.email,'email');
   var d=document.createElement('meta'); d.name='description'; d.content=[what,p.bio].filter(Boolean).join('. '); document.head.appendChild(d);
   document.getElementById('page').hidden=false;
+  /* founding member mark (needs founders.sql) */
+  if(p.user_id) sb.rpc('founder_no',{uid:p.user_id}).then(function(f){ var n=f&&!f.error&&f.data; if(!n) return;
+   var m=document.createElement('p'); m.className='mono fm'; m.textContent='founding member · no. '+(n<10?'0'+n:n);
+   var w=document.getElementById('w'); w.parentNode.insertBefore(m,w.nextSibling); });
  });
 })();
 </script>
