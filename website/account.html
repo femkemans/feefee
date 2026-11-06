@@ -27,6 +27,7 @@ a{color:var(--ink)}
 .profile h2{font-style:italic;font-weight:500;font-size:44px;line-height:1;margin:0 0 12px}
 .mark{margin:-8px 0 26px;padding:18px 22px;border-left:2px solid #2A45C9;max-width:36em}
 .mark p{margin:0}
+.mark.founder{margin:22px 0 8px}
 .mark .hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;line-height:1.2;margin-bottom:4px}
 .profile .pl{font-size:20px;line-height:1.6;max-width:36em;margin:0 0 24px}
 .card.pf{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
@@ -134,6 +135,7 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <section id="desk" hidden>
 <h1 id="hi">Hi.</h1>
 <p class="cap who" id="who"></p>
+<div class="mark founder" id="fm" hidden><p class="hand" id="fm-h"></p><p class="cap">one of the first 100. you're helping build fee fee. from the very start, and that stays on your name.</p></div>
 <div class="row">
 <a class="btn" href="quote.html?new=quote">+ new quote</a>
 <a class="btn soft" href="quote.html?new=invoice">+ new invoice</a>
@@ -425,6 +427,9 @@ function start(user){
  D.sb.rpc('is_admin').then(function(r){ if(!r.error&&r.data){ var w=document.getElementById('who'), x=document.createElement('a'); x.href='admin.html'; x.textContent='the back office →'; x.style.marginLeft='14px'; w.appendChild(x); } });
  fillPage(user);
  fillFees(user);
+ /* founding member number (needs founders.sql; stays hidden until it has run) */
+ D.sb.rpc('claim_founder').then(function(r){ var n=r&&!r.error&&r.data; if(!n) return;
+  document.getElementById('fm-h').textContent='founding member no. '+(n<10?'0'+n:n)+'.'; document.getElementById('fm').hidden=false; });
  D.list().then(function(r){ if(r.error){ document.getElementById('list').textContent='could not load your desk: '+r.error.message; return; } docs=r.data||[]; render(); });
  try{ var loc=localStorage.getItem('ff-quote-v2'); if(loc){ var n=document.getElementById('local'); n.hidden=false; n.innerHTML='you have a quote saved on this device. <a href="quote.html">open it</a> and press "save to my desk" to keep it here.'; } }catch(e){}
 }
