@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/assets/preview.js"></script>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fee calculator – fee fee.</title>
+<meta name="description" content="Work out what to ask for one job: days, usage and costs, for photographers, stylists, hair and make-up artists and producers. With lines to defend it.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<script src="assets/me.js"></script>
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+:root{--paper:#FDFCF9;--celadon:#DEEAE0;--ink:#1C1E1A;--muted:#4A4E46;--soft:#8A8E86;--faint:#C9CDC5;--blue:#1F3FD1}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;background:url(assets/grain.png) repeat,var(--paper);background-size:120px 120px,auto;-webkit-font-smoothing:antialiased}
+.wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.side{background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto;padding:48px clamp(24px,4vw,64px) 80px;min-height:calc(100vh - var(--ffh-h,70px))}
+h1{font-style:italic;font-weight:500;font-size:clamp(44px,5vw,72px);line-height:.95;margin:0 0 18px}
+.lead{font-size:20px;line-height:1.55;margin:0 0 34px;max-width:30em}
+fieldset{border:0;border-top:1px solid var(--ink);margin:0 0 30px;padding:18px 0 0;min-width:0}
+legend{padding:0 10px 0 0;font-style:italic;font-size:26px}
+label{display:block;margin-bottom:14px}
+label span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
+label small{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}
+.in{display:flex;align-items:center;background:var(--paper);border:1px solid var(--ink)}
+.in:focus-within{box-shadow:0 0 0 2px var(--blue)}
+.in b{font:400 15px 'Space Mono',monospace;padding:0 0 0 12px;color:var(--muted)}
+.in i{font:400 12px 'Space Mono',monospace;font-style:normal;padding:0 12px 0 0;color:var(--muted);white-space:nowrap}
+input,select{height:44px;width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:transparent;border:0;border-radius:0;padding:10px 12px;outline:none}
+select{height:46px;background:var(--paper);border:1px solid var(--ink)}
+select:focus{box-shadow:0 0 0 2px var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:end}
+.main{padding:64px clamp(20px,5vw,80px) 80px;position:sticky;top:var(--ffh-h,70px)}
+.res{max-width:560px}
+.hand{font-family:'Nothing You Could Do','Reenie Beanie',cursive;color:#2A45C9;font-size:28px;margin:0 0 4px}
+.big{font-variant-numeric:lining-nums;font-feature-settings:"lnum";font-size:clamp(80px,10vw,140px);line-height:1;font-weight:500;margin:0;letter-spacing:-.01em}
+.per{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin:12px 0 34px}
+.lines{border-top:1px solid var(--ink)}
+.ln{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid #E6E8E3;font-size:20px}
+.ln span:last-child{font-variant-numeric:lining-nums;font-family:'Space Mono',monospace;font-size:14px;white-space:nowrap}
+.ln.tot{border-bottom:1px solid var(--ink);font-style:italic}
+.note{font-size:20px;line-height:1.6;margin:30px 0 0}
+.fine{font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;color:var(--muted);margin:18px 0 0}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;text-decoration:none;border:0;cursor:pointer}
+.btn.soft{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.mini{display:none}
+@media (max-width:980px){.wrap{grid-template-columns:1fr}.side{min-height:0;padding-bottom:40px}.main{position:static;padding:40px 18px 96px}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;text-decoration:none}.mini b{font:500 28px 'Cormorant Garamond',Georgia,serif;font-variant-numeric:lining-nums}}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chips label{margin:0;display:inline-flex}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;margin:0;padding:9px 14px;border:1px solid var(--ink);background:var(--paper);font:13px 'Space Mono',monospace;color:var(--ink);cursor:pointer;white-space:nowrap}
+.chips input:checked+span{background:var(--ink);color:var(--paper)}
+.chips input:focus-visible+span{box-shadow:0 0 0 2px var(--blue)}
+.k{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 8px;color:var(--muted)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:6px 0 30px}
+.three div{border-top:1px solid var(--ink);padding-top:10px}
+.three b{display:block;font:500 clamp(30px,3.6vw,46px)/1 'Cormorant Garamond',Georgia,serif;font-variant-numeric:lining-nums}
+.three .mid b{color:var(--blue)}
+.three small{font:11px 'Space Mono',monospace;color:var(--muted)}
+.def{margin:30px 0 0;padding:20px 22px;background:url(assets/grain.png) repeat,var(--celadon);background-size:120px 120px,auto}
+.def h2{font-style:italic;font-weight:500;font-size:28px;margin:0 0 10px}
+.def p{font-size:19px;line-height:1.5;margin:0 0 10px}
+.def p:last-child{margin:0}
+.ln small{display:block;font:11px 'Space Mono',monospace;color:var(--muted);margin-top:2px}
+[data-for]{display:none}
+@media (max-width:560px){.three{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="assets/read.css">
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"><a class="sm ffh-login" data-auth="out" href="account.html">log in</a></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="questions.html">questions</a><a class="lg" href="index.html#solution">about</a><a class="lg ffh-login" data-auth="out" href="account.html">log in</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" hidden>your desk</a></nav>
+</div></header>
+
+<div class="wrap">
+<form class="side" id="f" onsubmit="return false" autocomplete="off">
+<h1>Fee calculator.</h1>
+<p class="lead">what do I ask for this job? fill in the job, and you get three numbers, the lines behind them, and words to defend them.</p>
+
+<span class="k">I am a</span>
+<div class="chips" id="roles"></div>
+<span class="k">the job is</span>
+<div class="chips" id="types"></div>
+
+<fieldset><legend>Your day rate</legend>
+<div class="grid2">
+<label><span>currency</span><select name="cur"><option>€</option><option>$</option><option>£</option><option>CHF</option><option>kr</option></select></label>
+<label><span>your day rate</span><div class="in"><b class="c"></b><input name="rate" inputmode="decimal" placeholder="650"></div></label>
+</div>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block" id="floorhint"></small>
+</fieldset>
+
+<fieldset><legend>The days</legend>
+<div class="grid2">
+<label><span>shoot days</span><div class="in"><input name="shoot" inputmode="decimal" placeholder="1"><i>days</i></div></label>
+<label><span>prep days</span><div class="in"><input name="prep" inputmode="decimal" placeholder="0.5"><i>days</i></div></label>
+<label data-for="stylist"><span>shopping days</span><div class="in"><input name="shop" inputmode="decimal" placeholder="1"><i>days</i></div></label>
+<label data-for="stylist"><span>returns day</span><div class="in"><input name="returns" inputmode="decimal" placeholder="0.5"><i>days</i></div></label>
+<label data-for="photographer"><span>edit days</span><div class="in"><input name="post" inputmode="decimal" placeholder="1"><i>days</i></div></label>
+<label data-for="hair makeup"><span>test day</span><div class="in"><input name="test" inputmode="decimal" placeholder="0"><i>days</i></div></label>
+<label data-for="producer"><span>wrap days</span><div class="in"><input name="wrap" inputmode="decimal" placeholder="1"><i>days</i></div></label>
+<label><span>travel days</span><div class="in"><input name="travel" inputmode="decimal" placeholder="0"><i>days</i></div></label>
+</div>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block">prep, travel and other days count at half your day rate. change it in the quote if you charge them in full.</small>
+<label style="margin-top:14px"><span>when</span><select name="when"><option value="1">normal days</option><option value="1.25">rush: less than a week to prepare (+25%)</option><option value="1.5">weekend or holiday (+50%)</option></select></label>
+</fieldset>
+
+<fieldset id="usagef"><legend>Usage</legend>
+<span class="k">where</span>
+<div class="chips" id="media"></div>
+<div class="grid2">
+<label><span>which countries</span><select name="terr"><option value="1">one country</option><option value="1.5">a region (europe, benelux)</option><option value="2.5">worldwide</option></select></label>
+<label><span>how long</span><select name="period"><option value=".6">3 months</option><option value=".8">6 months</option><option value="1" selected>1 year</option><option value="1.6">2 years</option><option value="3">no end date</option></select></label>
+</div>
+<label class="chips" style="margin-top:4px"><input type="checkbox" name="excl"><span>exclusive: they don't want this look anywhere else (+25%)</span></label>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block" id="usagehint"></small>
+</fieldset>
+
+<fieldset id="prodf" data-for="producer"><legend>Production fee</legend>
+<div class="grid2">
+<label><span>production budget</span><div class="in"><b class="c"></b><input name="budget" inputmode="decimal" placeholder="15000"></div></label>
+<label><span>your fee on top</span><div class="in"><input name="pfee" inputmode="decimal" placeholder="10"><i>%</i></div></label>
+</div>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block">crew, location, catering, rentals. your fee is a share of it, on top of your days.</small>
+</fieldset>
+
+<fieldset><legend>Costs</legend>
+<div class="grid2">
+<label data-for="photographer"><span>equipment, per shoot day</span><div class="in"><b class="c"></b><input name="gear" inputmode="decimal" placeholder="150"></div></label>
+<label data-for="hair makeup stylist"><span>kit fee, per shoot day</span><div class="in"><b class="c"></b><input name="kit" inputmode="decimal" placeholder="50"></div></label>
+<label data-for="photographer"><span>retouched images</span><div class="in"><input name="imgs" inputmode="decimal" placeholder="0"><i>images</i></div></label>
+<label data-for="photographer"><span>retouch, per image</span><div class="in"><b class="c"></b><input name="retouch" inputmode="decimal" placeholder="35"></div></label>
+<label><span>assistant days</span><div class="in"><input name="adays" inputmode="decimal" placeholder="0"><i>days</i></div></label>
+<label><span>assistant, per day</span><div class="in"><b class="c"></b><input name="arate" inputmode="decimal" placeholder="250"></div></label>
+<label><span>travel</span><div class="in"><input name="km" inputmode="decimal" placeholder="0"><i>km</i></div></label>
+<label><span>per km</span><div class="in"><b class="c"></b><input name="kmrate" inputmode="decimal" placeholder="0.23"></div></label>
+</div>
+<small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block" data-for="stylist">the shopping budget for clothes is the client's money, not your fee. ask for it up front.</small>
+</fieldset>
+<p class="fine">everything stays in this browser. nothing is sent to fee fee. these are your numbers, not market prices.</p>
+</form>
+
+<a class="mini" href="#res" id="mini"><span>what to ask ↓</span><b id="mini-r">—</b></a>
+<main class="main" id="res"><div class="res" aria-live="polite">
+<p class="hand">what to ask.</p>
+<div class="three">
+<div><small>your floor</small><b id="lo">—</b></div>
+<div class="mid"><small>fair</small><b id="mid">—</b></div>
+<div><small>strong</small><b id="hi">—</b></div>
+</div>
+<div class="lines" id="lines"></div>
+<p class="per" id="per">excl. vat</p>
+<div class="def"><h2>How to say it.</h2><div id="say"></div></div>
+<p class="note">fair is your own day rate. strong is 20% more on your fee, for a big client or a tight deadline. your floor is the least you can ask without losing money. what you charge is always your call.</p>
+<div class="acts">
+<button type="button" class="btn" id="toquote">make a quote with this</button>
+<a class="btn soft" href="dayrate.html">day rate maker</a>
+</div>
+</div></main>
+</div>
+
+<script>
+(function(){
+var KEY='ff-feecalc', f=document.getElementById('f'), S={};
+try{ S=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){}
+var ROLES=[['photographer','photographer'],['stylist','stylist'],['hair','hair stylist'],['makeup','make-up artist'],['producer','producer']];
+var TYPES=[['editorial','editorial',0],['ecom','e-commerce',.6],['lookbook','lookbook',.8],['campaign','campaign',1],['video','music video',.8],['commercial','commercial film',1.2]];
+var MEDIA=[['online','online + social',.3],['print','print',.25],['ooh','outdoor, posters',.5],['tv','tv, cinema',.75]];
+var D={role:'photographer',type:'campaign',cur:'€',rate:650,shoot:1,prep:.5,shop:1,returns:.5,post:1,test:0,wrap:1,travel:0,when:'1',terr:'1',period:'1',gear:150,kit:50,imgs:0,retouch:35,adays:0,arate:250,km:0,kmrate:.23,budget:0,pfee:10,media:['online']};
+var FLOOR=null; try{ var dr=JSON.parse(localStorage.getItem('ff-dayrate')||'null'); if(dr) FLOOR=floorOf(dr); }catch(e){}
+function floorOf(s){ function n(k,d){ var v=parseFloat(String(s[k]==null?'':s[k]).replace(',','.')); return isNaN(v)?d:v; }
+ var live=n('live',2500)*12, save=n('save',300)*12, costs=n('costs',600)*12, tax=Math.min(Math.max(n('tax',35),0),80)/100, off=Math.min(Math.max(n('off',7),0),51), dpw=Math.min(Math.max(n('days',2.5),.5),7);
+ return Math.ceil(((live+save)/(1-tax)+costs)/Math.max(1,Math.round((52-off)*dpw))/10)*10; }
+function chips(box,list,name,multi){
+ var el=document.getElementById(box);
+ list.forEach(function(x){ var l=document.createElement('label'); l.innerHTML='<input type="'+(multi?'checkbox':'radio')+'" name="'+name+'" value="'+x[0]+'"><span>'+x[1]+'</span>'; el.appendChild(l); });
+}
+chips('roles',ROLES,'role'); chips('types',TYPES,'type'); chips('media',MEDIA,'media',true);
+function get(k){ var v=S[k]; if(v==null||v==='') return D[k]; return v; }
+function num(k){ var v=parseFloat(String(get(k)).replace(',','.')); return isNaN(v)?(+D[k]||0):Math.max(0,v); }
+function load(){
+ Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){
+  if(i.name==='media'){ i.checked=(S.media||D.media).indexOf(i.value)>-1; return; }
+  if(i.type==='radio'){ i.checked=(get(i.name)===i.value); return; }
+  if(i.type==='checkbox'){ i.checked=!!S[i.name]; return; }
+  if(S[i.name]!=null) i.value=S[i.name];
+ });
+}
+f.addEventListener('input',function(e){ var i=e.target; if(!i.name) return;
+ if(i.name==='media') S.media=[].map.call(f.querySelectorAll('[name=media]:checked'),function(x){return x.value;});
+ else if(i.type==='checkbox') S[i.name]=i.checked; else S[i.name]=i.value;
+ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} draw(); });
+f.addEventListener('change',function(e){ if(e.target.type==='radio'||e.target.type==='checkbox') f.dispatchEvent(new Event('input')); });
+function money(x){ return get('cur')+' '+Math.round(x).toLocaleString('en-GB'); }
+var LAST=null;
+function draw(){
+ var role=get('role'), type=get('type'), cur=get('cur'), r=num('rate'), when=parseFloat(get('when'))||1;
+ Array.prototype.forEach.call(document.querySelectorAll('.c'),function(c){ c.textContent=cur; });
+ Array.prototype.forEach.call(document.querySelectorAll('[data-for]'),function(e){ e.style.display=e.getAttribute('data-for').split(' ').indexOf(role)>-1?'':'none'; });
+ document.getElementById('floorhint').innerHTML = FLOOR ? 'your floor from the day rate maker: '+cur+' '+FLOOR.toLocaleString('en-GB')+'. never go under it.' : 'not sure? work out your floor with the <a href="dayrate.html">day rate maker</a> first.';
+ var editorial=type==='editorial', prod=role==='producer';
+ document.getElementById('usagef').style.display=(editorial||prod)?'none':'';
+ /* work */
+ var W=[], half=.5;
+ function day(label,days,full,det){ if(days>0) W.push([label,days,Math.round(r*(full?1:half)*(full?when:1)),det||'']); }
+ day('shoot day',num('shoot'),true, when>1?(when===1.25?'rush':'weekend or holiday')+' rate':'');
+ day('prep day',num('prep'),false,'concept, planning, calls');
+ if(role==='stylist'){ day('shopping day',num('shop'),false,'pulls, showrooms, shops'); day('returns day',num('returns'),false,'returns and admin'); }
+ if(role==='photographer') day('edit day',num('post'),false,'selection and colour');
+ if(role==='hair'||role==='makeup') day('test day',num('test'),false,'');
+ if(prod) day('wrap day',num('wrap'),false,'returns, invoices, wrap');
+ day('travel day',num('travel'),false,'');
+ if(prod && num('budget')>0) W.push(['production fee',1,Math.round(num('budget')*num('pfee')/100),num('pfee')+'% over a budget of '+money(num('budget'))]);
+ var work=W.reduce(function(a,x){return a+x[1]*x[2];},0);
+ /* usage */
+ var U=[], uf=0, media=S.media||D.media;
+ if(!editorial && !prod){
+  var mf=MEDIA.filter(function(m){return media.indexOf(m[0])>-1;}).reduce(function(a,m){return a+m[2];},0);
+  var tf=(TYPES.filter(function(t){return t[0]===type;})[0]||[0,0,1])[2];
+  uf=mf*parseFloat(get('terr'))*parseFloat(get('period'))*(S.excl?1.25:1)*tf;
+  var ub=r*Math.max(1,num('shoot'))*uf;
+  if(ub>0){ var names=MEDIA.filter(function(m){return media.indexOf(m[0])>-1;}).map(function(m){return m[1];}).join(', ');
+   var terr=f.terr.options[f.terr.selectedIndex].text, per=f.period.options[f.period.selectedIndex].text;
+   U.push(['usage: '+names+', '+terr+', '+per+(S.excl?', exclusive':''),1,Math.round(ub/10)*10,'']); }
+ }
+ document.getElementById('usagehint').textContent = editorial ? '' : 'usage is a share of your shoot fee: more places, more countries and longer time cost more. this one is '+Math.round(uf*100)+'% of your shoot days.';
+ var usage=U.reduce(function(a,x){return a+x[2];},0);
+ /* costs */
+ var E=[], sd=Math.max(0,num('shoot'));
+ if(role==='photographer'){ if(num('gear')) E.push(['equipment',sd,num('gear'),'camera, lenses, laptop']); if(num('imgs')) E.push(['retouch',num('imgs'),num('retouch'),'per image']); }
+ if(role==='hair'||role==='makeup'||role==='stylist'){ if(num('kit')) E.push(['kit fee',sd,num('kit'),'']); }
+ if(num('adays')) E.push(['assistant',num('adays'),num('arate'),'']);
+ if(num('km')) E.push(['travel (km)',num('km'),num('kmrate'),'']);
+ var costs=E.reduce(function(a,x){return a+x[1]*x[2];},0);
+ var fee=work+usage, fair=fee+costs, strong=fee*1.2+costs;
+ var fl=FLOOR? fair*(FLOOR/(r||FLOOR)) : fair*.85; if(FLOOR) fl=(work*(FLOOR/(r||1)))+usage*(FLOOR/(r||1))+costs;
+ fl=Math.min(fl,fair);
+ document.getElementById('lo').textContent=money(fl); document.getElementById('mid').textContent=document.getElementById('mini-r').textContent=money(fair); document.getElementById('hi').textContent=money(strong);
+ function row(x){ return '<div class="ln"><span>'+x[0]+(x[3]?'<small>'+x[3]+'</small>':'')+'</span><span>'+(x[1]!==1?String(x[1]).replace('.',',')+' × ':'')+money(x[2])+'</span></div>'; }
+ document.getElementById('lines').innerHTML=W.concat(U).map(row).join('')+E.map(row).join('')+'<div class="ln tot"><span>fair</span><span>'+money(fair)+'</span></div>';
+ /* how to say it */
+ var parts=[]; var sdn=num('shoot'); if(sdn) parts.push(sdn+' shoot day'+(sdn===1?'':'s'));
+ var other=W.filter(function(x){return x[0]!=='shoot day'&&x[0]!=='production fee';}).reduce(function(a,x){return a+x[1];},0); if(other) parts.push(other+' day'+(other===1?'':'s')+' of prep and other work');
+ var say=[];
+ say.push('"my fee is built on '+(parts.join(' and ')||'the days this job takes')+(U.length?', plus '+U[0][0].replace('usage: ','usage for ')+'.':'.')+'"');
+ if(U.length) say.push('"the usage is what makes the images work for you. if you need them in more places or for longer, we add that later."');
+ else if(editorial) say.push('"this is an editorial rate. if the images are used for advertising later, that is a new usage fee."');
+ if(costs) say.push('"costs like '+E.map(function(x){return x[0];}).join(', ')+' are listed separately, so you see exactly what you pay for."');
+ say.push('"if the budget is tight, we can make the job smaller. fewer looks, fewer images or less usage, not a lower day rate."');
+ document.getElementById('say').innerHTML=say.map(function(s){return '<p>'+s+'</p>';}).join('');
+ LAST={W:W,U:U,E:E,role:role,type:type,cur:cur};
+}
+document.getElementById('toquote').onclick=function(){
+ if(!LAST) return;
+ function L(a){ return a.map(function(x){ return [x[0],x[1],x[2],'',x[3]||'']; }); }
+ var roleName=(ROLES.filter(function(r){return r[0]===LAST.role;})[0]||[,''])[1];
+ var typeName=(TYPES.filter(function(t){return t[0]===LAST.type;})[0]||[,''])[1];
+ var data={kind:'quote',cur:LAST.cur,role:roleName,job:typeName,_lines:{work:L(LAST.W),usage:L(LAST.U),exp:L(LAST.E)}};
+ try{ localStorage.setItem('ff-from-calc',JSON.stringify(data)); }catch(e){}
+ location.href='quote.html?from=calc';
+};
+load(); draw();
+})();
+</script>
+<script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="assets/nav.js"></script>
+</body>
+</html>

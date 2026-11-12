@@ -619,7 +619,9 @@ document.getElementById('savebtn').onclick=function(){ msg('saving…'); push();
 window.addEventListener('beforeunload',function(e){ if(dirty){ push(); } });
 var Q=new URLSearchParams(location.search), wantNew=Q.get('new'), docId=Q.get('doc'), copyId=Q.get('copy');
 function fresh(k){ f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; f.elements.docdate.value=''; f.elements.kind.value=k; load(null); }
-if(wantNew) fresh(wantNew==='invoice'?'invoice':'quote'); else load();
+var fromCalc=null; if(Q.get('from')==='calc'){ try{ fromCalc=JSON.parse(store('ff-from-calc')||'null'); }catch(e){} store('ff-from-calc',null); }
+if(fromCalc){ f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; f.elements.docdate.value=''; load(fromCalc); history.replaceState(null,'','quote.html'); }
+else if(wantNew) fresh(wantNew==='invoice'?'invoice':'quote'); else load();
 if(window.ffDesk){
  window.ffDesk.user().then(function(u){
   USER=u; var bar=document.getElementById('deskbar');
