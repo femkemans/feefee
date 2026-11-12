@@ -7,6 +7,7 @@
       ['the range', '', 1],
       ['the fee drop', '/drops.html'],
       ['say your number', '/fee.html'],
+      ['fee calculator', '/feecalc.html'],
       ['day rate maker', '/dayrate.html'],
       ['other cities', '/cities.html']
     ]],
