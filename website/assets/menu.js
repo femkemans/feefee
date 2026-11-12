@@ -13,7 +13,8 @@
     ]],
     ['Forms', [
       ['call sheet', '/callsheet.html'],
-      ['quote and invoice', '/quote.html', 1]
+      ['quote and invoice', '/quote.html', 1],
+      ['contracts', '/contracts.html', 1]
     ]],
     ['Crew', [
       ['ask anything', '/questions.html'],
