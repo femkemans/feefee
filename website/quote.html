@@ -156,6 +156,17 @@ input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;min-wi
 input::-webkit-date-and-time-value{text-align:left}
 .grid2>label>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grid2{align-items:end}
+/* your style (assets/brand.js) */
+.doc .blogo img{max-height:54px;max-width:220px;display:block;margin-bottom:4px}
+.doc.has-logo .who{display:none}
+.doc.branded .who,.doc.branded .job .t{font-family:var(--b-title);font-style:normal}
+.doc.branded .total .v{font-family:var(--b-title)}
+.doc .total .v{color:var(--b-accent-text,var(--blue))}
+.doc .job{border-top-color:var(--b-accent,var(--ink))}
+.doc.b-text table,.doc.b-text .parties,.doc.b-text .meta,.doc.b-text .sum,.doc.b-text .deliv,.doc.b-text .terms,.doc.b-text .pay,.doc.b-text .sign,.doc.b-text .vatnote,.doc.b-text .role,.doc.b-text .job .s,.doc.b-text .total .k{font-family:var(--b-text)}
+.stylebar{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);text-align:center;margin:-12px 0 0}
+.stylebar a{color:var(--ink)}
+@media print{.stylebar{display:none}}
 </style>
 </head>
 <body>
@@ -281,7 +292,7 @@ input::-webkit-date-and-time-value{text-align:left}
 <div class="stage">
 <article class="doc" id="doc">
 <div class="d-top">
-<div><div class="who" id="p-me"></div><div class="role" id="p-role"></div></div>
+<div><div class="blogo" data-brand-logo hidden></div><div class="who" id="p-me"></div><div class="role" id="p-role"></div></div>
 <div class="meta"><b id="p-kind">QUOTE</b><br><span id="p-qno"></span><br><span id="p-date"></span><br><span id="p-untilk">valid until</span> <span id="p-until"></span></div>
 </div>
 <div class="parties">
@@ -303,11 +314,13 @@ input::-webkit-date-and-time-value{text-align:left}
 <div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
 </article>
 <article class="doc tcdoc tc" id="doc2" hidden></article>
+<p class="stylebar no-print" id="stylebar">your logo, colour and letters: <a href="account.html#style">set your style</a></p>
 </div>
 </div>
 
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
+<script src="assets/brand.js"></script>
 <script src="assets/vat.js"></script>
 <script src="assets/terms.js"></script>
 <script>
@@ -619,5 +632,11 @@ if(window.ffDesk){
 </script>
 <script src="assets/nav.js"></script>
 <script src="assets/gate.js"></script>
+<script>
+/* your style */
+(function(){ if(!window.ffBrand) return; var d1=document.getElementById('doc'), d2=document.getElementById('doc2');
+ function put(b){ ffBrand.apply(d1,b); ffBrand.apply(d2,b); var sb=document.getElementById('stylebar'); if(sb && (b.logo||b.accent||b.pair!=='classic')) sb.innerHTML='in your own style. <a href="account.html#style">change it</a>'; }
+ put(ffBrand.cached()); ffBrand.get().then(put); })();
+</script>
 </body>
 </html>

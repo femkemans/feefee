@@ -111,6 +111,39 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 .pj-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.4fr) 34px;gap:10px}
 .pj-row button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
 @media (max-width:700px){.jn{grid-template-columns:1fr}.pj-row{grid-template-columns:1fr 34px}.pj-row input:first-child{grid-column:1/-1}}
+/* your style */
+.bs{display:grid;gap:22px}
+.bs .k{display:block;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;margin:0 0 8px}
+.bs .hint{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;margin:8px 0 0}
+.bs-logo{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.bs-logo .lbox{width:150px;height:60px;border:1px dashed var(--faint,#bbb);display:flex;align-items:center;justify-content:center;background:#fff;font:11px 'Space Mono',monospace;color:var(--muted)}
+.bs-logo .lbox img{max-width:100%;max-height:100%;object-fit:contain}
+.bs-logo input[type=file]{position:absolute;opacity:0;width:1px;height:1px}
+.sw{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sw button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(28,30,26,.2);cursor:pointer;padding:0}
+.sw button[aria-pressed=true]{box-shadow:0 0 0 2px #fff,0 0 0 3px var(--ink)}
+.sw button.none{background:#fff;font:10px 'Space Mono',monospace;color:var(--muted)}
+.sw input[type=color]{width:34px;height:34px;padding:0;border:1px solid var(--ink);border-radius:50%;cursor:pointer;background:none}
+.pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.pairs label{border:1px solid #E6E8E3;padding:12px 12px 10px;cursor:pointer;background:#fff;display:grid;gap:2px}
+.pairs label:has(input:checked){border-color:var(--ink)}
+.pairs input{position:absolute;opacity:0;pointer-events:none}
+.pairs b{font-size:30px;font-weight:500;line-height:1.1}
+.pairs small{font:11px 'Space Mono',monospace;color:var(--muted)}
+.pairs i{font-style:normal;font-size:12px;color:var(--ink)}
+.bprev{background:#fff;box-shadow:0 20px 40px -24px rgba(28,30,26,.35);padding:26px 28px;display:grid;gap:14px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+.bprev .t{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.bprev .nm{font-family:var(--b-title,'Cormorant Garamond'),Georgia,serif;font-style:italic;font-size:30px;line-height:1;color:var(--ink)}
+.bprev.branded .nm{font-style:normal}
+.bprev [data-brand-logo] img{max-height:46px;max-width:180px;display:block}
+.bprev.has-logo .nm{display:none}
+.bprev .jb{border-top:1px solid var(--b-accent,var(--ink));padding-top:10px;font-family:var(--b-title,'Cormorant Garamond'),Georgia,serif;font-style:italic;font-size:20px;color:var(--ink)}
+.bprev.branded .jb{font-style:normal}
+.bprev .ln{display:flex;justify-content:space-between;border-bottom:1px solid #EEEFEC;padding-bottom:5px}
+.bprev.b-text,.bprev.b-text .ln{font-family:var(--b-text)}
+.bprev .tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);padding-top:8px}
+.bprev .tot b{font-family:var(--b-title,'Cormorant Garamond'),Georgia,serif;font-weight:400;font-size:30px;color:var(--b-accent-text,var(--blue))}
+@media (max-width:700px){.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -176,6 +209,34 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <label class="wide"><span>one line about you</span><input id="p-bio" maxlength="140" placeholder="e.g. fashion stylist, mostly editorial and e-commerce"></label>
 <label class="wide"><span>website or portfolio</span><input id="p-web" inputmode="url" maxlength="200" placeholder="https://"></label>
 <div class="wide row"><button class="btn">save my profile</button><span class="cap" id="p-msg" role="status"></span></div>
+</form>
+</div>
+
+<div class="profile" id="style">
+<h2>Your style.</h2>
+<p class="pl">how your quotes and invoices look. pick it once and it shows on everything you send. the paper stays white and the text stays black, so it always reads well.</p>
+<form class="card pf" id="bs">
+<div class="wide bs">
+<div><span class="k">your logo</span>
+<div class="bs-logo"><div class="lbox" id="bs-lbox">no logo</div>
+<label class="btn soft" for="bs-file" style="padding:12px 16px">upload a logo</label><input type="file" id="bs-file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+<button type="button" class="lp-add" id="bs-lrm" hidden>remove</button></div>
+<p class="hint">png, jpg or svg. no logo? then your name is set in the letters you pick below.</p></div>
+<div><span class="k">one colour</span>
+<div class="sw" id="bs-sw"></div>
+<p class="hint" id="bs-chint">used for the total and one thin line. pick none to keep it black and blue.</p></div>
+<div><span class="k">your letters</span>
+<div class="pairs" id="bs-pairs"></div></div>
+<div><span class="k">how it looks</span>
+<div class="bprev" id="bs-prev">
+<div class="t"><div><div data-brand-logo hidden></div><div class="nm" id="bs-nm">your name</div></div><div style="text-align:right">INVOICE<br>INV-2027-001</div></div>
+<div class="jb">lookbook ss27 · two shoot days</div>
+<div class="ln"><span>shoot day</span><span>2 × 850</span></div>
+<div class="ln"><span>usage · online, 12 months</span><span>400</span></div>
+<div class="tot"><span>TOTAL</span><b>€ 2.100</b></div>
+</div></div>
+</div>
+<div class="wide row"><button class="btn">save my style</button><span class="cap" id="bs-msg" role="status"></span></div>
 </form>
 </div>
 
@@ -435,6 +496,51 @@ function start(user){
 }
 D.sb.auth.onAuthStateChange(function(ev,session){ if(ev==='SIGNED_IN' && (/[?&]code=/.test(location.search)||/access_token=/.test(location.hash))){ location.replace('account.html'); } });
 D.user().then(start);
+})();
+</script>
+<script src="assets/brand.js"></script>
+<script>
+(function(){
+  var B=window.ffBrand, f=document.getElementById('bs'); if(!B||!f) return;
+  var S=B.cached(), prev=document.getElementById('bs-prev'), msg=document.getElementById('bs-msg');
+  var sw=document.getElementById('bs-sw'), pairs=document.getElementById('bs-pairs');
+  function nm(){ var n=document.getElementById('p-name'); document.getElementById('bs-nm').textContent=(n&&n.value.trim())||'your name'; }
+  function draw(){
+    B.apply(prev,S); nm();
+    var lb=document.getElementById('bs-lbox'); lb.innerHTML=''; if(S.logo){ var i=new Image(); i.src=S.logo; i.alt='your logo'; lb.appendChild(i);} else lb.textContent='no logo';
+    document.getElementById('bs-lrm').hidden=!S.logo;
+    Array.prototype.forEach.call(sw.querySelectorAll('button'),function(b){ b.setAttribute('aria-pressed', String((b.dataset.c||null)===S.accent)); });
+    var pk=document.getElementById('bs-pick'); if(S.accent) pk.value=S.accent;
+    var h=document.getElementById('bs-chint');
+    h.textContent = S.accent && B.contrast(S.accent)<3.2 ? 'a light colour. we use a slightly darker version for text, so the total stays readable.' : 'used for the total and one thin line. pick none to keep it black and blue.';
+    Array.prototype.forEach.call(pairs.querySelectorAll('input'),function(r){ r.checked=r.value===S.pair; });
+  }
+  var none=document.createElement('button'); none.type='button'; none.className='none'; none.textContent='none'; none.setAttribute('aria-label','no colour'); none.onclick=function(){ S.accent=null; draw(); }; sw.appendChild(none);
+  B.SWATCHES.forEach(function(c){ var b=document.createElement('button'); b.type='button'; b.dataset.c=c; b.style.background=c; b.setAttribute('aria-label','colour '+c); b.onclick=function(){ S.accent=c; draw(); }; sw.appendChild(b); });
+  var pk=document.createElement('input'); pk.type='color'; pk.id='bs-pick'; pk.title='your own colour'; pk.setAttribute('aria-label','your own colour'); pk.value='#1f3fd1'; pk.oninput=function(){ S.accent=pk.value.toLowerCase(); draw(); }; sw.appendChild(pk);
+  B.PAIRS.forEach(function(p){
+    var l=document.createElement('label'); var t=p.title, x=p.text||'Space Mono';
+    l.innerHTML='<input type="radio" name="bs-pair" value="'+p.id+'"><b style="font-family:\''+t+'\',Georgia,serif">Aa</b><i style="font-family:\''+x+'\',monospace">your invoice</i><small>'+p.name+'</small>';
+    l.querySelector('input').onchange=function(){ S.pair=p.id; draw(); };
+    pairs.appendChild(l);
+  });
+  /* load every pair's fonts for the picker */
+  var fam={}; B.PAIRS.forEach(function(p){ fam[p.title]=1; if(p.text) fam[p.text]=1; });
+  var lk=document.createElement('link'); lk.rel='stylesheet'; lk.href='https://fonts.googleapis.com/css2?'+Object.keys(fam).map(function(n){return 'family='+n.replace(/ /g,'+');}).join('&')+'&display=swap'; document.head.appendChild(lk);
+  document.getElementById('bs-file').onchange=function(e){
+    var file=e.target.files[0]; msg.textContent='';
+    B.readLogo(file).then(function(d){ S.logo=d; draw(); }).catch(function(err){ msg.textContent=err.message; });
+    e.target.value='';
+  };
+  document.getElementById('bs-lrm').onclick=function(){ S.logo=null; draw(); };
+  var pn=document.getElementById('p-name'); if(pn) pn.addEventListener('input',nm);
+  f.addEventListener('submit',function(e){
+    e.preventDefault(); msg.textContent='saving…';
+    B.save(S).then(function(r){ msg.textContent = r.synced ? 'saved. your quotes and invoices now use it.' : 'saved on this device. your quotes and invoices here now use it.'; });
+  });
+  draw();
+  B.get().then(function(b){ S=b; draw(); });
+  setTimeout(nm,1500);
 })();
 </script>
 <script src="assets/nav.js"></script>
