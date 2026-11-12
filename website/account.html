@@ -144,6 +144,14 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 .bprev .tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);padding-top:8px}
 .bprev .tot b{font-family:var(--b-title,'Cormorant Garamond'),Georgia,serif;font-weight:400;font-size:30px;color:var(--b-accent-text,var(--blue))}
 @media (max-width:700px){.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.qv{margin-top:56px}
+.qv h3{font-style:italic;font-weight:500;font-size:34px;margin:0 0 6px}
+.qtab{display:grid;grid-template-columns:70px repeat(4,minmax(0,1fr));font-family:'Space Mono',monospace;font-size:12px}
+.qtab>div{padding:10px 8px 10px 0;border-bottom:1px solid #E6E8E3;text-align:right;font-variant-numeric:tabular-nums}
+.qtab>div.h{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.qtab>div.l{text-align:left}
+.qtab>div.tot{border-top:1px solid var(--ink);font-weight:700}
+@media (max-width:700px){.qtab{grid-template-columns:44px repeat(4,minmax(0,1fr));font-size:11px}}
 </style>
 </head>
 <body>
@@ -183,6 +191,13 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <div class="tabs"><button data-f="all" aria-pressed="true">all</button><button data-f="quote" aria-pressed="false">quotes</button><button data-f="invoice" aria-pressed="false">invoices</button></div>
 <div id="list"></div>
 <p class="cap" style="margin-top:40px">amounts excl. vat. click the status to change it.</p>
+<div class="qv" id="qv" hidden>
+<h3>Per quarter.</h3>
+<p class="cap">everything you invoiced (sent or paid), per quarter, for your vat return. made from your invoices on fee fee.</p>
+<div class="row" style="margin:14px 0 8px"><button type="button" class="pill" id="qv-prev" style="width:auto">‹</button><span class="mono" id="qv-y"></span><button type="button" class="pill" id="qv-next" style="width:auto">›</button></div>
+<div class="qtab" id="qv-t"></div>
+<div class="row" style="margin-top:14px"><button type="button" class="btn soft" id="qv-copy">copy the list for my accountant</button><span class="cap" id="qv-msg" role="status"></span></div>
+</div>
 
 <div class="profile" id="fees">
 <h2>Your fees.</h2>
@@ -297,10 +312,11 @@ function render(){
  document.getElementById('s-open').textContent=money(inv.filter(function(d){return d.status!=='paid';}).reduce(function(a,d){return a+(+d.total||0);},0));
  document.getElementById('s-quotes').textContent=docs.filter(function(d){return d.kind==='quote'&&d.status!=='accepted';}).length;
  var show=docs.filter(function(d){return filter==='all'||d.kind===filter;});
+ quarters();
  if(!show.length){ L.appendChild(el('p','empty','nothing here yet. make your first one above.')); return; }
  show.forEach(function(d){
   var r=el('div','doc');
-  r.appendChild(el('span','type',d.kind));
+  r.appendChild(el('span','type',(d.data&&d.data.creditnote==='1')?'credit':d.kind));
   var m=el('div'); var a=el('a','t',(d.client||'untitled')+(d.job?' · '+d.job:'')); a.href='quote.html?doc='+d.id; m.appendChild(a);
   m.appendChild(el('div','s',(d.number||'no number')+' · '+new Date(d.updated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})));
   r.appendChild(m);
@@ -314,11 +330,42 @@ function render(){
    item('open',function(){location.href='quote.html?doc='+d.id;});
    item('duplicate',function(){location.href='quote.html?copy='+d.id;});
    if(d.kind==='quote') item('turn into invoice',function(){location.href='quote.html?copy='+d.id+'&as=invoice';});
+   if(d.kind==='invoice' && !(d.data&&d.data.creditnote==='1')) item('make a credit note',function(){location.href='quote.html?copy='+d.id+'&as=credit';});
    item('delete',function(){ if(confirm('delete "'+(d.client||'untitled')+' '+(d.number||'')+'" for good?')) D.remove(d.id).then(function(res){ if(res.error) return alert(res.error.message); docs=docs.filter(function(x){return x.id!==d.id;}); render(); }); });
    w.appendChild(mn); };
   r.appendChild(w); L.appendChild(r);
  });
 }
+/* per quarter: sent or paid invoices, by invoice date */
+var QY=new Date().getFullYear();
+function idate(d){ var x=d.data&&d.data.docdate; return x?new Date(x+'T12:00:00'):new Date(d.created_at); }
+function qrows(y){ return docs.filter(function(d){ return d.kind==='invoice' && d.status && d.status!=='draft' && idate(d).getFullYear()===y; }); }
+function quarters(){
+ var box=document.getElementById('qv'); if(!box) return;
+ var inv=docs.filter(function(d){return d.kind==='invoice';}); box.hidden=!inv.length; if(!inv.length) return;
+ document.getElementById('qv-y').textContent=QY;
+ var t=document.getElementById('qv-t'); t.innerHTML='';
+ ['','invoices','excl. vat','vat','incl. vat'].forEach(function(h,i){ t.appendChild(el('div','h'+(i?'':' l'),h)); });
+ var rows=qrows(QY), cur=(rows[0]&&rows[0].currency)||'€', T=[0,0,0,0];
+ for(var q=0;q<4;q++){
+  var R=rows.filter(function(d){ return Math.floor(idate(d).getMonth()/3)===q; });
+  var ex=R.reduce(function(a,d){return a+sub(d);},0), inc=R.reduce(function(a,d){ var g=d.data&&d.data._grand; return a+(g!=null?g:sub(d)); },0);
+  [ 'Q'+(q+1), String(R.length), money(ex,cur), money(inc-ex,cur), money(inc,cur) ].forEach(function(v,i){ t.appendChild(el('div',i?'':'l',v)); });
+  T[0]+=R.length; T[1]+=ex; T[2]+=inc-ex; T[3]+=inc;
+ }
+ ['total',String(T[0]),money(T[1],cur),money(T[2],cur),money(T[3],cur)].forEach(function(v,i){ t.appendChild(el('div','tot'+(i?'':' l'),v)); });
+ var mixed=rows.some(function(d){return (d.currency||'€')!==cur;});
+ document.getElementById('qv-msg').textContent=mixed?'some invoices are in another currency. totals add them up as they are.':'';
+}
+document.getElementById('qv-prev').onclick=function(){ QY--; quarters(); };
+document.getElementById('qv-next').onclick=function(){ QY++; quarters(); };
+document.getElementById('qv-copy').onclick=function(){
+ var lines=[['quarter','invoice date','number','client','job','currency','excl. vat','vat','incl. vat','status'].join('\t')];
+ qrows(QY).sort(function(a,b){return idate(a)-idate(b);}).forEach(function(d){ var ex=sub(d), g=d.data&&d.data._grand; g=g!=null?g:ex;
+  lines.push(['Q'+(Math.floor(idate(d).getMonth()/3)+1), idate(d).toISOString().slice(0,10), d.number||'', d.client||'', d.job||'', d.currency||'€', ex.toFixed(2), (g-ex).toFixed(2), g.toFixed(2), d.status].join('\t')); });
+ var txt=lines.join('\n'), m=document.getElementById('qv-msg');
+ try{ navigator.clipboard.writeText(txt).then(function(){ m.textContent='copied. paste it into a spreadsheet or an email.'; },function(){ m.textContent='could not copy. try again.'; }); }catch(e){ m.textContent='could not copy here.'; }
+};
 function closeMenus(){ document.querySelectorAll('.menu').forEach(function(m){m.remove();}); }
 document.addEventListener('click',closeMenus);
 document.querySelectorAll('.tabs button').forEach(function(b){ b.onclick=function(){ filter=b.dataset.f; document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); render(); }; });

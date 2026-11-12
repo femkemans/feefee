@@ -32,7 +32,7 @@
       });
     },
     logout: function(){ return sb.auth.signOut(); },
-    list: function(){ return sb.from('documents').select('id,kind,number,client,job,total,currency,status,created_at,updated_at').order('updated_at', { ascending: false }); },
+    list: function(){ return sb.from('documents').select('id,kind,number,client,job,total,currency,status,created_at,updated_at,data').order('updated_at', { ascending: false }); },
     get: function(id){ return sb.from('documents').select('*').eq('id', id).single(); },
     save: function(doc){
       var row = { kind: doc.kind, number: doc.number || null, client: doc.client || null, job: doc.job || null,
