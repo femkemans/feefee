@@ -311,11 +311,6 @@ main>section#join{display:flex!important;flex-direction:column;align-items:stret
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:18px">
 <a class="hide-sm" href="questions.html" data-t="navQuestions" data-preview>questions</a>
 <a class="hide-sm" href="#solution" data-t="navAbout">about</a>
-<div class="lang" style="display:none!important;align-items:center;gap:2px">
-<button type="button" class="mono" data-lang="en" aria-pressed="true">EN</button>
-<span aria-hidden="true" style="color:#8A8E86">/</span>
-<button type="button" class="mono" data-lang="nl" aria-pressed="false">NL</button>
-</div>
 
 <a href="#join" class="nav-join" data-auth="out" style="display:inline-flex;align-items:center;background:var(--ink);color:var(--paper)" data-t="navJoin">join</a>
 <a href="account.html" class="nav-join" data-auth="in" data-preview hidden style="display:inline-flex;align-items:center;background:var(--ink);color:var(--paper)">your desk</a></div>
@@ -716,9 +711,10 @@ document.getElementById('story-share').addEventListener('click',function(){
   else document.getElementById('story-dl').click();
 });
 
-document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){ applyLang(b.getAttribute('data-lang')); }); });
-document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click',function(){ fillQ(); if(!document.getElementById('story').hidden) storyCard(); }); });
-var saved = 'en';   /* always start in English; EN / NL toggle switches */
+/* the EN / NL switch in the header (assets/i18n.js) tells this page when the language changes */
+window.ffOwnLang = true;
+document.addEventListener('fflang',function(e){ applyLang(e.detail==='nl'?'nl':'en'); fillQ(); if(!document.getElementById('story').hidden) storyCard(); });
+var saved = storeGet('ff-lang')==='nl' ? 'nl' : 'en';
 applyLang(saved);
 fillQ();
 if (storeGet('ff-joined')==='1') { showJoined(); }
