@@ -159,6 +159,7 @@ input::-webkit-date-and-time-value{text-align:left}
 .lockbar{background:var(--butter,#F7EFC9);padding:18px 20px;margin:0 0 24px;display:grid;gap:10px}
 .lockbar p{margin:0;font-size:16px;line-height:1.45}
 .lockbar .btn{width:auto;justify-self:start;margin:0}
+.sendbox{margin:10px 0 0}.sendbox .hint{margin:8px 0 0}
 /* your style (assets/brand.js) */
 .doc .blogo img{max-height:54px;max-width:220px;display:block;margin-bottom:4px}
 .doc.has-logo .who{display:none}
@@ -289,6 +290,11 @@ input::-webkit-date-and-time-value{text-align:left}
 <button type="button" class="btn" id="savebtn" hidden>save to my desk</button>
 <p class="hint" id="savemsg" style="text-align:center"></p>
 <button type="button" class="btn" id="dl">download pdf</button>
+<button type="button" class="btn soft" id="mail">email it</button>
+<div class="sendbox" id="sendbox" hidden>
+<p class="hint" id="sendhint">your mail app opens with the email ready. add the pdf you just downloaded, check it, and send.</p>
+<button type="button" class="btn soft" id="marksent" hidden>I sent it: mark as sent</button>
+</div>
 <button type="button" class="btn soft" id="startover">start over</button>
 <p class="hint" id="privacy-note">your quote is only kept on this device, so you can come back to it. we never see it. <a href="account.html">log in</a> to keep all your quotes and invoices on your own desk.</p>
 <p class="hint" style="margin-top:24px">not legal advice. just a good start, made with creatives.</p>
@@ -328,6 +334,7 @@ input::-webkit-date-and-time-value{text-align:left}
 <script src="assets/brand.js"></script>
 <script src="assets/vat.js"></script>
 <script src="assets/terms.js"></script>
+<script src="assets/mailtext.js"></script>
 <script>
 (function(){
 var f=document.getElementById('f'), KEY='ff-quote-v2';
@@ -524,19 +531,40 @@ function msg(t){ document.getElementById('savemsg').textContent=t; }
 /* a sent invoice is final: it can be downloaded again, but changes go through a credit note */
 var LOCKED=false;
 function lock(doc){
- LOCKED=true;
- [].forEach.call(f.querySelectorAll('input,select,textarea,button'),function(e){ if(e.id!=='dl') e.disabled=true; });
+ if(LOCKED) return; LOCKED=true; clearTimeout(timer); dirty=false;
+ [].forEach.call(f.querySelectorAll('input,select,textarea,button'),function(e){ if(e.id!=='dl' && e.id!=='mail') e.disabled=true; });
+ document.getElementById('marksent').hidden=true;
  var b=document.createElement('div'); b.className='lockbar';
- var cr=doc.data&&doc.data.creditnote==='1';
- b.innerHTML='<p><b>'+(cr?'this credit note':'this invoice')+' is '+doc.status+', so it is locked.</b> you can download it again any time.</p>'+
-  (cr?'':'<p>need to change something? make a credit note for it, then a new invoice.</p><a class="btn soft" href="quote.html?copy='+doc.id+'&as=credit">make a credit note</a>')+
-  '<p class="hint">sent by mistake? set it back to draft on <a href="account.html">your desk</a>.</p>';
+ var cr=doc.data&&doc.data.creditnote==='1', st=doc.status==='paid'?'paid':'sent';
+ b.innerHTML='<p><b>'+(cr?'this credit note':'this invoice')+' is '+st+', so it is locked.</b> you can download or email it again any time.</p>'+
+  (cr?'':'<p>need to change something? make a credit note for it, then a new invoice.</p><a class="btn soft" href="quote.html?copy='+encodeURIComponent(doc.id)+'&as=credit">make a credit note</a>')+
+  '<p class="hint">sent by mistake? within 48 hours you can set it back to draft on <a href="account.html">your desk</a>.</p>';
  f.insertBefore(b, f.firstChild.nextSibling);
 }
+/* email it: opens the member's own mail app with the text ready (fee fee sends nothing) */
+document.getElementById('mail').onclick=function(){
+ render(); var d=collect(), m=ffMail.send(d), box=document.getElementById('sendbox'), ms=document.getElementById('marksent');
+ box.hidden=false;
+ document.getElementById('sendhint').textContent=(m.to?'':'tip: add their email under "client" so it is filled in. ')+'your mail app opens with the email ready. add the pdf (download pdf, above), check it, and send.';
+ var inv=(d.kind||'quote')==='invoice';
+ ms.hidden=!(USER && DOC_ID && !LOCKED); ms.textContent=inv?'I sent it: mark as sent (locks the invoice)':'I sent it: mark as sent';
+ location.href=ffMail.href(m);
+};
+document.getElementById('marksent').onclick=function(){
+ var b=this, inv=(val('kind')||'quote')==='invoice';
+ if(inv && !confirm('mark as sent?\n\nthe invoice is then locked. for 48 hours you can still set it back to draft on your desk. after that, changes go through a credit note.')) return;
+ b.disabled=true; clearTimeout(timer);
+ Promise.resolve(dirty?push():null).then(function(){ return window.ffDesk.status(DOC_ID,'sent'); }).then(function(r){
+  b.disabled=false;
+  if(r.error){ msg(window.ffDesk.why(r.error)); return; }
+  msg('marked as sent ✓'); b.hidden=true;
+  if(inv) lock({id:DOC_ID,status:'sent',data:collect()});
+ });
+};
 function push(){
  if(!USER) return; var data=collect();
  return window.ffDesk.save({id:DOC_ID,kind:data.kind||'quote',number:data.qno,client:data.client,job:data.job,total:SUB,currency:data.cur,data:data}).then(function(r){
-  if(r.error){ msg(/duplicate|unique/i.test(r.error.message)?'this invoice number is already used. pick the next one.':'could not save: '+r.error.message); return; }
+  if(r.error){ msg(/duplicate|unique/i.test(r.error.message)?'this invoice number is already used. pick the next one.':/^locked: /.test(r.error.message)?window.ffDesk.why(r.error):'could not save: '+r.error.message); return; }
   if(!DOC_ID){ DOC_ID=r.data.id; history.replaceState(null,'','quote.html?doc='+DOC_ID); store(KEY,null); document.getElementById('savebtn').hidden=true; }
   dirty=false; msg('saved on your desk ✓');
  });
