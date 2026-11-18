@@ -199,13 +199,19 @@ f.addEventListener('input',function(e){ var i=e.target; if(!i.name) return;
  else if(i.type==='checkbox') S[i.name]=i.checked; else S[i.name]=i.value;
  try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} draw(); });
 f.addEventListener('change',function(e){ if(e.target.type==='radio'||e.target.type==='checkbox') f.dispatchEvent(new Event('input')); });
+/* NL / EN: the numbers and the lines sent to the quote stay in English; only what you see is translated */
+function T(s){ return window.ffI18n?ffI18n.t(s):s; }
+function NL(){ return !!(window.ffI18n&&ffI18n.lang()==='nl'); }
+function lab(s){ return s.indexOf('usage: ')===0 ? T('usage:')+' '+s.slice(7).split(', ').map(T).join(', ') : T(s); }
+var TERR={'1':'one country','1.5':'a region (europe, benelux)','2.5':'worldwide'}, PER={'.6':'3 months','.8':'6 months','1':'1 year','1.6':'2 years','3':'no end date'};
+document.addEventListener('fflang',function(){ draw(); });
 function money(x){ return get('cur')+' '+Math.round(x).toLocaleString('en-GB'); }
 var LAST=null;
 function draw(){
  var role=get('role'), type=get('type'), cur=get('cur'), r=num('rate'), when=parseFloat(get('when'))||1;
  Array.prototype.forEach.call(document.querySelectorAll('.c'),function(c){ c.textContent=cur; });
  Array.prototype.forEach.call(document.querySelectorAll('[data-for]'),function(e){ e.style.display=e.getAttribute('data-for').split(' ').indexOf(role)>-1?'':'none'; });
- document.getElementById('floorhint').innerHTML = FLOOR ? 'your floor from the day rate maker: '+cur+' '+FLOOR.toLocaleString('en-GB')+'. never go under it.' : 'not sure? work out your floor with the <a href="dayrate.html">day rate maker</a> first.';
+ document.getElementById('floorhint').innerHTML = NL() ? (FLOOR ? 'je ondergrens uit de dagtarief maker: '+cur+' '+FLOOR.toLocaleString('nl-NL')+'. ga er nooit onder.' : 'weet je het niet zeker? reken eerst je ondergrens uit met de <a href="dayrate.html">dagtarief maker</a>.') : (FLOOR ? 'your floor from the day rate maker: '+cur+' '+FLOOR.toLocaleString('en-GB')+'. never go under it.' : 'not sure? work out your floor with the <a href="dayrate.html">day rate maker</a> first.');
  var editorial=type==='editorial', prod=role==='producer';
  document.getElementById('usagef').style.display=(editorial||prod)?'none':'';
  /* work */
@@ -228,10 +234,10 @@ function draw(){
   uf=mf*parseFloat(get('terr'))*parseFloat(get('period'))*(S.excl?1.25:1)*tf;
   var ub=r*Math.max(1,num('shoot'))*uf;
   if(ub>0){ var names=MEDIA.filter(function(m){return media.indexOf(m[0])>-1;}).map(function(m){return m[1];}).join(', ');
-   var terr=f.terr.options[f.terr.selectedIndex].text, per=f.period.options[f.period.selectedIndex].text;
+   var terr=TERR[f.terr.value]||f.terr.options[f.terr.selectedIndex].text, per=PER[f.period.value]||f.period.options[f.period.selectedIndex].text;
    U.push(['usage: '+names+', '+terr+', '+per+(S.excl?', exclusive':''),1,Math.round(ub/10)*10,'']); }
  }
- document.getElementById('usagehint').textContent = editorial ? '' : 'usage is a share of your shoot fee: more places, more countries and longer time cost more. this one is '+Math.round(uf*100)+'% of your shoot days.';
+ document.getElementById('usagehint').textContent = editorial ? '' : NL() ? 'usage is een deel van je shootfee: meer plekken, meer landen en langer kosten meer. deze is '+Math.round(uf*100)+'% van je shootdagen.' : 'usage is a share of your shoot fee: more places, more countries and longer time cost more. this one is '+Math.round(uf*100)+'% of your shoot days.';
  var usage=U.reduce(function(a,x){return a+x[2];},0);
  /* costs */
  var E=[], sd=Math.max(0,num('shoot'));
@@ -244,17 +250,27 @@ function draw(){
  var fl=FLOOR? fair*(FLOOR/(r||FLOOR)) : fair*.85; if(FLOOR) fl=(work*(FLOOR/(r||1)))+usage*(FLOOR/(r||1))+costs;
  fl=Math.min(fl,fair);
  document.getElementById('lo').textContent=money(fl); document.getElementById('mid').textContent=document.getElementById('mini-r').textContent=money(fair); document.getElementById('hi').textContent=money(strong);
- function row(x){ return '<div class="ln"><span>'+x[0]+(x[3]?'<small>'+x[3]+'</small>':'')+'</span><span>'+(x[1]!==1?String(x[1]).replace('.',',')+' × ':'')+money(x[2])+'</span></div>'; }
- document.getElementById('lines').innerHTML=W.concat(U).map(row).join('')+E.map(row).join('')+'<div class="ln tot"><span>fair</span><span>'+money(fair)+'</span></div>';
+ function row(x){ return '<div class="ln"><span>'+lab(x[0])+(x[3]?'<small>'+T(x[3])+'</small>':'')+'</span><span>'+(x[1]!==1?String(x[1]).replace('.',',')+' × ':'')+money(x[2])+'</span></div>'; }
+ document.getElementById('lines').innerHTML=W.concat(U).map(row).join('')+E.map(row).join('')+'<div class="ln tot"><span>'+T('fair')+'</span><span>'+money(fair)+'</span></div>';
  /* how to say it */
  var parts=[]; var sdn=num('shoot'); if(sdn) parts.push(sdn+' shoot day'+(sdn===1?'':'s'));
  var other=W.filter(function(x){return x[0]!=='shoot day'&&x[0]!=='production fee';}).reduce(function(a,x){return a+x[1];},0); if(other) parts.push(other+' day'+(other===1?'':'s')+' of prep and other work');
  var say=[];
+ if(NL()){
+  var pn=[]; if(sdn) pn.push(String(sdn).replace('.',',')+' shootdag'+(sdn===1?'':'en')); if(other) pn.push(String(other).replace('.',',')+' dag'+(other===1?'':'en')+' prep en ander werk');
+  say.push('"mijn fee is opgebouwd uit '+(pn.join(' en ')||'de dagen die deze klus kost')+(U.length?', plus '+lab(U[0][0]).replace('usage: ','usage voor ')+'.':'.')+'"');
+  if(U.length) say.push('"de usage is wat de beelden voor jou laat werken. heb je ze op meer plekken of langer nodig, dan voegen we dat later toe."');
+  else if(editorial) say.push('"dit is een editorial tarief. worden de beelden later voor advertenties gebruikt, dan is dat een nieuwe usage fee."');
+  if(costs) say.push('"kosten zoals '+E.map(function(x){return T(x[0]);}).join(', ')+' staan apart, zodat je precies ziet waar je voor betaalt."');
+  say.push('"is het budget krap, dan kunnen we de klus kleiner maken. minder looks, minder beelden of minder usage, geen lager dagtarief."');
+ } else {
+
  say.push('"my fee is built on '+(parts.join(' and ')||'the days this job takes')+(U.length?', plus '+U[0][0].replace('usage: ','usage for ')+'.':'.')+'"');
  if(U.length) say.push('"the usage is what makes the images work for you. if you need them in more places or for longer, we add that later."');
  else if(editorial) say.push('"this is an editorial rate. if the images are used for advertising later, that is a new usage fee."');
  if(costs) say.push('"costs like '+E.map(function(x){return x[0];}).join(', ')+' are listed separately, so you see exactly what you pay for."');
  say.push('"if the budget is tight, we can make the job smaller. fewer looks, fewer images or less usage, not a lower day rate."');
+ }
  document.getElementById('say').innerHTML=say.map(function(s){return '<p>'+s+'</p>';}).join('');
  LAST={W:W,U:U,E:E,role:role,type:type,cur:cur};
 }

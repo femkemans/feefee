@@ -17,7 +17,7 @@
   var INLINE={A:1,B:1,STRONG:1,EM:1,I:1,MARK:1,SPAN:1,BR:1,SMALL:1,U:1,SUP:1,SUB:1,ABBR:1,S:1};
   var ATTRS=['placeholder','aria-label','title','alt'];
   /* the documents members send (quote/invoice pdf, contract, terms, call sheet) keep their own language */
-  var DOCS='#doc,#doc2,#sheet,.doc,.paper.tc';
+  var DOCS='#doc,#doc2,#sheet,.paper.tc';
   function norm(s){ return String(s).replace(/[\s ]+/g,' ').trim(); }
   function skipped(el){
     for(var e=el;e&&e.nodeType===1;e=e.parentNode){
@@ -31,9 +31,15 @@
   function look(key){
     if(!key||!dict) return null;
     if(Object.prototype.hasOwnProperty.call(dict,key)) return dict[key];
-    if(!/\d/.test(key)) return null;
+    if(!/\d/.test(key)) return rx(key);
     var nums=key.match(NUM), pk=key.replace(NUM,'{n}');
     if(Object.prototype.hasOwnProperty.call(dict,pk)){ var i=0; return dict[pk].replace(/\{n\}/g,function(){ return nums[i++]||''; }); }
+    return rx(key);
+  }
+  /* sentences with a name or email inside: window.FF_NL_RX = [[/^Hi (.+)\.$/, 'Hoi $1.'], ...] */
+  function rx(key){
+    var R=window.FF_NL_RX||[];
+    for(var i=0;i<R.length;i++) if(R[i][0].test(key)) return key.replace(R[i][0],R[i][1]);
     return null;
   }
   function want(key){ if(collect&&key&&/[a-z]/i.test(key)&&!look(key)) miss[key]=(miss[key]||0)+1; }
@@ -79,6 +85,8 @@
     (function go(el){
       if(SKIP[el.nodeName]||el.hasAttribute('data-i18n-skip')||el.getAttribute('translate')==='no'||el.isContentEditable||el.matches(DOCS)) return;
       if(lang==='nl'&&window.ffOwnLang&&el.hasAttribute('data-t')) return;
+      /* an <option> without value sends its text: pin the English text as its value first */
+      if(el.nodeName==='OPTION'&&!el.hasAttribute('value')) el.setAttribute('value',el.text);
       for(var i=0;i<ATTRS.length;i++) if(el.hasAttribute(ATTRS[i])) setAttr(el,ATTRS[i]);
       if(el.nodeName==='INPUT'&&/^(button|submit|reset)$/.test(el.type)) setAttr(el,'value');
       if(htmlUnit(el)){
@@ -162,20 +170,26 @@
     l=l==='nl'?'nl':'en'; if(l===lang&&(l==='en'||dict)) { mark(); return; }
     lang=l; try{ localStorage.setItem(KEY,l); }catch(e){}
     H.lang=l; mark();
-    if(l==='nl') loadDict(translate); else revert();
-    try{ document.dispatchEvent(new CustomEvent('fflang',{detail:l})); }catch(e){}
+    if(l==='nl') loadDict(function(){ translate(); fire(); }); else { revert(); fire(); }
   }
 
+  function fire(){ try{ document.dispatchEvent(new CustomEvent('fflang',{detail:lang})); }catch(e){} }
   window.ffI18n={
     lang:function(){ return lang; }, set:set, t:function(s){ return lang==='nl'?(look(norm(s))||s):s; },
     missing:function(){ var k=Object.keys(miss); console.log(JSON.stringify(k,null,1)); return k; }, _miss:miss
   };
+  /* the small pop-ups (are you sure?) speak Dutch too */
+  ['confirm','alert','prompt'].forEach(function(k){
+    var o=window[k]; if(typeof o!=='function') return;
+    window[k]=function(m){ var a=[].slice.call(arguments); if(lang==='nl'&&dict&&typeof m==='string') a[0]=m.split('\n\n').map(function(x){ return look(norm(x))||x; }).join('\n\n'); return o.apply(window,a); };
+  });
   H.lang=lang;
   function start(){
     place();
     /* the menu button arrives a moment later: keep the switch after it */
     setTimeout(function(){ var g=document.querySelector('.ff-lang'), b=document.querySelector('.ffm-btn'); if(g&&b&&g.parentNode===b.parentNode&&b.nextSibling!==g) b.parentNode.insertBefore(g,b.nextSibling); },400);
-    if(lang==='nl'||collect){ if(collect&&!window.FF_NL) dict={}; loadDict(translate); }
+    /* pages with their own Dutch (homepage, say your number, fee calculator) redraw on 'fflang' */
+    if(lang==='nl'||collect){ if(collect&&!window.FF_NL) dict={}; loadDict(function(){ translate(); if(lang==='nl') fire(); }); }
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
 })();
