@@ -120,6 +120,7 @@ input::-webkit-date-and-time-value{text-align:left}
 <label><span>currency</span><select name="cur"><option value="€">€ euro</option><option value="$">$ dollar</option><option value="£">£ pound</option></select></label>
 <label><span>the law of</span><input name="country" placeholder="the Netherlands"></label>
 <label><span>court near</span><input name="city" placeholder="Amsterdam"></label>
+<label class="full"><span>language of the pdf</span><select name="lang"><option value="en">English</option><option value="nl">Nederlands</option></select></label>
 </div>
 <p class="hint" id="fromdesk">filled in from your desk. changes here only change your terms.</p>
 </fieldset>
@@ -160,6 +161,8 @@ input::-webkit-date-and-time-value{text-align:left}
 var T=window.ffTerms, D=window.ffDesk, f=document.getElementById('f'), S=T.blank(), META={}, CLOUD=false, timer=null, ready=false;
 var ME=['name','role','biz','email','web','addr','coc','vat','ig','cur','country','city'];
 function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function TX(){ return T.txtOf(S); }
+function siteLang(){ return (window.ffI18n&&ffI18n.lang()==='nl')||document.documentElement.lang==='nl'?'nl':'en'; }
 function msg(t){ document.getElementById('savemsg').textContent=t; }
 
 /* the clause list on the left: tick, title, its numbers, change the wording */
@@ -179,15 +182,15 @@ function drawClauses(){
    body.appendChild(g);
   }
   var ta=el('textarea'); ta.setAttribute('aria-label','wording: '+c.h);
-  var edit=el('button','link',S.txt[c.id]?'hide the wording':'change the wording'); edit.type='button';
-  var back=el('button','link','back to the template'); back.type='button'; back.hidden=!S.txt[c.id];
-  ta.hidden=!S.txt[c.id]; ta.value=S.txt[c.id]||'';
+  var edit=el('button','link',TX()[c.id]?'hide the wording':'change the wording'); edit.type='button';
+  var back=el('button','link','back to the template'); back.type='button'; back.hidden=!TX()[c.id];
+  ta.hidden=!TX()[c.id]; ta.value=TX()[c.id]||'';
   edit.onclick=function(){ var open=ta.hidden; ta.hidden=!open; edit.textContent=open?'hide the wording':'change the wording';
-   if(open){ if(!ta.value) ta.value=c.t(S.v,S.me); ta.focus(); } };
-  ta.oninput=function(){ S.txt[c.id]=ta.value; back.hidden=false; nums(); changed(); };
-  back.onclick=function(){ delete S.txt[c.id]; ta.value=c.t(S.v,S.me); back.hidden=true; nums(); changed(); };
+   if(open){ if(!ta.value) ta.value=T.text(c,S); ta.focus(); } };
+  ta.oninput=function(){ TX()[c.id]=ta.value; back.hidden=false; nums(); changed(); };
+  back.onclick=function(){ delete TX()[c.id]; ta.value=T.text(c,S); back.hidden=true; nums(); changed(); };
   body.appendChild(edit); body.appendChild(back); body.appendChild(ta);
-  var g2=body.querySelector('.grid2'); function nums(){ if(g2) g2.hidden=!!S.txt[c.id]; } nums();
+  var g2=body.querySelector('.grid2'); function nums(){ if(g2) g2.hidden=!!TX()[c.id]; } nums();
   w.appendChild(body); box.appendChild(w);
  });
 }
@@ -209,6 +212,8 @@ function draw(){ T.render(document.getElementById('doc'), S); }
 function changed(){ if(!ready) return; readMe(); draw(); clearTimeout(timer); msg('saving…'); timer=setTimeout(store,1200); }
 f.addEventListener('input',function(e){ if(ME.indexOf(e.target.name)>=0) changed(); });
 f.addEventListener('change',function(e){ if(ME.indexOf(e.target.name)>=0) changed(); });
+/* language of the pdf and the shared link */
+f.elements.lang.addEventListener('change',function(){ S.lang=f.elements.lang.value==='nl'?'nl':'en'; drawClauses(); if(ready) changed(); else draw(); });
 
 function showLink(){
  var on=!!META.published && !!META.slug;
@@ -224,7 +229,7 @@ function store(){
 document.getElementById('pub').onchange=function(){ META.published=this.checked; msg('saving…'); store(); };
 document.getElementById('copy').onclick=function(){ var u=document.getElementById('url'), b=this;
  (navigator.clipboard?navigator.clipboard.writeText(u.value):Promise.reject()).catch(function(){ u.select(); document.execCommand('copy'); }).then(function(){ b.textContent='copied'; setTimeout(function(){ b.textContent='copy'; },1600); }); };
-document.getElementById('dl').onclick=function(){ var t=document.title; document.title=('terms and conditions '+(S.me.biz||S.me.name||'')).trim(); window.print(); setTimeout(function(){ document.title=t; },500); };
+document.getElementById('dl').onclick=function(){ var t=document.title; document.title=((S.lang==='nl'?'algemene voorwaarden ':'terms and conditions ')+(S.me.biz||S.me.name||'')).trim(); window.print(); setTimeout(function(){ document.title=t; },500); };
 
 /* "the Netherlands", not "Netherlands" */
 var THE={NL:1,GB:1,US:1,CZ:0};
@@ -245,13 +250,14 @@ function start(user){
   var df=defaults(user), filled=false;
   ME.forEach(function(k){ var v=S.me[k]; if(v==null||v===''){ v=df[k]||''; if(v) filled=true; } f.elements[k].value=v; });
   document.getElementById('fromdesk').hidden=!filled;
+  if(S.lang!=='nl'&&S.lang!=='en') S.lang=siteLang(); f.elements.lang.value=S.lang;
   readMe(); drawClauses(); drawOwn(); draw(); showLink();
   if(!CLOUD){ document.getElementById('pub').disabled=true; msg('saved on this device only for now.'); }
   ready=true;
  });
 }
 if(D){ D.user().then(function(u){ if(u) start(u); }); D.sb.auth.onAuthStateChange(function(ev,s){ if(ev==='SIGNED_IN'&&s&&!ready) start(s.user); }); }
-else { readMe(); drawClauses(); drawOwn(); draw(); ready=true; }
+else { S.lang=siteLang(); f.elements.lang.value=S.lang; readMe(); drawClauses(); drawOwn(); draw(); ready=true; }
 })();
 </script>
 <script src="assets/nav.js"></script>

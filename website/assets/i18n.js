@@ -81,8 +81,12 @@
   function walk(root){
     if(!root) return;
     if(root.nodeType===3){ if(root.parentNode&&!skipped(root.parentNode)) setText(root); return; }
-    if(root.nodeType!==1||skipped(root)) return;
+    if(root.nodeType!==1) return;
+    if(root.nodeName==='TEXTAREA'){ if(!skipped(root.parentNode)&&root.hasAttribute('placeholder')) setAttr(root,'placeholder'); return; }
+    if(skipped(root)) return;
     (function go(el){
+      /* a textarea's text is the member's own, but its placeholder is ours */
+      if(el.nodeName==='TEXTAREA'){ if(el.hasAttribute('placeholder')&&!el.hasAttribute('data-i18n-skip')) setAttr(el,'placeholder'); return; }
       if(SKIP[el.nodeName]||el.hasAttribute('data-i18n-skip')||el.getAttribute('translate')==='no'||el.isContentEditable||el.matches(DOCS)) return;
       if(lang==='nl'&&window.ffOwnLang&&el.hasAttribute('data-t')) return;
       /* an <option> without value sends its text: pin the English text as its value first */
