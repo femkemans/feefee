@@ -1454,7 +1454,13 @@ window.FF_NL={
 "more": "meer",
 "on your desk · <a href=\"account.html\">see all</a>": "op je desk · <a href=\"account.html\">bekijk alles</a>",
 "your mail app opens with the email ready. add the pdf you just downloaded, check it, and send.": "je mailapp opent met de mail klaar. voeg de pdf toe die je net downloadde, check hem, en verstuur.",
-"Payment": "Betaling"
+"Payment": "Betaling",
+"<b>this invoice is sent, so it is locked.</b> you can download or email it again any time.": "<b>deze factuur is verstuurd, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
+"<b>this invoice is paid, so it is locked.</b> you can download or email it again any time.": "<b>deze factuur is betaald, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
+"<b>this credit note is sent, so it is locked.</b> you can download or email it again any time.": "<b>deze creditnota is verstuurd, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
+"<b>this credit note is paid, so it is locked.</b> you can download or email it again any time.": "<b>deze creditnota is verrekend, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
+"need to change something? make a credit note for it, then a new invoice.": "iets aanpassen? maak er een creditnota voor, en daarna een nieuwe factuur.",
+"sent by mistake? within 48 hours you can set it back to draft on <a href=\"account.html\">your desk</a>.": "per ongeluk verstuurd? binnen 48 uur kun je hem op <a href=\"account.html\">je desk</a> terugzetten naar concept."
 };
 
 /* sentences with a name, email or address inside */
