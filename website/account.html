@@ -52,11 +52,13 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 .tabs button[aria-pressed=true]{color:var(--ink);border-color:var(--ink)}
 .doc{display:grid;grid-template-columns:110px minmax(0,1fr) 120px 110px 34px;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #E6E8E3;font-family:'Space Mono',monospace;font-size:12px}
 .doc a.t{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-style:italic;text-decoration:none;display:block;line-height:1.15}
+.doc a.t{overflow-wrap:anywhere}
 .doc .s{color:var(--soft);font-size:11px;margin-top:3px}
 .doc .amt{text-align:right}
 .pill{border:1px solid var(--ink);border-radius:99px;padding:4px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:transparent;cursor:pointer;font-family:'Space Mono',monospace;width:100%}
 .pill.paid,.pill.accepted{background:var(--ink);color:var(--paper)}
 .pill.sent{background:var(--butter)}
+.late{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue,#1F3FD1);margin:4px 0 0}
 .more{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
 .menu{position:absolute;right:0;top:100%;background:#fff;box-shadow:0 12px 30px rgba(28,30,26,.18);z-index:5;min-width:190px}
 .menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 16px;font:12px 'Space Mono',monospace;cursor:pointer}
@@ -185,7 +187,7 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 </div>
 <div class="stats">
 <div class="stat"><p class="mono" style="margin:0">invoiced this year</p><div class="v" id="s-year">–</div></div>
-<div class="stat"><p class="mono" style="margin:0">still to be paid</p><div class="v blue" id="s-open">–</div></div>
+<div class="stat"><p class="mono" style="margin:0">still to be paid</p><div class="v blue" id="s-open">–</div><p class="late" id="s-late" hidden></p></div>
 <div class="stat"><p class="mono" style="margin:0">open quotes</p><div class="v" id="s-quotes">–</div></div>
 </div>
 <p class="note" id="local" hidden></p>
@@ -299,40 +301,65 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 </main>
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
+<script src="assets/mailtext.js"></script>
 <script>
 (function(){
 var D=window.ffDesk, docs=[], filter='all';
-var NEXT={quote:['draft','sent','accepted'],invoice:['draft','sent','paid']};
+var NEXT={quote:['draft','sent','accepted']};
 function money(x,c){return (c||'€')+' '+(Math.round((x||0)*100)/100).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
 function sub(d){ var r=(d.data&&d.data._sub); return r!=null?r:(d.total||0); }
+function grand(d){ var g=d.data&&d.data._grand; return g!=null?g:sub(d); }
+function final(d){ return d.kind==='invoice' && (d.status==='sent'||d.status==='paid'); }
+function undoable(d){ return d.kind==='invoice' && d.status==='sent' && d.sent_at && (Date.now()-new Date(d.sent_at).getTime()) < 48*36e5; }
+function setStatus(d,to){ var was=d.status; d.status=to; render();
+ D.status(d.id,to).then(function(res){ if(res.error){ d.status=was; render(); alert(D.why(res.error)); return; }
+  if(to==='sent' && d.kind==='invoice') d.sent_at=new Date().toISOString(); if(to==='draft') d.sent_at=null; render(); }); }
+function nextStatus(d){
+ var st=d.status||'draft';
+ if(d.kind!=='invoice'){ var n=NEXT.quote; return setStatus(d,n[(n.indexOf(st)+1)%n.length]); }
+ if(st==='draft'){ if(confirm('mark as sent?\n\nonce sent, the invoice is locked. for 48 hours you can still set it back to draft. after that, changes go through a credit note.')) setStatus(d,'sent'); return; }
+ if(st==='sent') return setStatus(d,'paid');
+ if(st==='paid' && confirm('mark as not paid yet?')) setStatus(d,'sent');
+}
+function copyText(t,done){ try{ navigator.clipboard.writeText(t).then(done,function(){ prompt('copy this:',t); }); }catch(e){ prompt('copy this:',t); } }
 function render(){
  var L=document.getElementById('list'); L.innerHTML='';
- var y=new Date().getFullYear(), inv=docs.filter(function(d){return d.kind==='invoice';});
- document.getElementById('s-year').textContent=money(inv.filter(function(d){return new Date(d.created_at).getFullYear()===y;}).reduce(function(a,d){return a+(+d.total||0);},0));
- document.getElementById('s-open').textContent=money(inv.filter(function(d){return d.status!=='paid';}).reduce(function(a,d){return a+(+d.total||0);},0));
+ var y=new Date().getFullYear(), inv=docs.filter(final);
+ document.getElementById('s-year').textContent=money(inv.filter(function(d){return idate(d).getFullYear()===y;}).reduce(function(a,d){return a+sub(d);},0));
+ var open=inv.filter(function(d){return d.status==='sent';}), lates=open.filter(function(d){return ffMail.late(d)>0;});
+ document.getElementById('s-open').textContent=money(open.reduce(function(a,d){return a+grand(d);},0));
+ var sl=document.getElementById('s-late'); sl.hidden=!lates.length; sl.textContent=lates.length===1?'1 invoice is past its due date':lates.length+' invoices are past their due date';
  document.getElementById('s-quotes').textContent=docs.filter(function(d){return d.kind==='quote'&&d.status!=='accepted';}).length;
  var show=docs.filter(function(d){return filter==='all'||d.kind===filter;});
  quarters();
  if(!show.length){ L.appendChild(el('p','empty','nothing here yet. make your first one above.')); return; }
  show.forEach(function(d){
-  var r=el('div','doc');
+  var r=el('div','doc'), late=ffMail.late(d);
   r.appendChild(el('span','type',(d.data&&d.data.creditnote==='1')?'credit':d.kind));
-  var m=el('div'); var a=el('a','t',(d.client||'untitled')+(d.job?' · '+d.job:'')); a.href='quote.html?doc='+d.id; m.appendChild(a);
+  var m=el('div'); var a=el('a','t',(d.client||'untitled')+(d.job?' · '+d.job:'')); a.href='quote.html?doc='+encodeURIComponent(d.id); m.appendChild(a);
   m.appendChild(el('div','s',(d.number||'no number')+' · '+new Date(d.updated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})));
+  if(late) m.appendChild(el('div','late',late===1?'1 day past the due date':late+' days past the due date'));
   r.appendChild(m);
   r.appendChild(el('span','amt',money(d.total,d.currency)));
   var st=d.status||'draft', p=el('button','pill '+st,st); p.title='change status';
-  p.onclick=function(){ var n=NEXT[d.kind], i=(n.indexOf(st)+1)%n.length; d.status=n[i]; D.status(d.id,n[i]).then(function(res){ if(res.error) alert(res.error.message); render(); }); };
+  p.onclick=function(){ nextStatus(d); };
   r.appendChild(p);
   var w=el('div'); w.style.position='relative'; var mb=el('button','more','⋯'); mb.setAttribute('aria-label','more'); w.appendChild(mb);
   mb.onclick=function(e){ e.stopPropagation(); closeMenus(); var mn=el('div','menu');
    function item(t,fn){var b=el('button',null,t); b.onclick=fn; mn.appendChild(b);}
-   item('open',function(){location.href='quote.html?doc='+d.id;});
-   item('duplicate',function(){location.href='quote.html?copy='+d.id;});
-   if(d.kind==='quote') item('turn into invoice',function(){location.href='quote.html?copy='+d.id+'&as=invoice';});
-   if(d.kind==='invoice' && !(d.data&&d.data.creditnote==='1')) item('make a credit note',function(){location.href='quote.html?copy='+d.id+'&as=credit';});
-   item('delete',function(){ if(confirm('delete "'+(d.client||'untitled')+' '+(d.number||'')+'" for good?')) D.remove(d.id).then(function(res){ if(res.error) return alert(res.error.message); docs=docs.filter(function(x){return x.id!==d.id;}); render(); }); });
+   var go=function(q){ location.href='quote.html?'+q+'='+encodeURIComponent(d.id); };
+   item('open',function(){go('doc');});
+   if(d.kind==='invoice' && d.status==='sent' && !(d.data&&d.data.creditnote==='1')){
+    var rm=ffMail.reminder(d);
+    item('email a payment reminder',function(){ location.href=ffMail.href(rm); });
+    item('copy a payment reminder',function(){ copyText(rm.body,function(){ alert('copied. paste it into your email, and attach the invoice again.'); }); });
+   }
+   if(undoable(d)) item('back to draft (sent by mistake)',function(){ setStatus(d,'draft'); });
+   item('duplicate',function(){go('copy');});
+   if(d.kind==='quote') item('turn into invoice',function(){location.href='quote.html?copy='+encodeURIComponent(d.id)+'&as=invoice';});
+   if(d.kind==='invoice' && !(d.data&&d.data.creditnote==='1')) item('make a credit note',function(){location.href='quote.html?copy='+encodeURIComponent(d.id)+'&as=credit';});
+   if(!final(d)) item('delete',function(){ if(confirm('delete "'+(d.client||'untitled')+' '+(d.number||'')+'" for good?')) D.remove(d.id).then(function(res){ if(res.error) return alert(D.why(res.error)); docs=docs.filter(function(x){return x.id!==d.id;}); render(); }); });
    w.appendChild(mn); };
   r.appendChild(w); L.appendChild(r);
  });

@@ -31,8 +31,14 @@
         msg.textContent = 'that did not work: ' + e.message;
       });
     },
-    logout: function(){ return sb.auth.signOut(); },
-    list: function(){ return sb.from('documents').select('id,kind,number,client,job,total,currency,status,created_at,updated_at,data').order('updated_at', { ascending: false }); },
+    /* log out, and wipe private paperwork from this browser (shared or borrowed computers) */
+    logout: function(){
+      ['ff-me','ff-quote-v2','ff-from-calc','ff-brand','ff-terms'].forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+      return sb.auth.signOut();
+    },
+    /* a database "locked: …" message, in plain words */
+    why: function(err){ var m = (err && err.message) || ''; return /^locked: /.test(m) ? m.slice(8) : 'that did not work: ' + m; },
+    list: function(){ return sb.from('documents').select('*').order('updated_at', { ascending: false }); },
     get: function(id){ return sb.from('documents').select('*').eq('id', id).single(); },
     save: function(doc){
       var row = { kind: doc.kind, number: doc.number || null, client: doc.client || null, job: doc.job || null,
