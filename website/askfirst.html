@@ -234,7 +234,29 @@ function drawQs(){
 Array.prototype.forEach.call(f.querySelectorAll('input[name=len]'),function(i){ i.checked=i.value===S.len; i.onchange=function(){ S.len=i.value; draw(); save(); }; });
 
 function list(){ var r=R[S.role]; return r[1].concat(r[2]).filter(ticked); }
+/* NL / EN: with the site in Dutch, the reply is written in Dutch too */
+function T(x){ return window.ffI18n?ffI18n.t(x):x; }
+function NL(){ return !!(window.ffI18n&&ffI18n.lang()==='nl'); }
+document.addEventListener('fflang',function(){ draw(); });
+function textNl(){
+ var c=(S.client||'').trim(), job=(S.job||'').trim(), name=(S.name||'').trim(), ids=list();
+ var hi='Hoi'+(c?' '+c:'')+',';
+ if(S.len==='short'){
+  var words=ids.map(function(id){ return T(Q[id][1]); });
+  var ask=words.length? (words.length>1? words.slice(0,-1).join(', ')+' en '+words[words.length-1] : words[0]) : '';
+  return hi+'\n\nDank je, klinkt goed! Ik sta vandaag op set, dus even kort. Ik kom er '+(S.when==='today'?'later vandaag':'vanavond')+' goed op terug.'
+   +(ask?'\n\nZodat ik een offerte kan maken, kun je me dit sturen: '+ask+'?':'')
+   +'\n\nDank je,\n'+(name.split(' ')[0]||'');
+ }
+ var lines=ids.map(function(id,i){ return (i+1)+'. '+T(Q[id][0]); }).join('\n');
+ var sign=[name,[S.me_role,S.web].map(function(x){return (x||'').trim();}).filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+ return hi+'\n\nDank je dat je aan me dacht'+(job?' voor '+job:'')+'. Ik hoor er graag meer over.'
+  +(lines?' Zodat ik je een duidelijke offerte kan sturen, kun je me dit laten weten:\n\n'+lines:'')
+  +'\n\nAls ik dit weet, stuur ik je '+T(S.when||'within a day')+' een offerte.'
+  +'\n\nGroet,\n'+sign;
+}
 function text(){
+ if(NL()) return textNl();
  var c=(S.client||'').trim(), job=(S.job||'').trim(), name=(S.name||'').trim(), ids=list();
  var hi='Hi'+(c?' '+c:'')+',';
  if(S.len==='short'){
@@ -251,7 +273,7 @@ function text(){
   +'\n\nOnce I have these, I’ll send you a quote '+(S.when||'within a day')+'.'
   +'\n\nBest,\n'+sign;
 }
-function subject(){ var job=(S.job||'').trim(); return (job? job.charAt(0).toUpperCase()+job.slice(1) : 'Your shoot')+': a few questions before I quote'; }
+function subject(){ var job=(S.job||'').trim(); if(NL()) return (job? job.charAt(0).toUpperCase()+job.slice(1) : 'Je shoot')+': een paar vragen voordat ik een offerte maak'; return (job? job.charAt(0).toUpperCase()+job.slice(1) : 'Your shoot')+': a few questions before I quote'; }
 function draw(){
  if(!edited){ out.value=text(); subj.value=subject(); }
  document.getElementById('mailto').href='mailto:?subject='+encodeURIComponent(subj.value)+'&body='+encodeURIComponent(out.value);
