@@ -4,6 +4,16 @@
 (function(){
 var C={
 booking:{
+ nl:{name:'boekingsbevestiging', title:'Boekingsbevestiging', other:'opdrachtgever', clauses:[
+  ['De klus','Je boekt mij als {role} voor {job} op {dates}, op {location}. De dag begint om {calltime}.'],
+  ['De fee','De fee is {fee}, excl. btw[, zoals in offerte {quote}]. Kosten zoals reizen, kit en assistenten worden gerekend zoals afgesproken in de offerte.'],
+  ['Wat je krijgt','{deliver}. Alles wat extra is, offreer ik apart.'],
+  ['Overwerk','Na de afgesproken lengte van de dag reken ik elk extra uur (of deel ervan) tegen 1/8 van mijn dagtarief.'],
+  ['Verzetten of annuleren','Annuleren meer dan 7 dagen voor de eerste shootdag kost 50% van de fee. Binnen 7 dagen, of de datum verzetten binnen 48 uur, kost 100%. Kosten die al gemaakt zijn, worden altijd gerekend.'],
+  ['Betaling','Ik factureer na de klus. Graag betalen binnen {pay} dagen.'],
+  ['Gebruik','Je mag het werk gebruiken zoals beschreven in de offerte. Het gebruik gaat in zodra de factuur is betaald. Het auteursrecht blijft bij mij.'],
+  ['Voorwaarden','Mijn algemene voorwaarden zijn van toepassing op deze boeking.']
+ ]},
  name:'booking confirmation', title:'Booking confirmation',
  when:'every job: dates, fee, what you do and what happens if it moves',
  other:'client',
@@ -19,6 +29,16 @@ booking:{
   ['Terms','My terms and conditions apply to this booking.', true]
  ]},
 licence:{
+ nl:{name:'gebruik en licentie', title:'Licentie voor het gebruik van het werk', other:'opdrachtgever', clauses:[
+  ['Waar dit over gaat','Ik geef je een licentie om {work} te gebruiken.'],
+  ['Waar en hoe lang','Je mag het werk gebruiken voor {media}, in {territory}, voor {period}. Deze licentie is {excl}.'],
+  ['Wanneer het ingaat','De licentie gaat in zodra de licentiefee van {fee} (excl. btw) is betaald.'],
+  ['Auteursrecht','Het auteursrecht blijft bij mij. Je mag het werk niet verkopen of aan anderen doorgeven, tenzij we dat op papier afspreken.'],
+  ['Wijzigingen en AI','Je mag het werk bijsnijden en verkleinen. Andere wijzigingen, en het werk gebruiken om AI te trainen of te voeden, vragen om mijn schriftelijke OK.'],
+  ['Naamsvermelding','Vermeld het werk waar mogelijk als: {credit}.'],
+  ['Meer gebruik','Wil je het werk langer, op meer plekken of in meer landen gebruiken? Vraag het eerst. Ik stuur een offerte voor het extra gebruik.'],
+  ['Mijn portfolio','Ik mag het werk in mijn portfolio en op mijn eigen kanalen laten zien zodra het is gepubliceerd.']
+ ]},
  name:'usage and licence', title:'Licence to use the work',
  when:'where, how long and for what the client may use your work',
  other:'client',
@@ -34,6 +54,13 @@ licence:{
   ['My portfolio','I may show the work in my portfolio and on my own channels once it is published.', true]
  ]},
 model:{
+ nl:{name:'modelrelease', title:'Modelrelease', other:'model', clauses:[
+  ['Waar je mee instemt','Je stemt ermee in dat foto\'s en video van jou, gemaakt op {shootdate} voor {project}, gebruikt mogen worden voor {use}, voor {period}.'],
+  ['Wat je krijgt','{comp}.'],
+  ['Wat we niet doen','Je beelden worden niet gebruikt op een manier die kwetsend is, of die suggereert dat je iets steunt wat je niet steunt. Je contactgegevens worden nooit gedeeld.'],
+  ['Je privacy','Je mag vragen wat we van je bewaren, en ons vragen de beelden vanaf nu niet meer voor nieuwe dingen te gebruiken. Beelden die al gepubliceerd of gedrukt zijn, mogen in gebruik blijven.'],
+  ['Jonger dan 18','Ben je jonger dan 18, dan tekent je ouder of voogd ook: {minor}.']
+ ]},
  name:'model release', title:'Model release',
  when:'someone recognisable is in the images',
  other:'model',
@@ -46,6 +73,14 @@ model:{
   ['Under 18','If you are under 18, your parent or guardian signs this too: {minor}.', true]
  ]},
 location:{
+ nl:{name:'locatierelease', title:'Locatierelease', other:'eigenaar', clauses:[
+  ['De locatie','Je laat ons {address} gebruiken op {dates}, met {crew} mensen.'],
+  ['De fee','De locatiefee is {fee}. We betalen binnen 14 dagen na de shoot.'],
+  ['Wat mag','{allowed}. Voor al het andere vragen we het je eerst.'],
+  ['Achterlaten zoals we het vonden','We laten de locatie achter zoals we hem aantroffen. Schade die wij veroorzaken, betalen wij, of onze verzekering.'],
+  ['De beelden','De locatie mag op de beelden te zien zijn. De beelden mogen in alle media gebruikt worden, en je vraagt daar geen extra fee voor.'],
+  ['Naamsvermelding','Wil je de locatie genoemd hebben? We vermelden hem waar dat kan.']
+ ]},
  name:'location release', title:'Location release',
  when:'you shoot at someone else\'s place',
  other:'owner',
@@ -59,6 +94,15 @@ location:{
   ['Credit','Want the location named? We credit it where we can.', true]
  ]},
 crew:{
+ nl:{name:'crewovereenkomst', title:'Crewovereenkomst', other:'crewlid', clauses:[
+  ['De klus','Ik boek je als {crewrole} voor {job} op {dates}. Een dag is {hours}.'],
+  ['De fee','Je dagtarief is {rate}, excl. btw. Overwerk is 1/8 van het dagtarief per uur. Reizen en kosten zoals vooraf afgesproken.'],
+  ['Betaling','Stuur me na de klus je factuur. Ik betaal binnen {pay} dagen.'],
+  ['Annuleren','Annuleer ik binnen 48 uur voor de eerste dag, dan betaal ik 50% van je fee.'],
+  ['Het werk','Wat je op deze klus maakt, is onderdeel van mijn werk voor mijn opdrachtgever. De rechten erop gaan naar mij, zodat ik mijn opdrachtgever het afgesproken gebruik kan geven.'],
+  ['Vertrouwelijk','Deel geen beelden of details van de klus voordat de opdrachtgever ze heeft gepubliceerd.'],
+  ['Je portfolio','Zodra het is gepubliceerd, mag je het werk in je portfolio laten zien, met credit voor het team.']
+ ]},
  name:'crew agreement', title:'Crew agreement',
  when:'you hire an assistant or another creative',
  other:'crew member',
@@ -73,6 +117,14 @@ crew:{
   ['Your portfolio','Once it is published, you may show the work in your portfolio, with credit to the team.', true]
  ]},
 nda:{
+ nl:{name:'geheimhouding (NDA)', title:'Geheimhoudingsovereenkomst', other:'andere partij', clauses:[
+  ['Wat geheim is','Alles wat we delen over {about}: beelden, plannen, producten, namen en data.'],
+  ['Wat we doen','We gebruiken het alleen voor deze klus. We delen het niet, posten het niet, en laten het aan niemand zien die het niet voor de klus nodig heeft.'],
+  ['Hoe lang','Dit geldt tot {until}.'],
+  ['Wat niet geheim is','Dingen die al openbaar zijn, of die we al wisten, vallen er niet onder.'],
+  ['Na de lancering','Zodra het openbaar is, mag ik mijn eigen werk in mijn portfolio laten zien.'],
+  ['Als het misgaat','Wie deze overeenkomst breekt, betaalt {penalty}, bovenop eventuele schade.']
+ ]},
  name:'confidentiality (NDA)', title:'Confidentiality agreement',
  when:'work that can\'t be shared yet',
  other:'other party',
@@ -86,6 +138,14 @@ nda:{
   ['If it goes wrong','Breaking this agreement costs {penalty}, on top of any damage.', true]
  ]},
 collab:{
+ nl:{name:'samenwerking', title:'Samenwerkingsovereenkomst', other:'samenwerkingspartner', clauses:[
+  ['Het project','We werken samen aan {project}. Het team: {team}.'],
+  ['Kosten','{costs}.'],
+  ['Publiceren','We publiceren eerst: {publish}. Niemand post daarvoor, tenzij we het allemaal eens zijn.'],
+  ['Het werk gebruiken','Na publicatie mag iedereen het werk gebruiken voor het eigen portfolio en social media, met credits.'],
+  ['Credits','Vermeld altijd het hele team: {credits}.'],
+  ['Verkopen of commercieel gebruik','Het werk verkopen, of gebruiken voor een merk, vraagt om de OK van iedereen. Een eventuele fee wordt eerlijk gedeeld.']
+ ]},
  name:'collaboration', title:'Collaboration agreement',
  when:'own projects and editorials: credits, and who may use what',
  other:'collaborator',

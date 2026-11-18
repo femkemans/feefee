@@ -83,6 +83,41 @@
       return 'The law of ' + c + ' applies to these terms and to our jobs. If we can’t work something out together, ' + (me.city ? 'the court nearest to ' + me.city : 'the competent court in ' + c) + ' decides.'; } }
   ];
 
+  /* Dutch: the same clauses, same numbers. s.lang = 'nl' picks them. */
+  function pl(x, one, more){ return x + ' ' + (x === 1 ? one : more); }
+  function geld(x, c){ return (c || '€') + ' ' + Number(x).toLocaleString('nl-NL'); }
+  function wie(me){ return me.biz || me.name || 'de maker'; }
+  var LAND = { 'netherlands':'Nederland', 'the netherlands':'Nederland', 'belgium':'België', 'germany':'Duitsland', 'france':'Frankrijk', 'spain':'Spanje', 'italy':'Italië', 'portugal':'Portugal', 'austria':'Oostenrijk', 'denmark':'Denemarken', 'sweden':'Zweden', 'ireland':'Ierland', 'luxembourg':'Luxemburg', 'switzerland':'Zwitserland', 'norway':'Noorwegen', 'united kingdom':'het Verenigd Koninkrijk', 'the united kingdom':'het Verenigd Koninkrijk', 'united states':'de Verenigde Staten', 'the united states':'de Verenigde Staten' };
+  function land(c){ return LAND[String(c || '').trim().toLowerCase()] || c; }
+  var NL = {
+    scope:['Deze voorwaarden', function(v,me){ return 'Deze voorwaarden gelden voor elke offerte, boeking en klus die ik voor je doe, tenzij we iets anders op papier afspreken. Je eigen inkoopvoorwaarden gelden niet. “Ik” is ' + wie(me) + (me.biz && me.name ? ' (' + me.name + ')' : '') + ', “jij” is de opdrachtgever die mij boekt.'; }],
+    booking:['Offertes en boeken', function(v){ return 'Een offerte is ' + pl(n(v,'valid'),'dag','dagen') + ' geldig. Een klus is geboekt zodra je de offerte tekent of per e-mail bevestigt. Een optie op een datum blijft ' + pl(n(v,'hold'),'werkdag','werkdagen') + ' staan. Vraagt iemand anders om dezelfde datum, dan check ik eerst bij jou.'; }],
+    brief:['De brief', function(){ return 'Mijn fee is gebaseerd op de brief en de offerte. Verandert de brief na de boeking, bijvoorbeeld meer looks, meer locaties of meer mensen op set, dan stuur ik een nieuwe offerte voordat we verder gaan.'; }],
+    hours:['Uren en overwerk', function(v){ return 'Een hele dag is ' + pl(n(v,'hours'),'uur','uur') + ' en een halve dag ' + pl(n(v,'half'),'uur','uur') + ', lunch niet meegerekend. Overwerk reken ik per begonnen uur, tegen 1/' + n(v,'hours') + ' van het dagtarief.'; }],
+    rounds:['Feedbackrondes', function(v){ var r = n(v,'rounds'); return (r ? pl(r,'feedbackronde','feedbackrondes') + ' ' + (r === 1 ? 'is' : 'zijn') + ' inbegrepen. Een ronde is één set gebundelde opmerkingen van jouw kant.' : 'Feedbackrondes zijn niet inbegrepen.') + ' Extra rondes, en nieuwe wensen na goedkeuring, reken ik per uur.'; }],
+    cancel:['Annuleren of een datum verzetten', function(v){ return 'Annuleer je, dan reken ik ' + n(v,'c1') + '% van de fee binnen ' + pl(n(v,'c1h'),'uur','uur') + ' voor de klus, en ' + n(v,'c2') + '% binnen ' + pl(n(v,'c2h'),'uur','uur') + '. Kosten die ik al gemaakt heb, reken ik altijd. Je kunt de datum één keer gratis verzetten, tot ' + pl(n(v,'move'),'dag','dagen') + ' van tevoren. Daarna telt verzetten als annuleren.'; }],
+    kill:['Kill fee', function(v){ return 'Stop je de klus nadat het werk is begonnen, dan reken ik het werk tot dan toe plus ' + n(v,'kill') + '% van de rest van de fee. Je mag alleen het werk gebruiken dat betaald is.'; }],
+    payment:['Betaling', function(v,me){ var d = n(v,'dep'); return 'Graag betalen binnen ' + pl(n(v,'pay'),'dag','dagen') + ' na de factuurdatum.' + (d ? ' Bij klussen boven ' + geld(n(v,'depOver'), me.cur) + ' factureer ik ' + d + '% bij de boeking en de rest na levering.' : '') + ' Wordt er te laat betaald, dan mag ik de wettelijke handelsrente en incassokosten rekenen, en wachten met leveren tot er betaald is.'; }],
+    expenses:['Onkosten', function(v){ var m = n(v,'markup'); return 'Onkosten zoals reizen, gehuurde kit, assistenten en props betaal jij, tenzij de offerte iets anders zegt. Schattingen worden bevestigd voordat ik iets boek.' + (m ? ' Op onkosten die ik voorschiet reken ik ' + m + '% handlingfee.' : ''); }],
+    shopping:['Shoppingbudget en retouren', function(v){ return 'Het shoppingbudget wordt afgesproken voordat ik iets koop, en ' + pl(n(v,'shopDays'),'werkdag','werkdagen') + ' voordat ik ga shoppen betaald. Ik betaal je shoot niet uit eigen zak. Wat niet gebruikt is, breng ik binnen ' + pl(n(v,'ret'),'werkdag','werkdagen') + ' na de shoot terug, en de retourdagen worden betaald. Stukken die niet terug kunnen, omdat ze gedragen, gemarkeerd, beschadigd of in de uitverkoop gekocht zijn, zijn van jou en worden tegen kostprijs gefactureerd. Je krijgt de bonnetjes.'; }],
+    mine:['Mijn eigen archief en props', function(v){ var p = n(v,'own'); return 'Stukken uit mijn eigen archief of propcollectie horen niet bij mijn fee. ' + (p ? 'Ik verhuur ze voor ' + p + '% van hun waarde per klus, ' : 'De huur spreken we per stuk af, ') + 'en ze staan op de offerte. Raakt een stuk kwijt of beschadigd op jouw shoot, dan betaal je de vervangingswaarde.'; }],
+    usage:['Gebruik en auteursrecht', function(){ return 'Het auteursrecht blijft bij mij. Je mag het werk alleen gebruiken zoals in de offerte staat: waar, hoe lang en in welke landen. Het gebruik gaat in zodra de factuur volledig is betaald. Ander gebruik, een langere periode of een nieuw land vraagt om een nieuwe afspraak en fee.'; }],
+    ai:['AI en wijzigingen', function(){ return 'Het werk mag niet gebruikt worden om AI te trainen, of om er met AI nieuw werk van te maken. Pas het niet aan, snijd het niet zwaar bij en zet er geen filters op zonder het mij eerst te vragen.'; }],
+    credit:['Naamsvermelding', function(v,me){ var c = [me.name || wie(me), me.ig].filter(Boolean).join(' '); return 'Vermeld mij als ' + c + ' waar het werk ook verschijnt, als dat kan.'; }],
+    portfolio:['Portfolio', function(){ return 'Ik mag het werk in mijn portfolio en op mijn eigen kanalen laten zien zodra het is gepubliceerd, of na een datum die we afspreken. Laat het me voor de boeking weten als er een embargo of een NDA is.'; }],
+    delivery:['Levering en archief', function(v){ return 'Ik lever binnen ' + pl(n(v,'deliv'),'werkdag','werkdagen') + ' na de definitieve selectie, tenzij de offerte iets anders zegt. Ik bewaar de bestanden ' + pl(n(v,'archive'),'maand','maanden') + ' na levering. Daarna kan ik niet beloven dat ze er nog zijn.'; }],
+    set:['Op set', function(){ return 'Een shootdag heeft een echte lunchpauze, met eten en water op set. Zorg dat de set veilig is. Is hij dat niet, dan mag ik het werk stilleggen tot hij het wel is.'; }],
+    illness:['Ziekte en overmacht', function(){ return 'Word ik ziek, of gebeurt er iets waar we allebei niets aan kunnen doen, dan zoek ik samen met jou een goede vervanger, of we kiezen een nieuwe datum. Kan geen van beide, dan betaal je alleen voor het werk dat al gedaan is.'; }],
+    liability:['Aansprakelijkheid', function(){ return 'Ik werk zorgvuldig. Gaat er toch iets mis, dan is mijn aansprakelijkheid beperkt tot de fee voor de klus, en ben ik niet aansprakelijk voor indirecte schade, zoals gederfde winst. Verzekering voor de locatie, producten en modellen regel jij.'; }],
+    privacy:['Privacy', function(){ return 'Wat je met me deelt, houd ik vertrouwelijk, en ik gebruik je gegevens alleen voor de klus en de factuur.'; }],
+    law:['Welk recht geldt', function(v,me){ var c = land(me.country) || 'mijn land'; return 'Op deze voorwaarden en onze klussen is het recht van ' + c + ' van toepassing. Komen we er samen niet uit, dan beslist ' + (me.city ? 'de rechtbank het dichtst bij ' + me.city : 'de bevoegde rechter in ' + c) + '.'; }]
+  };
+  function nl(s){ return !!(s && s.lang === 'nl'); }
+  /* your own wording is kept per language */
+  function txtOf(s){ if (nl(s)) return (s.txt_nl = s.txt_nl || {}); return (s.txt = s.txt || {}); }
+  function head(c, s){ return nl(s) && NL[c.id] ? NL[c.id][0] : c.h; }
+  function text(c, s){ return nl(s) && NL[c.id] ? NL[c.id][1](s.v || {}, s.me || {}) : c.t(s.v || {}, s.me || {}); }
+
   function blank(){ var v = {}; Object.keys(VARS).forEach(function(k){ v[k] = VARS[k][1]; }); return { v:v, me:{}, off:{}, on:{}, txt:{}, own:[] }; }
 
   /* most clauses are in unless you untick them. clauses marked opt (for one kind of work only)
@@ -100,7 +135,7 @@
     var out = [], v = s.v || {}, me = s.me || {}, last = [];
     CLAUSES.forEach(function(c){
       if (!isOn(s, c)) return;
-      var x = { id:c.id, h:c.h, b:(s.txt && s.txt[c.id]) || c.t(v, me) };
+      var x = { id:c.id, h:head(c, s), b:txtOf(s)[c.id] || text(c, s) };
       (c.last ? last : out).push(x);
     });
     (s.own || []).forEach(function(o){ if ((o.h || '').trim() || (o.b || '').trim()) out.push({ id:o.id, h:(o.h || '').trim(), b:(o.b || '').trim(), own:true }); });
@@ -108,22 +143,23 @@
   }
 
   function el(t, c, txt){ var e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; }
-  function fmtDate(d){ return d.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }); }
+  function fmtDate(d, l){ return d.toLocaleDateString(l === 'nl' ? 'nl-NL' : 'en-GB', { day:'numeric', month:'long', year:'numeric' }); }
 
   /* draw the document into a container */
   function render(box, s, opt){
-    opt = opt || {}; s = s || blank(); var me = s.me || {};
+    opt = opt || {}; s = s || blank(); var me = s.me || {}, N = nl(s);
+    box.lang = N ? 'nl' : 'en';
     box.innerHTML = '';
     var top = el('header', 'tc-top');
     var l = el('div');
-    l.appendChild(el('h1', 'tc-title', 'Terms and conditions.'));
-    var by = [who(me), me.role].filter(Boolean).join(' · ');
-    l.appendChild(el('p', 'tc-by' + (by ? '' : ' tc-empty'), by || 'your name · what you do'));
+    l.appendChild(el('h1', 'tc-title', N ? 'Algemene voorwaarden.' : 'Terms and conditions.'));
+    var by = [N ? wie(me) : who(me), me.role].filter(Boolean).join(' · ');
+    l.appendChild(el('p', 'tc-by' + (by ? '' : ' tc-empty'), by || (N ? 'je naam · wat je doet' : 'your name · what you do')));
     top.appendChild(l);
-    var from = [me.biz && me.name ? me.name : '', me.addr, me.email, me.web, me.coc && ('coc ' + me.coc), me.vat && ('vat ' + me.vat)].filter(Boolean);
+    var from = [me.biz && me.name ? me.name : '', me.addr, me.email, me.web, me.coc && ((N ? 'kvk ' : 'coc ') + me.coc), me.vat && ((N ? 'btw ' : 'vat ') + me.vat)].filter(Boolean);
     var m = el('div', 'tc-meta');
     from.forEach(function(x){ m.appendChild(el('div', null, x)); });
-    m.appendChild(el('div', 'tc-ver', 'version ' + fmtDate(opt.date || new Date())));
+    m.appendChild(el('div', 'tc-ver', (N ? 'versie ' : 'version ') + fmtDate(opt.date || new Date(), N ? 'nl' : 'en')));
     top.appendChild(m);
     box.appendChild(top);
     var ol = el('ol', 'tc-list');
@@ -136,7 +172,7 @@
       li.appendChild(w); ol.appendChild(li);
     });
     box.appendChild(ol);
-    var made = el('p', 'tc-made'); made.appendChild(document.createTextNode('made with ')); made.appendChild(el('span', 'tc-logo', 'fee fee.')); made.appendChild(document.createTextNode(' · feefee.co'));
+    var made = el('p', 'tc-made'); made.appendChild(document.createTextNode(N ? 'gemaakt met ' : 'made with ')); made.appendChild(el('span', 'tc-logo', 'fee fee.')); made.appendChild(document.createTextNode(' · feefee.co'));
     box.appendChild(made);
   }
 
@@ -175,5 +211,5 @@
   }
   function link(s){ return 'feefee.co/t.html?id=' + s; }
 
-  window.ffTerms = { VARS:VARS, CLAUSES:CLAUSES, blank:blank, isOn:isOn, setOn:setOn, list:list, render:render, load:load, save:save, bySlug:bySlug, link:link };
+  window.ffTerms = { VARS:VARS, CLAUSES:CLAUSES, NL:NL, txtOf:txtOf, head:head, text:text, blank:blank, isOn:isOn, setOn:setOn, list:list, render:render, load:load, save:save, bySlug:bySlug, link:link };
 })();

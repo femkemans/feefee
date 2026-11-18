@@ -1,6 +1,12 @@
 /* fee fee. Dutch for the whole site. key = English as it appears on the page, value = Dutch.
    Made with assets/i18n.js; see the notes there. Keep the warm, plain tone; no real names in examples. */
 window.FF_NL={
+  "write yours here…": "schrijf de jouwe hier…",
+  "what talent brings, wardrobe rules, hair and make-up, props, art department.": "wat talent meeneemt, kledingregels, haar en make-up, props, art department.",
+  "what is included, how many images, dates…": "wat erbij zit, hoeveel beelden, data…",
+  "the job, the client, what they offered": "de klus, de klant, wat ze boden",
+  "catering, dietary needs, transport, house rules.": "catering, dieetwensen, vervoer, huisregels.",
+  "a few words about the look and feel": "een paar woorden over de look en sfeer",
 "fee fee. – what's your fee?": "fee fee. – wat is jouw fee?",
 "freelancing is hard to figure out alone. fees, usage, contracts, invoices: let's figure it out together. join the waitlist.": "freelancen zoek je niet in je eentje uit. fees, usage, contracten, facturen: we zoeken het samen uit. zet je op de wachtlijst.",
 "your desk": "jouw desk",
@@ -1460,7 +1466,18 @@ window.FF_NL={
 "<b>this credit note is sent, so it is locked.</b> you can download or email it again any time.": "<b>deze creditnota is verstuurd, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
 "<b>this credit note is paid, so it is locked.</b> you can download or email it again any time.": "<b>deze creditnota is verrekend, dus hij staat vast.</b> je kunt hem altijd opnieuw downloaden of mailen.",
 "need to change something? make a credit note for it, then a new invoice.": "iets aanpassen? maak er een creditnota voor, en daarna een nieuwe factuur.",
-"sent by mistake? within 48 hours you can set it back to draft on <a href=\"account.html\">your desk</a>.": "per ongeluk verstuurd? binnen 48 uur kun je hem op <a href=\"account.html\">je desk</a> terugzetten naar concept."
+"sent by mistake? within 48 hours you can set it back to draft on <a href=\"account.html\">your desk</a>.": "per ongeluk verstuurd? binnen 48 uur kun je hem op <a href=\"account.html\">je desk</a> terugzetten naar concept.",
+"include: my portfolio": "voeg toe: mijn portfolio",
+"include: under 18": "voeg toe: jonger dan 18",
+"include: credit": "voeg toe: naamsvermelding",
+"include: your portfolio": "voeg toe: je portfolio",
+"include: if it goes wrong": "voeg toe: als het misgaat",
+"Credit": "Naamsvermelding",
+"Owner": "Eigenaar",
+"Crew member": "Crewlid",
+"Other party": "Andere partij",
+"Collaborator": "Samenwerkingspartner",
+"one more agreement, in your own words": "nog een afspraak, in je eigen woorden"
 };
 
 /* sentences with a name, email or address inside */

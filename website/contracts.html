@@ -28,6 +28,8 @@ label{display:block;margin-bottom:12px}
 label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
 input,textarea{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
 input{height:46px}
+select{width:100%;height:46px;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:0 10px;outline:none}
+select:focus{box-shadow:0 0 0 2px var(--blue)}
 textarea{min-height:90px;line-height:1.5}
 input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:end}
@@ -112,6 +114,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 <label><span>anything else to add (optional)</span><textarea name="extra" placeholder="one more agreement, in your own words"></textarea></label>
 </fieldset>
 
+<label class="langsel"><span>language of the pdf</span><select name="lang"><option value="en">English</option><option value="nl">Nederlands</option></select></label>
 <button type="button" class="btn" id="dl">download pdf</button>
 <p class="hint">a template, not legal advice. check it fits your job. saved in this browser only.</p>
 </form>
@@ -120,10 +123,10 @@ input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 <article class="doc" id="doc">
 <div class="d-top"><div><div class="blogo" data-brand-logo hidden></div><div class="who" id="p-me"></div><div class="role" id="p-role"></div></div><div class="meta"><b id="p-kind"></b><br><span id="p-date"></span></div></div>
 <div class="t" id="p-title"></div>
-<div class="parties"><div><div class="k">between</div><div id="p-a"></div></div><div><div class="k" id="p-bk">and</div><div id="p-b"></div></div></div>
+<div class="parties"><div><div class="k" id="p-ak">between</div><div id="p-a"></div></div><div><div class="k" id="p-bk">and</div><div id="p-b"></div></div></div>
 <div id="p-cl"></div>
-<div class="sign"><div><div class="k" id="s-a"></div>name, date, signature</div><div><div class="k" id="s-b"></div>name, date, signature</div></div>
-<div class="made">made with <span class="logo">fee fee.</span> · feefee.co</div>
+<div class="sign"><div><div class="k" id="s-a"></div><span class="sg">name, date, signature</span></div><div><div class="k" id="s-b"></div><span class="sg">name, date, signature</span></div></div>
+<div class="made"><span id="p-made">made with</span> <span class="logo">fee fee.</span> · feefee.co</div>
 </article>
 <p class="stylebar no-print" id="stylebar">your logo, colour and letters: <a href="account.html#style">set your style</a></p>
 </div>
@@ -135,9 +138,14 @@ input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 <script src="assets/contracts.js"></script>
 <script>
 (function(){
-var C=window.ffContracts, f=document.getElementById('f'), KEY='ff-contract', S={type:'booking',v:{},off:{}};
+var C=window.ffContracts, f=document.getElementById('f'), doc=document.getElementById('doc'), KEY='ff-contract', S={type:'booking',v:{},off:{}};
 try{ var s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&s.type) S=s; S.v=S.v||{}; S.off=S.off||{}; }catch(e){}
 var q=new URLSearchParams(location.search).get('type'); if(q&&C[q]) S.type=q;
+/* language of the pdf: your choice, starting from the language of the site */
+if(S.lang!=='nl'&&S.lang!=='en') S.lang=(window.ffI18n&&ffI18n.lang()==='nl')||document.documentElement.lang==='nl'?'nl':'en';
+var W={en:{between:'between',and:'and the ',sign:'name, date, signature',made:'made with',also:'Also agreed',attn:'attn. ',name:'your name',you:'you',loc:'en-GB',andm:' · and '},
+       nl:{between:'tussen',and:'en de ',sign:'naam, datum, handtekening',made:'gemaakt met',also:'Ook afgesproken',attn:'t.a.v. ',name:'je naam',you:'jij',loc:'nl-NL',andm:' · en '}};
+function TL(){ var T=C[S.type]; if(S.lang!=='nl'||!T.nl) return T; var o={}; for(var k in T) o[k]=T[k]; for(var j in T.nl) o[j]=T.nl[j]; o.clauses=T.clauses.map(function(c,i){ return [T.nl.clauses[i][0],T.nl.clauses[i][1],c[2]]; }); return o; }
 /* who you are: from your quote details and profile */
 var ME={}; try{ ME=JSON.parse(localStorage.getItem('ff-me')||'{}')||{}; }catch(e){}
 var P=(window.ffMe&&ffMe())||{};
@@ -154,6 +162,7 @@ function build(){
  T.clauses.forEach(function(c,n){ if(!c[2]) return; var l=document.createElement('label'); l.className='opt'; l.innerHTML='<input type="checkbox"><span></span>'; l.querySelector('span').textContent='include: '+c[0].toLowerCase(); var i=l.querySelector('input'); i.checked=!S.off[S.type+':'+n]; i.onchange=function(){ S.off[S.type+':'+n]=!i.checked; save(); draw(); }; ob.appendChild(l); });
  document.getElementById('otherlg').textContent=T.other.charAt(0).toUpperCase()+T.other.slice(1);
  Array.prototype.forEach.call(f.querySelectorAll('input[name]:not([name^=f_]):not([type=radio]),textarea'),function(i){ i.value=S.v[i.name]||''; });
+ f.elements.lang.value=S.lang;
  draw();
 }
 function v(k){ return (S.v[k]||'').trim(); }
@@ -167,32 +176,36 @@ function fill(t){
  });
 }
 function draw(){
- var T=C[S.type], d=v('date')?new Date(v('date')+'T12:00:00'):new Date();
- document.getElementById('p-me').textContent=v('biz')||v('me')||'your name';
+ var T=TL(), w=W[S.lang]||W.en, d=v('date')?new Date(v('date')+'T12:00:00'):new Date();
+ document.getElementById('p-me').textContent=v('biz')||v('me')||w.name;
  document.getElementById('p-role').textContent=v('role');
  document.getElementById('p-kind').textContent=T.name.toUpperCase();
- document.getElementById('p-date').textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+ document.getElementById('p-date').textContent=d.toLocaleDateString(w.loc,{day:'numeric',month:'long',year:'numeric'});
  var has=function(k){ return T.fields.some(function(x){return x[0]===k;}); }, sub=(has('job')&&v('f_job'))||(has('project')&&v('f_project'))||'';
  document.getElementById('p-title').textContent=T.title+(sub?' · '+sub:'');
- document.getElementById('p-a').textContent=[v('biz'),v('me'),v('addr'),v('email')].filter(Boolean).join('\n')||'you';
- document.getElementById('p-bk').textContent='and the '+T.other;
- document.getElementById('p-b').textContent=[v('oname'),v('ocontact')&&('attn. '+v('ocontact')),v('oaddr'),v('oemail')].filter(Boolean).join('\n')||T.other;
+ document.getElementById('p-a').textContent=[v('biz'),v('me'),v('addr'),v('email')].filter(Boolean).join('\n')||w.you;
+ document.getElementById('p-ak').textContent=w.between;
+ document.getElementById('p-bk').textContent=w.and+T.other;
+ document.getElementById('p-made').textContent=w.made;
+ Array.prototype.forEach.call(document.querySelectorAll('#doc .sg'),function(e){ e.textContent=w.sign; });
+ doc.lang=S.lang;
+ document.getElementById('p-b').textContent=[v('oname'),v('ocontact')&&(w.attn+v('ocontact')),v('oaddr'),v('oemail')].filter(Boolean).join('\n')||T.other;
  var n=0, h='';
  T.clauses.forEach(function(c,i){ if(c[2]&&S.off[S.type+':'+i]) return; if(S.type==='model'&&i===4&&!v('f_minor')) return; n++; h+='<div class="cl"><i>'+n+'</i><div><b>'+esc(c[0])+'</b><p>'+fill(c[1])+'</p></div></div>'; });
- if(v('extra')){ n++; h+='<div class="cl"><i>'+n+'</i><div><b>Also agreed</b><p>'+esc(v('extra'))+'</p></div></div>'; }
+ if(v('extra')){ n++; h+='<div class="cl"><i>'+n+'</i><div><b>'+w.also+'</b><p>'+esc(v('extra'))+'</p></div></div>'; }
  document.getElementById('p-cl').innerHTML=h;
- document.getElementById('s-a').textContent=v('me')||'you';
- document.getElementById('s-b').textContent=(S.type==='model'&&v('f_minor'))?(v('oname')||'model')+' · and '+v('f_minor'):(v('ocontact')||v('oname')||T.other);
+ document.getElementById('s-a').textContent=v('me')||w.you;
+ document.getElementById('s-b').textContent=(S.type==='model'&&v('f_minor'))?(v('oname')||T.other)+w.andm+v('f_minor'):(v('ocontact')||v('oname')||T.other);
 }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 f.addEventListener('input',function(e){ var i=e.target; if(!i.name) return;
  if(i.name==='type'){ S.type=i.value; save(); build(); return; }
+ if(i.name==='lang'){ S.lang=i.value==='nl'?'nl':'en'; save(); draw(); return; }
  S.v[i.name]=i.value; save(); draw(); });
 f.addEventListener('change',function(e){ if(e.target.name==='type'){ S.type=e.target.value; save(); build(); } });
-document.getElementById('dl').onclick=function(){ var t=document.title; document.title=(C[S.type].name+' '+(v('oname')||'')).trim(); window.print(); setTimeout(function(){document.title=t;},500); };
+document.getElementById('dl').onclick=function(){ var t=document.title; document.title=(TL().name+' '+(v('oname')||'')).trim(); window.print(); setTimeout(function(){document.title=t;},500); };
 build();
 /* your style */
-var doc=document.getElementById('doc');
 function put(b){ ffBrand.apply(doc,b); if(b.logo||b.accent||b.pair!=='classic') document.getElementById('stylebar').innerHTML='in your own style. <a href="account.html#style">change it</a>'; }
 if(window.ffBrand){ put(ffBrand.cached()); ffBrand.get().then(put); }
 })();

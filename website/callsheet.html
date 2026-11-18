@@ -29,7 +29,7 @@ legend{padding:0 10px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-st
 .full{grid-column:1/-1}
 label{display:block}
 label span{display:block;font-family:'Space Mono',monospace;font-size:12px;margin:0 0 5px;color:var(--muted)}
-input,textarea{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
+input,textarea,select{width:100%;font:15px 'Space Mono',monospace;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:10px 12px;outline:none}
 input:focus,textarea:focus{box-shadow:0 0 0 2px var(--blue)}
 textarea{min-height:110px;resize:vertical;font:17px/1.55 'Cormorant Garamond',Georgia,serif}
 .rows .r{display:grid;gap:8px;align-items:center;margin-bottom:8px}
@@ -176,6 +176,7 @@ input::-webkit-date-and-time-value{text-align:left}
 <textarea name="notes" placeholder="catering, dietary needs, transport, house rules."></textarea>
 </fieldset>
 
+<label><span>language of the pdf</span><select name="lang"><option value="en">English</option><option value="nl">Nederlands</option></select></label>
 <div class="acts">
 <button type="button" class="btn" id="print">save as pdf</button>
 <button type="button" class="btn soft" id="clear">start empty</button>
@@ -207,18 +208,35 @@ var COLS={
  cast:[['name','name or role'],['via','via agency or direct'],['call','call','time']],
  plan:[['time','time','time'],['what','what happens'],['where','where']],
  gear:[['what','what'],['who','who brings it']]};
+/* the same example in Dutch, for a first visit with the site in Dutch */
+var EX_NL={title:'zomerverhaal',client:'een voorbeeldmerk',date:'',day:'1 van 1',version:'v1',contact:'producer · 06 00 00 00 00',deck:'',
+ call:'08:00',talent:'09:00',clientcall:'10:00',first:'09:45',lunch:'13:00',wrap:'17:30',sunrise:'',sunset:'',weather:'',
+ hosp:'',
+ locs:[['set','voorbeeldstraat 1, amsterdam','bel aan bij de zijdeur'],['parkeren','parkeren op straat, om de hoek','']],
+ crew:[['fotograaf','je naam','06 00 00 00 00','08:00'],['stylist','','',''],['haar en make-up','','','08:30'],['assistent','','','']],
+ cast:[['model 1','via bureau','09:00'],['model 2','direct','10:00']],
+ plan:[['08:00','crew call, licht opbouwen','set'],['08:30','haar en make-up model 1',''],['09:45','look 1',''],['13:00','lunch',''],['14:00','look 2 en 3',''],['17:00','afbouwen',''],['17:30','wrap','']],
+ gear:[['camera en lenzen','fotograaf'],['licht en grip','huur, opgehaald door assistent']],
+ looks:'modellen nemen huidkleurig ondergoed en schone, effen schoenen mee.\ngeen logo\'s, geen drukke prints.',
+ invto:'',invmail:'',invref:'',invnote:'',
+ notes:'neem je eigen waterfles mee.\ngeen posts op social tot het werk uit is.'};
+function siteNl(){ return (window.ffI18n&&ffI18n.lang()==='nl')||document.documentElement.lang==='nl'; }
 var S; try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
-if(!S){ S=JSON.parse(JSON.stringify(EX));
+if(!S){ S=JSON.parse(JSON.stringify(siteNl()?EX_NL:EX)); S.lang=siteNl()?'nl':'en';
   /* first time: put you in from your profile */
   var P=(window.ffMe&&ffMe())||{};
   if(P.name||P.role){ S.crew[0]=[P.role||'photographer',P.name||'your name',P.phone||'',S.crew[0][3]]; }
 }
 Object.keys(COLS).forEach(function(k){ if(!Array.isArray(S[k])) S[k]=[]; });
+if(S.lang!=='nl'&&S.lang!=='en') S.lang=siteNl()?'nl':'en';
+/* words on the sheet itself, in the language of the pdf */
+var W={en:{title:'Call sheet.',prod:'production',date:'date',day:'day ',crew:'crew call',talent:'talent',client:'client',ready:'ready',lunch:'lunch',wrap:'wrap',loc:'location',sunrise:'sunrise ',sunset:'sunset ',hosp:'Nearest hospital',hospph:'name, address',emerg:'emergency: 112',weather:'Weather',tCrew:'Crew',tTalent:'Talent',tPlan:'Schedule',tGear:'Gear',looks:'Looks and props',inv:'Invoicing',ref:'ref ',notes:'Notes',deck:'deck: ',late:'running late? call the set phone.',made:'made with fee fee. · feefee.co',locale:'en-GB',file:'call sheet '},
+       nl:{title:'Call sheet.',prod:'productie',date:'datum',day:'dag ',crew:'crew call',talent:'talent',client:'klant',ready:'klaar',lunch:'lunch',wrap:'wrap',loc:'locatie',sunrise:'zonsopkomst ',sunset:'zonsondergang ',hosp:'Dichtstbijzijnde ziekenhuis',hospph:'naam, adres',emerg:'noodgeval: 112',weather:'Weer',tCrew:'Crew',tTalent:'Talent',tPlan:'Planning',tGear:'Gear',looks:'Looks en props',inv:'Facturatie',ref:'ref ',notes:'Notities',deck:'deck: ',late:'te laat? bel de settelefoon.',made:'gemaakt met fee fee. · feefee.co',locale:'nl-NL',file:'call sheet '}};
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
 Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){
-  i.value=S[i.name]||'';
+  i.value=S[i.name]||(i.name==='lang'?'en':'');
   i.addEventListener('input',function(){ S[i.name]=i.value; save(); draw(); });
 });
 
@@ -243,32 +261,33 @@ function v(x,p){ return x ? esc(x) : '<span class="ph">'+esc(p||'—')+'</span>'
 function filled(k){ return S[k].filter(function(r){ return r.join('').trim(); }); }
 function table(title,k,fmt){ var r=filled(k); if(!r.length) return ''; return '<div class="sec"><h3>'+title+'</h3><table>'+r.map(fmt).join('')+'</table></div>'; }
 function draw(){
-  var dt=S.date?new Date(S.date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
-  var h='<div class="sh-top"><div><h2>Call sheet.</h2><div class="t">'+v(S.title,'production')+(S.client?' · '+esc(S.client):'')+'</div></div>'
-   +'<div class="d">'+v(dt,'date')+'<br>'+[S.day?'day '+esc(S.day):'',S.version?esc(S.version):''].filter(Boolean).join(' · ')+(S.contact?'<br>'+esc(S.contact):'')+'</div></div>';
-  var T=[['crew call',S.call,'call'],['talent',S.talent],['client',S.clientcall],['ready',S.first],['lunch',S.lunch],['wrap',S.wrap]].filter(function(t,i){ return t[1]||i===0; });
+  var w=W[S.lang]||W.en; document.getElementById('sheet').lang=S.lang;
+  var dt=S.date?new Date(S.date+'T12:00:00').toLocaleDateString(w.locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
+  var h='<div class="sh-top"><div><h2>'+w.title+'</h2><div class="t">'+v(S.title,w.prod)+(S.client?' · '+esc(S.client):'')+'</div></div>'
+   +'<div class="d">'+v(dt,w.date)+'<br>'+[S.day?w.day+esc(S.day):'',S.version?esc(S.version):''].filter(Boolean).join(' · ')+(S.contact?'<br>'+esc(S.contact):'')+'</div></div>';
+  var T=[[w.crew,S.call,'call'],[w.talent,S.talent],[w.client,S.clientcall],[w.ready,S.first],[w.lunch,S.lunch],[w.wrap,S.wrap]].filter(function(t,i){ return t[1]||i===0; });
   h+='<div class="times" style="--n:'+T.length+'">'+T.map(function(t){ return '<div class="'+(t[2]||'')+'"><b>'+t[0]+'</b><span>'+v(t[1],'--:--')+'</span></div>'; }).join('')+'</div>';
   var L=filled('locs');
-  var left=L.length?L.map(function(r){ return '<div class="loc"><h3>'+v(r[0],'location')+'</h3><p>'+esc(r[1])+'</p>'+(r[2]?'<p class="m">'+esc(r[2])+'</p>':'')+'</div>'; }).join(''):'<div class="loc"><h3><span class="ph">location</span></h3></div>';
-  var sun=[S.sunrise?'sunrise '+esc(S.sunrise):'',S.sunset?'sunset '+esc(S.sunset):''].filter(Boolean).join(' · ');
-  var right='<div class="loc"><h3>Nearest hospital</h3><p>'+v(S.hosp,'name, address')+'</p><p class="m">emergency: 112</p></div>'
-   +((S.weather||sun)?'<div class="loc"><h3>Weather</h3>'+(S.weather?'<p>'+esc(S.weather)+'</p>':'')+(sun?'<p class="m">'+sun+'</p>':'')+'</div>':'');
+  var left=L.length?L.map(function(r){ return '<div class="loc"><h3>'+v(r[0],w.loc)+'</h3><p>'+esc(r[1])+'</p>'+(r[2]?'<p class="m">'+esc(r[2])+'</p>':'')+'</div>'; }).join(''):'<div class="loc"><h3><span class="ph">'+w.loc+'</span></h3></div>';
+  var sun=[S.sunrise?w.sunrise+esc(S.sunrise):'',S.sunset?w.sunset+esc(S.sunset):''].filter(Boolean).join(' · ');
+  var right='<div class="loc"><h3>'+w.hosp+'</h3><p>'+v(S.hosp,w.hospph)+'</p><p class="m">'+w.emerg+'</p></div>'
+   +((S.weather||sun)?'<div class="loc"><h3>'+w.weather+'</h3>'+(S.weather?'<p>'+esc(S.weather)+'</p>':'')+(sun?'<p class="m">'+sun+'</p>':'')+'</div>':'');
   h+='<div class="two"><div class="blk">'+left+'</div><div class="blk">'+right+'</div></div>';
-  h+=table('Crew','crew',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td class="tm">'+esc(r[3]||S.call||'')+'</td></tr>'; });
-  h+=table('Talent','cast',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td class="tm">'+esc(r[2]||S.talent||'')+'</td></tr>'; });
-  h+=table('Schedule','plan',function(r){ return '<tr><td class="tm">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>'; });
-  h+=table('Gear','gear',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'; });
-  if(S.looks) h+='<div class="sec"><h3>Looks and props</h3><p class="notes">'+esc(S.looks)+'</p></div>';
-  if(S.invto||S.invmail||S.invref||S.invnote) h+='<div class="sec"><h3>Invoicing</h3><p class="inv">'+[S.invto,S.invmail,S.invref?'ref '+S.invref:'',S.invnote].filter(Boolean).map(esc).join('<br>')+'</p></div>';
-  if(S.notes) h+='<div class="sec"><h3>Notes</h3><p class="notes">'+esc(S.notes)+'</p></div>';
-  h+='<div class="foot"><span>'+(S.deck?'deck: '+esc(S.deck)+' · ':'')+'running late? call the set phone.</span><span>made with fee fee. · feefee.co</span></div>';
+  h+=table(w.tCrew,'crew',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td class="tm">'+esc(r[3]||S.call||'')+'</td></tr>'; });
+  h+=table(w.tTalent,'cast',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td class="tm">'+esc(r[2]||S.talent||'')+'</td></tr>'; });
+  h+=table(w.tPlan,'plan',function(r){ return '<tr><td class="tm">'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>'; });
+  h+=table(w.tGear,'gear',function(r){ return '<tr><td class="n">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'; });
+  if(S.looks) h+='<div class="sec"><h3>'+w.looks+'</h3><p class="notes">'+esc(S.looks)+'</p></div>';
+  if(S.invto||S.invmail||S.invref||S.invnote) h+='<div class="sec"><h3>'+w.inv+'</h3><p class="inv">'+[S.invto,S.invmail,S.invref?w.ref+S.invref:'',S.invnote].filter(Boolean).map(esc).join('<br>')+'</p></div>';
+  if(S.notes) h+='<div class="sec"><h3>'+w.notes+'</h3><p class="notes">'+esc(S.notes)+'</p></div>';
+  h+='<div class="foot"><span>'+(S.deck?w.deck+esc(S.deck)+' · ':'')+w.late+'</span><span>'+w.made+'</span></div>';
   document.getElementById('sheet').innerHTML=h;
 }
 document.getElementById('print').onclick=function(){
   var t=document.title; document.title=('call sheet '+(S.title||'')+' '+(S.date||'')).trim(); window.print(); document.title=t; };
 document.getElementById('clear').onclick=function(){
-  S={}; Object.keys(COLS).forEach(function(k){ S[k]=[COLS[k].map(function(){return '';})]; }); save();
-  Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){ i.value=''; });
+  S={lang:S.lang}; Object.keys(COLS).forEach(function(k){ S[k]=[COLS[k].map(function(){return '';})]; }); save();
+  Array.prototype.forEach.call(f.querySelectorAll('[name]'),function(i){ if(i.name!=='lang') i.value=''; });
   Object.keys(COLS).forEach(rows); draw(); };
 Object.keys(COLS).forEach(rows); draw();
 })();
