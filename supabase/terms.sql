@@ -1,4 +1,5 @@
 -- fee fee. terms and conditions (website/terms.html, website/t.html, website/quote.html)
+-- Needs site.sql first (can_preview(): only femke, later founders, sees this until the doors open).
 -- Run this once in Supabase → SQL editor. Safe to run again.
 --
 -- Every member has one set of terms. Who can do what:
@@ -36,7 +37,7 @@ create or replace function public.terms_by_slug(s text)
 returns table (data jsonb, updated_at timestamptz)
 language sql stable security definer set search_path = public
 as $$
-  select t.data, t.updated_at from public.terms t where t.slug = lower(s) and t.published limit 1;
+  select t.data, t.updated_at from public.terms t where t.slug = lower(s) and t.published and public.can_preview() limit 1;
 $$;
 
 revoke all on function public.terms_by_slug(text) from public;

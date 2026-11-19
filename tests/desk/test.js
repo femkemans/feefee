@@ -24,7 +24,7 @@ async function ctxFor(browser, user, opts = {}) {
     return route.abort();
   });
   await ctx.addInitScript(([s]) => {
-    try { localStorage.setItem('ff-preview', '1'); if (s && !sessionStorage.getItem('ff-test-out')) localStorage.setItem('sb-eadxyfxlhwikesonpaer-auth-token', JSON.stringify(s)); } catch (e) { }
+    try { if (s && !sessionStorage.getItem('ff-test-out')) localStorage.setItem('sb-eadxyfxlhwikesonpaer-auth-token', JSON.stringify(s)); } catch (e) { }
     window.__dialogs = [];
   }, [user ? B.session(user.id, user.email) : null]);
   const page = await ctx.newPage();
@@ -171,10 +171,11 @@ async function flow(browser, label, devOpts) {
   const left = await page.evaluate(() => ['ff-me', 'ff-quote-v2', 'ff-brand', 'sb-eadxyfxlhwikesonpaer-auth-token'].filter(k => localStorage.getItem(k)));
   ok(before && left.length === 0, label + ': log out removes your details from this browser', { before, left });
 
-  // 13. logged out: the tool shows the gate, and the database gives nothing
+  // 13. logged out: the tool sends you to the homepage (only the landing page is public), and the database gives nothing
   const anon = await ctxFor(browser, null, devOpts);
   await anon.page.goto(BASE + '/quote.html'); await anon.page.waitForTimeout(1500);
-  ok(await anon.page.locator('#ffgate').isVisible(), label + ': logged out sees the login card');
+  ok(new URL(anon.page.url()).pathname === '/', label + ': logged out is sent to the homepage', anon.page.url());
+  await anon.page.goto(BASE + '/in.html'); await anon.page.waitForTimeout(1200);
   const anonRead = await anon.page.evaluate(async () => { const r = await ffDesk.sb.from('documents').select('*'); return r.error ? 'error' : (r.data || []).length; });
   ok(anonRead === 'error' || anonRead === 0, label + ': logged out cannot read documents', anonRead);
   await anon.ctx.close();
@@ -182,6 +183,7 @@ async function flow(browser, label, devOpts) {
 }
 
 (async () => {
+  db("update public.site_access set everyone = true"); // these tests are about the desk, not about who may see the site (tests/site does that)
   const browser = await chromium.launch();
   await flow(browser, 'laptop', { viewport: { width: 1280, height: 860 } });
   await flow(browser, 'phone', { ...devices['iPhone 13'] });

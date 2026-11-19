@@ -22,7 +22,7 @@ async function ctxFor(browser, user, opts = {}, lang) {
     if (url.origin === BASE) return route.continue();
     return route.abort();
   });
-  await ctx.addInitScript(([s, lang]) => { try { localStorage.setItem('ff-preview', '1'); if (lang) localStorage.setItem('ff-lang', lang); if (s) localStorage.setItem('sb-eadxyfxlhwikesonpaer-auth-token', JSON.stringify(s)); } catch (e) { } },
+  await ctx.addInitScript(([s, lang]) => { try { if (lang) localStorage.setItem('ff-lang', lang); if (s) localStorage.setItem('sb-eadxyfxlhwikesonpaer-auth-token', JSON.stringify(s)); } catch (e) { } },
     [user ? B.session(user.id, user.email) : null, lang || null]);
   const page = await ctx.newPage(); page.__errors = []; page.__alerts = [];
   page.on('dialog', d => { page.__alerts.push(d.message()); d.accept(); });
@@ -118,9 +118,10 @@ async function flow(browser, label, dev) {
   // logged out
   const an = await ctxFor(browser, null, dev);
   await an.page.goto(BASE + '/feecalc.html'); await an.page.waitForTimeout(1200);
+  ok(new URL(an.page.url()).pathname === '/', label + ': logged out is sent to the homepage', an.page.url());
+  await an.page.goto(BASE + '/in.html'); await an.page.waitForTimeout(1200);
   const r = await an.page.evaluate(async () => { const a = await ffDesk.sb.from('clients').select('*'), b = await ffDesk.sb.from('rates').select('*'); return [a.error ? 'e' : (a.data || []).length, b.error ? 'e' : (b.data || []).length]; });
   ok(r.every(x => x === 'e' || x === 0), label + ': logged out gets nothing', r);
-  ok(!(await an.page.locator('#fromrates').isVisible()), label + ': logged out calculator has no "from your rates"');
   await an.ctx.close();
 
   // delete
@@ -132,6 +133,7 @@ async function flow(browser, label, dev) {
 }
 
 (async () => {
+  db("update public.site_access set everyone = true"); // these tests are about the desk, not about who may see the site (tests/site does that)
   const browser = await chromium.launch();
   await flow(browser, 'laptop', { viewport: { width: 1280, height: 860 } });
   await flow(browser, 'phone', { ...devices['iPhone 13'] });

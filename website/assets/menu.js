@@ -1,5 +1,5 @@
 /* fee fee. menu: the whole site in five doors, with the about pages in the footer, behind a small hamburger.
-   Shows only in preview mode: ?preview=finetune turns it on in your browser, ?preview=off turns it off (see preview.js).
+   Shows only for people the site is open for (today femke; see preview.js and supabase/site.sql).
    Pages that are not built yet show in grey with "soon". A blue dot = members only. */
 (function(){
   var D = [
