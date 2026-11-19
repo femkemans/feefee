@@ -110,3 +110,39 @@ create policy "admin reads reports" on public.reports for select using (public.i
 drop policy if exists "admin changes reports" on public.reports;
 create policy "admin changes reports" on public.reports for update using (public.is_admin()) with check (public.is_admin());
 grant select, insert, update on public.reports to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 19 nov 2026 · what femke hides stays hidden
+-- A writer can still edit their own answer or job, but cannot undo femke's choice:
+--   answers: only femke can change "hidden"; the writer and the question stay the same.
+--   jobs:    a job femke set to hidden stays hidden for its poster; only femke sets or lifts it.
+-- ─────────────────────────────────────────────────────────────────────────────
+create or replace function public.answers_guard() returns trigger
+language plpgsql set search_path = public as $$
+begin
+  if auth.uid() is not null and not public.is_admin() then
+    new.hidden        := old.hidden;
+    new.user_id       := old.user_id;
+    new.question_slug := old.question_slug;
+    new.created_at    := old.created_at;
+  end if;
+  return new;
+end $$;
+drop trigger if exists answers_guard on public.answers;
+create trigger answers_guard before update on public.answers
+  for each row execute function public.answers_guard();
+
+create or replace function public.jobs_guard() returns trigger
+language plpgsql set search_path = public as $$
+begin
+  if auth.uid() is not null and not public.is_admin() then
+    new.user_id := old.user_id;
+    if old.status = 'hidden' then new.status := 'hidden';
+    elsif new.status = 'hidden' then new.status := old.status;
+    end if;
+  end if;
+  return new;
+end $$;
+drop trigger if exists jobs_guard on public.jobs;
+create trigger jobs_guard before update on public.jobs
+  for each row execute function public.jobs_guard();
