@@ -1,29 +1,78 @@
-/* fee fee. preview: only the landing page (and privacy) are public for now.
-   Every other page sends visitors back to the homepage, unless this browser is in preview mode.
-   Turn preview on:  feefee.co/?preview=finetune   (stays on in this browser)
-   Turn preview off: feefee.co/?preview=off
-   In preview the full menu shows too. Links to hidden pages carry data-preview and only show in preview.
+/* fee fee. who sees what: only the landing page and privacy (and the login page) are public for now.
+   Every other page is only for people the database lets in: today femke (admins), later founders or everyone.
+   The rule lives in Supabase (supabase/site.sql, can_preview()), so the database also refuses the data
+   to anyone else. This file only keeps the pages themselves out of sight.
+   Log in: feefee.co/in.html (not linked anywhere). Log out: on your desk.
+   Open a page for everyone: add its path to OPEN below and drop data-preview on its links.
    Load this file first thing in <head>, without defer. */
 (function(){
-  var KEY='ff-preview', on=false;
-  try{
-    var q=new URLSearchParams(location.search).get('preview');
-    if(q==='finetune') localStorage.setItem(KEY,'1');
-    if(q==='off') localStorage.removeItem(KEY);
-    on=localStorage.getItem(KEY)==='1';
-  }catch(e){}
-  var H=document.documentElement;
-  if(on){ H.classList.add('ff-preview'); window.ffPreview=true; return; }
-  var p=location.pathname.replace(/\/+$/,'/');
-  var open=(p==='/'||p==='/index.html'||p==='/privacy.html');
-  if(!open){
-    H.style.display='none';
-    location.replace('/');
+  var H=document.documentElement, W=window;
+  var SB='https://eadxyfxlhwikesonpaer.supabase.co', TOKEN='sb-eadxyfxlhwikesonpaer-auth-token', OK='ff-pv';
+  var OPEN={'/':1,'/index.html':1,'/privacy.html':1,'/in.html':1};
+  var p=location.pathname.replace(/\/+$/,'/'), open=!!OPEN[p];
+  function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function ss(k,v){ try{ if(v===undefined) return sessionStorage.getItem(k); if(v===null) sessionStorage.removeItem(k); else sessionStorage.setItem(k,v); }catch(e){} return null; }
+  try{ localStorage.removeItem('ff-preview'); }catch(e){} /* the old shared preview link no longer opens anything */
+
+  var css=document.createElement('style');
+  css.textContent='html:not(.ff-preview) [data-preview]{display:none!important}';
+  (document.head||H).appendChild(css);
+
+  /* who is logged in in this browser (only a hint; the database decides) */
+  var uid=null;
+  try{ var t=JSON.parse(ls(TOKEN)||'null'); uid=t&&t.user&&t.user.id||null; }catch(e){}
+  var fromLink=/[#&](access_token|refresh_token)=/.test(location.hash)||/[#&?]error_description=/.test(location.href);
+
+  function home(){ ss(OK,null); H.style.display='none'; location.replace(fromLink?'/in.html':'/'); }
+  function show(){ H.style.display=''; }
+  function grant(){
+    if(W.ffPreview) return;
+    W.ffPreview=true; H.classList.add('ff-preview'); show();
+    if(W.ffNav&&W.ffNav.preview) W.ffNav.preview();
+  }
+  function deny(){
+    ss(OK,null);
+    if(!open) return home();
+    if(W.ffPreview){ W.ffPreview=false; H.classList.remove('ff-preview'); location.reload(); }
+  }
+
+  if(!uid&&!fromLink){
+    W.ffPreview=false;
+    if(!open){ H.style.display='none'; location.replace('/'); }
     return;
   }
-  var s=document.createElement('style');
-  s.textContent='html:not(.ff-preview) [data-preview]{display:none!important}';
-  (document.head||H).appendChild(s);
+  /* seen before in this tab session: show right away, check again in the background */
+  if(uid&&ss(OK)===uid){ W.ffPreview=true; H.classList.add('ff-preview'); }
+  else { W.ffPreview=false; if(!open) H.style.display='none'; }
+
+  var done=false;
+  setTimeout(function(){ if(!done&&!W.ffPreview&&!open) home(); },10000);
+
+  function load(src,cb){ var s=document.createElement('script'); s.src=src; s.onload=cb; s.onerror=function(){ done=true; deny(); }; document.head.appendChild(s); }
+  function desk(cb){
+    if(W.ffDesk) return cb(W.ffDesk);
+    function d(){ if(W.ffDesk) cb(W.ffDesk); else load('/assets/desk.js',function(){ cb(W.ffDesk); }); }
+    if(W.supabase) d(); else load('/assets/supabase.js',d);
+  }
+  function check(){
+    desk(function(D){
+      if(!D){ done=true; return deny(); }
+      D.sb.auth.getSession().then(function(r){
+        var s=r&&r.data&&r.data.session;
+        if(!s){ done=true; return deny(); }
+        return D.sb.rpc('can_preview').then(function(x){
+          /* before supabase/site.sql has run: fall back to "is this an admin" */
+          if(x.error&&(x.error.code==='PGRST202'||/could not find|does not exist/i.test(x.error.message||''))) return D.sb.rpc('is_admin');
+          return x;
+        }).then(function(x){
+          done=true;
+          if(x&&!x.error&&x.data===true){ ss(OK,s.user.id); grant(); }
+          else deny();
+        });
+      }).catch(function(){ done=true; deny(); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',check); else check();
 })();
 
 /* NL / EN: load the language switch (assets/i18n.js) on every page.

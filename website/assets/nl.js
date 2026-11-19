@@ -1,6 +1,16 @@
 /* fee fee. Dutch for the whole site. key = English as it appears on the page, value = Dutch.
    Made with assets/i18n.js; see the notes there. Keep the warm, plain tone; no real names in examples. */
 window.FF_NL={
+  "Log in.": "Inloggen.",
+  "log in – fee fee.": "inloggen – fee fee.",
+  "we send a link to your email. no password.": "we sturen een link naar je e-mail. geen wachtwoord.",
+  "if this email has a fee fee. login, the link is on its way. check your inbox.": "als dit e-mailadres een fee fee. login heeft, is de link onderweg. kijk in je inbox.",
+  "that didn’t work. try again in a minute.": "dat lukte niet. probeer het over een minuutje opnieuw.",
+  "You’re on the list.": "Je staat op de lijst.",
+  "the doors open in january. we’ll email you the moment they do.": "in januari gaan de deuren open. we mailen je zodra het zover is.",
+  "back to the homepage": "terug naar de homepage",
+  "Welcome back.": "Welkom terug.",
+  "to your desk": "naar je desk",
   "write yours here…": "schrijf de jouwe hier…",
   "what talent brings, wardrobe rules, hair and make-up, props, art department.": "wat talent meeneemt, kledingregels, haar en make-up, props, art department.",
   "what is included, how many images, dates…": "wat erbij zit, hoeveel beelden, data…",

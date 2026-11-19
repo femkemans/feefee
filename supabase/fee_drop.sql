@@ -1,4 +1,5 @@
 -- fee fee. weekly fee drop (website/drops.html + the Thursday email)
+-- Needs site.sql first (can_preview(): only femke, later founders, sees this until the doors open).
 -- Run this once in Supabase → SQL editor. Safe to run again.
 --
 -- The fair-play rule lives here, not in the page:
@@ -39,6 +40,7 @@ language sql stable security definer set search_path = public as $$
     where e.fee_amount > 0 and e.days > 0
       and e.currency is not null and e.currency <> 'other'
       and coalesce(e.payment, '') <> 'trade / tfp'
+      and public.can_preview()
   ),
   g as (
     select
@@ -81,6 +83,7 @@ language sql stable security definer set search_path = public as $$
   select count(*),
          count(distinct nullif(lower(trim(country)), '')),
          count(distinct lower(trim(split_part(role, ',', 1))))
-  from public.fee_entries;
+  from public.fee_entries
+  where public.can_preview();
 $$;
 grant execute on function public.fee_drop_totals() to anon, authenticated;

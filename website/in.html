@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/assets/preview.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>log in – fee fee.</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/nav.css">
+<style>
+body{margin:0;background:#FDFCF9;color:#1C1E1A;font-family:'Cormorant Garamond',Georgia,serif}
+main{max-width:620px;margin:0 auto;padding:clamp(60px,12vh,140px) 24px 120px}
+h1{font-style:italic;font-weight:400;font-size:clamp(48px,7vw,88px);line-height:.95;letter-spacing:-.02em;margin:0 0 22px}
+p{font-size:21px;line-height:1.6;margin:0 0 30px;max-width:30em}
+form{display:flex;gap:8px;flex-wrap:wrap}
+input{flex:1;min-width:220px;height:52px;padding:0 22px;border:0;border-radius:999px;background:#EEF3EF;font:14px 'Space Mono',monospace;color:#1C1E1A}
+input:focus{outline:2px solid #1F3FD1;outline-offset:2px}
+button,.btn{display:inline-flex;align-items:center;height:52px;padding:0 26px;border:0;border-radius:999px;background:#1C1E1A;color:#FDFCF9;font:13px 'Space Mono',monospace;cursor:pointer;text-decoration:none}
+button:disabled{opacity:.45;cursor:default}
+.msg{font:12px/1.7 'Space Mono',monospace;color:#4A4E46;margin:14px 0 0;min-height:1.7em}
+.alt{font:12px/1.7 'Space Mono',monospace;color:#4A4E46;margin:26px 0 0}
+.alt a{color:#1C1E1A}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="ffh"><div class="ffh-in">
+<div class="ffh-l"></div>
+<a class="ffh-logo" href="index.html" aria-label="fee fee."><img src="assets/logo-mark.svg" alt="" width="994" height="243"></a>
+<nav class="ffh-r"><a class="lg" href="index.html#solution">about</a><a class="ffh-btn" data-auth="out" href="index.html#join">join</a><a class="ffh-btn" data-auth="in" href="account.html" data-preview hidden>your desk</a></nav>
+</div></header>
+<main>
+<section id="out">
+<h1>Log in.</h1>
+<p>we send a link to your email. no password.</p>
+<form id="f"><input id="e" type="email" required autocomplete="email" placeholder="you@studio.com" aria-label="email"><button id="b">send me a link</button></form>
+<p class="msg" id="m" role="status"></p>
+<p class="alt">not on the list yet? <a href="index.html#join">join the waitlist</a></p>
+</section>
+<section id="wait" hidden>
+<h1>You’re on the list.</h1>
+<p>the doors open in january. we’ll email you the moment they do.</p>
+<p class="alt"><a href="index.html">back to the homepage</a> · <a href="#" id="lo">log out</a></p>
+</section>
+<section id="yes" hidden>
+<h1>Welcome back.</h1>
+<p><a class="btn" href="account.html">to your desk</a></p>
+</section>
+</main>
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
+<script src="assets/nav.js"></script>
+<script>
+(function(){
+  var D=window.ffDesk, $=function(i){ return document.getElementById(i); };
+  function view(v){ ['out','wait','yes'].forEach(function(k){ $(k).hidden = k!==v; }); }
+  function tr(t){ return window.ffI18n&&ffI18n.t ? ffI18n.t(t) : t; }
+  /* only people who already have an account get a link: no new accounts from this page */
+  $('f').onsubmit=function(ev){
+    ev.preventDefault();
+    var b=$('b'), m=$('m'), email=$('e').value.trim(), label=b.textContent;
+    if(!email) return;
+    b.disabled=true; m.textContent=tr('sending…');
+    D.sb.auth.signInWithOtp({ email: email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + '/account.html' } }).then(function(){
+      /* the same answer whether or not the email has an account, so nobody can test addresses here */
+      m.textContent=tr('if this email has a fee fee. login, the link is on its way. check your inbox.');
+      setTimeout(function(){ b.disabled=false; b.textContent=label; }, 60000);
+    }, function(){ m.textContent=tr('that didn’t work. try again in a minute.'); b.disabled=false; });
+  };
+  $('lo').onclick=function(ev){ ev.preventDefault(); D.sb.auth.signOut().then(function(){ try{ sessionStorage.removeItem('ff-pv'); }catch(e){} view('out'); if(window.ffNav) ffNav.set(false); }); };
+  D.user().then(function(u){
+    if(!u) return view('out');
+    if(window.ffPreview) return view('yes');
+    /* logged in: wait for preview.js to hear from the database */
+    var n=0; (function poll(){ if(window.ffPreview) return view('yes'); if(++n>40) return view('wait'); setTimeout(poll,200); })();
+  });
+})();
+</script>
+</body>
+</html>
