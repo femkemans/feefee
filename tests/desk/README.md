@@ -15,7 +15,19 @@ Run:
 
     # 1. a throwaway Postgres 16 on a socket in /var/tmp/pgff, port 5544
     # 2. create database e2e, then run in order (add supabase/clients.sql for book.test.js):
-    #    tests/desk/supabase-stub.sql, supabase/documents.sql, supabase/brand.sql, supabase/terms.sql
+    #    tests/desk/supabase-stub.sql, supabase/site.sql, supabase/documents.sql, supabase/brand.sql, supabase/terms.sql
     #    (the stub needs roles anon + authenticated: create role anon nologin; create role authenticated nologin;)
     # 3. serve the site:   cd website && python3 -m http.server 8099
     # 4. node tests/desk/test.js and node tests/desk/book.test.js   (PGHOST / PGPORT / PGDB to point elsewhere; SHOTS=dir for screenshots)
+
+The desk tests open the site for their invented users (`update public.site_access set everyone = true`), so step 2
+also needs `supabase/site.sql`, run before `supabase/terms.sql`.
+
+## who may see the site (tests/site)
+
+`supabase/site.sql` + `website/assets/preview.js`: only femke (admins) sees the pages behind the landing page,
+later founders (`founders = true`) or everyone. Checked in the database (also straight to the API) and in the browser.
+
+    bash tests/site/setup.sh           # builds a database "gate" with the real SQL
+    bash tests/site/gate.sh            # database: closed for anon, members, founders; open for femke; founders/everyone switches
+    PGDB=gate node tests/site/pages.test.js   # browser: every page, logged out / member / founder / femke, login link, old preview link

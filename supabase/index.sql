@@ -1,4 +1,5 @@
 -- fee fee. the index: professionals and learners, level, up to 3 projects, and the public index list.
+-- Needs site.sql first (can_preview(): only femke, later founders, sees this until the doors open).
 -- Run this once in Supabase → SQL editor, after link_pages.sql. Safe to run again.
 --
 -- Nobody is anonymous: everyone signs up with a name. Two ways to join:
@@ -74,6 +75,7 @@ language sql stable security definer set search_path = public as $$
   from public.link_pages l
   join public.joins j on j.user_id = l.user_id
   where l.published and l.in_index and j.kind = 'professional' and j.status = 'approved' and l.name is not null
+    and public.can_preview()
   order by l.updated_at desc
   limit 500;
 $$;

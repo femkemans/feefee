@@ -1,4 +1,5 @@
 -- fee fee. questions page (website/questions.html)
+-- Needs site.sql first (can_preview(): only femke, later founders, sees this until the doors open).
 -- Run this once in Supabase → SQL editor. Safe to run again.
 --
 -- Who can do what:
@@ -84,7 +85,7 @@ grant select, insert, update, delete on public.answers to authenticated;
 create or replace function public.answer_counts()
 returns table (question_slug text, n bigint)
 language sql stable security definer set search_path = public as $$
-  select question_slug, count(*) from public.answers group by question_slug;
+  select question_slug, count(*) from public.answers where public.can_preview() group by question_slug;
 $$;
 grant execute on function public.answer_counts() to anon, authenticated;
 
