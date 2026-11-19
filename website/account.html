@@ -81,6 +81,14 @@ input:focus{box-shadow:0 0 0 2px var(--blue)}
 .lp-h b{display:flex;align-items:center;font:16px 'Space Mono',monospace;font-weight:400;border:1px solid var(--ink);border-right:0;padding:0 2px 0 14px;background:var(--paper);color:var(--muted);white-space:nowrap}
 .lp-h input{border-left:0;padding-left:0}
 .lp-links{display:grid;gap:10px}
+.rt-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) 34px;gap:10px}
+.rt-row button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
+.cl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #E6E8E3}
+.cl .t{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-style:italic;line-height:1.15;overflow-wrap:anywhere}
+.cl .s{font-family:'Space Mono',monospace;color:var(--soft);font-size:11px;margin-top:3px;overflow-wrap:anywhere}
+.cl .acts{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.cl .acts a,.cl .acts button{background:none;border:0;padding:0;font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--ink);text-decoration:none}
+@media (max-width:700px){.cl{grid-template-columns:1fr}.cl .acts{justify-content:flex-start}}
 .lp-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) 34px;gap:10px}
 .lp-row button{background:none;border:0;font-size:20px;cursor:pointer;color:var(--soft)}
 .lp-add{background:none;border:0;padding:6px 0;font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--ink);text-align:left}
@@ -101,7 +109,7 @@ input::-webkit-date-and-time-value{text-align:left}
 .jn{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px}
 .jn label{display:block;background:#fff;box-shadow:0 30px 60px -30px rgba(28,30,26,.3);padding:24px 26px;cursor:pointer;border:1px solid transparent}
 .jn label:has(input:checked){border-color:var(--ink)}
-.jn input{position:absolute;opacity:0;pointer-events:none}
+.jn input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
 .jn b{display:block;font-style:italic;font-weight:500;font-size:28px;line-height:1.1;margin:0 0 8px}
 .jn small{display:block;font-size:18px;line-height:1.5;color:var(--muted)}
 .jn .dot{display:inline-block;width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);margin-right:10px;vertical-align:middle}
@@ -129,7 +137,7 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 .pairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .pairs label{border:1px solid #E6E8E3;padding:12px 12px 10px;cursor:pointer;background:#fff;display:grid;gap:2px}
 .pairs label:has(input:checked){border-color:var(--ink)}
-.pairs input{position:absolute;opacity:0;pointer-events:none}
+.pairs input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
 .pairs b{font-size:30px;font-weight:500;line-height:1.1}
 .pairs small{font:11px 'Space Mono',monospace;color:var(--muted)}
 .pairs i{font-style:normal;font-size:12px;color:var(--ink)}
@@ -200,6 +208,38 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <div class="row" style="margin:14px 0 8px"><button type="button" class="pill" id="qv-prev" style="width:auto">‹</button><span class="mono" id="qv-y"></span><button type="button" class="pill" id="qv-next" style="width:auto">›</button></div>
 <div class="qtab" id="qv-t"></div>
 <div class="row" style="margin-top:14px"><button type="button" class="btn soft" id="qv-copy">copy the list for my accountant</button><span class="cap" id="qv-msg" role="status"></span></div>
+</div>
+
+<div class="profile" id="rates">
+<h2>Your rates.</h2>
+<p class="pl">your day rate and the fees you always use. saved once, then they are ready in every quote and in the fee calculator. only you see them.</p>
+<form class="card pf" id="rt">
+<label><span>currency</span><select id="rt-cur"><option value="€">€ euro</option><option value="$">$ dollar</option><option value="£">£ pound</option><option value="CHF">CHF swiss franc</option><option value="kr">kr krona / krone</option></select></label>
+<label><span>day rate (8 hours)</span><input id="rt-day" inputmode="decimal" maxlength="10" placeholder="850"></label>
+<label><span>half day (4 hours)</span><input id="rt-half" inputmode="decimal" maxlength="10" placeholder="500"></label>
+<label><span>travel, per km</span><input id="rt-km" inputmode="decimal" maxlength="10" placeholder="0.23"></label>
+<div class="wide"><span class="mono" style="display:block;margin:0 0 6px;font-size:12px;letter-spacing:.02em;text-transform:none">other fees (up to 12)</span>
+<div class="lp-links" id="rt-items"></div>
+<button type="button" class="lp-add" id="rt-add">+ add a fee</button></div>
+<div class="wide row"><button class="btn">save my rates</button><span class="cap" id="rt-msg" role="status"></span></div>
+</form>
+</div>
+
+<div class="profile" id="clients">
+<h2>Your clients.</h2>
+<p class="pl">the people you work for, saved once. pick them in a quote or invoice and their details are filled in. only you see this list.</p>
+<div id="cl-list"></div>
+<button type="button" class="btn soft" id="cl-new" style="margin-top:18px">+ add a client</button>
+<form class="card pf" id="cl" hidden style="margin-top:22px">
+<label class="wide"><span>company</span><input id="cl-company" maxlength="120" placeholder="brand or agency" required></label>
+<label><span>contact person</span><input id="cl-contact" maxlength="120" placeholder="name"></label>
+<label><span>their email</span><input id="cl-email" type="email" maxlength="200" placeholder="optional"></label>
+<label class="wide"><span>address</span><input id="cl-addr" maxlength="300" placeholder="street, postcode, city"></label>
+<label><span>country</span><select id="cl-country"><option value="">choose</option></select></label>
+<label><span>their vat number</span><input id="cl-vat" maxlength="40" placeholder="needed for eu clients"></label>
+<label class="wide lp-on"><input type="checkbox" id="cl-biz" checked><span>this client is a business (not a private person)</span></label>
+<div class="wide row"><button class="btn">save this client</button><button type="button" class="btn soft" id="cl-cancel" style="margin:0">cancel</button><span class="cap" id="cl-msg" role="status"></span></div>
+</form>
 </div>
 
 <div class="profile" id="fees">
@@ -302,6 +342,7 @@ select{width:100%;font:16px 'Space Mono',monospace;color:var(--ink);background:v
 <script src="assets/supabase.js"></script>
 <script src="assets/desk.js"></script>
 <script src="assets/mailtext.js"></script>
+<script src="assets/vat.js"></script>
 <script>
 (function(){
 var D=window.ffDesk, docs=[], filter='all';
@@ -552,6 +593,59 @@ function fillFees(user){
   m.appendChild(el('div','s',[x.client_type,x.country,x.days?(x.days+(x.days==1?' day':' days')):'',x.stage==='done'?'paid':(x.stage||''),x.named?'with your name':''].filter(Boolean).join(' · ')));
   r.appendChild(m); r.appendChild(el('span','amt',(x.currency||'')+' '+Number(x.fee||0).toLocaleString('en-GB'))); L.appendChild(r); });
 }
+
+/* your rates */
+function numIn(v){ var n=parseFloat(String(v||'').replace(',','.')); return isNaN(n)||n<0?null:Math.round(n*100)/100; }
+function rtRow(name,amount){
+ var box=document.getElementById('rt-items'); if(box.children.length>=12) return;
+ var r=el('div','rt-row'), a=document.createElement('input'), b=document.createElement('input'), x=el('button',null,'×');
+ a.maxLength=80; a.placeholder='e.g. retouch, per image'; a.value=name||''; a.setAttribute('aria-label','what');
+ b.maxLength=10; b.inputMode='decimal'; b.placeholder='35'; b.value=amount!=null?amount:''; b.setAttribute('aria-label','amount');
+ x.type='button'; x.setAttribute('aria-label','remove'); x.onclick=function(){ r.remove(); };
+ r.appendChild(a); r.appendChild(b); r.appendChild(x); box.appendChild(r);
+}
+function fillRates(d){ d=d||{};
+ document.getElementById('rt-cur').value=d.cur||'€';
+ [['day','rt-day'],['half','rt-half'],['km','rt-km']].forEach(function(k){ document.getElementById(k[1]).value=d[k[0]]!=null?d[k[0]]:''; });
+ document.getElementById('rt-items').innerHTML=''; (d.items||[]).slice(0,12).forEach(function(i){ rtRow(i.name,i.amount); });
+}
+document.getElementById('rt-add').onclick=function(){ rtRow('',null); var I=document.querySelectorAll('#rt-items input'); if(I.length) I[I.length-2].focus(); };
+document.getElementById('rt').onsubmit=function(e){ e.preventDefault();
+ var m=document.getElementById('rt-msg'), d={cur:document.getElementById('rt-cur').value, day:numIn(document.getElementById('rt-day').value), half:numIn(document.getElementById('rt-half').value), km:numIn(document.getElementById('rt-km').value), items:[]};
+ [].forEach.call(document.querySelectorAll('#rt-items .rt-row'),function(r){ var I=r.querySelectorAll('input'), n=I[0].value.trim().slice(0,80), a=numIn(I[1].value); if(n) d.items.push({name:n,amount:a}); });
+ m.textContent='saving…';
+ D.saveRates(d).then(function(r){ m.textContent=r.error?D.why(r.error):'saved. your rates are ready in every quote.'; });
+};
+/* your clients */
+var clients=[], editing=null;
+(function(){ var s=document.getElementById('cl-country'), V=window.ffVat; if(!V) return; V.order.forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=V.countries[k][0]; s.appendChild(o); }); })();
+function clForm(c){ editing=c||null; var F=document.getElementById('cl');
+ [['company','cl-company'],['contact','cl-contact'],['email','cl-email'],['addr','cl-addr'],['country','cl-country'],['vat','cl-vat']].forEach(function(k){ document.getElementById(k[1]).value=(c&&c[k[0]])||''; });
+ document.getElementById('cl-biz').checked=!c||c.business!==false; document.getElementById('cl-msg').textContent='';
+ F.hidden=false; document.getElementById('cl-company').focus(); }
+function clRender(){
+ var L=document.getElementById('cl-list'); L.innerHTML='';
+ if(!clients.length){ L.appendChild(el('p','cap','no clients yet. add one here, or save one straight from a quote.')); return; }
+ clients.forEach(function(c){
+  var r=el('div','cl'), m=el('div'); m.appendChild(el('div','t',c.company)); m.appendChild(el('div','s',[c.contact,c.email,c.country&&window.ffVat&&ffVat.country(c.country)?ffVat.country(c.country)[0]:''].filter(Boolean).join(' · ')||' '));
+  r.appendChild(m);
+  var a=el('div','acts'), q=el('a',null,'new quote'); q.href='quote.html?new=quote&client='+encodeURIComponent(c.id); a.appendChild(q);
+  var ed=el('button',null,'edit'); ed.type='button'; ed.onclick=function(){ clForm(c); }; a.appendChild(ed);
+  var del=el('button',null,'delete'); del.type='button'; del.onclick=function(){ if(!confirm('delete this client? your quotes and invoices for them stay as they are.')) return;
+   D.removeClient(c.id).then(function(res){ if(res.error) return alert(D.why(res.error)); clients=clients.filter(function(x){return x.id!==c.id;}); clRender(); }); };
+  a.appendChild(del); r.appendChild(a); L.appendChild(r);
+ });
+}
+document.getElementById('cl-new').onclick=function(){ clForm(null); };
+document.getElementById('cl-cancel').onclick=function(){ document.getElementById('cl').hidden=true; editing=null; };
+document.getElementById('cl').onsubmit=function(e){ e.preventDefault();
+ var m=document.getElementById('cl-msg'), c={id:editing&&editing.id, company:document.getElementById('cl-company').value.trim(), contact:document.getElementById('cl-contact').value.trim(), email:document.getElementById('cl-email').value.trim(), addr:document.getElementById('cl-addr').value.trim(), country:document.getElementById('cl-country').value, vat:document.getElementById('cl-vat').value.trim(), business:document.getElementById('cl-biz').checked};
+ if(!c.company){ m.textContent='add the company name first.'; return; }
+ m.textContent='saving…';
+ D.saveClient(c).then(function(r){ if(r.error){ m.textContent=/clients_email/.test(r.error.message)?'that email address does not look right.':D.why(r.error); return; }
+  clients=clients.filter(function(x){return x.id!==r.data.id;}).concat([r.data]).sort(function(a,b){return a.company.localeCompare(b.company);});
+  document.getElementById('cl').hidden=true; editing=null; clRender(); });
+};
 function start(user){
  if(!user){ document.getElementById('login').hidden=false; return; }
  document.getElementById('desk').hidden=false; document.getElementById('out').hidden=false;
@@ -563,6 +657,8 @@ function start(user){
  D.sb.rpc('is_admin').then(function(r){ if(!r.error&&r.data){ var w=document.getElementById('who'), x=document.createElement('a'); x.href='admin.html'; x.textContent='the back office →'; x.style.marginLeft='14px'; w.appendChild(x); } });
  fillPage(user);
  fillFees(user);
+ D.rates().then(function(r){ if(r.error){ document.getElementById('rates').hidden=true; return; } fillRates(r.data); });
+ D.clients().then(function(r){ if(r.error){ document.getElementById('cl-list').textContent=''; document.getElementById('clients').hidden=true; return; } clients=r.data||[]; clRender(); });
  /* founding member number (needs founders.sql; stays hidden until it has run) */
  D.sb.rpc('claim_founder').then(function(r){ var n=r&&!r.error&&r.data; if(!n) return;
   document.getElementById('fm-h').textContent='founding member no. '+(n<10?'0'+n:n)+'.'; document.getElementById('fm').hidden=false; });

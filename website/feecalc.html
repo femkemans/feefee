@@ -51,6 +51,7 @@ select:focus{box-shadow:0 0 0 2px var(--blue)}
 .mini{display:none}
 @media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}.side{min-height:0;padding-bottom:40px}.main{position:static;padding:40px 18px 96px}.mini{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;font-size:12px;text-decoration:none}.mini b{font:500 28px 'Cormorant Garamond',Georgia,serif;font-variant-numeric:lining-nums}}
 
+.fromrates[hidden]{display:none}.fromrates{display:block;font:11px/1.6 'Space Mono',monospace;color:var(--muted);margin:4px 0 0}.fromrates a{color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
 .chips label{margin:0;display:inline-flex}
 .chips input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
@@ -93,7 +94,7 @@ select:focus{box-shadow:0 0 0 2px var(--blue)}
 <fieldset><legend>Your day rate</legend>
 <div class="grid2">
 <label><span>currency</span><select name="cur"><option>€</option><option>$</option><option>£</option><option>CHF</option><option>kr</option></select></label>
-<label><span>your day rate</span><div class="in"><b class="c"></b><input name="rate" inputmode="decimal" placeholder="650"></div></label>
+<label><span>your day rate</span><div class="in"><b class="c"></b><input name="rate" inputmode="decimal" placeholder="650"></div><small class="fromrates" id="fromrates" hidden>from <a href="account.html#rates">your rates</a></small></label>
 </div>
 <small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;display:block" id="floorhint"></small>
 </fieldset>
@@ -167,6 +168,8 @@ select:focus{box-shadow:0 0 0 2px var(--blue)}
 </div></main>
 </div>
 
+<script src="assets/supabase.js"></script>
+<script src="assets/desk.js"></script>
 <script>
 (function(){
 var KEY='ff-feecalc', f=document.getElementById('f'), S={};
@@ -284,6 +287,11 @@ document.getElementById('toquote').onclick=function(){
  location.href='quote.html?from=calc';
 };
 load(); draw();
+/* logged in with your rates saved? your day rate, per km and currency are filled in (only where you have not typed your own) */
+if(window.ffDesk && ffDesk.rates) ffDesk.user().then(function(u){ if(!u) return; ffDesk.rates().then(function(r){ var R=r&&r.data; if(!R) return;
+ var put=0; [['rate','day'],['kmrate','km'],['cur','cur']].forEach(function(k){ if(R[k[1]]!=null && R[k[1]]!=='' && (S[k[0]]==null||S[k[0]]==='')){ S[k[0]]=String(R[k[1]]); put++; } });
+ if(!put) return; load(); draw();
+ var h=document.getElementById('fromrates'); if(h) h.hidden=false; }); });
 })();
 </script>
 <script data-goatcounter="https://feefee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
