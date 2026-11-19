@@ -14,8 +14,8 @@ the reminder email, email it, calculator → quote → invoice → paid → cred
 Run:
 
     # 1. a throwaway Postgres 16 on a socket in /var/tmp/pgff, port 5544
-    # 2. create database e2e, then run in order:
+    # 2. create database e2e, then run in order (add supabase/clients.sql for book.test.js):
     #    tests/desk/supabase-stub.sql, supabase/documents.sql, supabase/brand.sql, supabase/terms.sql
     #    (the stub needs roles anon + authenticated: create role anon nologin; create role authenticated nologin;)
     # 3. serve the site:   cd website && python3 -m http.server 8099
-    # 4. node tests/desk/test.js      (PGHOST / PGPORT / PGDB to point elsewhere; SHOTS=dir for screenshots)
+    # 4. node tests/desk/test.js and node tests/desk/book.test.js   (PGHOST / PGPORT / PGDB to point elsewhere; SHOTS=dir for screenshots)

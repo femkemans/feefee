@@ -159,7 +159,9 @@ input::-webkit-date-and-time-value{text-align:left}
 .lockbar{background:var(--butter,#F7EFC9);padding:18px 20px;margin:0 0 24px;display:grid;gap:10px}
 .lockbar p{margin:0;font-size:16px;line-height:1.45}
 .lockbar .btn{width:auto;justify-self:start;margin:0}
-.sendbox{margin:10px 0 0}.sendbox .hint{margin:8px 0 0}
+.sendbox{margin:10px 0 0}
+.clsave{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:6px}.clsave .hint{margin:0}
+.rtpick{display:block;margin:0 0 18px}.sendbox .hint{margin:8px 0 0}
 /* your style (assets/brand.js) */
 .doc .blogo img{max-height:54px;max-width:220px;display:block;margin-bottom:4px}
 .doc.has-logo .who{display:none}
@@ -214,6 +216,7 @@ input::-webkit-date-and-time-value{text-align:left}
 
 <fieldset><legend class="mono">client</legend>
 <div class="grid2">
+<label class="full" id="clpick" hidden><span>your clients</span><select id="clsel" aria-label="pick a saved client"><option value="">pick a saved client</option></select></label>
 <label class="full"><span>company</span><input name="client" placeholder="Brand or agency"></label>
 <label><span>contact person</span><input name="contact" placeholder="name"></label>
 <label><span>their email</span><input name="cemail" type="email" placeholder="optional"></label>
@@ -221,7 +224,9 @@ input::-webkit-date-and-time-value{text-align:left}
 <label><span>country</span><select name="ccountry" class="cty"><option value="">same as mine</option></select></label>
 <label><span>their vat number</span><input name="cvat" placeholder="needed for eu clients"></label>
 <label class="full" style="display:flex;gap:10px;align-items:center"><input name="cbiz" type="checkbox" checked style="width:auto"><span style="margin:0">this client is a business (not a private person)</span></label>
-</div></fieldset>
+</div>
+<div class="clsave" id="clrow" hidden><button type="button" class="add" id="clsave">+ save as a client</button><span class="hint" id="clmsg" role="status"></span></div>
+</fieldset>
 
 <fieldset><legend class="mono">the job</legend>
 <div class="grid2">
@@ -236,6 +241,7 @@ input::-webkit-date-and-time-value{text-align:left}
 
 <fieldset><legend class="mono">the fee</legend>
 <p class="hint" style="margin:0 0 14px">click “+ details” under a line to explain it on the pdf. leave the rate empty for something that is included, or, under expenses, charged at cost later.</p>
+<label class="rtpick" id="rtpick" hidden><span>add from your rates</span><select id="rtsel" aria-label="add a line from your rates"><option value="">choose one of your rates</option></select></label>
 <div class="line-head"><span></span><span>what</span><span>qty</span><span>rate</span><span>vat</span><span></span></div>
 <p class="group-cap">days &amp; work</p>
 <div id="g-work"></div>
@@ -534,6 +540,7 @@ function lock(doc){
  if(LOCKED) return; LOCKED=true; clearTimeout(timer); dirty=false;
  [].forEach.call(f.querySelectorAll('input,select,textarea,button'),function(e){ if(e.id!=='dl' && e.id!=='mail') e.disabled=true; });
  document.getElementById('marksent').hidden=true;
+ ['clpick','clrow','rtpick'].forEach(function(id){ document.getElementById(id).hidden=true; });
  var b=document.createElement('div'); b.className='lockbar';
  var cr=doc.data&&doc.data.creditnote==='1', st=doc.status==='paid'?'paid':'sent';
  b.innerHTML='<p><b>'+(cr?'this credit note':'this invoice')+' is '+st+', so it is locked.</b> you can download or email it again any time.</p>'+
@@ -650,12 +657,69 @@ function fresh(k){ f.reset(); f.elements.terms.value=''; f.elements.qno.value=''
 var fromCalc=null; if(Q.get('from')==='calc'){ try{ fromCalc=JSON.parse(store('ff-from-calc')||'null'); }catch(e){} store('ff-from-calc',null); }
 if(fromCalc){ f.reset(); f.elements.terms.value=''; f.elements.qno.value=''; f.elements.docdate.value=''; load(fromCalc); history.replaceState(null,'','quote.html'); }
 else if(wantNew) fresh(wantNew==='invoice'?'invoice':'quote'); else load();
+
+/* your clients and your rates (account.html): pick a saved client, add a line from your rates */
+var CLIENTS=[], RATES=null, WANTCLIENT=Q.get('client');
+function clientFill(c){
+ LOADING=true;
+ f.elements.client.value=c.company||''; f.elements.contact.value=c.contact||''; f.elements.cemail.value=c.email||''; f.elements.caddr.value=c.addr||'';
+ f.elements.ccountry.value=c.country||''; f.elements.cvat.value=c.vat||''; f.elements.cbiz.checked=c.business!==false;
+ LOADING=false; f.elements.vatman.value=''; autoVat(); render();
+}
+function clientOptions(){
+ var s=document.getElementById('clsel'), keep=s.value; s.length=1;
+ CLIENTS.forEach(function(c){ var o=document.createElement('option'); o.value=c.id; o.textContent=c.company+(c.contact?' · '+c.contact:''); s.appendChild(o); });
+ s.value=keep; document.getElementById('clpick').hidden=!CLIENTS.length;
+}
+document.getElementById('clsel').onchange=function(){ var id=this.value, c=CLIENTS.filter(function(x){return x.id===id;})[0]; if(c) clientFill(c); document.getElementById('clmsg').textContent=''; };
+document.getElementById('clsave').onclick=function(){
+ var m=document.getElementById('clmsg'), name=val('client');
+ if(!name){ m.textContent='add the company name first.'; return; }
+ var same=CLIENTS.filter(function(x){ return x.company.trim().toLowerCase()===name.toLowerCase(); })[0];
+ var c={id:same&&same.id, company:name, contact:val('contact'), email:val('cemail'), addr:val('caddr'), country:val('ccountry'), vat:val('cvat'), business:f.elements.cbiz.checked};
+ m.textContent='saving…';
+ window.ffDesk.saveClient(c).then(function(r){
+  if(r.error){ m.textContent=/clients_email/.test(r.error.message)?'that email address does not look right.':window.ffDesk.why(r.error); return; }
+  CLIENTS=CLIENTS.filter(function(x){return x.id!==r.data.id;}).concat([r.data]).sort(function(a,b){return a.company.localeCompare(b.company);});
+  clientOptions(); document.getElementById('clsel').value=r.data.id; m.textContent=same?'updated in your clients ✓':'saved in your clients ✓';
+ });
+};
+function rateLines(){
+ var R=RATES||{}, nl=val('lang')==='nl', out=[];
+ if(R.day) out.push(['work', nl?'dagtarief (8 uur)':'day rate (8 hours)', 1, R.day]);
+ if(R.half) out.push(['work', nl?'halve dag (4 uur)':'half day (4 hours)', 1, R.half]);
+ (R.items||[]).forEach(function(i){ if(i&&i.name) out.push(['work', String(i.name).slice(0,80), 1, i.amount||0]); });
+ if(R.km) out.push(['exp', nl?'reiskosten (km)':'travel (km)', 0, R.km]);
+ return out;
+}
+function rateOptions(){
+ var s=document.getElementById('rtsel'), L=rateLines(); s.length=1;
+ L.forEach(function(x,i){ var o=document.createElement('option'); o.value=i; o.textContent=x[1]+(x[3]?' · '+money(x[3],val('cur')||'€'):''); s.appendChild(o); });
+ document.getElementById('rtpick').hidden=!L.length;
+}
+document.getElementById('rtsel').onchange=function(){ var x=rateLines()[this.value]; this.value=''; if(!x) return; line(x[0],x[1],x[2],x[3]); render(); };
+f.elements.lang.addEventListener('change',function(){ if(RATES) rateOptions(); });
+f.elements.cur.addEventListener('change',function(){ if(RATES) rateOptions(); });
+/* a fresh quote: put your day rate on the empty shoot day line */
+function dayRateOnFresh(){
+ if(!RATES||!RATES.day||DOC_ID||docId||copyId||fromCalc) return;
+ [].forEach.call(document.querySelectorAll('#g-work .line'),function(w){ var d=w.querySelector('.d').value, r=w.querySelector('.r');
+  if(/^(shoot day \(8 hours\)|day rate \(8 hours\))$/.test(d) && !parseFloat(r.value)) r.value=RATES.day; });
+ render();
+}
+function loadBook(){
+ if(!window.ffDesk.clients) return;
+ window.ffDesk.clients().then(function(r){ if(r.error||LOCKED) return; CLIENTS=r.data||[]; clientOptions(); document.getElementById('clrow').hidden=false;
+  if(WANTCLIENT && !docId && !copyId){ var c=CLIENTS.filter(function(x){return x.id===WANTCLIENT;})[0]; if(c){ document.getElementById('clsel').value=c.id; clientFill(c); } WANTCLIENT=null; } });
+ window.ffDesk.rates().then(function(r){ if(r.error||LOCKED) return; RATES=r.data; rateOptions(); dayRateOnFresh(); });
+}
 if(window.ffDesk){
  window.ffDesk.user().then(function(u){
   USER=u; var bar=document.getElementById('deskbar');
   if(u && window.ffTerms) ffTerms.load().then(function(r){ TC=r||{}; render(); });
   if(!u){ bar.innerHTML='<a href="account.html">log in</a> to keep all your quotes and invoices on your desk.'; return; }
   bar.innerHTML='on your desk · <a href="account.html">see all</a>';
+  loadBook();
   window.ffDesk.settings().then(function(st){
    if(!st){ if(!DOC_ID && !docId && !copyId){ LOADING=true; fromProfile(); LOADING=false; render(); } syncSettings(); return; }
    SYNCED=JSON.stringify(st); store('ff-me',SYNCED); MINE=st; if(st.qterms) QTERMS=st.qterms; if(st.iterms) ITERMS=st.iterms;

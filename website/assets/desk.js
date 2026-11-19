@@ -33,7 +33,7 @@
     },
     /* log out, and wipe private paperwork from this browser (shared or borrowed computers) */
     logout: function(){
-      ['ff-me','ff-quote-v2','ff-from-calc','ff-brand','ff-terms'].forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+      ['ff-me','ff-quote-v2','ff-from-calc','ff-brand','ff-terms','ff-feecalc'].forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
       return sb.auth.signOut();
     },
     /* a database "locked: …" message, in plain words */
@@ -63,6 +63,23 @@
           if (m) max = Math.max(max, parseInt(m[1], 10));
         });
         return prefix + String(max + 1).padStart(digits || 3, '0');
+      });
+    },
+    /* your clients: an address book, only for you */
+    clients: function(){ return sb.from('clients').select('*').order('company', { ascending: true }); },
+    saveClient: function(c){
+      var row = { company: (c.company || '').trim(), contact: c.contact || null, email: c.email || null, addr: c.addr || null,
+                  country: c.country || null, vat: c.vat || null, business: c.business !== false };
+      if (c.id) return sb.from('clients').update(row).eq('id', c.id).select('*').single();
+      return sb.from('clients').insert(row).select('*').single();
+    },
+    removeClient: function(id){ return sb.from('clients').delete().eq('id', id); },
+    /* your rates: day rate, half day, per km and other fees (one row per member) */
+    rates: function(){ return sb.from('rates').select('data').maybeSingle().then(function(r){ return { error: r.error, data: (!r.error && r.data && r.data.data) || null }; }); },
+    saveRates: function(data){
+      return sb.auth.getSession().then(function(r){
+        var u = r.data.session && r.data.session.user; if (!u) return { error: { message: 'log in first' } };
+        return sb.from('rates').upsert({ user_id: u.id, data: data, updated_at: new Date().toISOString() }, { onConflict: 'user_id' }).select('data').single();
       });
     },
     status: function(id, status){ return sb.from('documents').update({ status: status, updated_at: new Date().toISOString() }).eq('id', id); },
