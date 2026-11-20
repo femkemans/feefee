@@ -94,3 +94,24 @@
   }
   js('/assets/i18n.js?v=1');
 })();
+
+/* founded by: a quiet credit line at the bottom of every page, linking to femke's own site.
+   A page can place its own <p class="ff-credit"> (the homepage does, so it's in the html for search engines);
+   otherwise it's added at the end of the page. Pages with data-no-credit on <body> skip it (member link pages).
+   Dutch: "founded by" in assets/nl.js. Who founded fee fee. for search engines: the JSON-LD in each page's <head>. */
+(function(){
+  var css=document.createElement('style');
+  css.textContent='.ff-credit{margin:0;padding:12px 16px 32px;text-align:center;font-family:"Space Mono",ui-monospace,monospace;font-size:11px;line-height:1.6;letter-spacing:.08em;color:#4A4E46}'+
+    '.ff-credit a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}'+
+    '.ff-credit a:hover{color:#1F3FD1}'+
+    '@media print{.ff-credit{display:none!important}}';
+  (document.head||document.documentElement).appendChild(css);
+  function add(){
+    var b=document.body;
+    if(!b||b.hasAttribute('data-no-credit')||document.querySelector('.ff-credit')) return;
+    var p=document.createElement('p'); p.className='ff-credit';
+    p.innerHTML='<span>founded by</span> <a href="https://femkejuffermans.com" rel="author" translate="no">Femke Juffermans</a>';
+    b.appendChild(p);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',add); else add();
+})();

@@ -774,6 +774,7 @@ window.FF_NL={
 "a bit more context <span style=\"font-weight:400;color:var(--muted)\">(optional)</span>": "wat meer context <span style=\"font-weight:400;color:var(--muted)\">(optioneel)</span>",
 "send my question": "verstuur mijn vraag",
 "based in amsterdam · working worldwide": "gevestigd in amsterdam · werkzaam wereldwijd",
+"founded by": "opgericht door",
 "<a href=\"index.html#manifesto\">manifesto</a> · <a href=\"privacy.html\">privacy</a> · <a href=\"mailto:hello@feefee.co\">hello@feefee.co</a>": "<a href=\"index.html#manifesto\">manifest</a> · <a href=\"privacy.html\">privacy</a> · <a href=\"mailto:hello@feefee.co\">hello@feefee.co</a>",
 "everyone on": "iedereen op",
 "has a real name. we read every question before it goes up.": "heeft een echte naam. we lezen elke vraag voordat hij online komt.",
